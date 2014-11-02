@@ -1,5 +1,5 @@
 The xint bundle
-Release 1.08 (2013/06/07)
+Release 1.08a (2013/06/11)
 author: Jean-Francois B.
 
 Style files which will self-extract from xint.dtx:
@@ -40,7 +40,7 @@ Installation and Usage:
 Run tex or latex on xint.dtx.
 
 This will extract the style files xint.sty, xintfrac.sty, xintexpr.sty,
-xintgcd.sty, xintseries.sty, xintcfrac.sty (and xint.ins).
+xintbinhex.sty, xintgcd.sty, xintseries.sty, xintcfrac.sty (and xint.ins).
 
 Files with the same names and in the same repertory will be overwritten.
 The tex (not latex) run will stop with the complaint that it does not
