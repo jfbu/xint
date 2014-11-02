@@ -1,12 +1,13 @@
 The xint bundle
-Release 1.09f (2013/11/04).
+Release 1.09g (2013/11/22).
 author: Jean-Francois B.
 
 License: LPPL 1.3c or later. 
 This README: *Abstract*, *Installation*, *License*.
 
 Style files which will self-extract from xint.dtx:
-(base) xint.sty       Expandable operations on long numbers
+       xinttools.sty  Expandable and non-expandable utilities
+       xint.sty       Expandable operations on long numbers
        xintfrac.sty   Expandable operations on fractions
        xintexpr.sty   Expandable expression parser
        xintbinhex.sty Expandable binary and hexadecimal conversions
@@ -14,54 +15,67 @@ Style files which will self-extract from xint.dtx:
        xintseries.sty Expandable partial sums with xint package
        xintcfrac.sty  Expandable continued fractions with xint package
 
+All these files should go into TDS:tex/generic/xint/
+(see detailed installation instructions below)
+
 May be used with Plain TeX (\input) or as LaTeX packages (\usepackage)
 
 Abstract
 ========
 
-  The xint package implements with expandable TeX macros the basic
-  arithmetic operations of addition, subtraction, multiplication and
-  division, applied to arbitrarily long numbers. The xintfrac package
-  extends the scope of xint to fractional numbers with arbitrarily
-  long numerators and denominators.
+xinttools is loaded by xint (hence by all other packages of the
+bundle, too): it provides utilities of independent interest such as
+expandable and non-expandable loops.
 
-  xintexpr provides an expandable parser \xintexpr . . . \relax of
-  expressions involving arithmetic operations in infix notation on
-  decimal numbers, fractions, numbers in scientific notation, with
-  parentheses, factorial symbol, function names, comparison operators,
-  logic operators, twofold and threefold way conditionals,
-  sub-expressions, macros expanding to the previous items.
+xint implements with expandable TEX macros additions, subtractions,
+multiplications, divisions and powers with arbitrarily long numbers.
 
-  The xintbinhex package is for conversions to and from binary and
-  hexadecimal bases, xintseries provides some basic functionality for
-  computing in an expandable manner partial sums of series and power
-  series with fractional coefficients, xintgcd implements the
-  Euclidean algorithm and its typesetting, and xintcfrac deals with
-  the computation of continued fractions.
+xintfrac extends the scope of xint to decimal numbers, to numbers in
+scientific notation and also to fractions with arbitrarily long such
+numerators and denominators separated by a forward slash.
 
-  Most macros, and all of those doing computations, work purely by
-  expansion without assignments, and may thus be used almost
-  everywhere in TeX.
+xintexpr extends xintfrac with an expandable parser 
+         \xintexpr . . . \relax
+of expressions involving arithmetic operations in infix notation on
+decimal numbers, fractions, numbers in scientific notation, with
+parentheses, factorial symbol, function names, comparison operators,
+logic operators, twofold and threefold way conditionals,
+sub-expressions, macros expanding to the previous items.
 
-  The packages may be used with any flavor of TeX supporting the eTeX
-  extensions. LaTeX users will use \usepackage and others \input to
-  load the package components.
+Further modules:
+
+xintbinhex is for conversions to and from binary and hexadecimal
+bases.
+
+xintseries provides some basic functionality for computing in an
+expandable manner partial sums of series and power series with
+fractional coefficients.
+
+xintgcd implements the Euclidean algorithm and its typesetting.
+
+xintcfrac deals with the computation of continued fractions.
+
+Most macros, and all of those doing computations, work purely by
+expansion without assignments, and may thus be used almost everywhere
+in TEX. The packages may be used with any flavor of TEX supporting the
+ε-TEX extensions. LATEX users will use \usepackage and others \input
+to load the package components.
 
 
 Installation and Usage:
 =======================
 
-Run tex or latex on xint.dtx.
+If xint.ins is available "tex xint.ins".
 
-This will extract the style files xint.sty, xintfrac.sty, xintexpr.sty,
-xintbinhex.sty, xintgcd.sty, xintseries.sty, xintcfrac.sty (and xint.ins).
+Else "tex xint.dtx" or "latex xint.dtx". This will generate the style
+files and the xint.ins file.
 
-Files with the same names and in the same repertory will be overwritten.
 The tex (not latex) run will stop with the complaint that it does not
 understand \NeedsTeXFormat, but the style files will already have been
 extracted by that time.
 
-Alternatively, run tex or latex on xint.ins if available.
+Files with the same names and in the same repertory will be
+overwritten.
 
 To get xint.pdf run pdflatex thrice on xint.dtx
 
