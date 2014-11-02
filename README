@@ -4,7 +4,7 @@
 % (base) xint:    Expandable operations on long numbers
 %        xintgcd: Euclidean algorithm with xint package    
 % Copyright (C) 2013 by Jean-Francois B. 
-% Version: v1.01 (2013/04/04)
+% Version: v1.02 (2013/04/05)
 %----------------------------------------------------------------
 
     This work may be distributed and/or modified under the
