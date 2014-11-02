@@ -1,22 +1,51 @@
-%%----------------------------------------------------------------
-%% The xint bundle (version 1.09n of April 1st, 2014)
-%% Copyright (C) 2013-2014 by Jean-Francois B.
-%%----------------------------------------------------------------
-%% This is a generated file.
-%%  "tex xint.ins"  extracts from xint.dtx:
-%% xinttools.sty, xint.sty, xintfrac.sty, xintexpr.sty, xintbinhex.sty,
-%% xintgcd.sty, xintseries.sty and xintcfrac.sty as well as xint.tex
-%% (for typesetting the documentation).
 %%
-%% See xint.dtx for the copyright and the conditions for distribution
-%% and/or modification of this work.
+%% This is file `xint.ins',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% xint.dtx  (with options: `ins')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from xint.ins.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file xint.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+%% ---------------------------------------------------------------
+%% The xint bundle v1.1 (2014/10/28)
+%% Copyright (C) 2013-2014 by Jean-Francois B.
+%% ---------------------------------------------------------------
+%%
+%% tex xint.ins extracts all package files from xint.dtx, as well as
+%% xint.tex, README.md, CHANGES.md, doPDFs.sh, doHTMLs.sh.
+%%
+%% tex xint.ins does not extract Makefile.mk, but etex xint.ins does
 %%
 \input docstrip.tex
 \askforoverwritefalse
-\generate{\nopreamble
-\file{xint.tex}{\from{xint.dtx}{drv}}
+\generate{\nopreamble\nopostamble
+\file{README.md}{\from{xint.dtx}{readme}}
+\file{CHANGES.md}{\from{xint.dtx}{changes}}
+\file{doHTMLs.sh}{\from{xint.dtx}{dohtmlsh}}
+\file{doPDFs.sh}{\from{xint.dtx}{dopdfsh}}
+\ifx\numexpr\undefined\else\catcode9 11
+            \file{Makefile.mk}{\from{xint.dtx}{makefile}}\fi
 \usepreamble\defaultpreamble
+\usepostamble\defaultpostamble
+\file{pandoctpl.latex}{\from{xint.dtx}{pandoctpl}}
+\file{xint.tex}{\from{xint.dtx}{drv}}
+\file{xintkernel.sty}{\from{xint.dtx}{xintkernel}}
 \file{xinttools.sty}{\from{xint.dtx}{xinttools}}
+\file{xintcore.sty}{\from{xint.dtx}{xintcore}}
 \file{xint.sty}{\from{xint.dtx}{xint}}
 \file{xintbinhex.sty}{\from{xint.dtx}{xintbinhex}}
 \file{xintgcd.sty}{\from{xint.dtx}{xintgcd}}
@@ -31,7 +60,8 @@
 \Msg{* To finish the installation you have to move the following}
 \Msg{* files into a directory searched by TeX:}
 \Msg{*}
-\Msg{*     xinttools.sty}
+\Msg{*     xintkernel.sty}
+\Msg{*     xintcore.sty}
 \Msg{*     xint.sty}
 \Msg{*     xintbinhex.sty}
 \Msg{*     xintgcd.sty}
@@ -39,10 +69,13 @@
 \Msg{*     xintseries.sty}
 \Msg{*     xintcfrac.sty}
 \Msg{*     xintexpr.sty}
+\Msg{*     xinttools.sty}
 \Msg{*}
 \Msg{* To produce the documentation run latex thrice on xint.tex}
 \Msg{* then dvipdfmx on xint.dvi. Edit xint.tex to get the code}
-\Msg{* source included.    (ignore the dvipdfmx warnings)}
+\Msg{* source included.}
+\Msg{* dvipdfmx warnings may be ignored, but if the produced pdf}
+\Msg{* has font problems, run rather pdflatex on xint.tex}
 \Msg{*}
 \Msg{* Happy TeXing!}
 \Msg{*}
