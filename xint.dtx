@@ -1,16 +1,16 @@
 % -*- coding: iso-latin-1; time-stamp-format: "%02d-%02m-%:y %02H:%02M:%02S %Z" -*-
-% File: xint.dtx, package: 1.09ka (2014/02/05), documentation: 2014/02/05
+% File: xint.dtx, package: 1.09kb (2014/02/13), documentation: 2014/02/13
 % License: LaTeX Project Public License 1.3c or later.
 % Copyright (C) 2013-2014 by Jean-Francois B. <2589111+jfbu@users.noreply.github.com>
 %<*dtx>
-\def\lasttimestamp{Time-stamp: <05-02-2014 21:53:23 CET>}
+\def\lasttimestamp{Time-stamp: <13-02-2014 22:56:36 CET>}
 %</dtx>
 %<*drv>
-\def\xintdate    {2014/02/05} 
-\def\xintversion {1.09ka}
+\def\xintdate    {2014/02/13} 
+\def\xintversion {1.09kb}
 %</drv>
 %%----------------------------------------------------------------
-%% The xint bundle (version 1.09ka of February 5, 2014)
+%% The xint bundle (version 1.09kb of February 13, 2014)
 %<xinttools>%% xinttools: Expandable and non-expandable utilities
 %<xint>%% xint: Expandable operations on long numbers
 %<xintfrac>%% xintfrac: Expandable operations on fractions  
@@ -1317,8 +1317,12 @@ naturally! (but \digitstt{F(\xintiiPow2{31}}) would be rather big anyhow...).
 
 \footnotesize
 
-\noindent Release |1.09ka| (|[2014/02/05]|):
+\noindent Releases |1.09kb| (|[2014/02/13]|) and |1.09ka| (|[2014/02/05]|):
 \begin{itemize}
+\item bug fix (\xintexprname): an aloof modification done by |1.09i| to
+  \csbxint{NewExpr} had resulted in a spurious trailing space present in the
+  outputs of all macros created by |\xintNewExpr|, making nesting of such macros
+  impossible.
 \item bug fix (\xinttoolsname): \csbxint{BreakFor} and \csbxint{BreakForAndDo}
   were buggy when used in the last iteration of an |\xintFor| loop.
 \item bug fix (\xinttoolsname): \csbxint{Seq} from |1.09k| needed a |\chardef|
@@ -8467,6 +8471,19 @@ It will be a completely expandable macro entirely built-up using |\xintAdd|,
 |\xintSub|, |\xintMul|, |\xintDiv|, |\xintPow|, etc\dots as corresponds to the
 expression written with the infix operators.
 
+Macros created by |\xintNewExpr| can thus be nested:
+\dverb|@
+    \xintNewExpr \MyFunction [1]{reduce(2*#1^3 - #1^-2*3)}
+    (1) \MyFunction {\MyFunction {2/3}}
+    \xintNewFloatExpr \MyOtherFunction [1]{(#1+#1^-1)/(#1-#1^-1)}
+    (2) \MyOtherFunction {1.234}
+    (3) \MyOtherFunction {\MyOtherFunction {1.234}}|\newline
+\xintNewExpr \MyFunction [1]{reduce(2*#1^3 - #1^-2*3)}
+\xintNewFloatExpr \MyOtherFunction [1]{(#1+#1^-1)/(#1-#1^-1)}
+(1) \digitstt{\MyFunction {\MyFunction {2/3}}}\newline
+(2) \digitstt{\MyOtherFunction {1.234}}\newline
+(3) \digitstt{\MyOtherFunction {\MyOtherFunction {1.234}}}
+
 \begin{framed}
   A ``formula'' created by |\xintNewExpr| is thus a macro whose parameters are
   given to a possibly very complicated combination of the various macros of
@@ -11107,7 +11124,7 @@ first place.
 \fi
 \XINT_providespackage
 \ProvidesPackage {xinttools}%
-  [2014/02/05 v1.09ka Expandable and non-expandable utilities (jfB)]%
+  [2014/02/13 v1.09kb Expandable and non-expandable utilities (jfB)]%
 %    \end{macrocode}
 % \subsection{Token management, constants}
 % \lverb|In 1.09e \xint_undef replaced everywhere by \xint_bye.
@@ -12588,7 +12605,7 @@ first place.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xint}%
-  [2014/02/05 v1.09ka Expandable operations on long numbers (jfB)]%
+  [2014/02/13 v1.09kb Expandable operations on long numbers (jfB)]%
 %    \end{macrocode}
 % \subsection{Token management, constants}
 %    \begin{macrocode}
@@ -17243,7 +17260,7 @@ first place.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintbinhex}%
-  [2014/02/05 v1.09ka Expandable binary and hexadecimal conversions (jfB)]%
+  [2014/02/13 v1.09kb Expandable binary and hexadecimal conversions (jfB)]%
 %    \end{macrocode}
 % \subsection{Constants, etc...}
 % \lverb!v1.08!
@@ -17949,7 +17966,7 @@ first place.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintgcd}%
-  [2014/02/05 v1.09ka Euclide algorithm with xint package (jfB)]%
+  [2014/02/13 v1.09kb Euclide algorithm with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintGCD}}
 % The macros of |1.09a| benefits from the |\xintnum| which has been inserted
@@ -18668,7 +18685,7 @@ first place.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintfrac}%
-  [2014/02/05 v1.09ka Expandable operations on fractions (jfB)]%
+  [2014/02/13 v1.09kb Expandable operations on fractions (jfB)]%
 \chardef\xint_c_vi     6
 \chardef\xint_c_vii    7
 \chardef\xint_c_xviii 18
@@ -21706,7 +21723,7 @@ first place.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintseries}%
-  [2014/02/05 v1.09ka Expandable partial sums with xint package (jfB)]%
+  [2014/02/13 v1.09kb Expandable partial sums with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintSeries}}
 % \lverb|&
@@ -22241,7 +22258,7 @@ first place.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcfrac}%
-  [2014/02/05 v1.09ka Expandable continued fractions with xint package (jfB)]%
+  [2014/02/13 v1.09kb Expandable continued fractions with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintCFrac}}
 %    \begin{macrocode}
@@ -23313,6 +23330,11 @@ first place.
 % |"|, and having possibly a fractional part (except in |\xintiiexpr|,
 % naturally).
 %
+% Release |1.09kb| fixes the bug introduced in |\xintNewExpr| in |1.09i| of
+% December 2013: an |\endlinechar -1| was removed, but without it there is a
+% spurious trailing space token in the outputs of the created macros, and
+% nesting is then impossible.
+%
 % \localtableofcontents
 % \subsection{Catcodes, \protect\eTeX{} and reload detection}
 %
@@ -23409,7 +23431,7 @@ first place.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintexpr}%
-  [2014/02/05 v1.09k Expandable expression parser (jfB)]%
+  [2014/02/13 v1.09kb Expandable expression parser (jfB)]%
 %    \end{macrocode}
 % \subsection{Encapsulation in pseudo cs names, helper macros}
 % \lverb|1.09i uses .= for encapsulation, thus allowing \escapechar to be
@@ -24647,7 +24669,10 @@ first place.
     \def\XINT_tmpa ##1##2##3##4##5##6##7##8##9{#2}% 
     \XINT_expr_protect
     \lccode`*=`_ \lowercase {\def*}{!noexpand!}%
-    \catcode`_ 13 \catcode`: 11 %\endlinechar -1 %not sure why I had that, \par?
+    \catcode`_ 13 \catcode`: 11 
+    \endlinechar -1 % 1.09i, 2013/12/18 not sure why I had that? removed.
+    % 2014/02/13: you idiot, if not then spurious extra ending space
+    % token makes impossible nesting of created macros!
     \everyeof {\noexpand }%
     \edef\XINT_tmpb ##1##2##3##4##5##6##7##8##9%
         {\scantokens
@@ -24753,7 +24778,7 @@ first place.
   Right bracket \]     Circumflex    \^     Underscore    \_
   Grave accent  \`     Left brace    \{     Vertical bar  \|
   Right brace   \}     Tilde         \~}
-\CheckSum {21378}
+\CheckSum {21377}
 \makeatletter\check@checksum\makeatother
 \Finale
 %% End of file xint.dtx
