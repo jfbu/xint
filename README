@@ -1,5 +1,5 @@
 The xint bundle
-Release 1.09j (2014/01/09). Documentation date: 2014/01/09
+Release 1.09k (2014/01/21). Documentation date: 2014/01/21
 
 Copyright (C) 2013-2014 by Jean-Francois B.
 License: LaTeX Project Public License 1.3c or later.
@@ -54,7 +54,7 @@ A. Installation using xint.tds.zip:
 -----------------------------------
 
 obtain xint.tds.zip from CTAN:
-  http://www.ctan.org/tex-archive/install/macros/generic/xint.tds.zip
+  http://mirror.ctan.org/install/macros/generic/xint.tds.zip
 
 cd to the download repertory and issue 
   unzip xint.tds.zip -d <TEXMF>
@@ -69,7 +69,7 @@ B. Installation after file extractions:
 ---------------------------------------
 
 obtain xint.dtx, xint.ins and the README from CTAN:
-  http://www.ctan.org/tex-archive/macros/generic/xint
+   http://www.ctan.org/pkg/xint
 
 - "tex xint.ins" generates the style files
 (pre-existing files in the same repertory will be overwritten).
@@ -80,8 +80,8 @@ will also generate the style files (and xint.ins).
 xint.tex is also extracted, use it for the documentation:
 
 - with latex+dvipdfmx: latex xint.tex thrice then dvipdfmx xint.dvi
-Ignore dvipdfmx warnings. In case the pdf file has problems with
-fonts, use then rather pdflatex or xelatex.
+Ignore dvipdfmx warnings, but if the pdf file has problems with fonts
+(possibly from an old dvipdfmx), use then rather pdflatex or xelatex.
 
 - with pdflatex or xelatex: run it directly thrice on xint.dtx, or run 
 it on xint.tex after having edited the suitable toggle therein.
