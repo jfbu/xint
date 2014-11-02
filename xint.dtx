@@ -1,24 +1,18 @@
 % -*- coding: iso-latin-1; -*-
+%
 % File: xint.dtx
-%%----------------------------------------------------------------
-%% xint:    Expandable operations on long numbers
-%% xintgcd: Euclidean algorithm with xint package    
-%% Copyright (C) 2013 by Jean-Francois B. 
-%%----------------------------------------------------------------
-%<*ins>
-\def\pkgname{xint}
-\def\pkgdate{2013/03/28}
-\def\pkgversion{v1.0}
-\def\pkgdescription{Expandable operations on long numbers (jfB)}
-%</ins>
+% Source of the xint bundle
+% Version: 1.01 of April 4, 2013
+% Copyright (C) 2013 by Jean-Francois B. 
 %
-%     This work consists of the main source file xint.dtx and
-%     its derived files, among them the style files xint.sty,
-%     xintgcd.sty, and the documentation file xint.pdf.
+% Current style files in the bundle:
+% (base) xint.sty    Expandable operations on long numbers
+%        xintgcd.sty Euclidean algorithm with xint package
 %
-%     The author of this work is Jean-Francois B.
-%     <2589111+jfbu@users.noreply.github.com>
-% 
+%     This work consists of the source file xint.dtx and of its
+%     derived files xint.sty, xintgcd.sty, xint.ins and the
+%     documentation xint.pdf (or xint.dvi).
+%
 %     This work may be distributed and/or modified under the
 %     conditions of the LaTeX Project Public License, either
 %     version 1.3c of this license or (at your option) any later
@@ -28,6 +22,9 @@
 %          http://www.latex-project.org/lppl.txt
 %     and version 1.3 or later is part of all distributions of
 %     LaTeX version 2005/12/01 or later. 
+% 
+% The author of this work is Jean-Francois B. <2589111+jfbu@users.noreply.github.com>. 
+% This work has the LPPL maintenance status `author-maintained'.
 % 
 %  Installation and Usage:
 %  =======================
@@ -58,23 +55,34 @@
 %                    \input xintgcd.sty\relax
 %
 %<*none>
-\def\lasttimestamp{Time-stamp: <31-03-2013 20:55:34 CEST jfb>}
-\def\docdate{2013/03/31}
-\def\striptimestamp#1 <#2 #3 #4 #5>{#2 at #3 #4}
+\def\pkgversion{1.01}
+\def\pkgdate{2013/04/04}
+\def\lasttimestamp{Time-stamp: <04-04-2013 17:36:58 CEST jfb>}
+\def\striptimestamp #1 <#2 #3 #4 #5>{#2 at #3 #4}
+\def\getdocdate #1 <#2-#3-#4 #5>{#4/#3/#2}
+\edef\docdate{\expandafter\getdocdate\lasttimestamp}
 \edef\dtxtimestamp{\expandafter\striptimestamp\lasttimestamp}
 \begingroup
 \input docstrip.tex
 \askforoverwritefalse
 \generate{\nopreamble
-\file{\pkgname.ins}{\from{\pkgname.dtx}{ins}}
+\file{xint.ins}{\from{xint.dtx}{ins}}
 \usepreamble\defaultpreamble
-\file{\pkgname.sty}{\from{\pkgname.dtx}{package}}
-\file{\pkgname gcd.sty}{\from{\pkgname.dtx}{gcd}}}
+\file{xint.sty}{\from{xint.dtx}{xint}}
+\file{xintgcd.sty}{\from{xint.dtx}{xintgcd}}}
 \endgroup
 \iffalse
 %</none>
+%%
+%%----------------------------------------------------------------
+%% Part of the xint bundle (version 1.01 of 2013/04/04)
+%<xint>%% xint: Expandable operations on long numbers
+%<xintgcd>%% xintgcd: Euclidean algorithm with xint package    
+%% Copyright (C) 2013 by Jean-Francois B. 
+%%----------------------------------------------------------------
+%%
 %<*ins>
-%----------- -> .ins file ----------------------------------------
+%----------- to .ins file ----------------------------------------
 %%
 %% This is a generated file. Run tex or latex on this file to
 %% extract xint.sty and xintgcd.sty from xint.dtx
@@ -85,16 +93,16 @@
 \input docstrip.tex
 \askforoverwritefalse
 \generate{\usepreamble\defaultpreamble
-\file{\pkgname.sty}{\from{\pkgname.dtx}{package}}
-\file{\pkgname gcd.sty}{\from{\pkgname.dtx}{gcd}}}
+\file{xint.sty}{\from{xint.dtx}{xint}}
+\file{xintgcd.sty}{\from{xint.dtx}{xintgcd}}}
 \endbatchfile
 %----------- end of .ins file ------------------------------------
 %</ins>
 %<*none>
 \fi
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesFile{\pkgname.dtx}
-  [`\pkgname' source and documentation (\dtxtimestamp)]
+\ProvidesFile{xint.dtx}
+  [bundle source and documentation (\dtxtimestamp)]
 \documentclass[a4paper,11pt,abstract]{scrdoc}
 \pagestyle{headings}
 \usepackage[latin1]{inputenc}
@@ -159,6 +167,7 @@
 
 \usepackage{xspace}
 \usepackage{color}
+\usepackage{framed}
 
 \definecolor{joli}{RGB}{225,95,0}
 \definecolor{JOLI}{RGB}{225,95,0}
@@ -167,38 +176,36 @@
 
 \usepackage[english]{babel}
 
-\usepackage[%
-pdfencoding=pdfdoc,bookmarks=true]{hyperref}
+\usepackage[pdfencoding=pdfdoc,bookmarks=true]{hyperref}
 
 \hypersetup{%
 linktoc=all,%
 breaklinks=true,%
 hidelinks,%
 pdfauthor={Jean-Fran\c cois B.},%
-pdftitle={The xint and xintgcd packages},%
+pdftitle={The xint bundle},%
 pdfsubject={Arithmetic with TeX},%
 pdfkeywords={Expansion, arithmetic, TeX},%
 pdfstartview=FitH,%
 pdfpagemode=UseOutlines}
-
 
 \makeatletter
 % 7 mars 2013
 % This macro allows to conveniently center a line inside a paragraph and still
 % use therein \verb or other commands changing catcodes.
 % A proposito, the \LaTeX \centerline uses \hsize and not \linewidth ! 
-\def\@centeredline {\hbox to \linewidth
-                        \bgroup \hss \bgroup
-                        \aftergroup\centeredline@ }
-    \newcommand*\centeredline {%
-      \ifhmode
-        \\\relax
-        \def\centeredline@{\hss\egroup\hskip\z@skip}%
-      \else
-        \def\centeredline@{\hss\egroup}%
+
+\newcommand*\centeredline {%
+      \ifhmode \\\relax
+        \def\centeredline@{\hss\egroup\hskip\z@skip }%
+      \else 
+        \def\centeredline@{\hss\egroup }%
       \fi
       \afterassignment\@centeredline
       \let\next=}
+\def\@centeredline 
+{\hbox to \linewidth \bgroup \hss \bgroup \aftergroup\centeredline@ }
+
 \makeatother
 
 \makeatletter
@@ -211,17 +218,19 @@ pdfpagemode=UseOutlines}
 % Par ailleurs j'en ai marre des erreurs dues au fait que mes
 % paragraphes reformatés dans emacs passent à la ligne au milieu
 % d'un \verb. Je décide donc d'annuler l'effet du \dospecials sur
-% les espaces dans la source. Et donc je retire le
+% les espaces dans la source . Et donc je retire le
 % \verb@eol@error et il n'y a donc plus lieu d'un comportement
 % différent pour l'impression des blancs, donné par la version étoilée.
 % 
 % Et il n'y avait donc pas de \obeylines puisque la fin de ligne
 % devenait un message d'erreur dans \verb@eol@error 
 %
+% De plus je retire le \do@noligs qui me gêne plutôt qu'autre chose,
+% surtout maintenant que les espaces ne sont pas \ 
+%
 \def\verb {\relax \ifmmode \hbox \else \leavevmode \null \fi
-  \bgroup \let \do \do@noligs \verbatim@nolig@list \verbatim@font
-  \let \do \@makeother \dospecials \catcode 32 10 \@ifstar
-  {\@sverb }{\@sverb }}
+  \bgroup \verbatim@font
+  \let \do \@makeother \dospecials \catcode32 10 \@ifstar {\@sverb }{\@sverb }}
 % ça c'est pour mes petits morceaux de code:
 \def\verbatim@font {\ttfamily }
 \def\MacroFont{\ttfamily\baselineskip12pt\relax}
@@ -234,33 +243,29 @@ pdfpagemode=UseOutlines}
 \def\@jfverb #1&{#1\endgroup }
 \makeatother
 
+% Note: il n'y a plus de \hyphenchar-1 dans le \DeclareFontFamily de t1txtt
+
 \DeclareRobustCommand\csa[1]{{\ttfamily\char`\\#1}}
 \DeclareRobustCommand\csb[1]{{\color{blue}\ttfamily\char`\\#1}}
-
 \newcommand\ch[1]{\texorpdfstring{\csa{#1}}{\textbackslash #1}}
 \newcommand\chb[1]{\texorpdfstring{\csb{#1}}{\textbackslash #1}}
 
+\newcommand\xintname {\texorpdfstring
+                      {{\color{joli}\ttfamily\bfseries xint}}
+                      {xint}\xspace}
 
-\newcommand\xintname{%
-    \texorpdfstring{{\color{joli}\ttfamily\bfseries xint}}
-                   {xint}\xspace}
-
-\newcommand\xintgcdname{%
-    \texorpdfstring{{\color{joli}\ttfamily\bfseries xintgcd}}
-                   {xintgcd}\xspace}
-
+\newcommand\xintgcdname{\texorpdfstring
+                        {{\color{joli}\ttfamily\bfseries xintgcd}}
+                        {xintgcd}\xspace}
 \frenchspacing
-
 \renewcommand\familydefault\sfdefault
-
-\usepackage{framed}
 
 \begin{document}
 \thispagestyle{empty}
 \rmfamily
 
 \begin{center}
-  {\normalfont\Large The \xintname and \xintgcdname packages}\\
+  {\normalfont\Large The \xintname bundle: \xintname and \xintgcdname}\\
   \textsc{Jean-François B.}\par
   \footnotesize \ttfamily 
   2589111+jfbu@users.noreply.github.com\\
@@ -289,7 +294,6 @@ pdfpagemode=UseOutlines}
 \makeatletter
 \def\l@subsection {\bprot@dottedtocline {2}{1.5em}{2.8em}}
 \makeatother
-
 
 \tableofcontents
 
@@ -327,7 +331,7 @@ if some speed could be gained by using
 multiplications (as the maximal admissible number for
 \csa{numexpr} has ten digits).
 
-The present package is the result of this initial questioning.
+The present package is the result of this initial questioning. 
 
 \begin{framed}\centering
   \xintname requires the \eTeX{} \csa{numexpr} primitive.
@@ -341,11 +345,19 @@ particular I started using \csa{ifnum} and \csa{ifcase} constructs
 which I had completely avoided so far, working only with macro
 expansions.
 
+I wrote a version of addition which does \csa{numexpr} operations eight
+digits at a time, but its additional overhead made it a bit slower
+for numbers of up to a few hundreds digits and it became faster only for
+numbers with thousands of digits; for such sizes multiplication starts
+taking a noticeable time, so I have chosen to retain the addition routine
+which was most efficient for numbers having a few dozens to a few
+hundreds digits.
+
 This implementation is thus a \TeX nical thing, quite different
 from what one would do in a structured programming language like
 |C|, although the underlying algorithms are just the standard
 steps applied to hand computations (nothing fancy like
-Fast Fourier Transform...)
+Fast Fourier Transform...).
 
 By the way, yes \xintname enjoys working fast and efficiently with
 200 digits numbers, but surely any program (even poorly written)
@@ -400,7 +412,7 @@ example, with the following code snippet within |myfile.tex|
 \end{verbatim}
 the tex run creates a file |myfile-out.tex|
 containing the decimal representation of the integer quotient &2^{1000}/100!&.
-Or, similar things can happen inside a |\csname...\endcsname|, and
+Such macros can also be used inside a |\csname...\endcsname|, and
 of course in an |\edef|.
 
 \edef\x{\xintQuo{\xintPow {2}{1000}}{\xintFac{100}}}
@@ -414,19 +426,23 @@ expansion steps. They twice expand their arguments so that they
 can be arbitrarily chained. Hence \centeredline{%
   |\xintLen{\xintQuo{\xintPow{2}{1000}}{\xintFac{100}}}|} expands
 in two steps and tells us that &[2^{1000}/100!]& has {\y}
-digits. This is not so many and we could print it here:
+digits. This is not so many, let us print them here:
 {\expandafter\expandafter\expandafter\allownumbersplit
   \xintQuo{\xintPow {2}{1000}}{\xintFac{100}}\relax}. For the sake
 of typesetting this documentation and not have big numbers extend
 into the margin and go beyond the page physical limits, I use this
 little macro (not provided by the package):
 \begin{verbatim}
-\def\allownumbersplit #1%
-   {\ifx #1\relax \else #1\hskip 0pt plus 1pt 
-                        \expandafter\allownumbersplit\fi}%
+\def\allownumbersplit #1 {\ifx #1\relax \else #1\hskip 0pt plus 1pt 
+                          \expandafter\allownumbersplit\fi}%
+\end{verbatim}
+To provoke the double expansion first, it is used as in:
+\begin{verbatim}
 \expandafter\expandafter\expandafter\allownumbersplit
   \xintQuo{\xintPow {2}{1000}}{\xintFac{100}}\relax
 \end{verbatim}
+Or, the computation can be done inside an \csa{edef} and then only one
+\csa{expandafter} will be enough before |\allownumbersplit|.
 
 Remarks on the double expansion of arguments:
 \begin{enumerate}
@@ -444,10 +460,10 @@ Remarks on the double expansion of arguments:
   your inputs through \csa{edef}'s.
 
 \item Unfortunately, after |\def\x {12}|, one can not use just
-  |-\x| as input to one of the package macros: the rules above
+  {\color{blue}|-\x|} as input to one of the package macros: the rules above
   explain that the twice expansion will act only on the minus sign,
   hence do nothing. The only way is to use the \csb{xintOpp}
-  macro, as in for example |\xintAdd
+  macro, which replaces a number with its opposite. Example: |\xintAdd
   {\xintOpp\x}{\x}|\,=\,{\xintAdd {\xintOpp\x}{\x}}.
 
 \def\x {12}%
@@ -459,7 +475,7 @@ Remarks on the double expansion of arguments:
     {\AplusBC {1}{2}{3}}{4}|} would then miserably fail. The
   solution is to use the \emph{lowercase} form of 
   \csa{xintAdd}: \centeredline {|\def\AplusBC
-    #1#2#3{\romannumeral0\xintadd {#1}{\xintMul {#2}{#3}}}|}%
+    #1#2#3{|{\color{blue}|\romannumeral0\xintadd |}|{#1}{\xintMul {#2}{#3}}}|}%
   and then \csa{AplusBC} will share the same properties as do the
   other \xintname `primitive' macros.
 % ENFIN DÉBARRASSÉ DES TRÈS TRÈS TRÈS CHIANTS EOL ERROR DE \verb !!!
@@ -467,7 +483,7 @@ Remarks on the double expansion of arguments:
   Don't leave any space after the zero, and use the lowercase form
   \emph{only} for the external highest level of chained commands.
   All \xintname provided public macros have such a lowercase form
-  for this purpose.
+  precisely to facilitate building-up higher level macros based on them.
 \end{enumerate}
 
 \section {Inputs}
@@ -487,20 +503,28 @@ this is not provided by the package. Arguments must be either
 within braces or a single control sequence.
 
 For the division (but not for addition, subtraction, or
-division), the two inputs must have at most
-&2^{31}-9=&{\xintSub{\xintPow {2}{31}}{9}} digits. 
+multiplication), the two inputs must have at most
+&2^{31}-9=&{\xintSub{\xintPow {2}{31}}{9}} digits.
 
-Anyhow I guess that even much smaller sizes exceed the \TeX{}
-memory limits on any installation. But if the situation did arise
-nevertheless of such a gigantic input, an arithmetic overflow
-would occur (after some long time I guess) as \xintname first
-computes the length of the inputs by using \csa{numexpr} with
-successive additions of the number |8| to itself until the whole
-input has been parsed (this initial step is only for the division
-algorithm, the three other arithmetic operations remain unaware of
-the sizes of their inputs, although they do experience them in a
-sense, as they initially reverse the order of digits of at least
-one of the input, which means they have to scan it entirely).
+I guess anyhow that this is way way way beyond what is possible in terms
+of memory in any implementation of \TeX{}. But if the situation did
+arise nevertheless of such a gigantic input, an arithmetic overflow
+would occur (after some long time I guess) as \xintname first computes
+the lengths of the inputs by using \csa{numexpr} with successive
+additions of the number |8| to itself until the whole input has been
+parsed \footnote{It is the macro \csa{xintLen} (used by
+  \csa{xintDivision}) which will trigger an arithmetic overflow if it is
+  called with an input of more than {\xintSub{\xintPow {2}{31}}{9}}
+  digits. I thought it was not worthwile adding to the code of
+  \csa{xintLen} a safeguard against the arithmetic overflow in a
+  \csa{numexpr}: this check would have some general impact on speed,
+  whereas the situation can not realistically occur (or even not at all,
+  I admit not having double-checked the intrinsinc \TeX{} memory
+  limitations).} (this initial step is only for the division algorithm,
+the three other arithmetic operations remain unaware of the sizes of
+their inputs, although they do experience them in a sense, as they
+initially reverse the order of digits of at least one of the inputs,
+which means they have to scan it entirely).
 
 Also: the factorial function \csa{xintFac} will refuse to
 (start...) compute |N!| if |N| $\geq$ 1000000000, and the power function
@@ -522,14 +546,15 @@ sometimes not which then will lead to errors). Plus signs are not
 accepted and will cause errors.
 
 The sole exception is the macro \csb{xintNum} which accepts numbers
-starting with an arbitrary long sequence of plus signs, minus
-signs, followed by zeros and will remove all of them, keeping only
-the correct sign: \centeredline{|\xintNum
+starting with an arbitrary long sequence of plus signs, minus signs,
+followed by zeros and will remove all of them, keeping only the correct
+sign: \centeredline{|\xintNum
   {+-+-+----++-++----00000000009876543210}|\texttt{=\xintNum
-    {+-+-+----++-++----0000000009876543210}}} But don't insert
-zeros within the initial signs. As with all other package macros,
-\csa{xintNum} expands twice its argument, and obtains its final
-result in two expansion steps.
+    {+-+-+----++-++----0000000009876543210}}} But don't insert zeros
+within the initial signs. An empty string is also acceptable input:
+|\xintNum {}|\texttt{=\xintNum{}}. As with all other package macros,
+\csa{xintNum} expands twice its argument, and obtains its final result
+in two expansion steps.
 
 \begin{framed}
   \TeX{}'s count registers cannot be directly used but must be
@@ -549,32 +574,47 @@ division, once for the quotient, the other one for the remainder: but
 of course macros \csb{xintQuo} and \csb{xintRem} are provided for easier
 direct access.
 
-The macro \csb{xintDecSplit} cuts its second argument at a
-location specified by its first argument |x|. When |x| is negative
-the cut location is from the left end of the number, and if it
-exceeds the right end (least significant digit), the second member
-of the \csa{xintDecSplit} output will be an \emph{empty} pair of braces;
-and if the cut is not too far to the right, the leading zeros of
-the right half will not be removed. This is the only case where a
-package macro may output something which would need to be input to
-\csa{xintNum} before further processing by the other package
-macros.
+\def\n{\string{N\string}}
+\def\x{\string{x\string}}
 
-When using things such as |\ifcase \xintSgn {\A}| one has to leave
+The macro \csb{xintDecSplit}\x\n\footnote{Its behavior has been
+  modified in bundle version |1.01|, check its documentation.} cuts its second
+argument |N| at a location specified by its first argument |x|, and returns the
+two pieces one after the other, each within braces. Depending on the value of
+|x| and the length of |N|, the first, or the second, output of
+\csa{xintDecSplit} may be \emph{empty}. Leading zeros in the second
+string of digits are neither removed. This is the only situation where a package
+macro may output something which would need to be input to \csa{xintNum} before
+further processing by the other package macros.
+
+When using things such as |\ifcase \xintSgn{\A}| one has to leave
 a space after the closing brace for \TeX{} to
 stop its scanning for a number: once \TeX{} has finished expanding
 |\xintSgn{\A}| and has so far obtained either |1|, |0|, or |-1|, a
-space (or something `unexpandable') must stop it looking for more digits.
+space (or something `unexpandable') must stop it looking for more
+digits. Using |\ifcase\xintSgn\A| without the braces is very dangerous,
+because the blanks (including the end of line) following |\A| will be
+skipped and not serve to stop the number which |\ifcase| is looking for.
+With |\def\A{1}|:
+\begin{verbatim}
+\ifcase \xintSgn\A   0\or OK\else ERROR\fi   ---> gives ERROR
+\ifcase \xintSgn{\A} 0\or OK\else ERROR\fi   ---> gives OK
+\end{verbatim}
+% \def\A{1}
+% \ifcase \xintSgn\A   0\or OK\else ERROR\fi\ 
+% \ifcase \xintSgn{\A} 0\or OK\else ERROR\fi
+
 
 \section{Assignments}
 
 \xintAssign\xintBezout{357}{323}\to\tmpA\tmpB\tmpU\tmpV\tmpD
 
-The end user might not need to maintain at all times complete
+You might not need to maintain at all times complete
 expandability. For example why not allow oneself the two definitions
 |\edef\A {\xintQuo{100}{3}}| and |\edef\B {\xintRem {100}{3}}|. A special
-  syntax is provided to make these things more efficient, as we
-  know that \csa{xintDivision} computes both the quotient and the
+  syntax is provided to make these things more efficient, as the package
+  provides 
+ \csa{xintDivision} which computes both quotient and
   remainder at the same time:
   \centeredline{\csb{xintAssign}\csa{xintDivision}|{100}{3}|\csb{to}|\A\B|}
   \centeredline{\csb{xintAssign}\csa{xintDivision}%
@@ -593,13 +633,12 @@ expandability. For example why not allow oneself the two definitions
   (\tmpU)$\times$\tmpA-(\tmpV)$\times$\tmpB=
    \xintSub{\xintMul\tmpU\tmpA}{\xintMul\tmpV\tmpB}
   is a Bezout Identity.
-\xintAssign\xintBezout{3570902836026}{200467139463}\to\tmpA\tmpB\tmpU\tmpV\tmpD
-\centeredline{\csb{xintAssign}\csa{xintBezout}|{3570902836026}{200467139463}|%
+
+  \xintAssign\xintBezout{3570902836026}{200467139463}\to\tmpA\tmpB\tmpU\tmpV\tmpD
+  \centeredline{\csb{xintAssign}\csa{xintBezout}|{3570902836026}{200467139463}|%
     \csb{to}|\A\B\U\V\D|} gives then |\U|\texttt{:
-    \expandafter\allownumbersplit\meaning\tmpU\relax} and 
-|\V|\texttt{: \expandafter\allownumbersplit\meaning\tmpV\relax}.
-
-
+    \expandafter\allownumbersplit\meaning\tmpU\relax}, |\V|\texttt{:
+    \expandafter\allownumbersplit\meaning\tmpV\relax} and |\D=|\texttt{\tmpD}.
 
   When one does not know in advance the number of tokens, one can
   use \csa{xintAssignArray} or its synonym \csa{xintDigitsOf}:
@@ -680,9 +719,9 @@ the double expansion will apply only to the minus sign and leave
 unaffected the |\xintRem|. So we used \csa{xintOpp} which replaces
 a number with its opposite.
 
-As another use of \csa{xintAssignArray} let us extract one line
+As a last example of use of \csa{xintAssignArray} here is one line
 from the source code of the \xintgcdname macro
-\csb{xintTypesetEuclideAlgorithm}.
+\csb{xintTypesetEuclideAlgorithm}:
 \centeredline{|\xintAssignArray\xintEuclideAlgorithm
   {#1}{#2}\to\U|}
 This is done inside a group. After this command |\U{1}| contains
@@ -703,7 +742,7 @@ for typesetting: this is just an example of one way to do it.
 
 We employ the same method as in the |bigintcalc| package. But the
 error is always thrown \emph{before} the end of the
-|romannumeral0| expansion so as to not disturb further processing
+|\romannumeral0| expansion so as to not disturb further processing
 of the token stream, if the operation was a secondary one whose
 output is expected by a first one. Here is the list of possible
 errors:
@@ -731,8 +770,8 @@ their full expansion (and can thus be chained with the `primitive'
 \xintname macros). Some other control sequence names are used
 only as delimiters, and left undefined.
 
-The |\xintReverseOrder|\marg{tokens} macro uses |\XINT@UNDEF| and
-|\XINT@undef| as dummy tokens and can be used on arbitrary token
+The |\xintReverseOrder|\marg{tokens} macro uses |\xint@UNDEF| and
+|\xint@undef| as dummy tokens and can be used on arbitrary token
 strings not containing these control sequence names. Anything
 within braces is treated as one unit: one level of exterior braces
 is removed and the contents are not reverted.
@@ -812,12 +851,12 @@ compatible. \csa{xintTypesetBezoutAlgorithm} also uses the
 \def\m{\string{M\string}}
 \def\x{\string{x\string}}
 
-\n{} stands for a normalised number within braces as described in
-the documentation, or for a control sequence expanding in at most
-two steps to such a number (without the braces!), or for a control
-sequence within braces expanding in at most two steps to such a
-number, of for material within braces which expands in two
-expansion of the first token to such a number.
+\n{} (resp. \m{} or \x) stands for a normalised number within braces as
+described in the documentation, or for a control sequence expanding in
+at most two steps to such a number (without the braces!), or for a
+control sequence within braces expanding in at most two steps to such a
+number, of for material within braces which expands in two expansion of
+the first token to such a number.
 
 \subsection{\chb{xintRev}}
 
@@ -834,6 +873,11 @@ resulting from the operation are not removed (see the
 expansion of its argument and just reverses the order of the
 tokens. Brace pairs encountered are removed once and the enclosed
 material does not get reverted.
+\centeredline{|\xintReverseOrder{\xintDigitsOf\xintPow {2}{100}\to\Stuff}|}
+\centeredline{gives: \ttfamily
+\expandafter\expandafter\expandafter\detokenize
+\expandafter\expandafter\expandafter{%
+\xintReverseOrder{\xintDigitsOf\xintPow {2}{100}\to\Stuff}}}
 
 \subsection{\chb{xintNum}}
 
@@ -853,8 +897,12 @@ sign.
 
 \csa{xintLength}\marg{token\_list} does not do any expansion of
 its argument and just counts how many tokens there are. Things
-enclosed in braces count as one, and there should be no such
-brace group within the final eight slots.
+enclosed in braces count as one.
+\centeredline{|\xintLength {\xintPow {2}{100}}=|\texttt{\xintLength
+    {\xintPow{2}{100}}}}
+\centeredline{${}\neq{}$|\xintLen {\xintPow {2}{100}}=|\texttt{\xintLen
+    {\xintPow{2}{100}}}}
+
 
 \subsection{\chb{xintAssign}}
 
@@ -889,7 +937,7 @@ pure expansion contexts, as assignments are made via the
 
 \xintAssignArray\xintBezout {1000}{113}\to\Bez
 
-\csa{xintAssign}\meta{braced things}\csa{to}\csa{myArray} first
+\csa{xintAssignArray}\meta{braced things}\csa{to}\csa{myArray} first
 double expands the first token then defines \csa{myArray} to be a
 macro with one parameter, such that \csa{myArray\n} expands in two
 steps (which include the twice-expansion of \texttt{\n}) to give
@@ -913,6 +961,13 @@ with \csa{myArray} as array name.
 
 This is a synonym for \csa{xintAssignArray}, to be used to define
 an array giving all the digits of a given number.
+\begingroup\xintDigitsOf\xintPow {7}{500}\to\digits
+\centeredline{|\xintDigitsOf\xintPow {7}{500}\to\digits|}
+\noindent &7^500& has |\digits{0}=|\digits{0} digits, and the 123rd among them
+(starting from the most significant) is
+|\digits{123}=|\digits{123}.
+\endgroup 
+
 
 \subsection{\chb{xintSgn}}
 
@@ -929,7 +984,8 @@ zero and -1 if it is negative.
 
 \subsection{\chb{xintAdd}}
 
-\csa{xintAdd\n\m} returns the sum of the two numbers.
+\csa{xintAdd\n\m} returns the sum of the two numbers. It is more
+efficient to have the longer of the two be the first argument.
 
 \subsection{\chb{xintSub}}
 
@@ -968,6 +1024,12 @@ returned.
     \xintSum{{123}{-98763450}{\xintFac{7}}{\xintMul{3347}{591}}}}}
 \centeredline{\csa{xintSum}|{1234567890}=|\texttt{%
      \xintSum{1234567890}}}
+An empty sum is no error and returns zero: |\xintSum
+{}=|\texttt{\xintSum {}}. A sum with only one
+term returns that number: |\xintSum {{-1234}}=|\texttt{\xintSum
+  {{-1234}}}. Attention that |\xintSum {-1234}| is not legal input
+and will may the \TeX{} run fail. On the other hand  |\xintSum
+{1234}=|\texttt{\xintSum{1234}}. 
 
 \subsection{\chb{xintSumExpr}}
 
@@ -980,7 +1042,8 @@ argument. \centeredline{%
 
 \subsection{\chb{xintMul}}
 
-\csa{xintMul\n\m} returns the product of the two numbers.
+\csa{xintMul\n\m} returns the product of the two numbers. It is
+more efficient to have the first one be the longer of the two.
 
 \subsection{\chb{xintSqr}}
 
@@ -991,13 +1054,17 @@ argument. \centeredline{%
 \csa{xintPrd}\marg{braced things} after expanding its argument
 twice expects to find a sequence of tokens (or braced material).
 Each is twice-expanded, and the product of all these numbers is
-returned. 
-\centeredline{%
+returned. \centeredline{%
   \csa{xintPrd}|{{-9876}{\xintFac{7}}{\xintMul{3347}{591}}}=|%
-\texttt{%
+  \texttt{%
     \xintPrd{{-9876}{\xintFac{7}}{\xintMul{3347}{591}}}}}
 \centeredline{\csa{xintPrd}|{123456789123456789}=|\texttt{%
-     \xintPrd{123456789123456789}}}
+    \xintPrd{123456789123456789}}} An empty product is no error
+and returns 1: |\xintPrd {}=|\texttt{\xintPrd {}}. A product
+reduced to a single term returns this number: |\xintPrd
+{{-1234}}=|\texttt{\xintPrd {{-1234}}}. Attention that |\xintPrd
+{-1234}| is not legal input and will make the \TeX{} compilation
+fail. On the other hand |\xintPrd {1234}=|\texttt{\xintPrd {1234}}.
 
 
 \subsection{\chb{xintProductExpr}}
@@ -1062,44 +1129,127 @@ by ten.
 
 \csa{xintDSR\n} is decimal shift right, \emph{i.e.} it removes the
 last digit (keeping the sign). For a positive number, this is the
-same as the quotient from the
-euclidean division by ten.
+same as the quotient from the euclidean division by ten (of
+course, done in a more efficient manner than via the general
+division algorithm). For |N| from |-9| to |-1|, the macro returns
+|0|.
 
 \subsection{\chb{xintDSH}}
 
 \csa{xintDSH\x\n} is parametrized decimal shift. When |x| is
 negative, it is like iterating \csa{xintDSL} \verb+|x|+ times
-(\emph{i.e.} multiplication by &10^{-&|x|&}&). When |x| is
-positive, it is like iterating \csa{DSR} |x| times. When |x|
-exceeds the length of the number, the result is zero.
+(\emph{i.e.} multiplication by &10^{-&|x|&}&). When |x| positive,
+it is like iterating \csa{DSR} |x| times (and is more efficient of
+course), and for a non-negative |N| this is thus the same as the
+quotient from the euclidean division by |10^x|. 
+
+\subsection{\chb{xintDSHr}, \chb{xintDSx}}
+{\small New in bundle version |1.01|.\par}
+
+\csa{xintDSHr\x\n} expects |x| to be zero or positive and it returns
+then a value |R| which is correlated to the value |Q| returned by
+\csa{xintDSH\x\n} in the following manner:
+\begin{itemize}
+\item if |N| is
+  positive or zero, |Q| and |R| are the quotient and remainder in
+  the euclidean division by |10^x| (obtained in a more efficient
+  manner than using \csa{xintDivision}),
+\item if |N| is negative let
+  |Q1| and |R1| be the quotient and remainder in the euclidean
+  division by |10^x| of the absolute value of |N|. If |Q1|
+  does not vanish, then |Q=-Q1| and |R=R1|. If |Q1| vanishes, then
+  |Q=0| and |R=-R1|.
+\item for |x=0|, |Q=N| and |R=0|.
+\end{itemize}
+So one has |N = 10^x Q + R| if |Q| turns out to be zero or
+positive, and |N = 10^x Q - R| if |Q| turns out to be negative,
+which is exactly the case when |N| is at most |-10^x|.
+
+
+\csa{xintDSx\x\n} for |x| negative is exactly as
+\csa{xintDSH\x\n}, \emph{i.e.} multiplication by &10^{-&|x|&}&.
+For |x| zero or positive it returns the two numbers |{Q}{R}|
+described above, each one within braces. So |Q| is
+\csa{xintDSH\x\n}, and |R| is \csa{xintDSHr\x\n}, but computed
+simultaneously.
+
+\begin{flushleft}
+  \xintAssign\xintDSx {-1}{-123456789}\to\M 
+  \noindent{|\xintAssign\xintDSx {-1}{-123456789}\to\M|}\\
+  |\meaning\M: |\texttt{\meaning\M}.\\
+  \xintAssign\xintDSx {-20}{1234567689}\to\M 
+  {|\xintAssign\xintDSx {-20}{123456789}\to\M|}\\ 
+  |\meaning\M: |\texttt{\meaning\M}.\\
+  \xintAssign\xintDSx{0}{-123004321}\to\Q\R 
+  {|\xintAssign\xintDSx {0}{-123004321}\to\Q\R|}\\
+  \noindent|\meaning\Q: |\texttt{\meaning\Q}, |\meaning\R:
+  |\texttt{\meaning\R.}\\
+  |\xintDSH {0}{-123004321}=|\texttt{\xintDSH {0}{-123004321}},
+  |\xintDSHr {0}{-123004321}=|\texttt{\xintDSHr {0}{-123004321}}\\
+  \xintAssign\xintDSx {6}{-123004321}\to\Q\R 
+  {|\xintAssign\xintDSx {6}{-123004321}\to\Q\R|}\\ 
+  |\meaning\Q: |\texttt{\meaning\Q},
+  |\meaning\R: |\texttt{\meaning\R.}\\
+  |\xintDSH {6}{-123004321}=|\texttt{\xintDSH {6}{-123004321}},
+  |\xintDSHr {6}{-123004321}=|\texttt{\xintDSHr {6}{-123004321}}\\
+  \xintAssign\xintDSx {8}{-123004321}\to\Q\R 
+  {|\xintAssign\xintDSx {8}{-123004321}\to\Q\R|}\\ 
+  |\meaning\Q: |\texttt{\meaning\Q},
+  |\meaning\R: |\texttt{\meaning\R.} \\
+  |\xintDSH {8}{-123004321}=|\texttt{\xintDSH {8}{-123004321}},
+  |\xintDSHr {8}{-123004321}=|\texttt{\xintDSHr {8}{-123004321}}\\
+  \xintAssign\xintDSx {9}{-123004321}\to\Q\R 
+  {|\xintAssign\xintDSx {9}{-123004321}\to\Q\R|}\\ 
+  |\meaning\Q: |\texttt{\meaning\Q},
+  |\meaning\R: |\texttt{\meaning\R.}\\
+  |\xintDSH {9}{-123004321}=|\texttt{\xintDSH {9}{-123004321}},
+  |\xintDSHr {9}{-123004321}=|\texttt{\xintDSHr {9}{-123004321}}\\
+\end{flushleft}
 
 \subsection{\chb{xintDecSplit}}
 
+{\small Modified in bundle version |1.01|!\par}
 
-\csa{xintDecSplit\x\n} cuts the number into two pieces (each
-within a pair of enclosing braces). First the
-sign if present is \emph{removed}. Then, when |x|
-is positive or vanishes, this is like the
-euclidean division by &10^{&|x|&}&. When |x| is negative the
-number is split into a first piece with the \verb+|x|+ most
-significant digits and a second piece with the remaining digits.
-Leading zeros in this second piece are not removed. In the case
-where the absolute value of |x| is at least the length of the
-number, the second piece is empty (not zero!). So the absolute
-value of the original number is always the concatenation of the
-first and second piece, in this case with a negative |x|.
+\csa{xintDecSplit\x\n} cuts the number into two pieces (each one within a
+pair of enclosing braces). First the sign if present is \emph{removed}.
+Then, for |x| positive or null, the second piece contains the |x| least
+significant digits (\emph{empty} if |x=0|) and the first piece the remaining
+digits (\emph{empty} when |x| equals or exceeds the length of |N|).
+Leading zeros in the second piece are not removed. When |x| is negative
+the first piece contains the \verb+|x|+ most significant digits and the
+second piece the remaining digits (\emph{empty} if |x| equals or exceeds
+the length of |N|). Leading zeros in this second piece are not removed.
+So the absolute value of the original number is always the concatenation
+of the first and second piece.
+
+{\small This macro is for use in future components of the \xintname
+  bundle. Its behavior for |N| non-negative is final and will not
+  change. I am still hesitant about what to do with the sign of a
+  negative |N|. It is recommended to use the macro only for non-negative
+  |N| until the definitive version is released.\par}
+
+
 \xintAssign\xintDecSplit {0}{-123004321}\to\L\R
 \centeredline{|\xintAssign\xintDecSplit {0}{-123004321}\to\L\R|}
-|\meaning\L: |\texttt{\meaning\L}, |\meaning\R: |\texttt{\meaning\R}
-\xintAssign\xintDecSplit {6}{-123004321}\to\L\R
-\centeredline{|\xintAssign\xintDecSplit {6}{-123004321}\to\L\R|}
-|\meaning\L: |\texttt{\meaning\L}, |\meaning\R: |\texttt{\meaning\R}
+\noindent|\meaning\L: |\texttt{\meaning\L}, |\meaning\R: |\texttt{\meaning\R.}
+\xintAssign\xintDecSplit {5}{-123004321}\to\L\R
+\centeredline{|\xintAssign\xintDecSplit {5}{-123004321}\to\L\R|}
+|\meaning\L: |\texttt{\meaning\L}, |\meaning\R: |\texttt{\meaning\R.}
+\xintAssign\xintDecSplit {9}{-123004321}\to\L\R
+\centeredline{|\xintAssign\xintDecSplit {9}{-123004321}\to\L\R|}
+|\meaning\L: |\texttt{\meaning\L}, |\meaning\R: |\texttt{\meaning\R.}
+\xintAssign\xintDecSplit {10}{-123004321}\to\L\R
+\centeredline{|\xintAssign\xintDecSplit {10}{-123004321}\to\L\R|}
+|\meaning\L: |\texttt{\meaning\L}, |\meaning\R: |\texttt{\meaning\R.}
 \xintAssign\xintDecSplit {-5}{-12300004321}\to\L\R
 \centeredline{|\xintAssign\xintDecSplit {-5}{-12300004321}\to\L\R|}
-|\meaning\L: |\texttt{\meaning\L}, |\meaning\R: |\texttt{\meaning\R}
+|\meaning\L: |\texttt{\meaning\L}, |\meaning\R: |\texttt{\meaning\R.}
 \xintAssign\xintDecSplit {-11}{-12300004321}\to\L\R
 \centeredline{|\xintAssign\xintDecSplit {-11}{-12300004321}\to\L\R|}
-|\meaning\L: |\texttt{\meaning\L}, |\meaning\R: |\texttt{\meaning\R}
+|\meaning\L: |\texttt{\meaning\L}, |\meaning\R: |\texttt{\meaning\R.}
+\xintAssign\xintDecSplit {-15}{-12300004321}\to\L\R
+\centeredline{|\xintAssign\xintDecSplit {-15}{-12300004321}\to\L\R|}
+|\meaning\L: |\texttt{\meaning\L}, |\meaning\R: |\texttt{\meaning\R.}
 
 \subsection{\chb{xintDecSplitL}}
 
@@ -1118,9 +1268,11 @@ of \csa{xintDecSplit}.
 \subsection{\chb{xintGCD}}
 
 \csa{xintGCD\n\m} computes the greatest common divisor. It is
-positive, except when both |N| and |M| vanish, for which the macro
+positive, except when both |N| and |M| vanish, in which case the macro
 returns zero.
 \centeredline{\csa{xintGCD}|{10000}{1113}=|\texttt{\xintGCD{10000}{1113}}}
+\centeredline{|\xintGCD{123456789012345}{9876543210321}=|\texttt
+              {\xintGCD{123456789012345}{9876543210321}}}
 
 \subsection{\chb{xintBezout}}
 
@@ -1132,12 +1284,21 @@ braces. |A| is the first (twice-expanded) input number, |B| the
 second, |D| is the GCD, and \texttt{UA - VB = D}. 
 \centeredline{|\xintAssign {{\xintBezout {10000}{1113}}}\to\X|}
 \centeredline{|\meaning\X: |\texttt{\meaning\X }.}
-\centeredline{|\xintAssign {\xintBezout {10000}{1113}}\to\A\B\U\V\D|}
-|\meaning\A: |\texttt{\meaning\A },
-|\meaning\B: |\texttt{\meaning\B },
-|\meaning\U: |\texttt{\meaning\U },
-|\meaning\V: |\texttt{\meaning\V },
-|\meaning\D: |\texttt{\meaning\D }.
+\noindent{|\xintAssign {\xintBezout {10000}{1113}}\to\A\B\U\V\D|}\\
+|\A: |\texttt{\A },
+|\B: |\texttt{\B },
+|\U: |\texttt{\U },
+|\V: |\texttt{\V },
+|\D: |\texttt{\D }.\\
+\xintAssign {\xintBezout {123456789012345}{9876543210321}}\to\A\B\U\V\D
+\noindent{|\xintAssign {\xintBezout {123456789012345}{9876543210321}}\to\A\B\U\V\D
+|}\\
+|\A: |\texttt{\A },
+|\B: |\texttt{\B },
+|\U: |\texttt{\U },
+|\V: |\texttt{\V },
+|\D: |\texttt{\D }.
+
 
 \subsection{\chb{xintEuclideAlgorithm}}
 
@@ -1197,17 +1358,18 @@ entry, and then these four things at each step until the end.
 \subsection{\chb{xintTypesetEuclideAlgorithm}}
 
 This macro is just an example of how to organize the data returned
-by \csa{xintEuclideAlgorithm}. See the source code and modify it
-to what is needed. 
-\centeredline{|\xintTypesetEuclideAlgorithm {10000}{1113}|}
-\xintTypesetEuclideAlgorithm {10000}{1113}
+by \csa{xintEuclideAlgorithm}. Copy the source code to a new macro
+and modify it to what is needed.
+\centeredline{|\xintTypesetEuclideAlgorithm
+  {123456789012345}{9876543210321}|} \xintTypesetEuclideAlgorithm
+{123456789012345}{9876543210321}
 
 
 \subsection{\chb{xintTypesetBezoutAlgorithm}}
 
 This macro is just an example of how to organize the data returned
-by \csa{xintBezoutAlgorithm}. See the source code and modify it
-to what is needed. 
+by \csa{xintBezoutAlgorithm}. Copy the source code to a new macro
+and modify it to what is needed.
 \centeredline{|\xintTypesetBezoutAlgorithm {10000}{1113}|}
 \xintTypesetBezoutAlgorithm {10000}{1113}
 
@@ -1225,10 +1387,10 @@ to what is needed.
 % 
 % \catcode`\<=0 \catcode`\>=11 \catcode`\*=11 \catcode`\/=11
 % \let</none>\relax
-% \def<*package>{\catcode`\<=12 \catcode`\>=12 \catcode`\*=12 \catcode`\/=12}
+% \def<*xint>{\catcode`\<=12 \catcode`\>=12 \catcode`\*=12 \catcode`\/=12}
 %
 %</none>
-%<*package>
+%<*xint>
 % \section {Package \xintname implementation}
 % 
 % The commenting of the macros is currently (\docdate) very
@@ -1357,7 +1519,7 @@ to what is needed.
   \fi
 \expandafter\x\csname ver@xint.sty\endcsname
 \ProvidesPackage{xint}%
-  [2013/03/28 v1.0 Expandable operations on long numbers (jfB)]%
+  [2013/04/04 v1.01 Expandable operations on long numbers (jfB)]%
 %    \end{macrocode}
 % \subsection{Token management macros}
 %    \begin{macrocode}
@@ -1385,11 +1547,12 @@ to what is needed.
 \def\xint@relax #1\relax {}%
 \def\xint@quatrezeros #10000{}%
 \def\xint@bracedundef {\xint@undef }%
-\def\xint@UDzerofork      #10\dummy  #2#3\xint@UDforkzero      {#2}%
-\def\xint@UDzerosfork     #100\dummy #2#3\xint@UDforkzeros     {#2}%
-\def\xint@UDsignfork      #1-\dummy  #2#3\xint@UDforksign      {#2}%
-\def\xint@UDsignsfork     #1--\dummy #2#3\xint@UDforksigns     {#2}%
-\def\xint@UDzerominusfork #10-\dummy #2#3\xint@UDforkminuszero {#2}%
+\def\xint@UDzerofork      #10\dummy  #2#3\xint@UDkrof {#2}%
+\def\xint@UDsignfork      #1-\dummy  #2#3\xint@UDkrof {#2}%
+\def\xint@UDzerosfork     #100\dummy #2#3\xint@UDkrof {#2}%
+\def\xint@UDonezerofork   #110\dummy #2#3\xint@UDkrof {#2}%
+\def\xint@UDzerominusfork #10-\dummy #2#3\xint@UDkrof {#2}%
+\def\xint@UDsignsfork     #1--\dummy #2#3\xint@UDkrof {#2}%
 \def\xint@afterfi #1#2\fi {\fi #1}%
 %    \end{macrocode}
 % \subsection{\ch{xintRev}, \ch{xintReverseOrder}}
@@ -1417,7 +1580,7 @@ to what is needed.
     \xint@UDsignfork
       #1\dummy \XINT@rev@negative
        -\dummy \XINT@rev@nonnegative
-    \xint@UDforksign
+    \xint@UDkrof
     #1#2%
 }%
 \def\XINT@rev@negative #1#2\Z
@@ -1616,7 +1779,7 @@ to what is needed.
     \xint@UDsignfork
       #1\dummy {{0}}%
        -\dummy {{0}#1}%
-    \xint@UDforksign
+    \xint@UDkrof
 }%
 \def\XINT@Length #1{\romannumeral0\XINT@length@loop {0}#1\R\R\R\R\R\R\R\R\Z }%
 \def\XINT@length #1{\XINT@length@loop {0}#1\R\R\R\R\R\R\R\R\Z }%
@@ -1662,6 +1825,8 @@ to what is needed.
 % \begin{verbatim}
 % \xintAssign {a}{b}..{z}\to\A\B...\Z, 
 % \xintAssignArray {a}{b}..{z}\to\U
+% version 1.01 corrects an oversight in 1.0 related to the value of
+% \escapechar at the time of using \xintAssignArray or \xintRelaxArray
 % \end{verbatim}
 % \vspace*{-1.5\baselineskip}
 %    \begin{macrocode}
@@ -1693,7 +1858,10 @@ to what is needed.
 }%
 \def\xintRelaxArray #1%
 {%
-    \edef\xint@arrayname {\expandafter\xint@gobble\string #1}%
+    \edef\XINT@restoreescapechar {\escapechar\the\escapechar\relax}%
+    \escapechar -1
+    \edef\xint@arrayname {\string #1}%
+    \XINT@restoreescapechar
     \expandafter\let\expandafter\xint@temp
                 \csname\xint@arrayname 0\endcsname
     \count 255 0
@@ -1708,7 +1876,10 @@ to what is needed.
 }%
 \def\xintAssignArray #1\to #2%
 {% 
-    \edef\xint@arrayname {\expandafter\xint@gobble\string #2}%
+    \edef\XINT@restoreescapechar {\escapechar\the\escapechar\relax}%
+    \escapechar -1
+    \edef\xint@arrayname {\string #1}%
+    \XINT@restoreescapechar
     \count 255 0
         \expandafter\expandafter\expandafter
     \XINT@assignarray@loop #1\xint@undef 
@@ -1786,7 +1957,7 @@ to what is needed.
       #1-\dummy  {\expandafter0}%  zero
       0#1\dummy  {\expandafter-\expandafter1}% n\'egatif
        0-\dummy  {\expandafter1}%  positif
-    \xint@UDforkminuszero
+    \xint@UDkrof
     \xint@z
 }%
 %    \end{macrocode}
@@ -1806,7 +1977,7 @@ to what is needed.
       #1-\dummy  0%      zero
       0#1\dummy  {}%     negative
        0-\dummy  {-#1}%  positive
-    \xint@UDforkminuszero
+    \xint@UDkrof
 }%
 %    \end{macrocode}
 % \subsection{\ch{xintAbs}}
@@ -1821,13 +1992,10 @@ to what is needed.
 \def\XINT@abs #1%
 {%
     \xint@UDsignfork
-      #1\dummy  \XINT@abs@isnegative
-       -\dummy  \XINT@abs@isnonnegative
-    \xint@UDforksign
-    #1%
+      #1\dummy  \space
+       -\dummy  { #1}%
+    \xint@UDkrof
 }%
-\def\XINT@abs@isnegative    #1{ }%
-\def\XINT@abs@isnonnegative #1{ #1}%
 %    \end{macrocode}
 % \begin{verbatim}
 %-----------------------------------------------------------------
@@ -1874,8 +2042,8 @@ to what is needed.
            #1-\dummy \XINT@add@minusplus           % #1 = -
            #3-\dummy \XINT@add@plusminus           % #3 = -
             --\dummy \XINT@add@plusplus
-         \xint@UDforksigns}%
-    \xint@UDforkzero
+         \xint@UDkrof }%
+    \xint@UDkrof
     {#2}{#4}#1#3%
 }%
 \def\XINT@add@secondiszero #1#2#3#4{ #4#2}%
@@ -2064,8 +2232,8 @@ to what is needed.
                       #1\dummy \XINT@sub@secondiszero
                       #3\dummy \XINT@sub@firstiszero
                        0\dummy \XINT@sub@plusplus
-                      \xint@UDforkzero}%
-    \xint@UDforksigns
+                      \xint@UDkrof }%
+    \xint@UDkrof
     {#2}{#4}#1#3%
 }%
 \def\XINT@sub@secondiszero #1#2#3#4{ #4#2}%
@@ -2158,7 +2326,7 @@ to what is needed.
     \xint@UDzerofork
       #1\dummy  \XINT@sub@C   % une retenue
        0\dummy  \XINT@sub@D   % pas de retenue
-    \xint@UDforkzero
+    \xint@UDkrof
     {#7}#2#3#4#5%
 }%
 \def\XINT@sub@D #1#2\W\X\Y\Z
@@ -2247,14 +2415,13 @@ to what is needed.
 }%
 \def\xint@sub@F\W\XINT@sub@Eonestep #1#2#3#4%
 {%
-    \xint@sub@Fthreewayfork
+    \xint@UDonezerofork
       #4#1\dummy {\XINT@sub@Fdec 0}% soustraire  1. Et faire signe -
       #1#4\dummy {\XINT@sub@Finc 1}% additionner 1. Et faire signe -
         10\dummy  \XINT@sub@DD   % terminer. Mais avec signe -
-    \xint@sub@Fforkthreeway
+    \xint@UDkrof
     {#3}%
 }%
-\def\xint@sub@Fthreewayfork #110\dummy #2#3\xint@sub@Fforkthreeway {#2}%
 \def\XINT@sub@DD
 {\expandafter\space\expandafter-\romannumeral0\XINT@sub@D }%
 \def\XINT@sub@Fdec #1#2#3#4#5#6%
@@ -2295,7 +2462,7 @@ to what is needed.
      #1\dummy {\expandafter\space\expandafter-%
                \xint@cleanupzeros@nospace}%
       0\dummy { -1}%
-    \xint@UDforkzero
+    \xint@UDkrof
     #3%
 }%
 \def\xint@sub@ez\W\XINT@sub@Eenter #1%
@@ -2303,7 +2470,7 @@ to what is needed.
     \xint@UDzerofork
       #1\dummy \XINT@sub@K             %     il y a une retenue
        0\dummy \XINT@sub@L             %     pas de retenue
-    \xint@UDforkzero
+    \xint@UDkrof
 }%
 \def\XINT@sub@L #1\W\X\Y\Z 
    {\XINT@cuz@loop #1\W\W\W\W\W\W\W\Z }%
@@ -2375,8 +2542,8 @@ to what is needed.
                        #10\dummy \XINT@cmp@zeroplus
                        #30\dummy \XINT@cmp@pluszero
                         00\dummy \XINT@cmp@plusplus
-                      \xint@UDforkzeros}%
-    \xint@UDforksigns
+                      \xint@UDkrof }%
+    \xint@UDkrof
     {#2}{#4}#1#3%
 }%
 \def\XINT@cmp@minusplus #1#2#3#4{ 1}%
@@ -2451,7 +2618,7 @@ to what is needed.
     \xint@UDzerofork
       #1\dummy \XINT@cmp@K             %     il y a une retenue
        0\dummy \XINT@cmp@L             %     pas de retenue
-    \xint@UDforkzero
+    \xint@UDkrof
 }%
 \def\XINT@cmp@K #1\Z { -1}%
 \def\XINT@cmp@L #1{\XINT@OneIfPositive@main #1}%
@@ -2518,8 +2685,8 @@ to what is needed.
                    #1-\dummy \XINT@geq@minusplus   
                    #3-\dummy \XINT@geq@plusminus
                     --\dummy \XINT@geq@plusplus
-                \xint@UDforksigns}%
-    \xint@UDforkzero
+                \xint@UDkrof }%
+    \xint@UDkrof
     {#2}{#4}#1#3%
 }%
 \def\XINT@geq@secondiszero     #1#2#3#4{ 1}%
@@ -2591,7 +2758,7 @@ to what is needed.
     \xint@UDzerofork
       #1\dummy { 0}             %     il y a une retenue
        0\dummy { 1}             %     pas de retenue
-    \xint@UDforkzero
+    \xint@UDkrof
 }%
 %    \end{macrocode}
 % \subsection{\ch{xintMax}}
@@ -2629,8 +2796,8 @@ to what is needed.
                        #10\dummy \XINT@max@zeroplus % B = 0, A > 0
                        #30\dummy \XINT@max@pluszero % A = 0, B > 0
                         00\dummy \XINT@max@plusplus % A, B > 0
-                      \xint@UDforkzeros}%
-    \xint@UDforksigns
+                      \xint@UDkrof }%
+    \xint@UDkrof
     {#2}{#4}#1#3%
 }%
 %    \end{macrocode}
@@ -2704,8 +2871,8 @@ to what is needed.
                        #10\dummy \XINT@min@zeroplus % B = 0, A > 0
                        #30\dummy \XINT@min@pluszero % A = 0, B > 0
                         00\dummy \XINT@min@plusplus % A, B > 0
-                      \xint@UDforkzeros}%
-    \xint@UDforksigns
+                      \xint@UDkrof }%
+    \xint@UDkrof
     {#2}{#4}#1#3%
 }%
 %    \end{macrocode}
@@ -2807,10 +2974,10 @@ to what is needed.
     \xint@UDsignfork
       #1\dummy \XINT@sum@pushneg
        -\dummy \XINT@sum@pushpos
-    \xint@UDforksign
+    \xint@UDkrof
     #1%
 }%
-\def\XINT@sum@skipzeroinput #1\xint@UDforksign #2\Z #3#4%
+\def\XINT@sum@skipzeroinput #1\xint@UDkrof #2\Z #3#4%
 {%
     \XINT@sum@xpxpnext {#3}{#4}%
 }%
@@ -2918,8 +3085,8 @@ to what is needed.
            #1-\dummy \XINT@mul@minusplus           % #1 = -
            #3-\dummy \XINT@mul@plusminus           % #3 = -
             --\dummy \XINT@mul@plusplus
-         \xint@UDforksigns}%
-    \xint@UDforkzero
+         \xint@UDkrof }%
+    \xint@UDkrof
     {#2}{#4}#1#3%
 }%
 \def\XINT@mul@zero #1#2#3#4{ 0}%
@@ -3358,7 +3525,7 @@ to what is needed.
     \xint@UDsignfork
       #1\dummy \XINT@prod@firstisneg
        -\dummy \XINT@prod@firstispos
-    \xint@UDforksign
+    \xint@UDkrof
     #1%
 }%
 \def\XINT@prod@returnzero #1\relax { 0}%
@@ -3388,7 +3555,7 @@ to what is needed.
     \xint@UDsignfork
       #1\dummy \XINT@prod@neg
        -\dummy \XINT@prod@pos
-    \xint@UDforksign
+    \xint@UDkrof
     #1%
 }%
 \def\XINT@prod@pos #1\Z #2#3%
@@ -3728,7 +3895,7 @@ to what is needed.
     \xint@UDsignfork
       #1\dummy \XINT@pow@Aneg
        -\dummy \XINT@pow@Anonneg
-    \xint@UDforksign
+    \xint@UDkrof
        #1{#2}%
 }%
 \def\XINT@pow@Aneg #1#2#3%
@@ -3873,12 +4040,10 @@ to what is needed.
 %    \begin{macrocode}
 \def\xintQuo {\romannumeral0\xintquo }%
 \def\xintRem {\romannumeral0\xintrem }%
-\def\xintquo {%
-               \expandafter
+\def\xintquo {\expandafter
                   \xint@firstoftwo@andstop
                \romannumeral0\xintdivision }%
-\def\xintrem {%
-               \expandafter
+\def\xintrem {\expandafter
                   \xint@secondoftwo@andstop
                \romannumeral0\xintdivision }%
 %    \end{macrocode}
@@ -3920,8 +4085,8 @@ to what is needed.
            #1\dummy \XINT@div@BisNegative  % B < 0
            #3\dummy \XINT@div@AisNegative  % A < 0, B > 0
             -\dummy \XINT@div@plusplus     % B > 0, A > 0
-         \xint@UDforksign }%
-    \xint@UDforkzero
+         \xint@UDkrof }%
+    \xint@UDkrof
     {#2}{#4}#1#3% #1#2=B, #3#4=A
 }%
 \def\XINT@div@BisZero #1#2#3#4%
@@ -4174,7 +4339,6 @@ to what is needed.
 % \vspace*{-.5\baselineskip}
 % \begin{verbatim}
 % #1#3 = A préparé, #2 = longueur de ce A préparé, 
-% 
 % \end{verbatim}
 % \vspace*{-1.5\baselineskip}
 %    \begin{macrocode}
@@ -4185,7 +4349,6 @@ to what is needed.
 %    \end{macrocode}
 % \vspace*{-.5\baselineskip}
 % \begin{verbatim}
-% A, L, x, K, B, ...
 % A, L, x, K, B, c
 % \end{verbatim}
 % \vspace*{-1.5\baselineskip}
@@ -4222,6 +4385,7 @@ to what is needed.
 % \vspace*{-.5\baselineskip}
 % \begin{verbatim}
 % A, Q, L, B, c
+% no leading zeros in A at this stage
 % \end{verbatim}
 % \vspace*{-1.5\baselineskip}
 %    \begin{macrocode}
@@ -4232,7 +4396,7 @@ to what is needed.
     \or
        \xint@afterfi {\expandafter\XINT@div@finished@c
                       \expandafter
-         {\romannumeral0\XINT@dsh@preparegobble {#1}{#5}}}%
+         {\romannumeral0\XINT@dsh@checksignx #5\Z {#1}}}%
     \fi
     {#2}%
 }%
@@ -4289,45 +4453,63 @@ to what is needed.
 % \vspace*{-.5\baselineskip}
 % \begin{verbatim}
 % q, A, Q, L, B à l'envers sur 4n, c
+% 1.01 code ré-écrit pour optimisations diverses
 % \end{verbatim}
 % \vspace*{-1.5\baselineskip}
 %    \begin{macrocode}
-\def\XINT@div@final@d #1#2#3#4#5%
+\def\XINT@div@final@d #1#2#3#4#5% q,A,Q,L,B puis c
 {% 
     \expandafter
-       \XINT@div@final@e
+       \XINT@div@final@da
     \expandafter
-    {\romannumeral0\xintsub {\xint@cleanupzeros@nospace #2}%
-              {\romannumeral0\XINT@mul@M {#1}#5\Z\Z\Z\Z }}%
-    {#1}{#2}{#3}{#4}{#5}% 
+    {\romannumeral0\XINT@mul@M {#1}#5\Z\Z\Z\Z }%
+    {\romannumeral0\xint@cleanupzeros@andstop #2}%
+    {#1}{#3}{#5}% 
 }%
-\def\XINT@div@final@e #1#2%
+\def\XINT@div@final@da #1#2%
 {%
-    \ifnum\xintSgn{#1} < 0
-        \expandafter\XINT@div@final@d  % en arri\`ere toute
-        \expandafter{\the\numexpr #2-1\expandafter
-                          \expandafter\expandafter }%
-        \expandafter\xint@gobble@two
-    \else
-        \expandafter\XINT@div@final@f
+    \expandafter\XINT@div@final@db\expandafter {#2}{#1}%
+}%
+\def\XINT@div@final@db #1#2% A,qB, puis q,Q,B,c
+{%
+    \ifcase\XINT@Geq {#1}{#2}
+       \expandafter\XINT@div@final@dc  % A < qB
+    \or\expandafter\XINT@div@final@e   % A au moins qB
     \fi
     {#1}{#2}%
 }%
-\def\XINT@div@final@f #1#2#3#4#5#6#7%
+\def\XINT@div@final@e #1#2#3#4#5% A,qB,q,Q,B,puis c
+{%
+    \expandafter\XINT@div@final@f
+    \expandafter{\romannumeral0\xintsub {#1}{#2}}%
+    {\romannumeral0\xintadd {\XINT@Rev@andcleanupzeros{#4}}{#3}}%
+}%
+\def\XINT@div@final@dc #1#2#3% A sans leading zeros,trash,q,Q,B,c
+{%
+    \expandafter\XINT@div@final@dd
+    \expandafter{\the\numexpr #3-1\relax}{#1}%
+}%
+\def\XINT@div@final@dd #1#2#3#4% q,A,Q,B puis c
+{%
+    \expandafter\XINT@div@final@f
+    \expandafter{\romannumeral0\xintsub 
+                 {#2}{\romannumeral0\XINT@mul@M {#1}#4\Z\Z\Z\Z }}%
+    {\romannumeral0\xintadd {\XINT@Rev@andcleanupzeros{#3}}{#1}}%
+}%
+\def\XINT@div@final@f #1#2#3% R,Q à développer,c
 {%
     \ifcase \XINT@Sgn {#1}
        \xint@afterfi {\XINT@div@final@end {0}}%
     \or
        \xint@afterfi {\expandafter\XINT@div@final@end
-                      \expandafter
-                      {\romannumeral0\XINT@dsh@preparegobble {#1}{#7}}}%
+                      \expandafter % pas de leading zeros dans #1=R
+                      {\romannumeral0\XINT@dsh@checksignx #3\Z {#1}}}%
     \fi
-    {\romannumeral0\xintadd {\XINT@Rev@andcleanupzeros{#4}}{#2}}%
+    {#2}%
 }%
 \def\XINT@div@final@end #1#2%
 {%
-    \expandafter\space\expandafter
-      {#2}{#1}%
+    \expandafter\space\expandafter {#2}{#1}%
 }%
 %    \end{macrocode}
 % \vspace*{-.5\baselineskip}
@@ -4642,7 +4824,7 @@ to what is needed.
     \xint@UDzerofork
       #1\dummy  \XINT@div@sub@C   %
        0\dummy  \XINT@div@sub@D   % pas de retenue
-    \xint@UDforkzero
+    \xint@UDkrof
     {#7}#2#3#4#5%
 }%
 \def\XINT@div@sub@D #1#2\W\X\Y\Z
@@ -4716,7 +4898,7 @@ to what is needed.
       #1-\dummy  {\expandafter 0}%      zero
       0#1\dummy  {\expandafter #2}%     negative
        0-\dummy  {\expandafter #1}%  positive
-    \xint@UDforkminuszero
+    \xint@UDkrof
     \xint@z
 }%
 %    \end{macrocode}
@@ -4802,7 +4984,7 @@ to what is needed.
     \expandafter\expandafter\expandafter
        \XINT@dsr@a
     \expandafter\expandafter\expandafter
-         {#1}\W\Z
+    {#1}\W\Z
 }%
 \def\XINT@DSR #1{\romannumeral0\XINT@dsr@a {#1}\W\Z }%
 \def\XINT@dsr@a
@@ -4822,7 +5004,7 @@ to what is needed.
 \def\xint@dsr@onedigit #1\XINT@rev #2{ 0}%
 \def\XINT@dsr@removew #1\W { }%
 %    \end{macrocode}
-% \subsection{\ch{xintDSH}}
+% \subsection{\ch{xintDSH}, \ch{xintDSHr}}
 % \begin{verbatim}
 %     DECIMAL SHIFTS
 %    \xintDSH {x}{A}
@@ -4830,207 +5012,229 @@ to what is needed.
 % si x >  0, et A >=0, fait A -> quo(A,10^(x))
 % si x >  0, et A < 0, fait A -> -quo(-A,10^(x))
 % (donc pour x > 0 c'est comme DSR itéré x fois)
+% \xintDSHr donne le `reste'.
 % \end{verbatim}
 % \vspace*{-1.5\baselineskip}
 %    \begin{macrocode}
+\def\xintDSHr {\romannumeral0\xintdshr }%
+\def\xintdshr #1%
+{\expandafter\expandafter\expandafter
+                 \XINT@dshr@checkxpositive #1\Z
+}%
+\def\XINT@dshr@checkxpositive #1%
+{%
+    \xint@UDzerominusfork
+      0#1\dummy \XINT@dshr@xzeroorneg
+      #1-\dummy \XINT@dshr@xzeroorneg
+       0-\dummy \XINT@dshr@xpositive
+    \xint@UDkrof #1%
+}%
+\def\XINT@dshr@xzeroorneg #1\Z #2{ 0}%
+\def\XINT@dshr@xpositive #1\Z 
+{%
+    \expandafter
+    \xint@secondoftwo@andstop
+    \romannumeral0\xintdsx {#1}%
+}%
 \def\xintDSH {\romannumeral0\xintdsh }%
-\def\xintdsh #1%
+\def\xintdsh #1#2%
 {%
     \expandafter\expandafter\expandafter
-        \xint@dsh
+      \xint@dsh 
     \expandafter\expandafter\expandafter
-    {#1}%
+      {#2}{#1}%
 }%
 \def\xint@dsh #1#2%
 {%
-    \expandafter\expandafter\expandafter\expandafter
     \expandafter\expandafter\expandafter
-        \XINT@dsh@checkxsize
-    \expandafter\expandafter\expandafter
-        \xint@exchangetwo@keepbraces
-    \expandafter\expandafter\expandafter
-        {#2}{#1}%
+        \XINT@dsh@checksignx
+     #2\Z {#1}%
 }%
-\def\XINT@DSH {\romannumeral0\XINT@dsh@checkxsize }%
-\def\XINT@dsh@checkxsize #1%
-{%
-    \ifnum\XINT@Len {#1} > 9  
-       \expandafter\XINT@dsh@bigx
-    \else
-       \expandafter\XINT@dsh
-    \fi
-    {#1}%
-}%
-\def\XINT@dsh@bigx  #1#2%
-{%
-    \ifcase\XINT@Sgn {#1}
-    \or \xint@afterfi { 0}%
-    \else  \xint@afterfi
-          {%
-            \ifodd\XINT@Sgn {#2}
-              \xint@afterfi{\xintError:TooBigDecimalShift
-                            \space0}%
-            \else \xint@afterfi { 0}%
-            \fi
-          }%
-    \fi
-}%
-\def\XINT@dsh #1#2{\XINT@dsh@checkAsign #2\Z {#1}}%
-\def\XINT@dsh@checkAsign #1%
+\def\XINT@dsh@checksignx #1%
 {%
     \xint@UDzerominusfork
-      #1-\dummy  \XINT@dsh@AisZero
-      0#1\dummy  \XINT@dsh@AisNeg
-       0-\dummy  {\XINT@dsh@directionfork #1}%
-    \xint@UDforkminuszero
+      #1-\dummy  \XINT@dsh@xiszero
+      0#1\dummy  \XINT@dsx@xisNeg
+       0-\dummy  {\XINT@dsh@xisPos #1}%
+    \xint@UDkrof
 }%
-\def\XINT@dsh@AisZero #1\Z #2{ 0}%
-\def\XINT@dsh@AisNeg {\expandafter\XINT@dsh@neg@checkifreturnedzero
-                      \romannumeral0\XINT@dsh@directionfork }%
-\def\XINT@dsh@neg@checkifreturnedzero #1%
+\def\XINT@dsh@xiszero #1\Z #2{ #2}%
+\def\XINT@dsh@xisPos #1\Z #2%
 {%
-    \expandafter\space
-    \xint@UDzerofork
-      #1\dummy {0}%
-       0\dummy {-#1}%
-    \xint@UDforkzero
+    \expandafter
+    \xint@firstoftwo@andstop
+    \romannumeral0\XINT@dsx@checksignA #2\Z {#1}%
 }%
-\def\XINT@dsh@directionfork #1\Z #2%
-{% 
-    \XINT@dsh@checkxsign #2\Z {#1}%
-}%
-\def\XINT@dsh@checkxsign #1%
+%    \end{macrocode}
+% \subsection{\ch{xintDSx}}
+% \begin{verbatim}
+% Je fais cette routine pour la version 1.01, après modification de
+% \xintDecSplit. Dorénavant \xintDSx fera appel à \xintDecSplit et de même 
+% \xintDSH fera appel à \xintDSx. J'ai donc supprimé entièrement l'ancien code
+% de \xintDSH et re-écrit entièrement celui de \xintDecSplit pour x positif.
+% si x <= 0, fait A -> A.10^(|x|)
+% si x >  0, et A >=0, fait A -> {quo(A,10^(x))}{rem(A,10^(x))}
+% si x >  0, et A < 0, d'abord on calcule {quo(-A,10^(x))}{rem(-A,10^(x))}
+%    puis, si le premier n'est pas nul on lui donne le signe -
+%          si le premier est nul on donne le signe - au second.
+% On peut donc toujours reconstituer l'original A par 10^x Q \pm R
+% où il faut prendre le signe plus si Q est positif ou nul et le signe moins si
+% Q est strictement négatif.
+% \end{verbatim}
+% \vspace*{-1.5\baselineskip}
+%    \begin{macrocode}
+\def\xintDSx {\romannumeral0\xintdsx }%
+\def\xintdsx #1#2%
 {%
-    \xint@UDzerominusfork
-      #1-\dummy  \XINT@dsh@donothing
-      0#1\dummy  \XINT@dsh@shiftleft
-       0-\dummy  {\XINT@dsh@shiftright #1}%
-    \xint@UDforkminuszero
-}%
-\def\XINT@dsh@donothing #1\Z #2{ #2}%
-\def\XINT@dsh@shiftright #1\Z #2%
-{%
-    \ifnum \XINT@Length {#2} > #1              
-        \expandafter\XINT@dsh@preparegobble
-    \else
-        \expandafter\XINT@dsh@returnzero
-    \fi
+    \expandafter\expandafter\expandafter
+        \xint@dsx
+    \expandafter\expandafter\expandafter
     {#2}{#1}%
 }%
-\def\XINT@dsh@returnzero #1#2{ 0}%
-\def\XINT@dsh@preparegobble #1%
+\def\xint@dsx #1#2%
 {%
-    \expandafter
-        \XINT@dsh@preparegobble@
-    \expandafter
-    {\romannumeral0\XINT@rev{#1}}%
+    \expandafter\expandafter\expandafter
+        \XINT@dsx@checksignx
+     #2\Z {#1}%
 }%
-\def\XINT@dsh@preparegobble@ #1#2{\XINT@dsh@gobbleloop {#2}#1\Z }%
-\def\XINT@dsh@gobbleloop #1%
+\def\XINT@DSx #1#2{\romannumeral0\XINT@dsx@checksignx #1\Z {#2}}%
+\def\XINT@dsx #1#2{\XINT@dsx@checksignx #1\Z {#2}}%
+\def\XINT@dsx@checksignx #1%
+{%
+    \xint@UDzerominusfork
+      #1-\dummy  \XINT@dsx@xisZero
+      0#1\dummy  \XINT@dsx@xisNeg 
+       0-\dummy  {\XINT@dsx@xisPos #1}%
+    \xint@UDkrof
+}%
+\def\XINT@dsx@xisZero #1\Z #2{ {#2}{0}}%
+\def\XINT@dsx@xisNeg #1\Z
+{%
+    \ifnum\XINT@Len {#1} > 9
+       \xint@afterfi {\xintError:TooBigDecimalShift 
+                      \XINT@dsx@toobigx }%
+    \else 
+       \expandafter \XINT@dsx@zeroloop
+    \fi
+    {#1}\Z
+}%
+\def\XINT@dsx@toobigx #1\Z #2{ #2}%
+\def\XINT@dsx@zeroloop #1%
 {%
     \ifcase #1
-        \expandafter\XINT@dsh@endgobble
+        \expandafter \XINT@dsx@exit
     \or
-        \expandafter\XINT@dsh@gobble@one@andend
+        \expandafter \XINT@dsx@exiti
     \or
-        \expandafter\XINT@dsh@gobble@two@andend
+        \expandafter \XINT@dsx@exitii
     \or
-        \expandafter\XINT@dsh@gobble@three@andend
+        \expandafter \XINT@dsx@exitiii
     \or
-        \expandafter\XINT@dsh@gobble@four@andend
+        \expandafter \XINT@dsx@exitiv
     \or
-        \expandafter\XINT@dsh@gobble@five@andend
+        \expandafter \XINT@dsx@exitv
     \or
-        \expandafter\XINT@dsh@gobble@six@andend
+        \expandafter \XINT@dsx@exitvi
     \or
-        \expandafter\XINT@dsh@gobble@seven@andend
+        \expandafter \XINT@dsx@exitvii
     \else
-        \expandafter \XINT@dsh@gobbleloop
-        \expandafter
-            {\the\numexpr
-            #1-8\expandafter\expandafter\expandafter }%
-        \expandafter
-        \xint@gobble@eight
+        \xint@afterfi 
+         {\expandafter 
+          \XINT@dsx@zeroloop
+          \expandafter {\the\numexpr #1-8}00000000%
+         }%
     \fi
 }%
-\def\XINT@dsh@gobble@one@andend 
-   {\expandafter\XINT@dsh@endgobble\xint@gobble@one }%
-\def\XINT@dsh@gobble@two@andend 
-   {\expandafter\XINT@dsh@endgobble\xint@gobble@two }%
-\def\XINT@dsh@gobble@three@andend 
-   {\expandafter\XINT@dsh@endgobble\xint@gobble@three }%
-\def\XINT@dsh@gobble@four@andend 
-   {\expandafter\XINT@dsh@endgobble\xint@gobble@four }%
-\def\XINT@dsh@gobble@five@andend 
-   {\expandafter\XINT@dsh@endgobble\xint@gobble@five }%
-\def\XINT@dsh@gobble@six@andend 
-   {\expandafter\XINT@dsh@endgobble\xint@gobble@six }%
-\def\XINT@dsh@gobble@seven@andend 
-   {\expandafter\XINT@dsh@endgobble\xint@gobble@seven }%
-\def\XINT@dsh@endgobble #1\Z 
+\def\XINT@dsx@exit #1\Z 
+               {\XINT@dsx@addzeros {#1}}%
+\def\XINT@dsx@exiti #1\Z
+               {\XINT@dsx@addzeros {0#1}}%
+\def\XINT@dsx@exitii #1\Z
+               {\XINT@dsx@addzeros {00#1}}%
+\def\XINT@dsx@exitiii #1\Z
+               {\XINT@dsx@addzeros {000#1}}%
+\def\XINT@dsx@exitiv #1\Z
+               {\XINT@dsx@addzeros {0000#1}}%
+\def\XINT@dsx@exitv #1\Z
+               {\XINT@dsx@addzeros {00000#1}}%
+\def\XINT@dsx@exitvi #1\Z
+               {\XINT@dsx@addzeros {000000#1}}%
+\def\XINT@dsx@exitvii #1\Z
+               {\XINT@dsx@addzeros {0000000#1}}%
+\def\XINT@dsx@addzeros #1#2{ #2#1}%
+\def\XINT@dsx@xisPos #1\Z #2%
 {%
-    \XINT@rev{#1}%
+    \XINT@dsx@checksignA #2\Z {#1}%
 }%
-\def\XINT@dsh@shiftleft #1\Z 
+\def\XINT@dsx@checksignA #1%
 {%
-    \XINT@dsh@zeroloop {#1}\Z
+    \xint@UDzerominusfork
+      #1-\dummy  \XINT@dsx@AisZero
+      0#1\dummy  \XINT@dsx@AisNeg
+       0-\dummy  {\XINT@dsx@AisPos #1}%
+    \xint@UDkrof
 }%
-\def\XINT@dsh@zeroloop #1%
+\def\XINT@dsx@AisZero #1\Z #2{ {0}{0}}%
+\def\XINT@dsx@AisNeg #1\Z #2%
 {%
-    \ifcase #1
-        \expandafter \XINT@dsh@exit
-    \or
-        \expandafter \XINT@dsh@exiti
-    \or
-        \expandafter \XINT@dsh@exitii
-    \or
-        \expandafter \XINT@dsh@exitiii
-    \or
-        \expandafter \XINT@dsh@exitiv
-    \or
-        \expandafter \XINT@dsh@exitv
-    \or
-        \expandafter \XINT@dsh@exitvi
-    \or
-        \expandafter \XINT@dsh@exitvii
-    \else
-        \expandafter \XINT@dsh@zeroloop
-        \expandafter
-            {\the\numexpr
-            #1-8\expandafter\expandafter\expandafter }%
-        \expandafter
-        \XINT@dsh@addeightzeros
-    \fi
+    \expandafter
+      \XINT@dsx@AisNeg@dosplit@andcheckfirst
+    \romannumeral0\XINT@split@checksizex {#2}{#1}%
 }%
-\def\XINT@dsh@addeightzeros {00000000}%
-\def\XINT@dsh@exit #1\Z 
-               {\XINT@dsh@addzeros {#1}}%
-\def\XINT@dsh@exiti #1\Z
-               {\XINT@dsh@addzeros {0#1}}%
-\def\XINT@dsh@exitii #1\Z
-               {\XINT@dsh@addzeros {00#1}}%
-\def\XINT@dsh@exitiii #1\Z
-               {\XINT@dsh@addzeros {000#1}}%
-\def\XINT@dsh@exitiv #1\Z
-               {\XINT@dsh@addzeros {0000#1}}%
-\def\XINT@dsh@exitv #1\Z
-               {\XINT@dsh@addzeros {00000#1}}%
-\def\XINT@dsh@exitvi #1\Z
-               {\XINT@dsh@addzeros {000000#1}}%
-\def\XINT@dsh@exitvii #1\Z
-               {\XINT@dsh@addzeros {0000000#1}}%
-\def\XINT@dsh@addzeros #1#2{ #2#1}%
+\def\XINT@dsx@AisNeg@dosplit@andcheckfirst #1%
+{%
+    \XINT@dsx@AisNeg@checkiffirstempty #1\Z
+}%
+\def\XINT@dsx@AisNeg@checkiffirstempty #1%
+{%
+    \xint@z #1\XINT@dsx@AisNeg@finish@zero\Z
+    \XINT@dsx@AisNeg@finish@notzero #1%
+}%
+\def\XINT@dsx@AisNeg@finish@zero\Z
+    \XINT@dsx@AisNeg@finish@notzero\Z #1%
+{%
+    \expandafter
+        \XINT@dsx@end
+    \expandafter {\romannumeral0\XINT@num {-#1}}{0}%
+}%
+\def\XINT@dsx@AisNeg@finish@notzero #1\Z #2%
+{%
+    \expandafter
+        \XINT@dsx@end
+    \expandafter {\romannumeral0\XINT@num {#2}}{-#1}%
+}%
+\def\XINT@dsx@AisPos #1\Z #2%
+{%
+    \expandafter
+      \XINT@dsx@AisPos@finish
+    \romannumeral0\XINT@split@checksizex {#2}{#1}%
+}%
+\def\XINT@dsx@AisPos@finish #1#2%
+{%
+    \expandafter
+        \XINT@dsx@end
+    \expandafter {\romannumeral0\XINT@num {#2}}%
+                 {\romannumeral0\XINT@num {#1}}%
+}%
+\def\XINT@dsx@end #1#2%
+{%
+    \expandafter\space\expandafter{#2}{#1}%
+}%
 %    \end{macrocode}
 % \subsection{\ch{xintDecSplit}, \ch{xintDecSplitL}, \ch{xintDecSplitR}}
 % \begin{verbatim}
 %     DECIMAL SPLIT
-% Elle commence par remplacer A par |A|
-% si x = 0 elle renvoie {A}{0}
-% si x > 0, elle fait A -> [A/10^x], R est le reste SANS leading zeros.
-% et si x = ou > longueur de A ça donne {0}{A}
-% si x < 0, on part de la gauche. On découpe en deux. si |x| = ou >
-% longueur de A tout A est mis dans Q et R est **vide** (pas 0 !!)
-% R PEUT AVOIR DES LEADING ZEROS DANS CE CAS x <0.
+% v1.01: **New** behavior, for use in future extensions of the xint bundle:
+% The macro \xintDecSplit {x}{A} first replaces A with |A| (*)
+% This macro cuts the number into two pieces L and R. The concatenation LR
+% always reproduces |A|, and R may be empty or have leading zeros. The
+% position of the cut is specified by the first argument x. If x is zero or
+% positive the cut location is x slots to the left of the right end of the
+% number. If x becomes equal to or larger than the length of the number then L
+% becomes empty. If x is negative the location of the cut is x slots to the
+% right of the left end of the number. 
+% (*) warning: this may change in a future version. Only the behavior
+% for A non-negative is guaranteed to remain the same.
 % \end{verbatim}
 % \vspace*{-1.5\baselineskip}
 %    \begin{macrocode}
@@ -5038,50 +5242,36 @@ to what is needed.
 \def\xintDecSplitR {\romannumeral0\xintdecsplitr }%
 \def\xintdecsplitl 
 {%
-               \expandafter
-                  \xint@firstoftwo@andstop
-               \romannumeral0\xintdecsplit 
+    \expandafter
+       \xint@firstoftwo@andstop
+    \romannumeral0\xintdecsplit 
 }%
 \def\xintdecsplitr 
 {%
-               \expandafter
-                  \xint@secondoftwo@andstop
-               \romannumeral0\xintdecsplit 
+    \expandafter
+       \xint@secondoftwo@andstop
+    \romannumeral0\xintdecsplit 
 }%
 \def\xintDecSplit {\romannumeral0\xintdecsplit }%
-\def\xintdecsplit #1%
+\def\xintdecsplit #1#2%
 {%
-    \expandafter\expandafter\expandafter
+    \expandafter
         \xint@split
-    \expandafter\expandafter\expandafter
-    {#1}%
+    \expandafter
+    {\romannumeral0\xintabs {#2}}{#1}%  fait expansion de A
 }%
-%    \end{macrocode}
-% \vspace*{-.5\baselineskip}
-% \begin{verbatim}
-% ON REMPLACE A PAR |A| !!
-% \end{verbatim}
-% \vspace*{-1.5\baselineskip}
-%    \begin{macrocode}
 \def\xint@split #1#2%
 {%
-    \expandafter
-        \XINT@split@checkifAzero
-    \expandafter
-    {\romannumeral0\xintabs {#2}}{#1}% fait expansion de A
+    \expandafter\expandafter\expandafter
+        \XINT@split@checksizex
+    \expandafter\expandafter\expandafter
+    {#2}{#1}% 
 }%
-\def\XINT@split@checkifAzero #1#2%
-{%
-    \ifcase \XINT@Sgn {#1}
-      \expandafter\XINT@split@AisZero 
-    \fi
-    \XINT@split@checkxsize {#2}{#1}%
-}%
-\def\XINT@split@AisZero\XINT@split@checkxsize #1#2{ {0}{0}}%
-\def\XINT@split@checkxsize #1%
+\def\XINT@split@checksizex #1%
 {%
     \ifnum\XINT@Len {#1} > 9  
-       \expandafter\XINT@split@bigx
+       \xint@afterfi {\xintError:TooBigDecimalSplit
+                     \XINT@split@bigx }%
     \else
        \expandafter\XINT@split@xfork
     \fi
@@ -5090,33 +5280,23 @@ to what is needed.
 \def\XINT@split@bigx  #1\Z #2%
 {%
     \ifcase\XINT@Sgn {#1}
-    \or \xint@afterfi { {0}{#2}}%
+    \or \xint@afterfi { {}{#2}}% positive big x
     \else  
-        \xint@afterfi
-          {\expandafter\xintError:TooBigDecimalSplit
-           \space{0}{0}}%
+        \xint@afterfi { {#2}{}}% negative big x
     \fi
 }%
-%    \end{macrocode}
-% \vspace*{-.5\baselineskip}
-% \begin{verbatim}
-% si x > 0 division par 10^x
-% si x < 0 division par 10^{longueur(A)-|x|}
-% \end{verbatim}
-% \vspace*{-1.5\baselineskip}
-%    \begin{macrocode}
 \def\XINT@split@xfork #1%
 {%
     \xint@UDzerominusfork
-      #1-\dummy  \XINT@split@donothing
+      #1-\dummy  \XINT@split@zerosplit
       0#1\dummy  \XINT@split@fromleft
-       0-\dummy  {\XINT@split@splitright #1}%
-    \xint@UDforkminuszero
+       0-\dummy  {\XINT@split@fromright #1}%
+    \xint@UDkrof
 }%
-\def\XINT@split@donothing #1\Z #2{ {#2}{0}}%
+\def\XINT@split@zerosplit #1\Z #2{ {#2}{}}%
 \def\XINT@split@fromleft #1\Z #2%
 {%
-    \XINT@split@fromleft@loop {#1}{}#2\W\W\W\W\W\W\W\W\Z % 
+    \XINT@split@fromleft@loop {#1}{}#2\W\W\W\W\W\W\W\W\Z 
 }%
 \def\XINT@split@fromleft@loop #1%
 {%
@@ -5198,92 +5378,96 @@ to what is needed.
 {%
     \space {#1}%
 }%
-\def\XINT@split@splitright #1\Z #2%
-{%
-    \ifnum \XINT@Length {#2} > #1              
-        \expandafter\XINT@split@pre
-    \else
-        \expandafter\XINT@split@quotientiszero
-    \fi
-    {#2}{#1}%
-}%
-\def\XINT@split@quotientiszero #1#2{ {0}{#1}}%
-\def\XINT@split@pre #1%
+\def\XINT@split@fromright #1\Z #2%
 {%
     \expandafter
-        \XINT@split@@pre
+        \XINT@split@fromright@a
     \expandafter
-    {\romannumeral0\XINT@rev{#1}}%
+    {\romannumeral0\XINT@rev {#2}}{#1}{#2}%
 }%
-\def\XINT@split@@pre #1#2%
+\def\XINT@split@fromright@a #1#2%
 {%
-    \XINT@split@loop {#2}{}#1\Z 
+    \XINT@split@fromright@loop {#2}{}#1\W\W\W\W\W\W\W\W\Z
 }%
-\def\XINT@split@loop #1%
+\def\XINT@split@fromright@loop #1%
 {%
     \ifcase #1
-        \expandafter\XINT@split@endsplit
+        \expandafter\XINT@split@fromright@endsplit
     \or
-        \expandafter\XINT@split@one@andend
+        \expandafter\XINT@split@fromright@one@andend
     \or
-        \expandafter\XINT@split@two@andend
+        \expandafter\XINT@split@fromright@two@andend
     \or
-        \expandafter\XINT@split@three@andend
+        \expandafter\XINT@split@fromright@three@andend
     \or
-        \expandafter\XINT@split@four@andend
+        \expandafter\XINT@split@fromright@four@andend
     \or
-        \expandafter\XINT@split@five@andend
+        \expandafter\XINT@split@fromright@five@andend
     \or
-        \expandafter\XINT@split@six@andend
+        \expandafter\XINT@split@fromright@six@andend
     \or
-        \expandafter\XINT@split@seven@andend
+        \expandafter\XINT@split@fromright@seven@andend
     \else
-        \expandafter \XINT@split@loop
+        \expandafter \XINT@split@fromright@loop@perhaps
         \expandafter
             {\the\numexpr
             #1-8\expandafter\expandafter\expandafter }%
         \expandafter
-        \XINT@split@eight
+        \XINT@split@fromright@eight
     \fi
 }%
-\def\XINT@split@eight #1#2#3#4#5#6#7#8#9{{#1#2#3#4#5#6#7#8#9}}%
-\def\XINT@split@one@andend 
-   {\expandafter\XINT@split@endsplit\XINT@split@one }%
-\def\XINT@split@one #1#2{{#1#2000}}%
-\def\XINT@split@two@andend 
-   {\expandafter\XINT@split@endsplit\XINT@split@two }%
-\def\XINT@split@two #1#2#3{{#1#2#300}}%
-\def\XINT@split@three@andend 
-   {\expandafter\XINT@split@endsplit\XINT@split@three }%
-\def\XINT@split@three #1#2#3#4{{#1#2#3#40}}%
-\def\XINT@split@four@andend 
-   {\expandafter\XINT@split@endsplit\XINT@split@four }%
-\def\XINT@split@four #1#2#3#4#5{{#1#2#3#4#5}}%
-\def\XINT@split@five@andend 
-   {\expandafter\XINT@split@endsplit\XINT@split@five }%
-\def\XINT@split@five #1#2#3#4#5#6{{#1#2#3#4#5#6000}}%
-\def\XINT@split@six@andend 
-   {\expandafter\XINT@split@endsplit\XINT@split@six }%
-\def\XINT@split@six #1#2#3#4#5#6#7{{#1#2#3#4#5#6#700}}%
-\def\XINT@split@seven@andend 
-   {\expandafter\XINT@split@endsplit\XINT@split@seven }%
-\def\XINT@split@seven #1#2#3#4#5#6#7#8{{#1#2#3#4#5#6#7#80}}%
-\def\XINT@split@endsplit #1#2\Z 
+\def\XINT@split@fromright@endsplit #1#2\W #3\Z #4%
 {%
-    \expandafter\expandafter\expandafter\XINT@split@endsplit@
-    \expandafter\expandafter\expandafter
-    {\romannumeral0\XINT@rev
-       {\Z\W\W\W\W\W\W\W #1\XINT@cuz@loop0\romannumeral}}%
-    {\romannumeral0\XINT@rev{#2}}%
+    \expandafter
+    \space 
+    \expandafter {\romannumeral0\XINT@rev{#2}}{#1}%
 }%
-\def\XINT@split@endsplit@ #1#2%
+\def\XINT@split@fromright@eight #1#2#3#4#5#6#7#8#9%
 {%
-    \expandafter\space\expandafter {#2}{#1}%
+    #9{#9#8#7#6#5#4#3#2#1}%
 }%
+\def\XINT@split@fromright@loop@perhaps #1#2%
+{%
+    \xint@w #2\XINT@split@fromright@toofar\W\XINT@split@fromright@loop
+    {#1}%
+}%
+\def\XINT@split@fromright@toofar\W\XINT@split@fromright@loop #1#2#3\Z
+    { {}}%
+\def\XINT@split@fromright@one@andend 
+ {\expandafter\XINT@split@fromright@checkiftoofar\XINT@split@fromright@one }%
+\def\XINT@split@fromright@one #1#2{#2{#2#1}}%
+\def\XINT@split@fromright@two@andend 
+ {\expandafter\XINT@split@fromright@checkiftoofar\XINT@split@fromright@two }%
+\def\XINT@split@fromright@two #1#2#3{#3{#3#2#1}}%
+\def\XINT@split@fromright@three@andend 
+ {\expandafter\XINT@split@fromright@checkiftoofar\XINT@split@fromright@three }%
+\def\XINT@split@fromright@three #1#2#3#4{#4{#4#3#2#1}}%
+\def\XINT@split@fromright@four@andend 
+ {\expandafter\XINT@split@fromright@checkiftoofar\XINT@split@fromright@four }%
+\def\XINT@split@fromright@four #1#2#3#4#5{#5{#5#4#3#2#1}}%
+\def\XINT@split@fromright@five@andend 
+ {\expandafter\XINT@split@fromright@checkiftoofar\XINT@split@fromright@five }%
+\def\XINT@split@fromright@five #1#2#3#4#5#6{#6{#6#5#4#3#2#1}}%
+\def\XINT@split@fromright@six@andend 
+ {\expandafter\XINT@split@fromright@checkiftoofar\XINT@split@fromright@six }%
+\def\XINT@split@fromright@six #1#2#3#4#5#6#7{#7{#7#6#5#4#3#2#1}}%
+\def\XINT@split@fromright@seven@andend 
+ {\expandafter\XINT@split@fromright@checkiftoofar\XINT@split@fromright@seven }%
+\def\XINT@split@fromright@seven #1#2#3#4#5#6#7#8{#8{#8#7#6#5#4#3#2#1}}%
+\def\XINT@split@fromright@checkiftoofar #1%
+{%
+    \xint@w #1\XINT@split@fromright@wenttoofar\W
+    \XINT@split@fromright@endsplit
+}%
+\def\XINT@split@fromright@wenttoofar\W\XINT@split@fromright@endsplit #1\Z #2%
+    { {}{#2}}%
 \XINT@restorecatcodes@endinput%
 %    \end{macrocode}
-%</package>
-%<*gcd>
+%\catcode`\<=0 \catcode`\>=11 \catcode`\*=11 \catcode`\/=11
+%\let</xint>\relax
+%\def<*xintgcd>{\catcode`\<=12 \catcode`\>=12 \catcode`\*=12 \catcode`\/=12 }
+%</xint>
+%<*xintgcd>
 % \section{Package \xintgcdname implementation}
 % 
 % The commenting is currently (\docdate) very sparse.
@@ -5448,7 +5632,7 @@ to what is needed.
   \fi
 \expandafter\x\csname ver@xintgcd.sty\endcsname
 \ProvidesPackage{xintgcd}%
-  [2013/03/28 v1.0 Euclide algorithm with xint package (jfB)]%
+  [2013/04/04 v1.01 Euclide algorithm with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\ch{xintGCD}}
 %    \begin{macrocode}
@@ -5479,7 +5663,7 @@ to what is needed.
       #1\dummy \XINT@gcd@BisZero
       #3\dummy \XINT@gcd@AisZero
        0\dummy \XINT@gcd@loop
-    \xint@UDforkzero
+    \xint@UDkrof
     {#1#2}{#3#4}%
 }%
 \def\XINT@gcd@AisZero #1#2{ #1}%
@@ -5538,8 +5722,8 @@ to what is needed.
            #1-\dummy \XINT@bezout@minusplus  % A > 0, B < 0
            #3-\dummy \XINT@bezout@plusminus  % A < 0, B > 0
             --\dummy \XINT@bezout@plusplus   % A > 0, B > 0
-         \xint@UDforksigns }%
-    \xint@UDforkzeros
+         \xint@UDkrof }%
+    \xint@UDkrof
     {#2}{#4}#1#3{#3#4}{#1#2}% #1#2=B, #3#4=A
 }%
 \def\XINT@bezout@botharezero #1#2#3#4#5#6%
@@ -5560,7 +5744,7 @@ to what is needed.
     \xint@UDsignfork
       #3\dummy { {0}{#3#1}{0}{1}{#1}}%
        -\dummy { {0}{#3#1}{0}{-1}{#1}}%
-    \xint@UDforksign
+    \xint@UDkrof
 }%
 %    \end{macrocode}
 % \vspace*{-.5\baselineskip}
@@ -5574,7 +5758,7 @@ to what is needed.
     \xint@UDsignfork
        #4\dummy{ {#4#2}{0}{-1}{0}{#2}}%
         -\dummy{ {#4#2}{0}{1}{0}{#2}}%
-    \xint@UDforksign
+    \xint@UDkrof
 }%
 %    \end{macrocode}
 % \vspace*{-.5\baselineskip}
@@ -5817,7 +6001,7 @@ to what is needed.
       #1\dummy \XINT@euc@BisZero
       #3\dummy \XINT@euc@AisZero
        0\dummy \XINT@euc@a
-    \xint@UDforkzero
+    \xint@UDkrof
     {0}{#1#2}{#3#4}{{#3#4}{#1#2}}{}\Z
 }%
 %    \end{macrocode}
@@ -5903,7 +6087,7 @@ to what is needed.
 % alpha0=1, beta0=0
 % alpha(-1)=0, beta(-1)=1
 % {N}{A}{0}{1}{D=r(n)}{B}{1}{0}{q1}{r1}{alpha1=q1}{beta1=1}
-%       {q2}{r2}{alpha2}{beta2}....{qN}{rN=0}{alphaN=B/D}{betaN=B/D}
+%       {q2}{r2}{alpha2}{beta2}....{qN}{rN=0}{alphaN=A/D}{betaN=B/D}
 % \end{verbatim}
 % \vspace*{-1.5\baselineskip}
 %    \begin{macrocode}
@@ -5934,7 +6118,7 @@ to what is needed.
       #1\dummy \XINT@bezalg@BisZero
       #3\dummy \XINT@bezalg@AisZero
        0\dummy \XINT@bezalg@a
-    \xint@UDforkzero
+    \xint@UDkrof
     0{#1#2}{#3#4}1001{{#3#4}{#1#2}}{}\Z
 }%
 \def\XINT@bezalg@AisZero #1#2#3\Z{ {1}{0}{0}{1}{#2}{#2}{1}{0}{0}{0}{0}{1}}%
@@ -6015,7 +6199,7 @@ to what is needed.
 %                     {q,r,alpha,beta(n+1)}...{{A}{B}}{}\Z
 % On veut renvoyer
 % {N}{A}{0}{1}{D=r(n)}{B}{1}{0}{q1}{r1}{alpha1=q1}{beta1=1}
-%       {q2}{r2}{alpha2}{beta2}....{qN}{rN=0}{alphaN=B/D}{betaN=B/D}
+%       {q2}{r2}{alpha2}{beta2}....{qN}{rN=0}{alphaN=A/D}{betaN=B/D}
 % \end{verbatim}
 % \vspace*{-1.5\baselineskip}
 %    \begin{macrocode}
@@ -6033,10 +6217,10 @@ to what is needed.
 % \vspace*{-.5\baselineskip}
 % \begin{verbatim}
 % {N}{D}{A}{B}{q1}{r1}{alpha1=q1}{beta1=1}{q2}{r2}{alpha2}{beta2}
-%      ....{qN}{rN=0}{alphaN=B/D}{betaN=B/D}
+%      ....{qN}{rN=0}{alphaN=A/D}{betaN=B/D}
 % On veut renvoyer
 % {N}{A}{0}{1}{D=r(n)}{B}{1}{0}{q1}{r1}{alpha1=q1}{beta1=1}
-%        {q2}{r2}{alpha2}{beta2}....{qN}{rN=0}{alphaN=B/D}{betaN=B/D}
+%        {q2}{r2}{alpha2}{beta2}....{qN}{rN=0}{alphaN=A/D}{betaN=B/D}
 % \end{verbatim}
 % \vspace*{-1.5\baselineskip}
 %    \begin{macrocode}
@@ -6085,7 +6269,7 @@ to what is needed.
 % \begin{verbatim}
 % Pour Bezout on a: 
 % {N}{A}{0}{1}{D=r(n)}{B}{1}{0}{q1}{r1}{alpha1=q1}{beta1=1}
-%             {q2}{r2}{alpha2}{beta2}....{qN}{rN=0}{alphaN=B/D}{betaN=B/D}%
+%             {q2}{r2}{alpha2}{beta2}....{qN}{rN=0}{alphaN=A/D}{betaN=B/D}%
 % Donc 4N+8 termes
 % U1 = N, U2= A, U5=D, U6=B, 
 % q1 = U9, qn = U{4n+5}, n au moins 1
@@ -6137,9 +6321,9 @@ to what is needed.
 \XINT@gcd@restorecatcodes@endinput%
 %    \end{macrocode}
 % \DeleteShortVerb{\|}
-%</gcd>
-%<*none>
 % \MakePercentComment
+%</xintgcd>
+%<*none>
 \CharacterTable
  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
@@ -6156,7 +6340,7 @@ to what is needed.
   Grave accent  \`     Left brace    \{     Vertical bar  \|
   Right brace   \}     Tilde         \~}
 
-\CheckSum{6418}
+\CheckSum{6420}
 
 \Finale
 %%
