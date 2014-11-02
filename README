@@ -1,11 +1,16 @@
 %----------------------------------------------------------------
 %                      The xint bundle
-% components:
-% (base) xint:    Expandable operations on long numbers
-%        xintgcd: Euclidean algorithm with xint package    
+% (base) xint.sty       Expandable operations on long numbers
+%        xintgcd.sty    Euclidean algorithm with xint package
+%        xintfrac.sty   Expandable operations on fractions
+%        xintseries.sty Expandable partial sums with xint package
 % Copyright (C) 2013 by Jean-Francois B. 
-% Version: v1.02 (2013/04/05)
+% Version: v1.03 (2013/04/14)
 %----------------------------------------------------------------
+
+This work consists of the source file xint.dtx and of its derived
+files xint.sty, xintgcd.sty, xintfrac.sty, xintseries.sty, xint.ins  
+and the documentation xint.pdf (or xint.dvi).
 
     This work may be distributed and/or modified under the
     conditions of the LaTeX Project Public License, either
@@ -17,38 +22,39 @@
     and version 1.3 or later is part of all distributions of
     LaTeX version 2005/12/01 or later. 
 
-    This work consists of the source file xint.dtx and of its
-    derived files xint.sty, xintgcd.sty, xint.ins and the
-    documentation xint.pdf (or xint.dvi).
-
 The author of this work is Jean-Francois B. <2589111+jfbu@users.noreply.github.com>. 
 This work has the LPPL maintenance status `author-maintained'.
 
-  Installation and Usage:
-  =======================
+Installation and Usage:
+=======================
 
-  Run tex or latex on xint.dtx.
- 
-  This will extract the style files xint.sty and xintgcd.sty (and
-  xint.ins). Files with the same names and in the same repertory
-  will be overwritten. The tex (not latex) run will stop with the
-  complaint that it does not understand \NeedsTeXFormat, but the
-  style files will already have been extracted by that time.
+Run tex or latex on xint.dtx.
 
-  Alternatively, run tex or latex on xint.ins if available.
+This will extract the style files xint.sty, xintgcd.sty, xintfrac.sty,
+xintseries.sty (and xint.ins). Files with the same names and in the
+same repertory will be overwritten. The tex (not latex) run will stop
+with the complaint that it does not understand \NeedsTeXFormat, but the
+style files will already have been extracted by that time.
 
-  To get xint.pdf run pdflatex thrice on xint.dtx
-  
-  xint.sty, xintgcd.sty -> TDS:tex/generic/xint/
-  xint.dtx              -> TDS:source/generic/xint/
-  xint.pdf              -> TDS:doc/generic/xint/
- 
-  It may well be necessary to then refresh the TeX installation
-  filename database.
+Alternatively, run tex or latex on xint.ins if available.
 
-  Usage with LaTeX: \usepackage{xint}
-                    \usepackage{xintgcd}
+To get xint.pdf run pdflatex thrice on xint.dtx
 
-  Usage with TeX:   \input xint.sty\relax
-                    \input xintgcd.sty\relax
+    xint.sty, xintgcd.sty, xintfrac.sty, xintseries.sty
+               -> TDS:tex/generic/xint/
+    xint.dtx   -> TDS:source/generic/xint/
+    xint.pdf   -> TDS:doc/generic/xint/
+
+It may be necessary to then refresh the TeX installation filename
+database.
+
+Usage with LaTeX: \usepackage{xint}
+                  \usepackage{xintgcd}    % (loads xint)
+                  \usepackage{xintfrac}   % (loads xint)
+                  \usepackage{xintseries} % (loads xintfrac)
+
+Usage with TeX:   \input xint.sty\relax   
+                  \input xintgcd.sty\relax    % (loads xint)
+                  \input xintfrac.sty\relax   % (loads xint)
+                  \input xintseries.sty\relax % (loads xintfrac)
 
