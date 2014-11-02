@@ -1,16 +1,16 @@
 % -*- coding: iso-latin-1; time-stamp-format: "%02d-%02m-%:y %02H:%02M:%02S %Z" -*-
-% File: xint.dtx, package: 1.09m (2014/02/26), documentation: 2014/02/26
+% File: xint.dtx, package: 1.09n (2014/04/01), documentation: 2014/04/01
 % License: LaTeX Project Public License 1.3c or later.
 % Copyright (C) 2013-2014 by Jean-Francois B. <2589111+jfbu@users.noreply.github.com>
 %<*dtx>
-\def\lasttimestamp{Time-stamp: <27-02-2014 09:57:47 CET>}
+\def\lasttimestamp{Time-stamp: <01-04-2014 19:06:46 CEST>}
 %</dtx>
 %<*drv>
-\def\xintdate    {2014/02/26} 
-\def\xintversion {1.09m}
+\def\xintdate    {2014/04/01} 
+\def\xintversion {1.09n}
 %</drv>
 %%----------------------------------------------------------------
-%% The xint bundle (version 1.09m of February 26, 2014)
+%% The xint bundle (version 1.09n of April 1st, 2014)
 %<xinttools>%% xinttools: Expandable and non-expandable utilities
 %<xint>%% xint: Expandable operations on long numbers
 %<xintfrac>%% xintfrac: Expandable operations on fractions  
@@ -60,12 +60,9 @@
 % - with pdflatex or xelatex: run it directly thrice on xint.dtx, or run 
 % it on xint.tex after having edited the suitable toggle therein.
 %
-% When compiling xint.tex, the documentation is by default produced
-% with the source code included. See instructions in the file for
-% changing this default.
-%
-% When compiling directly xint.dtx, the documentation is produced 
-% without the source code (latex+dvips or pdflatex or xelatex).
+% Whether compiling xint.tex or xint.dtx, the documentation is by default
+% produced without inclusion of the source code. See instructions in the
+% file xint.tex for changing this default.
 %
 % Finishing the installation: (on first installation the destination
 % repertories may need to be created)
@@ -139,7 +136,7 @@
 %<*drv>----------------------------------------------------------------------
 %% This is a generated file. Run latex thrice on this file xint.tex then
 %% run dvipdfmx on xint.dvi to produce the documentation xint.pdf, with
-%% source code included. (ignore the dvipdfmx warnings)
+%% or without source code accoding to value of \NoSourceCode toggle below.
 %%
 %% Customize as desired the class options and the two toggles below.
 %%
@@ -151,7 +148,7 @@
 [\xintdate\space v\xintversion\space driver file for xint documentation (jfB)]%
 \PassOptionsToClass{a4paper,fontsize=11pt}{scrdoc}
 \chardef\Withdvipdfmx 1 % replace 1<space> by 0<space> for using latex/pdflatex
-\chardef\NoSourceCode 0 % replace 0<space> by 1<space> for no source code
+\chardef\NoSourceCode 1 % replace 1<space> by 0<space> for source code inclusion
 \input xint.dtx
 %%% Local Variables:
 %%% mode: latex
@@ -196,8 +193,9 @@
 \Msg{*     xintcfrac.sty} 
 \Msg{*     xintexpr.sty} 
 \Msg{*}
-\Msg{* To produce the documentation run latex thrice on file xint.tex}
-\Msg{* and then run dvipdfmx on file xint.dvi (ignore dvipdfmx warnings)}
+\Msg{* To produce the documentation run latex thrice on xint.tex}
+\Msg{* then dvipdfmx on xint.dvi. Edit xint.tex to get the code}
+\Msg{* source included.    (ignore the dvipdfmx warnings)}
 \Msg{*}
 \Msg{* Happy TeXing!}
 \Msg{*}
@@ -220,7 +218,7 @@
       \expandafter\ifx\csname Withdvipdfmx\endcsname\relax
         % latex run is on etoc.dtx, we will extract all files
         \chardef\extractfiles 1 % 1 = extract all and typeset doc
-        \chardef\Withdvipdfmx 0 % 0 = pdflatex or latex+dvips
+        \chardef\Withdvipdfmx 0 % 0 = pdflatex or latex+dvips, 1 = dvipdfmx
         \chardef\NoSourceCode 1 % 
         \NeedsTeXFormat{LaTeX2e}%
         \PassOptionsToClass{a4paper,11pt}{scrdoc}% 
@@ -248,9 +246,9 @@
 \Msg{*\space\space\space\space xintcfrac.sty^^J}%
 \Msg{*\space\space\space\space xintexpr.sty^^J}%
 \Msg{*^^J}%
-\Msg{* To produce the documentation with source code included run latex^^J}%
-\Msg{* thrice on file xint.tex and then dvipdfmx on xint.dvi^^J}%
-\Msg{* \space\space\space\space(ignore the dvipdfmx warnings)^^J}%
+\Msg{* To produce the documentation run latex thrice on xint.tex^^J}%
+\Msg{* then dvipdfmx on xint.dvi. Edit xint.tex to get the code^^J}%
+\Msg{* source included.  (ignore the dvipdfmx warnings)^^J}%
 \Msg{*^^J}%
 \Msg{* Happy TeXing!^^J}%
 \Msg{*^^J}%
@@ -361,28 +359,51 @@
 %---- USE OF ETOC FOR THE TABLES OF CONTENTS
 
 \def\gobbletodot #1.{}
-\makeatletter
-\let\savedsectionline\l@section
-\makeatother
+% \makeatletter
+% \let\savedsectionline\l@section
+% % (j'avais été fainéant à l'époque, mais le problème c'est que donc je
+% % ne contrôle alors plus directement les paramètres d'espacement verticaux ce
+% % qui rend délicat de synchroniser par exemple les espacements horizontaux
+% % pour section et subsection ou vertical à la fin, etc..) 
+% \makeatother
 
+\newif\ifindescription % 1 avril 2014
+\indescriptiontrue
 \def\sectioncouleur{{cyan}}
 
-% attention à ce 22 hard codé. 23 maintenant,... 24;  et 31 non 32...
-% et ça continue de changer
-
+% attention à ce 22 hard codé. 23 maintenant,... 24; et 31 non 32... et ça
+% continue de changer 
+%
+% 1er avril 2014, je fais un vrai style un peu grossier alors qu'avant
+% j'utilisais savedsectionline, par paresse.
 \etocsetstyle{section}{}
-     {}
-     {\ifnum\etocthenumber=23 \gdef\sectioncouleur{{joli}}\fi
+     {\normalfont}
+     {% avant: 1 avril 2014, j'avais
+      % \savedsectionline{\numberline{\expandafter\textcolor\sectioncouleur
+      %                                 {\etocnumber}}\etocname}
+      %                  {{\mdseries\etocpage}}%
+         \addvspace{\medskipamount}%
+         \noindent
+         \rightskip 1.5em
+         \parfillskip -1.5em\relax
+      \ifnum\etocthenumber=23 \gdef\sectioncouleur{{joli}}\fi
       \ifnum\etocthenumber=31 \gdef\sectioncouleur{[named]{RoyalPurple}}\fi
-      \savedsectionline{\numberline{\expandafter\textcolor\sectioncouleur
-                                      {\etocnumber}}\etocname}
-                       {{\mdseries\etocpage}}%
-      }% cf l@section en classe scrartcl
+      \bfseries 
+      \makebox[2.3em][l]{\expandafter\textcolor\sectioncouleur {\etocnumber}}%
+      \strut\etocname
+      \mdseries\nobreak\hfill\nobreak\strut\makebox[1.5em][r]{\etocpage}\par
+% 1 avril 2014
+      \let\ETOCsectionnumber\etocthenumber
+% je pourrais sans doute simplement modifier mon \gobbletodot utilisé dans le
+% style de sous-section, mais c'est qu'il y a la main TOC et les autres. Je fais
+% des styles communs à toutes.
+      }%
      {}%
 
 \def\MARGEPAGENO {1.5em}
+
 \etocsetstyle{subsection}
-    {\begingroup
+    {\begingroup\normalfont
      \setlength{\premulticols}{0pt}
      \setlength{\multicolsep}{0pt}
      \setlength{\columnsep}{1em}
@@ -395,12 +416,12 @@
     }
     {}
     {\noindent
-        \llap{\makebox[2.3em][l]
-              {\ttfamily\bfseries\etoclink
-                         {.\expandafter\gobbletodot\etocthenumber}}}%
-        \strut 
-        \etocname\nobreak\leaders\etoctoclineleaders\hfill\nobreak
-        \strut\makebox[1.5em][r]{\normalfont\small\etocpage}\endgraf }
+     \llap{\makebox[2.3em][l]{\ttfamily\bfseries\etoclink
+             {\ifindescription\expandafter\textcolor\sectioncouleur
+               {\normalfont\bfseries\ETOCsectionnumber}\fi
+              .\expandafter\gobbletodot\etocthenumber}}}%
+     \strut\etocname\nobreak\leaders\etoctoclineleaders\hfill\nobreak
+     \strut\makebox[1.5em][r]{\small\etocpage}\endgraf }
     {\end{multicols}\endgroup }%
 
 \makeatother
@@ -1033,26 +1054,31 @@ more.\par
 \renewcommand*{\etocbelowtocskip}{0pt}
 \renewcommand*{\etocinnertopsep}{0pt}
 \renewcommand*{\etoctoclineleaders}
-        {\hbox{\normalfont\normalsize\hbox to 1ex {\hss.\hss}}}
-\etocmulticolstyle [2]{%
+              {\hbox{\normalfont\normalsize\hbox to 1ex {\hss.\hss}}}
+\etocmulticolstyle [1]{%
     \phantomsection\section* {Contents}
     \etoctoccontentsline*{toctobookmark}{Contents}{1}%
 }
-
-   \etocsettagdepth {description}{section}
+   \etocsettagdepth {description}{subsection}
    \etocsettagdepth {commandsA}  {none}
    \etocsettagdepth {xintexpr}   {none}
    \etocsettagdepth {commandsB}  {none}
    \etocsettagdepth {implementation}{none}
 \tableofcontents
-\etocmulticolstyle [2]{\raggedcolumns}{}
+%original: \newcommand*\etocabovetocskip{3.5ex plus 1ex minus .2ex}
+\renewcommand*\etocabovetocskip{\medskipamount}
+\etocmulticolstyle [2]{\raggedcolumns}
    \etocsettagdepth {description}{none}
    \etocsettagdepth {commandsA}  {section}
    \etocsettagdepth {xintexpr}   {section}
    \etocsettagdepth {commandsB}  {section}
+\ifnum\NoSourceCode=0
    \etocsettagdepth {implementation}{section}
+\else
+   \etocsettagdepth {implementation}{none}
+\fi
 \tableofcontents
-\medskip
+% \medskip
 
 % pour la suite:
 \etocignoredepthtags
@@ -1296,7 +1322,8 @@ aware of the
 \href{http://ctan.org/pkg/seqsplit}{seqsplit}
 package\footnote{\url{http://ctan.org/pkg/seqsplit}}
 which can be used to achieve this splitting accross lines, and does work
-in inline math mode.\par
+in inline math mode (however it doesnt allow, for example to separate digits by
+groups of three).\par
 
 \subsection{Expandable implementations of mathematical algorithms}
 
@@ -1324,9 +1351,61 @@ services of |\numexpr|: this step allows only things obeying the \TeX{} bound,
 naturally! (but \digitstt{F(\xintiiPow2{31}}) would be rather big anyhow...).
 
 
+\subsection{FAQ}
+
+\begin{description}
+\item[Will \xintexprname implement \texttt{exp}, \texttt{log},
+  \texttt{cos}, \texttt{sin} \dots at some point?]
+I guess so.
+\item[\xintseriesname already provides generic tools.] Right, although the
+  casual user of the \xintname bundle will not quite know how to do variable
+  reduction expandably in order to use some series or Pad\'e approximants.
+  Besides I wrote the code at the beginning of the project and perhaps I could
+  do it better now (I have not looked at it for a while). Anyhow, generic things
+  do not help much if one wants to optimize.
+\item[Optimizing? isn't \TeX's macro expansion mechanism intrinsically slow?]
+  Intensive use of \csa{numexpr} and some token manipulation algorithms
+  exploiting to the best I could \TeX{} macros with parameters grant \xintname a
+  significant speed up in expandable arithmetic on big integers compared to
+  previously available implementations. You can do some comparisons with
+  multiplication on numbers with @100@ digits or division of one of @100@ digits
+  by another of @50@ digits, for example. However expandability is antagonist of
+  speed, and I agree it is not very exciting to optimize slow things. And I was
+  disappointed last year to realize the slowness of \TeX's mouth when it has to
+  keep hundreds of tokens in cheek to mix them later with new aliments. Believe
+  me, I try not to think too much about the fact that the whole enterprise is
+  made irrelevant by Lua\LaTeX's ability to access external libraries.
+\item[Well, why isn't this \texttt{log} etc\dots thing done yet?] 
+I have to decide on the maximal precision to achieve: @24@, @32@, @48@,
+@64@,\dots ; to settle that I would need to implement some initial versions and
+benchmark them. 
+\item[Fair enough. That's the common lot. So why not yet?] I am a bit
+  overworked. It is also an opportunity to think over
+  the basic underlying mathematics, and will need devoted thinking for some not
+  insignificant amount of time. So far I didn't find the time, or rather I found
+  out good means to waste it sillily. I also anticipate that originality could
+  very 
+  well not pay off at all, so small is the window for the precision.
+\item[Any chance this could be done in time for TL2014?] No,
+  sorry.\newline Release |1.09m| of |[2014/02/26]| was the end of a cycle, and
+  this |1.09n| of |[2014/04/01]| is only for a bug fix and inclusion of this
+  |FAQ| in the documentation.
+\end{description}
+
 \section{Recent changes}
 
 \footnotesize
+
+
+\noindent Release |1.09n| (|[2014/04/01]|):
+\begin{itemize}
+\item the user manual does not include by default the source code anymore: the
+  |\NoSourceCode| toggle in file |xint.tex| has to be set to @0@ before
+  compilation to get source code inclusion.
+\item bug fix in |\XINT_nthelt_finish| (this bug was introduced in |1.09i| of
+  |2013/12/18| and showed up when the index |N| was larger
+  than the number of elements of the list).
+\end{itemize}
 
 \noindent Releases |1.09m| (|[2014/02/26]|):
 \begin{itemize}
@@ -1366,9 +1445,6 @@ naturally! (but \digitstt{F(\xintiiPow2{31}}) would be rather big anyhow...).
 \item bug fix: forgotten loading time |"| catcode sanity check has been added.
 \end{itemize}
 
-For a more detailed change history, see \autoref{sec:releases}. Main recent
-additions: \smallskip
-
 \noindent Release |1.09j| (|[2014/01/09]|):
 \begin{itemize}
 \item the core division routines have been re-written for some (limited)
@@ -1384,114 +1460,7 @@ additions: \smallskip
   prefix.
 \end{itemize}
 
-\noindent Release |1.09i| (|[2013/12/18]|):
-\begin{itemize}
-\item \csbxint{iiexpr} is a variant of \csbxint{expr} which is optimized to deal
-  only with (long) integers, |/| does a euclidean quotient.
-\item |\xintnumexpr|, |\xintthenumexpr|, |\xintNewNumExpr| are renamed,
-  respectively, \csbxint{iexpr}, \csbxint{theiexpr}, \csbxint{NewIExpr}. The
-  earlier denominations are kept but to be removed at some point.
-\item it is now possible within |\xintexpr...\relax| and its variants to use
-  count, dimen, and skip registers or variables without explicit |\the/\number|:
-  the parser inserts automatically |\number| and a tacit multiplication is
-  implied when a register or variable immediately follows a number or fraction.
-\item \xinttoolsname defines \hyperref[odef]{\ttfamily\char92odef},
-  \hyperref[oodef]{\ttfamily\char92oodef},
-  \hyperref[fdef]{\ttfamily\char92fdef}. These tools are provided for the case
-  one uses the package macros in a non-expandable context, particularly
-  \hyperref[oodef]{\ttfamily\char92oodef} which expands twice the macro
-  replacement text and is thus a faster alternative to |\edef|. This can be
-  significant when repeatedly making |\def|-initions expanding to hundreds of
-  digits.
-\end{itemize}
-
-
-\noindent Release |1.09h| (|[2013/11/28]|):
-\begin{itemize}
-\item all macros of \xinttoolsname for which it makes sense are now
-  declared |\long|. 
-\end{itemize}
-
-\noindent Release |1.09g| (|[2013/11/22]|):
-\begin{itemize}
-\item package \xinttoolsname is detached from \xintname, to make tools such as
-  \csbxint{For}, \csbxint{ApplyUnbraced}, and \csbxint{iloop} available without
-  the \xintname overhead.
-\item new expandable nestable loops \csbxint{loop} and \csbxint{iloop}.
-\end{itemize}
-
-\noindent Release |1.09f| (|[2013/11/04]|):
-\begin{itemize}
-\item new \csbxint{ZapFirstSpaces}, \csbxint{ZapLastSpaces},
-  \csbxint{ZapSpaces}, \csbxint{ZapSpacesB}, for expandably stripping away
-  leading and/or ending spaces.
-\item \csbxint{CSVtoList} by default uses \csbxint{ZapSpacesB} to strip away
-  spaces around commas (or at the start and end of the comma separated list).
-\item also the \csbxint{For} loop will strip out all spaces around commas and at
-  the start and the end of its list argument; and similarly for
-  \csbxint{Forpair}, \csbxint{Forthree}, \csbxint{Forfour}.
-\item \csbxint{For} \emph{et al.} accept all macro parameters
-  from |#1| to |#9|.
-\end{itemize}
-
-
-\noindent Release |1.09e| (|[2013/10/29]|):
-\begin{itemize}
-\item new \csbxint{integers}, \csbxint{dimensions}, \csbxint{rationals} for
-  infinite \csbxint{For} loops, interrupted with \csbxint{BreakFor} and
-  \csbxint{BreakForAndDo}.
-\item new \csbxint{ifForFirst}, \csbxint{ifForLast} for the \csa{xintFor}  and
-  \csa{xintFor*} loops,
-\item the \csa{xintFor} and \csa{xintFor*} loops are now |\long|, the
-  replacement text and the items may contain explicit |\par|'s.
-\item new conditionals \csbxint{ifCmp}, \csbxint{ifInt}, \csbxint{ifOdd}.
-\item the documentation has been enriched with various additional examples,
-  such as the \hyperref[ssec:quicksort]{the quick sort algorithm illustrated} or
-  the computation of prime numbers (\autoref{ssec:primesI},
-  \autoref{ssec:primesII}, \autoref{ssec:primesIII}). 
-\end{itemize}
-
-\noindent Release |1.09c| (|[2013/10/09]|):
-\begin{itemize}
-\item added \hyperlink{item:bool}{|bool|} and \hyperlink{item:bool}{|togl|} to
-  the 
-  \csbxint{expr} syntax; also added \csbxint{boolexpr} and \csbxint{ifboolexpr}.
-\item \csbxint{For} is a new type of loop, whose replacement text inserts the
-  comma separated values or list items via macro parameters, rather than
-  encapsulated in macros; the loops are nestable up to four levels (nine
-  levels since |1.09f|),
-  and their replacement texts are allowed to close groups as happens with the
-  tabulation in alignments,
-\item \csbxint{ApplyInline} has been enhanced in order to be usable for
-  generating rows (partially or completely) in an alignment,
-\item new command \csbxint{Seq} to generate (expandably) arithmetic sequences of
-  (short) integers,
-\end{itemize}
-
-
-\noindent Release |1.09a| (|[2013/09/24]|):
-\begin{itemize}
-\item \csbxint{expr}|..\relax| and
-  \csbxint{floatexpr}|..\relax| admit functions in their
-  syntax, with comma separated values as arguments, among them \texttt{reduce,
-    sqr, sqrt, abs, sgn, floor, ceil, quo, rem, round, trunc, float, gcd, lcm,
-    max, min, sum, prd, add, mul, not, all, any, xor}.
-\item comparison (|<|, |>|, |=|) and logical (\verb$|$, |&|) operators.
-\item \csbxint{NewExpr} now works with the standard macro parameter character
-  |#|. 
-\item both regular |\xintexpr|-essions and commands defined by |\xintNewExpr|
-  will work with comma separated lists of expressions,
-\item new commands \csbxint{Floor}, \csbxint{Ceil}, \csbxint{Maxof},
-  \csbxint{Minof} (package \xintfracname), \csbxint{GCDof}, \csbxint{LCM},
-  \csbxint{LCMof} (package \xintgcdname), \csbxint{ifLt}, \csbxint{ifGt},
-  \csbxint{ifSgn}, \csbxint{ANDof}, ...
-\item The arithmetic macros from package \xintname now filter their operands via
-  \csbxint{Num} which means that they may use directly count registers and
-  |\numexpr|-essions without having to prefix them by |\the|. This is thus
-  similar to the situation holding previously but with \xintfracname loaded.
-\end{itemize}
-
-See \autoref{sec:releases} for more.
+For a more detailed change history, see \autoref{sec:releases}.
 
 \normalsize
 
@@ -2984,12 +2953,9 @@ Ignore dvipdfmx warnings, but if the pdf file has problems with fonts
 - with pdflatex or xelatex: run it directly thrice on xint.dtx, or run 
 it on xint.tex after having edited the suitable toggle therein.
 
-When compiling xint.tex, the documentation is by default produced
-with the source code included. See instructions in the file for
-changing this default.
-
-When compiling directly xint.dtx, the documentation is produced 
-without the source code (latex+dvips or pdflatex or xelatex).
+Whether compiling xint.tex or xint.dtx, the documentation is by default
+produced without inclusion of the source code. See instructions in the
+file xint.tex for changing this default.
 
 Finishing the installation: (on first installation the destination
 repertories may need to be created)
@@ -3832,6 +3798,7 @@ Initial release |1.0| was on |2013/03/28|.
 
 
 \etocdepthtag.toc {commandsA}
+\indescriptionfalse
 
 \section{Commands of the \xinttoolsname package}
 \label{sec:tools}
@@ -3854,7 +3821,7 @@ This section contains various concrete examples and ends with a
   algorithm} together with a graphical illustration of its action.
 
 
-\clearpage % attention à ce clearpage
+% \clearpage % attention à ce clearpage
 
 \localtableofcontents
 
@@ -4589,6 +4556,51 @@ same name as the first two matrices for example), we just wanted to quickly
 illustrate use of the nesting capabilities of |\xintloop|.\footnote{for a  more sophisticated implementation of matrix multiplication, inclusive of determinants, inverses, and display utilities, with entries big integers or decimal numbers or even fractions see \url{http://tex.stackexchange.com/a/143035/4686} from November 11, 2013.}
 \begingroup
 \makeatother
+\newcount\rowmax   \newcount\colmax   \newcount\summax
+\newcount\rowindex \newcount\colindex \newcount\sumindex
+\newcount\tmpcount
+\makeatletter
+\def\MatrixMultiplication #1#2#3{%
+    \rowmax #1[I]\relax
+    \colmax #2[J]\relax
+    \summax #1[J]\relax
+    \rowindex 1
+    \xintloop % loop over row index i
+    {\colindex 1
+     \xintloop % loop over col index k
+     {\tmpcount 0
+      \sumindex 1
+      \xintloop % loop over intermediate index j
+      \advance\tmpcount \numexpr #1\rowindex\sumindex*#2\sumindex\colindex\relax
+      \ifnum\sumindex<\summax
+         \advance\sumindex 1
+      \repeat }%
+     \expandafter\edef\csname\string#3{\the\rowindex.\the\colindex}\endcsname
+      {\the\tmpcount}%
+     \ifnum\colindex<\colmax
+         \advance\colindex 1
+     \repeat }%
+    \ifnum\rowindex<\rowmax
+    \advance\rowindex 1
+    \repeat
+    \expandafter\edef\csname\string#3{I}\endcsname{\the\rowmax}%
+    \expandafter\edef\csname\string#3{J}\endcsname{\the\colmax}%
+    \def #3##1{\ifx[##1\expandafter\Matrix@helper@size
+                    \else\expandafter\Matrix@helper@entry\fi #3{##1}}%
+}%
+\def\Matrix@helper@size #1#2#3]{\csname\string#1{#3}\endcsname }%
+\def\Matrix@helper@entry #1#2#3%
+   {\csname\string#1{\the\numexpr#2.\the\numexpr#3}\endcsname }%
+\def\A #1{\ifx[#1\expandafter\A@size
+            \else\expandafter\A@entry\fi {#1}}%
+\def\A@size #1#2]{\ifx I#23\else4\fi}% 3rows, 4columns
+\def\A@entry #1#2{\the\numexpr #1+#2-1\relax}% not pre-computed...
+\def\B #1{\ifx[#1\expandafter\B@size
+            \else\expandafter\B@entry\fi {#1}}%
+\def\B@size #1#2]{\ifx I#24\else3\fi}% 4rows, 3columns
+\def\B@entry #1#2{\the\numexpr #1-#2\relax}% not pre-computed...
+\makeatother
+\MatrixMultiplication\A\B\C  \MatrixMultiplication\C\C\D
 \begin{verbatim}
 \newcount\rowmax   \newcount\colmax   \newcount\summax
 \newcount\rowindex \newcount\colindex \newcount\sumindex
@@ -4635,83 +4647,12 @@ illustrate use of the nesting capabilities of |\xintloop|.\footnote{for a  more 
 \def\B@entry #1#2{\the\numexpr #1-#2\relax}% not pre-computed...
 \makeatother
 \MatrixMultiplication\A\B\C \MatrixMultiplication\C\C\D % etc...
-\[\begin{pmatrix}
-    \A11&\A12&\A13&\A14\\
-    \A21&\A22&\A23&\A24\\
-    \A31&\A32&\A33&\A34
-  \end{pmatrix}
-\times
-  \begin{pmatrix}
-    \B11&\B12&\B13\\
-    \B21&\B22&\B23\\
-    \B31&\B32&\B33\\
-    \B41&\B42&\B43
-  \end{pmatrix}
-=
-\begin{pmatrix}
-    \C11&\C12&\C13\\
-    \C21&\C22&\C23\\
-    \C31&\C32&\C33
-\end{pmatrix}\]
-\[\begin{pmatrix}
-    \C11&\C12&\C13\\
-    \C21&\C22&\C23\\
-    \C31&\C32&\C33
-\end{pmatrix}^2 = \begin{pmatrix}
-    \D11&\D12&\D13\\
-    \D21&\D22&\D23\\
-    \D31&\D32&\D33
-\end{pmatrix}\]
 \end{verbatim}
-\newcount\rowmax   \newcount\colmax   \newcount\summax
-\newcount\rowindex \newcount\colindex \newcount\sumindex
-\newcount\tmpcount
-\makeatletter
-\def\MatrixMultiplication #1#2#3{%
-    \rowmax #1[I]\relax
-    \colmax #2[J]\relax
-    \summax #1[J]\relax
-    \rowindex 1
-    \xintloop % loop over row index i
-    {\colindex 1
-     \xintloop % loop over col index k
-     {\tmpcount 0
-      \sumindex 1
-      \xintloop % loop over intermediate index j
-      \advance\tmpcount \numexpr #1\rowindex\sumindex*#2\sumindex\colindex\relax
-      \ifnum\sumindex<\summax
-         \advance\sumindex 1
-      \repeat }%
-     \expandafter\edef\csname\string#3{\the\rowindex.\the\colindex}\endcsname
-      {\the\tmpcount}%
-     \ifnum\colindex<\colmax
-         \advance\colindex 1
-     \repeat }%
-    \ifnum\rowindex<\rowmax
-    \advance\rowindex 1
-    \repeat
-    \expandafter\edef\csname\string#3{I}\endcsname{\the\rowmax}%
-    \expandafter\edef\csname\string#3{J}\endcsname{\the\colmax}%
-    \def #3##1{\ifx[##1\expandafter\Matrix@helper@size
-                    \else\expandafter\Matrix@helper@entry\fi #3{##1}}%
-}%
-\def\Matrix@helper@size #1#2#3]{\csname\string#1{#3}\endcsname }%
-\def\Matrix@helper@entry #1#2#3%
-   {\csname\string#1{\the\numexpr#2.\the\numexpr#3}\endcsname }%
-\def\A #1{\ifx[#1\expandafter\A@size
-            \else\expandafter\A@entry\fi {#1}}%
-\def\A@size #1#2]{\ifx I#23\else4\fi}% 3rows, 4columns
-\def\A@entry #1#2{\the\numexpr #1+#2-1\relax}% not pre-computed...
-\def\B #1{\ifx[#1\expandafter\B@size
-            \else\expandafter\B@entry\fi {#1}}%
-\def\B@size #1#2]{\ifx I#24\else3\fi}% 4rows, 3columns
-\def\B@entry #1#2{\the\numexpr #1-#2\relax}% not pre-computed...
-\makeatother
-\MatrixMultiplication\A\B\C  \MatrixMultiplication\C\C\D
+\vspace{-2\baselineskip}
 \setlength{\unitlength}{1cm}%
 % le picture de LaTeX est tout de même assez génial!
 \begin{picture}(0,0)
-\put(5,11){\vtop{\hsize8cm
+\put(5,-.5){\vtop{\hsize8cm
 \[\begin{pmatrix}
     \A11&\A12&\A13&\A14\\
     \A21&\A22&\A23&\A24\\
@@ -4757,10 +4698,39 @@ illustrate use of the nesting capabilities of |\xintloop|.\footnote{for a  more 
     \F21&\F22&\F23\\
     \F31&\F32&\F33
 \end{pmatrix}\]}}
-\end{picture}\par
+\end{picture}
+\begin{verbatim}
+\[\begin{pmatrix}
+    \A11&\A12&\A13&\A14\\
+    \A21&\A22&\A23&\A24\\
+    \A31&\A32&\A33&\A34
+  \end{pmatrix}
+\times
+  \begin{pmatrix}
+    \B11&\B12&\B13\\
+    \B21&\B22&\B23\\
+    \B31&\B32&\B33\\
+    \B41&\B42&\B43
+  \end{pmatrix}
+=
+\begin{pmatrix}
+    \C11&\C12&\C13\\
+    \C21&\C22&\C23\\
+    \C31&\C32&\C33
+\end{pmatrix}\]
+\[\begin{pmatrix}
+    \C11&\C12&\C13\\
+    \C21&\C22&\C23\\
+    \C31&\C32&\C33
+\end{pmatrix}^2 = \begin{pmatrix}
+    \D11&\D12&\D13\\
+    \D21&\D22&\D23\\
+    \D31&\D32&\D33
+\end{pmatrix}\]
+\end{verbatim}
 \endgroup
 
-\kern-2\baselineskip
+% \kern-2\baselineskip
 
 \subsection{\csbh{xintiloop}, \csbh{xintiloopindex}, \csbh{xintouteriloopindex},
   \csbh{xintbreakiloop}, \csbh{xintbreakiloopanddo}, \csbh{xintiloopskiptonext},
@@ -5213,10 +5183,11 @@ was obtained from the following input:
      $N$ & $N^2$ & $N^3$ \\ \hline
      \def\Row #1{ #1 & \xintiSqr {#1} & \xintiPow {#1}{3} \\ \hline }%
      \xintApplyInline \Row {\xintCSVtoList{17,28,39,50,61}}
-\end{tabular}|%
-Despite the fact that the first encountered tabulation character in the first
-row close a group and thus erases |\Row| from \TeX's memory, |\xintApplyInline|
-knows how to deal with this.
+\end{tabular}|
+
+We see that despite the fact that the first encountered tabulation character in
+the first row close a group and thus erases |\Row| from \TeX's memory,
+|\xintApplyInline| knows how to deal with this.
 
 Using \csbxint{ApplyUnbraced} is an alternative: the difference is that
 this would have prepared all rows first and only put them back into the
@@ -11131,7 +11102,7 @@ To be honest I have forgotten for which purpose I wrote this macro in the first
 place.
 
 
-\subsection{Euler's number $e$}\label{ssec:e-convergents}
+\subsection{Euler's number \texorpdfstring{$e$}{e}}\label{ssec:e-convergents}
 
 Let us explore
 the convergents of Euler's number $e$.
@@ -11240,10 +11211,9 @@ $1$ or $-1$.
   \ttfamily\small\givesomestretch\hyphenchar\font45 This documentation
   has been compiled without the source code. To produce the
   documentation with the source code included, run "tex xint.dtx" to
-  generate xint.tex (if not already available), then thrice latex on
-  xint.tex and finally dvipdfmx on xint.dvi (ignore the dvipdfmx
-  warnings; see also
-  \autoref{sec:install}).
+  generate xint.tex (if not already available), then edit xint.tex to set the
+  \string\NoSourceCode\space toggle to 0, then run thrice "latex" on
+  xint.tex and finally dvipdfmx on xint.dvi.
 \end{framed}
 \fi
 
@@ -11439,7 +11409,7 @@ $1$ or $-1$.
 \fi
 \XINT_providespackage
 \ProvidesPackage {xinttools}%
-  [2014/02/26 v1.09m Expandable and non-expandable utilities (jfB)]%
+  [2014/04/01 v1.09n Expandable and non-expandable utilities (jfB)]%
 %    \end{macrocode}
 % \subsection{Token management, constants}
 % \lverb|In 1.09e \xint_undef replaced everywhere by \xint_bye.
@@ -11919,7 +11889,14 @@ $1$ or $-1$.
 % Negative values return the |i|th element from the end. Release 1.09m
 % rewrote the initial bits of the code (which checked the sign of #1 and
 % expanded or not #2), ome `improvements' made earlier in 1.09c were quite
-% sub-efficient. Now uses \xint_UDzerominusfork, moved from xint.sty.+
+% sub-efficient. Now uses \xint_UDzerominusfork, moved from xint.sty.
+%
+% A bug in \XINT_nthelt_finish was introduced in 1.09i (2013/12/18): in order to
+% pre-expand \space, I used an \edef as in quite a few other places of the code.
+% But I didn't pay attention that the earlier \xint_gobble_iii had to be
+% transformed into a \xint_gobble_ii, as the \space was now already expanded to
+% a <space token>. This bug meant that when the index N was > the length of the
+% list the macro would gobble one token :(. Fixed in 1.09n.+
 %    \begin{macrocode}
 \def\xintNthElt         {\romannumeral0\xintnthelt }%
 \def\xintNthEltNoExpand {\romannumeral0\xintntheltnoexpand }%
@@ -11979,7 +11956,7 @@ $1$ or $-1$.
 }%
 \long\edef\XINT_nthelt_finish #1#2\xint_bye 
    {\noexpand\xint_gob_til_xint_relax #1\noexpand\expandafter\space
-                               \noexpand\xint_gobble_iii\xint_relax\space #1}%
+                               \noexpand\xint_gobble_ii\xint_relax\space #1}%
 %    \end{macrocode}
 % \subsection{\csh{xintKeep}}
 % \lverb+&
@@ -12778,7 +12755,7 @@ $1$ or $-1$.
   \long\def\XINT_y ##1##2##3##4##5##6##7##8##9{#2}%
   \XINT_toks \expandafter{\romannumeral0\xintcsvtolist{ #4}}%
   \long\edef\XINT_x {\noexpand\XINT_y \csname XINT_for_left#1\endcsname
-        \the\XINT_toks \csname XINT_for_right\the\numexpr#1+1\endcsname}%
+      \the\XINT_toks \csname XINT_for_right\the\numexpr#1+\xint_c_i\endcsname}%
   \let\xintifForLast\xint_secondoftwo
   \ifx #5j\expandafter\xint_firstoftwo
      \else\expandafter\xint_secondoftwo
@@ -12799,7 +12776,7 @@ $1$ or $-1$.
   \long\def\XINT_y ##1##2##3##4##5##6##7##8##9{#2}%
   \XINT_toks \expandafter{\romannumeral0\xintcsvtolist{ #4}}%
   \long\edef\XINT_x {\noexpand\XINT_y \csname XINT_for_left#1\endcsname
-        \the\XINT_toks \csname XINT_for_right\the\numexpr#1+2\endcsname}%
+      \the\XINT_toks \csname XINT_for_right\the\numexpr#1+\xint_c_ii\endcsname}%
   \let\xintifForLast\xint_secondoftwo
   \ifx #5j\expandafter\xint_firstoftwo
      \else\expandafter\xint_secondoftwo
@@ -12820,7 +12797,7 @@ $1$ or $-1$.
   \long\def\XINT_y ##1##2##3##4##5##6##7##8##9{#2}%
   \XINT_toks \expandafter{\romannumeral0\xintcsvtolist{ #4}}%
   \long\edef\XINT_x {\noexpand\XINT_y \csname XINT_for_left#1\endcsname
-        \the\XINT_toks \csname XINT_for_right\the\numexpr#1+3\endcsname}%
+     \the\XINT_toks \csname XINT_for_right\the\numexpr#1+\xint_c_iii\endcsname}%
   \let\xintifForLast\xint_secondoftwo
   \ifx #5j\expandafter\xint_firstoftwo
      \else\expandafter\xint_secondoftwo
@@ -13115,7 +13092,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xint}%
-  [2014/02/26 v1.09m Expandable operations on long numbers (jfB)]%
+  [2014/04/01 v1.09n Expandable operations on long numbers (jfB)]%
 %    \end{macrocode}
 % \subsection{Token management, constants}
 %    \begin{macrocode}
@@ -13407,11 +13384,11 @@ $1$ or $-1$.
 }%
 \edef\XINT_num_end\xint_relax\XINT_num_NumEight #1\xint_relax #2\Z
 {%
-    \noexpand\expandafter\space\noexpand\the\numexpr #1+0\relax
+    \noexpand\expandafter\space\noexpand\the\numexpr #1+\xint_c_\relax
 }%
 \def\XINT_num_NumEight #1#2#3#4#5#6#7#8%
 {%
-    \ifnum \numexpr #1#2#3#4#5#6#7#8+0= 0
+    \ifnum \numexpr #1#2#3#4#5#6#7#8+\xint_c_= \xint_c_
       \xint_afterfi {\expandafter\XINT_num_keepsign_a
                      \the\numexpr #1#2#3#4#5#6#7#81\relax}%
     \else
@@ -17764,7 +17741,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintbinhex}%
-  [2014/02/26 v1.09m Expandable binary and hexadecimal conversions (jfB)]%
+  [2014/04/01 v1.09n Expandable binary and hexadecimal conversions (jfB)]%
 %    \end{macrocode}
 % \subsection{Constants, etc...}
 % \lverb!v1.08!
@@ -18470,7 +18447,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintgcd}%
-  [2014/02/26 v1.09m Euclide algorithm with xint package (jfB)]%
+  [2014/04/01 v1.09n Euclide algorithm with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintGCD}}
 % The macros of |1.09a| benefits from the |\xintnum| which has been inserted
@@ -18603,8 +18580,7 @@ $1$ or $-1$.
 }%
 \edef\XINT_bezout_botharezero #1#2#3#4#5#6%
 {%
-    \noexpand\xintError:NoBezoutForZeros
-    \space {0}{0}{0}{0}{0}%
+    \noexpand\xintError:NoBezoutForZeros\space {0}{0}{0}{0}{0}%
 }%
 %    \end{macrocode}
 % \lverb|&
@@ -19189,7 +19165,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintfrac}%
-  [2014/02/26 v1.09m Expandable operations on fractions (jfB)]%
+  [2014/04/01 v1.09n Expandable operations on fractions (jfB)]%
 \chardef\xint_c_xviii 18
 %    \end{macrocode}
 % \subsection{\csh{xintLen}}
@@ -22231,7 +22207,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintseries}%
-  [2014/02/26 v1.09m Expandable partial sums with xint package (jfB)]%
+  [2014/04/01 v1.09n Expandable partial sums with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintSeries}}
 % \lverb|&
@@ -22777,7 +22753,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcfrac}%
-  [2014/02/26 v1.09m Expandable continued fractions with xint package (jfB)]%
+  [2014/04/01 v1.09n Expandable continued fractions with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintCFrac}}
 %    \begin{macrocode}
@@ -24092,7 +24068,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintexpr}%
-  [2014/02/26 v1.09m Expandable expression parser (jfB)]%
+  [2014/04/01 v1.09n Expandable expression parser (jfB)]%
 %    \end{macrocode}
 % \subsection{Encapsulation in pseudo cs names, helper macros}
 % \lverb|1.09i uses .= for encapsulation, thus allowing \escapechar to be
@@ -25439,7 +25415,7 @@ $1$ or $-1$.
   Right bracket \]     Circumflex    \^     Underscore    \_
   Grave accent  \`     Left brace    \{     Vertical bar  \|
   Right brace   \}     Tilde         \~}
-\CheckSum {21865}
+\CheckSum {21871}
 \makeatletter\check@checksum\makeatother
 \Finale
 %% End of file xint.dtx

@@ -1,5 +1,5 @@
 The xint bundle
-Release 1.09m (2014/02/26). Documentation date: 2014/02/26
+Release 1.09n (2014/04/01). Documentation date: 2014/04/01
 
 Copyright (C) 2013-2014 by Jean-Francois B.
 License: LaTeX Project Public License 1.3c or later.
@@ -86,12 +86,9 @@ Ignore dvipdfmx warnings, but if the pdf file has problems with fonts
 - with pdflatex or xelatex: run it directly thrice on xint.dtx, or run 
 it on xint.tex after having edited the suitable toggle therein.
 
-When compiling xint.tex, the documentation is by default produced
-with the source code included. See instructions in the file for
-changing this default.
-
-When compiling directly xint.dtx, the documentation is produced 
-without the source code (latex+dvips or pdflatex or xelatex).
+Whether compiling xint.tex or xint.dtx, the documentation is by default
+produced without inclusion of the source code. See instructions in the
+file xint.tex for changing this default.
  
 Finishing the installation: (on first installation the destination
 repertories may need to be created)
