@@ -1,6 +1,6 @@
 % -*- coding: iso-latin-1; -*-
 %<*doc>
-\def\lasttimestamp{Time-stamp <09-10-2013 23:17:53 CEST *>}
+\def\lasttimestamp{Time-stamp <18-10-2013 23:09:53 CEST *>}
 %</doc>
 % xint.dtx, 1.09c (2013/10/09)
 %
@@ -170,54 +170,13 @@
 \usepackage{xintcfrac}
 
 \usepackage{amsmath} % for \cfrac in the documentation 
+\usepackage{varioref}
 
-\usepackage{etoc}
+\usepackage{etoc}[2013/10/16] % I need \etocdepthtag.toc
 
-%---- CHANGING TOCDEPTH MIDWAY THROUGH THE MAIN TOC (1.04, 18 avril 2013)
-% je modifie le 27 mai car finalement j'ajoute des \localtableofcontents aux
-% chapitres décrivant les commandes des packages, et je supprime ces
-% sous-sections de la Table principale. OK, ça marche. Ok aussi pour les
-% bookmarks du pdf.
-
-\makeatletter
-\def\resettocdepthto #1{\c@tocdepth #1\relax }%
-% ainsi on modifie localement seulement puisque cela sera vu seulement dans le
-% scope du group de la (local) tableofcontents faite par etoc et hyperref ne me
-% jouera pas de tour avec les bookmarks
-
-\def\SetInnerTocdepthTo #1{%
-    \addtocontents {toc}{\protect\resettocdepthto {#1}}%
-}%
-
-\def\FutureTOCsDoNotObeyInnerTocdepth{%
-    \let\resettocdepthto\@gobble 
-    \etocmulticolstyle [1]{\subsection* {Contents}}%
-}%
-% parfait, modifs du 27 mai ok.
-
-\etocsetlevel{localtoc}{6} % 9 octobre 2013, je fais des petits tricks.
-% je veux qu'un bookmark soit créé correspondant à chaque local toc, mais dans
-% le même temps je ne veux pas que la local toc se liste elle-même. Donc je
-% maintiens \subsection* et non pas \subsection et j'utilise ce niveau fictif
-% qui ne sera pas affiché malgré sa présence en temps que \contentsline. On
-% pourrait de plus le faire afficher dans la TOC globale si on voulait.
-
-% on peut soit mettre le \etoctoccontentsline* dans le style, soit le faire
-% précéder \localtableofcontents
-
-\newcommand\LocalToc {%
-      \phantomsection
-      \etoctoccontentsline*{localtoc}{Contents}{2}% 9 octobre
-      \localtableofcontents
-}
 
 
 % ---- USING ETOC FOR CUSTOM SUBSECTION STYLE (pour 1.04, 21 avril 2013)
-% attention comme je crée un groupe pour le typesetting dans les TOCs des
-% sous-sections, je dois donc faire  attention de positionner \toctransition
-% juste après le début de la section "implémentation de xint", sinon il est dans
-% le scope de la précédente sous-section et l'action sur \c@tocdepth sera
-% annulée aussitôt.
  
 % 27 mai: la position, et la nature, de \toctransition modifiés car je ne mets
 % plus les sous-sections des sections de «Commands» dans la Toc.
@@ -226,11 +185,41 @@
 
 \def\gobbletodot #1.{}
 
-\let\savedsectionline\l@section
-\etocsetstyle{section}{}{}
-     {\savedsectionline{\numberline{\etocnumber}\etocname}{\etocpage}}{}%
+% le 18 octobre 2013, j'ai, dans un premier temps, supprimé le mécanisme qui
+% écrivait des chgts annulables de tocdepth dans la toc par une méthode qui
+% fonctionne directement dans le style de section. Ça marchait mais c'était un
+% peu compliqué car il fallait fermer le groupe créé par multicols mais cela
+% supprimait la redéfinition de \contentsline, et supprimait aussi la
+% signification de \etocname etc... sans parler qu'il fallait re-exécuter,
+% toujours pour la même raison \Etoc@levellist, (*), bref au bout d'un moment je
+% me suis dit qu'il valait mieux utiliser les possibilités d'etoc 1.07h qui est
+% maintenant installé sur CTAN (bientôt 1.07i).
 
-% choix de style plus sophistiqué à partir de 1.08a
+% (*) je devrais peut-être ré-examiner dans etoc le fait que la redéfinition de
+% \contentsline est faite après le paramètre #1 donné dans \etocsettocstyle.
+
+% J'ai aussi mis directement dans le style les histoires de \phantomsection etc
+% pour les bookmarks.
+\makeatletter
+\let\savedsectionline\l@section
+\makeatother
+
+\def\sectioncouleur{{cyan}}
+
+\etocsetstyle{section}{}
+     {}
+     {\ifnum\etocthenumber=21 \gdef\sectioncouleur{{joli}}\fi
+      \savedsectionline{\numberline{\expandafter\textcolor\sectioncouleur
+                                      {\etocnumber}}\etocname}
+                       {{\mdseries\etocpage}}%
+      }% cf l@section en classe scrartcl
+     {}%
+
+% choix de style plus sophistiqué à partir de 1.08a 2013/06/11
+% 18 octobre 2013:
+% j'ajoute des \nobreak et j'essaie de jouer avec \rightmargin comme glue pour
+% une meilleure apparence des tocs, aussi \MARGEPAGENO 
+\def\MARGEPAGENO {1.5em}
 \etocsetstyle{subsection}
     {\begingroup
      \setlength{\premulticols}{0pt}
@@ -238,8 +227,10 @@
      \setlength{\columnsep}{1em}
      \setlength{\columnseprule}{.4pt}
      \raggedcolumns % only added for 1.08a, I should have done it long time ago!
-     \begin{multicols}{2}%
-     \leftskip 2.3em\rightskip 0em\parfillskip 0em\relax
+     \begin{multicols}{2}
+     \leftskip 2.3em
+     \rightskip \MARGEPAGENO plus 2em minus 1em % 18 octobre 2013
+     \parfillskip -\MARGEPAGENO\relax
     }
     {}
     {\noindent
@@ -247,8 +238,8 @@
               {\ttfamily\bfseries\etoclink
                          {.\expandafter\gobbletodot\etocthenumber}}}%
         \strut 
-        \etocname\leaders\etoctoclineleaders
-        \hfill \strut\makebox[1.5em][r]{\normalfont\small\etocpage}\endgraf }
+        \etocname\nobreak\leaders\etoctoclineleaders\hfill\nobreak
+        \strut\makebox[1.5em][r]{\normalfont\small\etocpage}\endgraf }
     {\end{multicols}\endgroup }%
 
 \makeatother
@@ -262,10 +253,15 @@
 % de faire cela. J'ai déterminé empiriquement qu'on peut tout-à-fait mettre
 % \hypersetup{hidelinks} dans un groupe 
 
-% à propos il faudrait une interface plus commode pour ce hook
-% Mais c'est déjà bien qu'on ait ça!
+% 10 octobre 2013, 
+% au lieu d'utiliser le \etocaftertitlehook, c'est plus simple de mettre cette
+% instruction carrément directement au début du fichier .toc!
 
-\def\etocaftertitlehook {\hypersetup{hidelinks}}
+\AtBeginDocument{\addtocontents{toc}{\protect\hypersetup{hidelinks}}}
+
+% en effet avec etoc toutes les toc sont faites dans un groupe, donc, c'est très
+% bien comme cela.
+
 
 %--- TXFONTS: TXTT WILL BE MADE SMALLER AND WILL ALLOW HYPHENATION
 \usepackage{txfonts}
@@ -460,25 +456,46 @@ pdfpagemode=UseOutlines}
 \def\MacroFont {\ttfamily\baselineskip12pt\relax}
 \makeatletter
 
+% \makestarlowast ajouté le 8 juin 2013
+
+% 18 octobre 2013, hyphénation dans les blocs verbatim
+\def\dobackslash
+{%
+    \catcode92 \active 
+    \begingroup \lccode `\~=92\relax 
+    \lowercase {\endgroup \def ~{\hskip \z@\@plus.1pt\@minus.1pt \char 92 }}%
+}% 
+\def\dobraces
+{%
+    \catcode123 \active 
+    \begingroup \lccode `\~=123\relax 
+    \lowercase {\endgroup \def ~{\hskip \z@\@plus.1pt\@minus.1pt
+                                 \char 123 }}%
+    \catcode125 \active 
+    \begingroup \lccode `\~=125\relax 
+    \lowercase {\endgroup \def ~{\char 125 \hskip \z@\@plus.1pt\@minus.1pt }}%
+}% 
 % modif de \do@noligs: \char`#1} --> \char`#1 } 
 \def\do@noligs #1%
 {%
     \catcode `#1\active 
     \begingroup \lccode `\~=`#1\relax 
     \lowercase {\endgroup \def ~{\leavevmode \kern \z@ \char `#1 }}%
-} 
-% \makestarlowast ajouté le 8 juin. Le 22 septembre je supprime ici 
-% le \catcode`\& 14 que j'avais ajouté, car je pense en avoir besoin
-% uniquement dans \lverb et \dverb.
+}% 
 \def\verb 
 {%
   \relax \ifmmode\hbox\else\leavevmode\null\fi
   \bgroup \MicroFont
   \let\do\do@noligs  \verbatim@nolig@list
-  \let\do\@makeother \dospecials
-  \catcode32 10 \makestarlowast \@jfverb 
-}
-\def\@jfverb #1{\catcode`#1\active\lccode`\~`#1\lowercase{\let~\egroup}}
+  \dobackslash 
+  \dobraces
+  \let\do\@makeother \dospecials \catcode32 10 
+  \catcode92 13 
+  \catcode123 13 \catcode 125 13
+  \makestarlowast \@jfverb 
+}% 
+\def\@jfverb #1{\catcode`#1\active
+                \lccode`\~`#1\lowercase{\def~{\egroup\unskip}}}%
 % ATTENTION!
 % \def~{\\\relax} cause des problèmes infinis. Donc je vais simplement utiliser
 % dans les parties commentées du code $\ puisque $ a catcode 0. 
@@ -557,6 +574,7 @@ pdfpagemode=UseOutlines}
 \newcommand\csh[1]{\texorpdfstring{\csa{#1}}{\textbackslash #1}}
 \newcommand\csbh[1]{\texorpdfstring{\csbnolk{#1}}{\textbackslash #1}}
 
+% emploi de \xintFor à partir de 1.09c
 \xintFor #1 in {xint,xintbinhex,xintgcd,xintfrac,xintseries,xintcfrac,xintexpr}
 \do
 {%
@@ -566,8 +584,6 @@ pdfpagemode=UseOutlines}
                   {#1}%
     \xspace }%
 }%
-
-
 \catcode`\_=8
 
 \frenchspacing
@@ -644,6 +660,65 @@ pdfpagemode=UseOutlines}
   load the package components.
 \end{abstract}
 
+% 18 octobre 2013, je remets la TOC ici.
+
+% je ne veux pas non plus que la main toc se liste elle-même donc je passe pour
+% elle aussi à \section*
+
+\etocsetlevel{toctobookmark}{6} % 9 octobre 2013, je fais des petits tricks.
+
+\etocsettocdepth {subsection}
+
+\renewcommand*{\etocbelowtocskip}{0pt}
+\renewcommand*{\etocinnertopsep}{0pt}
+\renewcommand*{\etoctoclineleaders}
+        {\hbox{\normalfont\normalsize\hbox to 1ex {\hss.\hss}}}
+\etocmulticolstyle [2]{%
+    \phantomsection\section* {Contents}
+    \etoctoccontentsline*{toctobookmark}{Contents}{1}%
+}
+   \etocsettagdepth {description}{section}
+   \etocsettagdepth {commandsA}  {section}
+   \etocsettagdepth {xintexpr}   {none}
+   \etocsettagdepth {commandsB}  {none}
+   \etocsettagdepth {implementation}{none}
+\tableofcontents
+   \etocsettagdepth {description}{none}
+   \etocsettagdepth {commandsA}  {none}
+   \etocsettagdepth {xintexpr}   {subsection}
+   \etocsettagdepth {commandsB}  {none}
+   \etocsettagdepth {implementation}{none}
+\etocsettocstyle {}{}
+\tableofcontents
+   \etocsettagdepth {description}{none}
+   \etocsettagdepth {commandsA}  {none}
+   \etocsettagdepth {xintexpr}   {none}
+   \etocsettagdepth {commandsB}  {section}
+   \etocsettagdepth {implementation}{none}
+\etocmulticolstyle [2]{}{}
+\tableofcontents
+   \etocsettagdepth {description}{none}
+   \etocsettagdepth {commandsA}  {none}
+   \etocsettagdepth {xintexpr}   {none}
+   \etocsettagdepth {commandsB}  {none}
+   \etocsettagdepth {implementation}{section}
+   \etocsettocstyle {}{}
+\def\sectioncouleur{[named]{RoyalPurple}}
+\begin{addmargin}{3cm}
+  \tableofcontents
+\end{addmargin}
+\medskip
+
+% pour la suite:
+\etocignoredepthtags
+
+\etocmulticolstyle [1]{%
+    \phantomsection\section* {Contents}
+    \etoctoccontentsline*{toctobookmark}{Contents}{2}%
+}
+
+
+\etocdepthtag.toc {description}
 
 \section{Quick introduction}
 
@@ -916,8 +991,8 @@ The |\relax| at the end of an expression is absolutely \emph{mandatory}.
     % max, min, sum, prd, add, mul, not, all, any, xor
     % ?, !, if, ifsgn, ?, :.
 
-\newcommand\ctexttt [1]{\texttt{\color[named]{DarkOrchid}\bfseries 
-                                #1}}
+\newcommand\ctexttt [1]{\begingroup\color[named]{DarkOrchid}\ttfamily\bfseries 
+                        #1\endgroup}
 
 \begingroup % 9 octobre pour la gestion de l'indentation et couleurs
 \leftmargini 0pt
@@ -994,11 +1069,11 @@ The |\relax| at the end of an expression is absolutely \emph{mandatory}.
     |\xintexpr| parser syntax.
 
     See  also \csb{xintifboolexpr}, in this context.
-  \item[functions with one mandatory and a second optional argument] 
-    \ctexttt{round, trunc, float, sqrt}. For example
-    |round(2^9/3^5,12)=|\digitstt{\xinttheexpr round(2^9/3^5,12)\relax.} The
-    |sqrt| is available also in |\xintexpr|, not only in |\xintfloatexpr|. The
-    second optional argument is then the required float precision.
+  \item[functions with one mandatory and a second optional argument]
+    \ctexttt{round, trunc,\\ float, sqrt}. For
+    example |round(2^9/3^5,12)=|\digitstt{\xinttheexpr round(2^9/3^5,12)\relax.}
+    The |sqrt| is available also in |\xintexpr|, not only in |\xintfloatexpr|.
+    The second optional argument is then the required float precision.
   \item[functions with two arguments] 
     \ctexttt{quo, rem}. These functions are integer only, they give the quotient
     and remainder in Euclidean division (more generally one can use
@@ -1072,10 +1147,6 @@ The |\relax| at the end of an expression is absolutely \emph{mandatory}.
 \endlist
 \endgroup
 
-\setcounter{tocdepth}{2}
-\etocmulticolstyle [1]{\section {Contents}}
-\tableofcontents
-\FutureTOCsDoNotObeyInnerTocdepth   
 
 %\section{Presentation} % je transforme les sous-sections en sections le
 %9 octobre
@@ -1122,8 +1193,8 @@ The |\relax| at the end of an expression is absolutely \emph{mandatory}.
 
 \noindent Release |1.09a| (|[2013/09/24]|):
 \begin{itemize}
-\item |\xintexpr..\relax| and
-  |\xintfloatexpr..\relax| admit functions in their
+\item \csb{xintexpr}|..\relax| and
+  \csb{xintfloatexpr}|..\relax| admit functions in their
   syntax, with comma separated values as arguments, among them \texttt{reduce,
     sqr, sqrt, abs, sgn, floor, ceil, quo, rem, round, trunc, float, gcd, lcm,
     max, min, sum, prd, add, mul, not, all, any, xor}.
@@ -1136,19 +1207,20 @@ The |\relax| at the end of an expression is absolutely \emph{mandatory}.
     \y-3^-114\relax}|\hspace{1cm}|\xintthe\z=|\begingroup 
 \def\x{\xintexpr 3^57\relax}\def\y{\xintexpr \x^(-2)\relax}%
 \def\z{\xintexpr \y-3^-114\relax}\digitstt{\xintthe\z}\endgroup}
-\item |\xintnumexpr .. \relax| is |\xintexpr round( .. ) \relax|.
-\item |\xintNewExpr| now works with the standard macro parameter character |#|.
+\item \csb{xintnumexpr}| .. \relax| is |\xintexpr round( .. ) \relax|.
+\item \csb{xintNewExpr} now works with the standard macro parameter character
+  |#|. 
 \item both regular |\xintexpr|-essions and commands defined by |\xintNewExpr|
   will work with comma separated lists of expressions,
-\item new commands |\xintFloor|, |\xintCeil|, |\xintMaxof|, |\xintMinof|
-  (package \xintfracname), |\xintGCDof|, |\xintLCM|, |\xintLCMof| (package
-  \xintgcdname), |\xintifLt|, |\xintifGt|, |\xintifSgn|, |\xintANDof|,
-  ...
+\item new commands \csb{xintFloor}, \csb{xintCeil}, \csb{xintMaxof},
+  \csb{xintMinof} (package \xintfracname), \csb{xintGCDof}, \csb{xintLCM},
+  \csb{xintLCMof} (package \xintgcdname), \csb{xintifLt}, \csb{xintifGt},
+  \csb{xintifSgn}, \csb{xintANDof}, ...
 \item The arithmetic macros from package \xintname now filter their operands via
-  |\xintNum| which means that they may use directly count registers and
+  \csb{xintNum} which means that they may use directly count registers and
   |\numexpr|-essions without having to prefix them by |\the|. This is thus
   similar to the situation holding previously but with \xintfracname loaded.
-\item a bug introduced in |1.08b| made |\xintCmp| crash when one of its
+\item a bug introduced in |1.08b| made \csb{xintCmp} crash when one of its
   arguments was zero. 
 \end{itemize}
 
@@ -1192,10 +1264,10 @@ The |\relax| at the end of an expression is absolutely \emph{mandatory}.
   is |16|.
 \item The \xintexprname package is a new core constituent (which loads
   automatically \xintfracname and \xintname) and implements the expandable
-  expanding parsers \centeredline{{\color{blue}|\xintexpr . . . \relax|},
+  expanding parsers \centeredline{\csb{xintexpr}| . . . \relax|,
     and  its variant 
-  {\color{blue}|\xintfloatexpr . . 
-  . \relax|}} allowing on input formulas using the standard form with infix
+  \csb{xintfloatexpr}| . . . \relax|} allowing on input formulas using the
+  standard form with infix 
   operators |+|, |-|, |*|, |/|, and |^|, and arbitrary levels of
   parenthesizing. Within a float expression the operations are executed
   according to the current value of \csb{xintDigits}. Within an
@@ -1464,7 +1536,6 @@ The present package is the result of this initial questioning.
 
 \section{Expansions}
 
-\SetInnerTocdepthTo {1}
 
 Except for some specific macros dealing with assignments or typesetting, the
 bundle macros all work in expansion-only context. Furthermore they expand 
@@ -1550,8 +1621,8 @@ would rather use floating mode:
 Important points, to be noted, related to the expansion of arguments:
 \begin{enumerate}
 \item the macros expand `fully' their arguments, this means that they expand
-  the first token seen (for each argument), then expand
-  \MyMarginNote{Changed in |1.06|}, etc..., until something un-expandable
+  the first token seen (for each argument), then expand, etc..., until something
+  un-expandable 
   such as a\strut{} digit or a brace is hit against. This example
   \centeredline{|\def\x{98765}\def\y{43210}|%
     |\xintAdd {\x}{\x\y}|} is \emph{not} a legal construct, as the |\y| will
@@ -1561,8 +1632,7 @@ Important points, to be noted, related to the expansion of arguments:
   exceeds the \TeX{} bounds.
 
   \begingroup\slshape
-  The |1.07| novelty\MyMarginNote{New with |1.07|} \csb{xinttheexpr} has brought
-  a solution: here one would write |\xinttheexpr \x+\x\y\relax|, or
+  With \csb{xinttheexpr} one could write |\xinttheexpr \x+\x\y\relax|, or
   |\xintAdd\x{\xinttheexpr\x\y\relax}|.\hfill
   \endgroup
 
@@ -1574,7 +1644,7 @@ Important points, to be noted, related to the expansion of arguments:
 
   \begingroup\slshape
   Again, this is otherwise inside an \csb{xinttheexpr}-ession or
-  \csb{xintthefloatexpr}-ession. There,\MyMarginNote{New with |1.07|} the
+  \csb{xintthefloatexpr}-ession. There, the
   minus sign may prefix macros which will expand to numbers (or parentheses
   etc...)
   \endgroup
@@ -1630,8 +1700,8 @@ steps only, there is no reason to follow these guidelines. Just chain
 arbitrarily the package macros, and the new ones will be completely expandable
 and usable one within the other.
 
-Release |1.07| has the \csb{xintNewExpr} command\MyMarginNote{New with
-  |1.07|} which automatizes the creation of such expandable macros:
+Release |1.07| has the \csb{xintNewExpr} command which automatizes the creation
+of such expandable macros: 
 \centeredline{|\xintNewExpr\AplusBC[3]{#1+#2*#3}|} creates the |\AplusBC|
 macro doing the above and expanding in two expansion steps.
 
@@ -1654,7 +1724,7 @@ Then \xintfracname extends the scope to
 fractions: numerators and
 denominators are separated by a forward slash and may contain each an
 optional fractional part after the decimal mark (which has to be a dot) and a
-scientific part\MyMarginNote{New with |1.07|} (with a lower case |e|).
+scientific part (with a lower case |e|).
 
 
 The numeric arguments to the bundle macros may be of various types,
@@ -1708,16 +1778,14 @@ extending in generality:
 \edef\z {\xintAdd
     {+--0367.8920280/-++278.289287}{-109.2882/+270.12898}}
 
-  The package macros first operate a `full' expansion\MyMarginNote{New with
-    |1.06|} of their \strut{} arguments, as explained above: only the first
+  The package macros first operate a `full' expansion of their \strut{}
+  arguments, as explained above: only the first 
   token is repeatedly expanded until no more is possible.
 
-  On the other hand, this expansion is a\MyMarginNote{New with |1.06|} complete
+  On the other hand, this expansion is a complete
   one for those arguments which are constrained to obey the \TeX{} bounds on
   numbers, as they are systematically inserted inside a |\numexpr...\relax|
   expression.
-
-%% \def\obsolete{\MyMarginNote{This paragraph made obsolete by \digitstt{1.09a}.}}
 
 The allowed input formats for `long numbers' and `fractions' are:
 \begin{enumerate}
@@ -1746,7 +1814,7 @@ The allowed input formats for `long numbers' and `fractions' are:
   \centeredline{\digitstt{=\xintTrunc {50}{\z}\dots}}%
   where the second line was produced with |\xintIrr| and the next with
   |\xintTrunc {50}| to get fifty digits of the decimal expansion following the
-  decimal mark. Scientific notation\MyMarginNote{New with |1.07|} is accepted on
+  decimal mark. Scientific notation is accepted on
   input both for the numerators and denominators of fractions, and is produced
   on output by \csb{xintFloat}: \centeredline{|\xintAdd{10.1e1}{101.010e3}|%
     \digitstt{=\xintAdd{10.1e1}{101.010e3}}}%
@@ -1780,14 +1848,13 @@ expansion of |\A| and |245|. But, as explained already |123\A| is a no-go,
 
 Finally, after the decimal point there may be |eN| where |N| is a positive
 or negative number (obeying the \TeX{} bounds on
-integers).\MyMarginNote{New with |1.07|} This `|e|' part (which must be in
+integers). This `|e|' part (which must be in
 lowercase, except inside |\xintexpr|-essions) may appear both at the numerator
 and at the denominator. \centeredline{|\xintRaw
   {+--+1253.2782e++--3/---0087.123e---5}|\digitstt{=\xintRaw
     {+--+1253.2782e++--3/---0087.123e---5}}}
 
-\hypertarget{useofcount}{\paragraph{Use of count registers:}} when\MyMarginNote{New
-  documentation section (|1.08b|)} an argument
+\hypertarget{useofcount}{\paragraph{Use of count registers:}} when an argument
 to a macro is said in the documentation to have to obey the \TeX{} bound, this
 means that it is fed to a |\numexpr...\relax|, hence it is subjected to a
 complete expansion which must delivers an integer, and count registers and even
@@ -1850,8 +1917,7 @@ for the typesetting (math-mode only) of such a `raw' output. Of course, the
 
 Direct user input of things such as |16000/289072[17]| or |3[-4]| is authorized.
 It is even possible to use |\A/\B[17]| if |\A| expands to |16000| and |\B| to
-|289072|, or |\A| if |\A| expands to |3[-4]|. However,%\IMPORTANT{}
-\MyMarginNote{Important! }
+|289072|, or |\A| if |\A| expands to |3[-4]|. However,\IMPORTANT{}
 NEITHER the numerator NOR 
 the denominator may then have a decimal
 point. And, for this format, ONLY the numerator may carry
@@ -1948,7 +2014,7 @@ Conversely (sort of), the macro \csb{xintREZ}
 Here also, the |B| is printed even if it has value |1|.
 
 The macro \csb{xintIrr} reduces the fraction to its irreducible form |C/D|
-(without a trailing |[0]|), and\MyMarginNote{Changed in |1.08|} it prints
+(without a trailing |[0]|), and  it prints
 the |D| even if |D=1|. 
 
 The macro \csb{xintNum} from package \xintname is extended: it now does like
@@ -2042,15 +2108,17 @@ With |\def\A{1}|:
 % \ifcase \xintSgn\A   0\or OK\else ERROR\fi\ 
 % \ifcase \xintSgn{\A} 0\or OK\else ERROR\fi
 
-Release |1.07| provides the expandable\MyMarginNote{New with |1.07|}
+Release |1.07| provides the expandable
 \csb{xintSgnFork} which chooses one of three branches according to whether its
 argument expands to |-1|, |0| or |1|. This, rather than the corresponding
 |\ifcase|, should be used when such a fork is needed as argument to one of the
 package macros.
 
-Release |1.09a| has \csb{xintifSgn} which does not require\MyMarginNote{New with |1.09a|} its first argument to
-be |-1|, |0|, |1|, it first computes the sign. There are also \csb{xintifZero},
-\csb{xintifNotZero}, \csb{xintifGt}, \csb{xintifLt}, \csb{xintifEq}.
+Release |1.09a| has \csb{xintifSgn} which does not restrict its first argument
+to be |-1|, |0|, |1|: the argument, which may be also a count register will be
+first replaced by its sign. There are also
+\csb{xintifZero}, \csb{xintifNotZero}, \csb{xintifGt}, \csb{xintifLt},
+\csb{xintifEq}.
 
 
 \section{Multiple outputs}\label{sec:multout}
@@ -2116,7 +2184,7 @@ expandability. For example why not allow oneself the two definitions
   \csa{Out} is completely expandable (in two steps). As it wouldn't make much
   sense to allow indices exceeding the \TeX{} bounds, the macros created by
   \csb{xintAssignArray} put their argument inside a
-  \csa{numexpr},\MyMarginNoteWithBrace{Changed in |1.06|}
+  \csa{numexpr},
    so it is completely expanded and
 may be a count register, not necessarily prefixed by |\the| or |\number|.
 Consider the following code snippet:
@@ -2209,7 +2277,7 @@ for typesetting: this is just an example of one way to do it.
 
 \section{Utilities for expandable manipulations}
 
-The\MyMarginNote{Extended in |1.06|} package now has more utilities to deal
+The package now has more utilities to deal
 expandably with `lists of things', which were treated un-expandably in the
 previous section with \csa{xintAssign} and \csa{xintAssignArray}: 
 \csb{xintReverseOrder} and \csb{xintLength} since the first
@@ -2430,6 +2498,7 @@ It may be necessary to then refresh the TeX installation filename
 database.
 +
 
+\etocdepthtag.toc {commandsA}
 
 \section{Commands of the \xintname package}\label{sec:comxint}
 
@@ -2452,7 +2521,7 @@ digits or something like |4*\count 255 + 17|, etc...
 
 A count register or \csa{numexpr} expression, used as an argument to a macro
 dealing with long integers, must be prefixed by |\the| or
-|\number|.\MyMarginNote{Changed in |1.09a|, see below}
+|\number|.\MyMarginNote{Changed in |1.09a|, see \hyperlink{tag:num}{below}}
 
 Some of these macros are extended by \xintfracname to accept fractions on input,
 and, generally, to output a fraction. This will be mentioned and the original
@@ -2470,7 +2539,8 @@ information on how macros of \xintname are modified after loading \xintfracname
 (or \xintexprname).
 
 
-In release |1.09a|, even with \xintfracname not loaded, many macros parse
+\hypertarget{tag:num}{In}
+release |1.09a|, even with \xintfracname not loaded, many macros parse
 automatically their arguments via \csb{xintNum} which removes extraneous plus or
 minus signs, leading zeros, and allows direct use of a count register, without
 |\the/\number|.
@@ -2480,7 +2550,7 @@ utilities (expandable as well as non-expandable), which are described in the
 next 
 section (\autoref{sec:utilsxint}).
 
-\LocalToc
+\localtableofcontents
 
 \subsection{\csbh{xintRev}} \label{xintRev}
 
@@ -2577,13 +2647,17 @@ Extended by \xintfracname to fractions.
 \subsection{\csbh{xintGt}}\label{xintGt}
 {\small New with release |1.09a|.\par}
 
-\csa{xintGt\n\m} returns 1 if |N|$\geq$|M|, 0 otherwise.
+% attention dans la doc du 9 octobre j'avais écrit \geq au lieu de >
+
+\csa{xintGt\n\m} returns 1 if |N|$>$|M|, 0 otherwise.
 Extended by \xintfracname to fractions.
 
 \subsection{\csbh{xintLt}}\label{xintLt}
 {\small New with release |1.09a|.\par}
 
-\csa{xintLt\n\m} returns 1 if |N|$\leq$|M|, 0 otherwise.
+% attention dans la doc du 9 octobre j'avais écrit \leq au lieu de <
+
+\csa{xintLt\n\m} returns 1 if |N|$<$|M|, 0 otherwise.
 Extended by \xintfracname to fractions.
 
 \subsection{\csbh{xintIsZero}}\label{xintIsZero}
@@ -2822,10 +2896,10 @@ use, or which values to confer to their arguments.
 \subsection{\csbh{xintifSgn}}\label{xintifSgn}
 {\small New with release |1.09a|.\par}
 
-Same as \csa{xintSgnFork} except that the first argument may be (or rather,
-expand to) any integer (or
-fraction with \xintfracname loaded), it
-is its sign which decides which of the three branches is taken.
+Same as \csa{xintSgnFork} except that the first argument may expand to an 
+integer (or a fraction if \xintfracname is loaded), it is its sign which decides
+which of the three branches is taken. This first argument may be a count
+register, with no |\the| or |\number| prefix.
 
 \subsection{\csbh{xintifZero}}\label{xintifZero}
 {\small New with release |1.09a|.\par}
@@ -2859,13 +2933,15 @@ fractions, if \xintfracname is loaded) and does the |YES| or the |NO| branch.
 \subsection{\csbh{xintifGt}}\label{xintifGt}
 {\small New with release |1.09a|.\par}
 
-\csa{xintifGt}\marg{A}\marg{B}\marg{YES}\marg{NO} checks if $A\geq B$
+% attention dans la doc du 9 octobre j'avais écrit \geq au lieu de < 
+\csa{xintifGt}\marg{A}\marg{B}\marg{YES}\marg{NO} checks if $A>B$
 and in that case executes the |YES| branch. 
 
 \subsection{\csbh{xintifLt}}\label{xintifLt}
 {\small New with release |1.09a|.\par}
 
-\csa{xintifLt}\marg{A}\marg{B}\marg{YES}\marg{NO} checks if $A\leq B$
+% attention dans la doc du 9 octobre j'avais écrit \leq au lieu de < 
+\csa{xintifLt}\marg{A}\marg{B}\marg{YES}\marg{NO} checks if $A<B$
 and in that case executes the |YES| branch.
 
 \begin{framed}
@@ -2884,7 +2960,7 @@ must obey the \TeX{} bounds, but on the other hand may involve count registers
 and even arithmetic operations as it will be completely expanded inside a
 |\numexpr|.
 
-With \xintfracname loaded, the macro also\MyMarginNote{Modified in |1.08b|}
+With \xintfracname loaded, the macro also
 accepts a fraction as argument, as long as this fraction turns out to be an
 integer: |\xintFac {66/3}|\digitstt{=\xintFac {66/3}}.
 
@@ -3153,7 +3229,7 @@ integers using |\numexpr|, thus does not make use of the big integers macros of
 \xintname).  
 
 
-\LocalToc
+\localtableofcontents
 
 \subsection{\csbh{xintReverseOrder}}\label{xintReverseOrder}
 
@@ -3386,7 +3462,8 @@ post-process an integer sequence. \centeredline{|\xintListWithSep{,\hskip2pt
 \textbf{Important:} for reasons of efficiency, this macro, when not given the
 optional argument |d|, works backwards, leaving in the token stream the already
 constructed integers, from the tail down (or up). But this will provoke a
-failure of the |tex| run if the number of such items exceeds the input stack
+failure of \IMPORTANT{} the |tex| run if the number of such items exceeds the
+input stack 
 limit; on my installation this limit is at &5000&. 
 
 However, when given the optional argument |d| (which of course may be &+1& or
@@ -3468,25 +3545,25 @@ keeping on hold and shuffling around hundreds of tokens has an impact on
 \TeX{}'s speed (make this ``thousands of tokens'' for the impact to be
 noticeable).
 
-One may nest various |\xintApplyInline|'s. For example:\par
-\lverb|$catcode38 12 $catcode37 12 $catcode45 14 -
-$hsize$linewidth $makestarlowast -
-$obeylines $parindent 0pt $csname @vobeyspaces$endcsname-
-\def\Row  #1{#1:\xintApplyInline {\Item {#1}}{0123456789}\\ }%
+One may nest various |\xintApplyInline|'s. For example (see the 
+\hyperref[float]{table} \vpageref{float}):\par
+\lverb|$catcode38 12 $catcode37 12 $catcode45 14 - $hsize$linewidth
+$makestarlowast - $obeylines $parindent 0pt $csname @vobeyspaces$endcsname-
+\def\Row #1{#1:\xintApplyInline {\Item {#1}}{0123456789}\\ }%
 \def\Item #1#2{&\xintiPow {#1}{#2}}%
 \begin{tabular}{ccccccccccc}
      &0&1&2&3&4&5&6&7&8&9\\ \hline
      \xintApplyInline \Row {0123456789}
 \end{tabular}
 |
-\def\Row #1{#1:\xintApplyInline {\Item {#1}}{0123456789}\\ }%
-\def\Item #1#2{&\xintiPow {#1}{#2}}%
-\centeredline
-   {\begin{tabular}{ccccccccccc}
-     &0&1&2&3&4&5&6&7&8&9\\ \hline
-     \xintApplyInline \Row {0123456789}
-   \end{tabular}}
-
+\begin{figure*}[ht!]
+  \centering\phantomsection\label{float}
+  \def\Row #1{#1:\xintApplyInline {\Item {#1}}{0123456789}\\ }%
+  \def\Item #1#2{&\xintiPow {#1}{#2}}%
+  \centeredline {\begin{tabular}{ccccccccccc} &0&1&2&3&4&5&6&7&8&9\\ \hline
+      \xintApplyInline \Row {0123456789}
+    \end{tabular}}
+\end{figure*}
 \smallskip
 One could not move the definition of |\Item| inside the tabular,
 as it would get lost after the first |&|. But this
@@ -3732,7 +3809,7 @@ priori known to simplify to integers: |\xintNum {\xintAdd {2}{3}}| gives
 \csb{xintiRound}, and \csb{xintFac}) already produce integers on output.
 
 
-\LocalToc
+\localtableofcontents
 
 \subsection{\csbh{xintLen}}\label{xintLen}
 
@@ -3993,17 +4070,29 @@ all superfluous leading zeros.)
 \subsection{\csbh{xintFloor}}\label{xintFloor}
 {\small New with release |1.09a|.\par}
 
+|\xintFloor {f}| returns the largest relative integer |N| with |N|${}\leq{}$|f|.
+\centeredline{|\xintFloor {-2.13}|\digitstt{=\xintFloor {-2.13}},
+|\xintFloor {-2}|\digitstt{=\xintFloor {-2}},
+|\xintFloor {2.13}|\digitstt{=\xintFloor {2.13}}%
+}
+
 \subsection{\csbh{xintCeil}}\label{xintCeil}
 {\small New with release |1.09a|.\par}
 
+|\xintCeil {f}| returns the smallest relative integer |N| with |N|${}>{}$|f|.
+\centeredline{|\xintCeil {-2.13}|\digitstt{=\xintCeil {-2.13}},
+|\xintCeil {-2}|\digitstt{=\xintCeil {-2}},
+|\xintCeil {2.13}|\digitstt{=\xintCeil {2.13}}%
+}
 
 \subsection{\csbh{xintE}}\label{xintE}
 {\small New with |1.07|.}
 
 |\xintE {f}{x}| multiplies the fraction |f| by &10^x&. The \emph{second}
-argument |x| must obey the \TeX{} bounds. Example: |\count
+argument |x| must obey the \TeX{} bounds. Example: 
+\centeredline{|\count
 255 123456789 \xintE {10}{\count 255}|\digitstt{->\count
-255 123456789 \xintE {10}{\count 255}}. Be careful that for obvious reasons such
+255 123456789 \xintE {10}{\count 255}}} Be careful that for obvious reasons such
 gigantic numbers should not be given to \csb{xintNum}, or added to something
 with a widely different order of magnitude, as the package always works to get
 the \emph{exact} result. There is \emph{no problem} using them for
@@ -4136,7 +4225,7 @@ input. The output will now always be in the form
 
 % \xintDigits:= 3;
 
-The exponent is allowed\MyMarginNote{Changed in |1.08b|} to be input as a
+The exponent is allowed to be input as a
 fraction but it must simplify to an integer: |\xintPow
 {2/3}{10/2}|\digitstt{=\xintPow {2/3}{10/2}}. This integer will be checked to
 not exceed |999999999|; future releases will presumably lower this limit as
@@ -4324,10 +4413,12 @@ integer.\centeredline{|\xintNum {1e80}|}
 \centeredline{\digitstt{\xintNum{1e80}}}
 
 
+\etocdepthtag.toc {xintexpr}
+
 \section{Expandable expressions with the \xintexprname package}%
 \label{sec:comexpr}
 
-\SetInnerTocdepthTo {2}
+
 
 The \xintexprname package was first released with version |1.07| of the
 \xintname bundle. Loading this package automatically loads \xintfracname, hence
@@ -4349,7 +4440,11 @@ also \xintname.
 
 %% \clearpage
 
-\LocalToc
+
+%% \addtocontents{toc}{\protect\STOPMULTICOLS}
+\localtableofcontents
+
+
 
 \subsection{The \csbh{xintexpr} expressions}\label{xintexpr}%
 \label{xinttheexpr}\label{xintthe}
@@ -4357,11 +4452,17 @@ also \xintname.
 
 An \xintexprname{}ession is a construct
 \csb{xintexpr}\meta{expandable\_expression}|\relax| where the expandable
-expression is read and expanded from left to right, and whose constituents\MyMarginNote{See \autoref{sec:exprsummary} for
+expression is read and expanded from left to right, and whose
+constituents\MyMarginNote{See \autoref{sec:exprsummary} for 
   up-to-date information}
 should be (they are uncovered by iterated left to right expansion of the
 contents during the scanning):
-\begin{itemize}
+\begingroup % 18 octobre, je reprends la méthode déjà utilisée au début du
+            % docuement le 9 octobre.
+\leftmargini 0pt
+\list\labelitemi{\def\makelabel#1{\hss\llap{#1}}\listparindent\parindent
+                                                \labelwidth\parindent
+                                                \itemindent\labelwidth}%
 \item integers or decimal numbers, such as |123.345|, or numbers in scientific
   notation |6.02e23| or |6.02E23| (or anything expanding to
   these things; a decimal number may start directly with a decimal point), 
@@ -4383,7 +4484,8 @@ contents during the scanning):
   enclosed in such braces. Of course braces also appear in the completely
     other r\^ole of feeding macros with their parameters, they will then not be
     seen by the parser at all as they are managed by the macro.
-\end{itemize}
+\endlist
+\endgroup
 
 
 Such an expression, like a |\numexpr| expression, is not directly printable, nor
@@ -4416,7 +4518,12 @@ no simplification of the result. The output format can be coded\MyMarginNote{new
 \endgroup
 
 \smallskip
-\begin{itemize}
+\begingroup % 18 octobre, je reprends la méthode déjà utilisée au début du
+            % docuement le 9 octobre.
+\leftmargini 0pt
+\list\labelitemi{\def\makelabel#1{\hss\llap{#1}}\listparindent\parindent
+                                                \labelwidth\parindent
+                                                \itemindent\labelwidth}%
 \item |\xintexpr|-essions evaluate through expansion to arbitrarily big
   fractions, and are prefixed by |\xintthe| for printing (or use
   |\xinttheexpr|).
@@ -4452,7 +4559,8 @@ no simplification of the result. The output format can be coded\MyMarginNote{new
   the |\xintexpr| parser, 
 \item finally each \xintexprname{}ession is completely expandable and obtains
   its result in two expansion steps.
-\end{itemize}
+\endlist
+\endgroup
 
 With defined macros destined to be re-used within another one, one has the
 choice between parentheses or |\xintexpr...\relax|: |\def\x {(\a+\b)}| or
@@ -4724,7 +4832,7 @@ inside an |\xintexpr|-ession.
 \subsubsection{Use of macros}
 
 
-For macros\MyMarginNote{Changed in |1.09a|!} to be inserted within such a created \xintname-formula command, there
+For macros to be inserted within such a created \xintname-formula command, there
 are two cases:
 \begin{itemize}
 \item the macro does not involve the numbered parameters in its arguments: it
@@ -4795,7 +4903,7 @@ number/fraction.
 on whether the outcome was non zero or zero. This will crash if used on an expression which is a comma separated list.
 
 \subsection{\csbh{xintfloatexpr},
-  \csbh{xintthefloatexpr}}\label{xintfloatexpr}\label{xintthefloatexpr}
+  \csbh{xintthe\-float\-expr}}\label{xintfloatexpr}\label{xintthefloatexpr}
 
 \csb{xintfloatexpr}|...\relax| is exactly like |\xintexpr...\relax| but with the
 four binary operations and the power function mapped to \csa{xintFloatAdd},
@@ -4952,14 +5060,10 @@ package, specifically the |l3fp-parse.dtx| file. Also the source of the |calc|
 package was instructive, despite the fact that here for |\xintexpr| the
 principles are necessarily different due to the aim of achieving expandability.
 
-% I apologize for not including
-% comments currently in my own code, the reason being that this a time-consuming
-% task which should wait until the code has a rather certain more-or-less final
-% form.
+
+\etocdepthtag.toc {commandsB}
 
 \section{Commands of the \xintbinhexname package}\label{sec:combinhex} 
-
-\SetInnerTocdepthTo {1}
 
 This package was first included in the |1.08| release of \xintname. It
 provides expandable conversions of arbitrarily long numbers
@@ -4976,7 +5080,7 @@ uppercased.
 
 % \clearpage
 
-\LocalToc
+\localtableofcontents
 
 
 
@@ -5046,9 +5150,9 @@ Since release |1.09a| the macros filter their inputs through the \csb{xintNum}
 macro, so one can use count registers, or fractions as long as they reduce to
 integers. 
 
-\clearpage
+%% \clearpage
 
-\LocalToc
+\localtableofcontents
 
 \subsection{\csbh{xintGCD}}\label{xintGCD}
 
@@ -5062,11 +5166,23 @@ returns zero.
 \subsection{\csbh{xintGCDof}}\label{xintGCDof}
 {\small New with release |1.09a|.\par}
 
+\csa{xintGCDof}|{{a}{b}{c}...}| computes the greatest common divisor of all
+integers |a|, |b|, \dots{}  The list argument
+may be a macro, it is fully expanded first and must contain at least one item. 
+
+
 \subsection{\csbh{xintLCM}}\label{xintLCM}
 {\small New with release |1.09a|.\par}
 
+\csa{xintGCD\n\m} computes the least common multiple. It is |0| if one of the
+two integers vanishes.
+
 \subsection{\csbh{xintLCMof}}\label{xintLCMof}
 {\small New with release |1.09a|.\par}
+
+\csa{xintLCMof}|{{a}{b}{c}...}| computes the least common multiple of all
+integers |a|, |b|, \dots{}  The list argument
+may be a macro, it is fully expanded first and must contain at least one item. 
 
 \subsection{\csbh{xintBezout}}\label{xintBezout}
 
@@ -5185,7 +5301,7 @@ first released with version |1.03| of the \xintname bundle.
 
 %% \clearpage
 
-\LocalToc
+\localtableofcontents
 
 \subsection{\csbh{xintSeries}}\label{xintSeries}
 
@@ -6320,7 +6436,7 @@ always do it on a value computed with |D+1| truncation.
 This package was first included in release |1.04| of the \xintname bundle. 
 
 
-\LocalToc
+\localtableofcontents
 
 
 \subsection{Package overview}
@@ -6349,10 +6465,12 @@ the numerators are not restricted to be ones, and numbers used in
 the continued fraction may be arbitrary, also fractions,
 irrationals, indeterminates. The \emph{centered} continued
 fraction associated to a rational number is an
-example:\centeredline{|\[ \xintFrac {915286/188421}=\xintGCFrac {\xintFtoCC
-  {915286/188421}} \]|}
+example:
 \[ \xintFrac {915286/188421}=\xintGCFrac {\xintFtoCC {915286/188421}}
-=\xintCFrac {915286/188421}\] The command \csb{xintGCFrac}, contrarily to
+=\xintCFrac {915286/188421}\] 
+ \centeredline{|\[ \xintFrac {915286/188421}=\xintGCFrac {\xintFtoCC
+  {915286/188421}} \]|}
+The command \csb{xintGCFrac}, contrarily to
 \csb{xintCFrac}, does not compute anything, it just typesets. Here, it is the
 command \csb{xintFtoCC} which did the computation of
 the centered continued fraction of |f|. Its output has the `inline format'
@@ -6886,7 +7004,7 @@ $\xintGCntoGC {5}{\an}{\bn}=\xintGCFrac {\xintGCntoGC {5}{\an}{\bn}}
 
 
 
-\subsection{\csbh{xintiCstoF},~\csbh{xintiGCtoF},~\csbh{xint\-iCstoCv},~\csbh{xintiGCtoCv}}\label{xintiCstoF}
+\subsection{\csbh{xintiCstoF}, \csbh{xintiGCtoF}, \csbh{xint\-iCstoCv}, \csbh{xintiGCtoCv}}\label{xintiCstoF}
 \label{xintiGCtoF}
 \label{xintiCstoCv}
 \label{xintiGCtoCv}
@@ -6929,6 +7047,9 @@ first place.
 
 \def\MacroFont{\ttfamily\small\hyphenchar\font45 
                \baselineskip12pt\relax }
+
+\etocdepthtag.toc {implementation}
+
 \MakePercentIgnore
 % 
 % \catcode`\<=0 \catcode`\>=11 \catcode`\*=11 \catcode`\/=11
@@ -6948,8 +7069,9 @@ first place.
 % more convenient for using count registers even with infix notation; also this
 % is what |xintfrac.sty| did all along. Simplifies the discussion in the
 % documentation too. 
-% 
-% \LocalToc
+%     \def\MARGEPAGENO{2.5em}
+%
+% \localtableofcontents
 % \subsection{Catcodes, \protect\eTeX{} and reload detection}
 % 
 % The method for package identification and reload detection is copied verbatim
@@ -7826,7 +7948,7 @@ first place.
     \the\XINT_toks
 }%
 %    \end{macrocode}
-% \subsection{\csh{xintForpair},~\csh{xintForthree},~\csh{xintForfour}}
+% \subsection{\csh{xintForpair}, \csh{xintForthree}, \csh{xintForfour}}
 % \lverb|&
 % 1.09c: experimental status. Particularly I don't know yet if {a}{b} is better
 % for the user or worse than (a,b). I prefer the former of course.
@@ -7911,7 +8033,7 @@ first place.
 }%
 \catcode`z 11
 %    \end{macrocode}
-% \subsection{\csh{xintAssign},~\csh{xintAssignArray},~\csh{xintDigitsOf}}
+% \subsection{\csh{xintAssign}, \csh{xintAssignArray}, \csh{xintDigitsOf}}
 % \lverb|&
 % \xintAssign {a}{b}..{z}\to\A\B...\Z,$\
 % \xintAssignArray {a}{b}..{z}\to\U
@@ -8288,7 +8410,7 @@ first place.
     \krof
 }%
 %    \end{macrocode}
-% \subsection{\csh{xintBool},~\csh{xintToggle}}
+% \subsection{\csh{xintBool}, \csh{xintToggle}}
 % \lverb|1.09c|
 %    \begin{macrocode}
 \def\xintBool #1{\romannumeral-`0%
@@ -8326,7 +8448,7 @@ first place.
     \fi
 }%
 %    \end{macrocode}
-% \subsection{\csh{xintifZero},~\csh{xintifNotZero}}
+% \subsection{\csh{xintifZero}, \csh{xintifNotZero}}
 % \lverb|&
 % Expandable two-way fork added in 1.09a. Branches expandably depending on
 % whether the argument is zero (branch A) or not (branch B). |  
@@ -9346,7 +9468,7 @@ first place.
 \def\xint_OneIfPositive_backtomain 0\XINT_OneIfPositive_finish 0%
                    {\XINT_OneIfPositive_main }%
 %    \end{macrocode}
-% \subsection{\csh{xintEq},~\csh{xintGt},~\csh{xintLt}}
+% \subsection{\csh{xintEq}, \csh{xintGt}, \csh{xintLt}}
 % \lverb|1.09a.|
 %    \begin{macrocode}
 \def\xintEq {\romannumeral0\xinteq }%
@@ -9356,7 +9478,7 @@ first place.
 \def\xintLt {\romannumeral0\xintlt }%
 \def\xintlt #1#2{\xintiflt{#1}{#2}{1}{0}}%
 %    \end{macrocode}
-% \subsection{\csh{xintIsZero},~\csh{xintIsNotZero}}
+% \subsection{\csh{xintIsZero}, \csh{xintIsNotZero}}
 % \lverb|1.09a.|
 %    \begin{macrocode}
 \def\xintIsZero {\romannumeral0\xintiszero }%
@@ -9364,7 +9486,7 @@ first place.
 \def\xintIsNotZero {\romannumeral0\xintisnotzero }%
 \def\xintisnotzero #1{\xintifsgn {#1}{1}{0}{1}}%
 %    \end{macrocode}
-% \subsection{\csh{xintIsTrue},~\csh{xintNot}}
+% \subsection{\csh{xintIsTrue}, \csh{xintNot}}
 % \lverb|1.09c|
 %    \begin{macrocode}
 \let\xintIsTrue\xintIsNotZero
@@ -9384,7 +9506,7 @@ first place.
 \def\XINT_istrue:_e #1,#2{\XINT_istrue:_b {#2,#1}}%
 \def\XINT_istrue:_f ,#1#2^{\xint_gobble_i #1}% 
 %    \end{macrocode}
-% \subsection{\csh{xintAND},~\csh{xintOR},~\csh{xintXOR}}
+% \subsection{\csh{xintAND}, \csh{xintOR}, \csh{xintXOR}}
 % \lverb|1.09a.|
 %    \begin{macrocode}
 \def\xintAND {\romannumeral0\xintand }%
@@ -11645,7 +11767,7 @@ first place.
     \expandafter\space\expandafter{#2}{#1}%
 }%
 %    \end{macrocode}
-% \subsection{\csh{xintDecSplit},~\csh{xintDecSplitL},~\csh{xintDecSplitR}}
+% \subsection{\csh{xintDecSplit}, \csh{xintDecSplitL}, \csh{xintDecSplitR}}
 % \lverb!DECIMAL SPLIT
 %
 % The macro \xintDecSplit {x}{A} first replaces A with |A| (*)
@@ -12228,7 +12350,7 @@ first place.
 % 
 % The commenting is currently (\docdate) very sparse.
 % 
-% \LocalToc
+% \localtableofcontents
 % \subsection{Catcodes, \protect\eTeX{} and reload detection}
 %
 % The code for reload detection is copied from \textsc{Heiko
@@ -12936,7 +13058,7 @@ first place.
 % 
 % The commenting is currently (\docdate) very sparse.
 %
-% \LocalToc
+% \localtableofcontents
 % \subsection{Catcodes, \protect\eTeX{} and reload detection}
 %
 % The code for reload detection is copied from \textsc{Heiko
@@ -13656,7 +13778,7 @@ first place.
 % 
 % The commenting is currently (\docdate) very sparse.
 %
-% \LocalToc
+% \localtableofcontents
 % \subsection{Catcodes, \protect\eTeX{} and reload detection}
 %
 % The code for reload detection is copied from \textsc{Heiko
@@ -13976,7 +14098,7 @@ first place.
 \def\XINT_frac_H #1#2{ {#2}{#1}}%
 \def\XINT_frac_Gpos #1\Z #2#3{ {#3}{#2}{#1}}%
 %    \end{macrocode}
-% \subsection{\csh{XINT\_factortens},~\csh{XINT\_cuz\_cnt}}
+% \subsection{\csh{XINT\_factortens}, \csh{XINT\_cuz\_cnt}}
 %    \begin{macrocode}
 \def\XINT_factortens #1%
 {%
@@ -15659,7 +15781,7 @@ first place.
 }%
 \def\xint_fsgn #1#2#3{\xintisgn {#2}}%
 %    \end{macrocode}
-% \subsection{\csh{xintDivision},~\csh{xintQuo},~\csh{xintRem}}
+% \subsection{\csh{xintDivision}, \csh{xintQuo}, \csh{xintRem}}
 %    \begin{macrocode}
 \def\xintDivision {\romannumeral0\xintdivision }%
 \def\xintdivision #1%
@@ -15677,7 +15799,7 @@ first place.
 \def\xintrem {\expandafter\xint_secondoftwo_andstop
                \romannumeral0\xintdivision }%
 %    \end{macrocode}
-% \subsection{\csh{xintFDg},~\csh{xintLDg},~\csh{xintMON},~\csh{xint\-MMON},~\csh{xintOdd}}
+% \subsection{\csh{xintFDg}, \csh{xintLDg}, \csh{xintMON}, \csh{xint\-MMON}, \csh{xintOdd}}
 %    \begin{macrocode}
 \def\xintFDg {\romannumeral0\xintfdg }%
 \def\xintfdg #1%
@@ -16353,7 +16475,7 @@ first place.
 % 
 % The commenting is currently (\docdate) very sparse.
 %
-% \LocalToc
+% \localtableofcontents
 % \subsection{Catcodes, \protect\eTeX{} and reload detection}
 %
 % The code for reload detection is copied from \textsc{Heiko
@@ -16889,7 +17011,7 @@ first place.
 % 
 % The commenting is currently (\docdate) very sparse.
 %
-% \LocalToc
+% \localtableofcontents
 % \subsection{Catcodes, \protect\eTeX{} and reload detection}
 %
 % The code for reload detection is copied from \textsc{Heiko
@@ -18041,7 +18163,7 @@ first place.
 % precedence level of the postfix operators |!|, |?| and |:| has been made lower
 % than the one of functions.
 %
-% \LocalToc
+% \localtableofcontents
 % \subsection{Catcodes, \protect\eTeX{} and reload detection}
 %
 % The code for reload detection is copied from \textsc{Heiko
@@ -18161,7 +18283,7 @@ first place.
 \def\XINT_numexpr_print #1{\xintRound:csv{\XINT_expr_unlock #1}}%
 \def\XINT_boolexpr_print #1{\xintIsTrue:csv{\XINT_expr_unlock #1}}%
 %    \end{macrocode}
-% \subsection{\csh{xintifboolexpr},~\csh{xintifboolfloatexpr}}
+% \subsection{\csh{xintifboolexpr}, \csh{xintifboolfloatexpr}}
 % \lverb|1.09c. Not to be used on comma separated expressions. I could
 % perhaps use \xintORof:csv (or AND, or XOR) to allow it?|
 %    \begin{macrocode}
@@ -18169,7 +18291,7 @@ first place.
 \def\xintifboolfloatexpr #1{\romannumeral0\xintifnotzero 
                                 {\xintthefloatexpr #1\relax}}%
 %    \end{macrocode}
-% \subsection{\csh{xintexpr},~\csh{xinttheexpr},~\csh{xintthe}}
+% \subsection{\csh{xintexpr}, \csh{xinttheexpr}, \csh{xintthe}}
 %    \begin{macrocode}
 \def\xintexpr    {\romannumeral0\xinteval }%
 \def\xinteval
@@ -18984,7 +19106,7 @@ first place.
 }%
 \let\XINT_flexpr_func_ifsgn\XINT_expr_func_ifsgn
 %    \end{macrocode}
-% \subsection{\csh{xintNewExpr},~\csh{xintNewFloatExpr},\dots}
+% \subsection{\csh{xintNewExpr}, \csh{xintNewFloatExpr}\dots}
 % \lverb|&
 % Rewritten in 1.09a. Now, the parameters of the formula are entered in the
 % usual way by the user, with # not _. And _ is assigned to make macros
