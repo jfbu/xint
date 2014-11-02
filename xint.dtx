@@ -1,8 +1,8 @@
 % -*- coding: iso-latin-1; -*-
 %<*doc>
-\def\lasttimestamp{Time-stamp <29-10-2013 17:57:39 CET *>}
+\def\lasttimestamp{Time-stamp <04-11-2013 13:50:22 CET *>}
 %</doc>
-% xint.dtx, 1.09e (2013/10/29)
+% xint.dtx, 1.09f (2013/11/04)
 %
 % Copyright (C) 2013 by Jean-François B.
 %
@@ -87,7 +87,7 @@
 %
 %%
 %%----------------------------------------------------------------
-%% The xint bundle (version 1.09e of October 29, 2013)
+%% The xint bundle (version 1.09f of November 4, 2013)
 %<xint>%% xint: Expandable operations on long numbers
 %<xintfrac>%% xintfrac: Expandable operations on fractions  
 %<xintexpr>%% xintexpr: Expandable expression parser
@@ -99,8 +99,8 @@
 %%----------------------------------------------------------------
 %%
 %<*doc>
-\def\pkgversion{1.09e}
-\def\pkgdate{2013/10/29}
+\def\pkgversion{1.09f}
+\def\pkgdate{2013/11/04}
 \def\striptimestamp #1 <#2 #3 #4 #5>{#2 at #3 #4}
 \def\getdocdate #1 <#2-#3-#4 #5>{#4/#3/#2}
 \edef\docdate{\expandafter\getdocdate\lasttimestamp}
@@ -431,7 +431,16 @@ pdfpagemode=UseOutlines}
 }
 % et voilà. Comme quoi, on peut aussi faire sans \trivlist si on veut.
 % Voir aussi la re-définition de \MacroFont au moment du \StopEventually
+%
 % *** \dverb utilise \MacroFont (comme \verbatim)
+%
+% J'ai parfois besoin d'un caractère de contrôle, j'avais dans les premières
+% versions de cette doc utilisé & ou $ mais ceci est devenu très peu commode
+% lorsque j'ai commencé à insérer des tabular. Finalement j'ai fait sans, mais
+% je prends aujourd'hui " qui par miracle est compatible aux emplois de \dverb
+% dans la doc, et va me permettre par exemple d'en colorier des parties, via
+% méthode sioux pour disposer des { et } temporairement.
+%
 \long\def\dverb % pour utilisation dans le manuel de l'utilisateur
 {%
    \relax\par\smallskip
@@ -440,13 +449,15 @@ pdfpagemode=UseOutlines}
      \def\par{\@@par\leavevmode\null}%
      \let\do\do@noligs \verbatim@nolig@list
      \let\do\@makeother \dospecials 
-     \catcode`\@ 14 \makestarlowast
+     \def\"{\begingroup\catcode123 1 \catcode 125 2 \dverbescape}%
+     \catcode`\@ 14 \catcode`\" 0 \makestarlowast
      \MacroFont \obeylines \@vobeyspaces 
    \@jfverb 
 }
+\def\dverbescape #1;!{#1\endgroup }
 
 \def\@jfverb #1{\catcode`#1\active
-                \lccode`\~`#1\lowercase{\def~{\egroup\unskip}}}%
+                \lccode`\~`#1\lowercase{\let~\egroup}}%
 \makeatother
 
 \catcode`\_=11
@@ -646,7 +657,7 @@ The \xintname package implements with expandable \TeX{} macros the basic
 The \xintname bundle consists of three principal components \xintname,
 \xintfracname (which loads \xintname), and \xintexprname (which loads
 \xintfracname), and four additional modules. They may be used with Plain \TeX{},
-\LaTeX{} or any other macro package based on \TeX{}. The package requires the
+\LaTeX{} or any other format based on \TeX{}. The package requires the
 \eTeX{} extensions which in modern distributions are made available by default,
 except if you invoke \TeX{} under the name |tex| in command line.
 
@@ -675,19 +686,15 @@ boolean operators, 2way and 3way conditionals.
 
 When producing very long numbers there is the question of printing them on
   the page, without going beyond the page limits. In this document, I have most
-  of the time made use of these little macros (not provided by the package:)
+  of the time made use of these macros (not provided by the package:)
+
+\begingroup\baselineskip10pt\def\MacroFont{\footnotesize\ttfamily\relax }%
 \dverb|@
 \def\allowsplits #1%
-{%
-    \ifx #1\relax \else #1\hskip 0pt plus 1pt\relax
-    \expandafter\allowsplits\fi
-}%
-\def\printnumber #1%
-{\expandafter\expandafter\expandafter
-    \allowsplits #1\relax }% Expands twice before printing.
-%% (all macros from the xint bundle expand in two steps to their final 
-%% output)
-|%
+    {\ifx #1\relax \else #1\hskip 0pt plus 1pt\relax\expandafter\allowsplits\fi}%
+\def\printnumber #1{\expandafter\expandafter\expandafter\allowsplits #1\relax }%
+%% expands twice before printing (all macros from the xint bundle expand in two steps
+%% to their final output).|\par\endgroup
 An alternative (\autoref{fn:np}) is to suitably configure the thousand separator
 with the \href{http://ctan.org/pkg/numprint}{numprint} package (does not work in
 math mode; I also tried \href{http://ctan.org/pkg/siunitx}{siunitx} but even in
@@ -715,6 +722,31 @@ Some other traditional computational examples are \hyperref[ssec:Machin]{the
 \section{Recent changes}
 
 \footnotesize
+\noindent Release |1.09f| (|[2013/11/04]|):
+\begin{itemize}
+\item new \csbxint{ZapFirstSpaces}, \csbxint{ZapLastSpaces},
+  \csbxint{ZapSpaces}, \csbxint{ZapSpacesB}, for expandably stripping away
+  leading and/or ending spaces.
+\item \csbxint{CSVtoList} by default uses \csbxint{ZapSpacesB} to strip away
+  spaces around commas (or at the start and end of the comma separated list).
+\item also the \csbxint{For} loop will strip out all spaces around commas and at
+  the start and the end of its list argument; and similarly for
+  \csbxint{Forpair}, \csbxint{Forthree}, \csbxint{Forfour}.
+\item \csbxint{For} \emph{et al.} accept all macro parameters
+  from 
+  |#1| to |#9|.
+\item for reasons of inner coherence some macros previously with one extra `|i|'
+  in their names (e.g. \csa{xint\-iMON}) now have a doubled `|ii|'
+  (\csbxint{iiMON}) to indicate that they skip the overhead of parsing their
+  inputs via \csbxint{Num}. Macros with a \emph{single} `|i|' such as
+  \csbxint{iAdd} are those which maintain the non-\xintfracname output format
+  for big integers, but do parse their inputs via \csbxint{Num} (since release
+  |1.09a|). They too may have doubled-|i| variants for matters of programming
+  optimization when working only with (big) integers and not fractions or
+  decimal numbers, interested advanced users should check the code source.
+% \item bug fix: |1.09a| added inadvertently some unnecessary overhead (not
+%   changing outputs) to some inner macros.
+\end{itemize}
 
 \noindent Release |1.09e| (|[2013/10/29]|):
 \begin{itemize}
@@ -728,7 +760,7 @@ Some other traditional computational examples are \hyperref[ssec:Machin]{the
 \item bug fix, the \csbxint{For} loop (not \csbxint{For*}) did not correctly
   detect an 
   empty list.
-\item new conditionals \csbxint{ifCmp}, \csbxint{ifInt}.
+\item new conditionals \csbxint{ifCmp}, \csbxint{ifInt}, \csbxint{ifOdd}.
 \item bug fix, |\xintiSqrt {0}| crashed. |:-((|
 \item the documentation has been enriched with various additional examples,
   such as the \hyperref[ssec:quicksort]{the quick sort algorithm illustrated} or
@@ -1546,7 +1578,7 @@ an opening brace |{| or a (un-active) character. The type of expansion
     when dealing with short integers the
     \href{http://ctan.org/pkg/etoolbox}{etoolbox} expandable conditionals. Use
     of non expandable things such as \csa{ifthenelse} is impossible inside the
-    argument of \xintname macros.} The main exception is inside
+    arguments of \xintname macros.} The main exception is inside
   |\xintexpr...\relax| where everything is expanded from left to right,
   completely.
 
@@ -1557,7 +1589,7 @@ However, when the argument is of a type a
   limited to what comes first only.
 
 As an example of chaining package macros, let us consider the following
-code snippet with in a file with filename |myfile|:
+code snippet within a file with filename |myfile|:
 \dverb|@
 \newwrite\outfile
 \immediate\openout\outfile \jobname-out\relax
@@ -1835,7 +1867,7 @@ dummy denominators, and in inline text mode one has \csbxint{PRaw}.
     \digitstt{=\xintPRaw{\xintAdd{10.1e1}{101.010e3}}}} \centeredline{|\xintRaw{1.234e5/6.789e3}|\digitstt{=\xintRaw{1.234e5/6.789e3}}}%
   \centeredline{|\xintFloat[24]{1/66049}|\digitstt{=\xintFloat[24]{1/66049}}}
 \end{enumerate}
-Even with \xintfracname is loaded, some macros by their nature can
+Even with \xintfracname loaded, some macros by their nature can
 not accept fractions on input. Starting with release |1.05| most of them have
 also been extended to accept a fraction actually reducing to an integer. For
 example it used to be the case with the earlier releases that |\xintQuo
@@ -1996,10 +2028,11 @@ fractions on input,\footnote{the power function does not accept a
   \csbxint{iMul}, \csbxint{iPow}, \csbxint{iSum}, \csbxint{iPrd} are the
   original ones dealing only with integers. They are available as synonyms, also
   when \xintfracname is not loaded. }\,\footnote{also \csbxint{Cmp},
-  \csbxint{Sgn}, \csbxint{Opp}, \csbxint{Abs}, \csbxint{Max}, \csbxint{Min} are
-  extended to fractions and have their integer-only initial
+  \csbxint{Sgn}, \csbxint{Geq}, \csbxint{Opp}, \csbxint{Abs}, \csbxint{Max},
+  \csbxint{Min} are 
+  extended to fractions;  and the last four have their integer-only initial
   synonyms.}\,\footnote{and \csbxint{Fac}, \csbxint{Quo}, \csbxint{Rem},
-  \csbxint{Division}, \csbxint{Geq}, \csbxint{FDg}, \csbxint{LDg},
+  \csbxint{Division}, \csbxint{FDg}, \csbxint{LDg},
   \csbxint{Odd}, \csbxint{MON}, \csbxint{MMON} all accept a fractional input as
   long as it reduces to an integer.} and produce on output a fractional number
 |f=A/B[n]| where |A| and |B| are integers, with |B| positive, and |n| is a
@@ -2015,18 +2048,17 @@ number without denominator).\footnote{at each stage of the computations, the sum
 The \csbxint{iAdd}, \csbxint{iSub}, \csbxint{iMul}, \csbxint{iPow},
 \csbxint{iSum}, \csbxint{iPrd}, etc... are the
 original\MyMarginNote{\digitstt{1.09a}: the original now also use \csa{xintNum}}
-un-modified 
-integer-only versions. They have less parsing overhead.
-
-
+un-modified integer-only versions. They have less parsing overhead.
 
 The macro \csbxint{Raw} prints the fraction 
-directly from its internal representation in |A/B[n]| form. To convert
+directly from its internal representation in |A/B[n]| form. The macro
+\csbxint{PRaw} does the same but without printing the |[n]| if |n=0| and without
+printing |/1| if |B=1|. 
+
+To convert
 the trailing |[n]| into explicit zeros either at the numerator or the
 denominator, use \csbxint{RawWithZeros}. In both cases the |B| is printed
-even if it has value |1|. The macro \csbxint{PRaw} will not print the |[n]| if
-|n=0| and will not print the |/B| if |B=1|.
-
+even if it has value |1|. 
 Conversely (sort of), the macro \csbxint{REZ}
  puts all powers of ten into the |[n]| (REZ stands for remove zeros).
 Here also, the |B| is printed even if it has value |1|.
@@ -2036,11 +2068,11 @@ The macro \csbxint{Irr} reduces the fraction to its irreducible form |C/D|
 the |D| even if |D=1|. 
 
 The macro \csbxint{Num} from package \xintname is extended: it now does like
-\csa{xintIrr}, raises an error if the fraction did not reduce to an integer, and
+\csbxint{Irr}, raises an error if the fraction did not reduce to an integer, and
 outputs the numerator. This macro
 should be used when one knows that necessarily the result of a computation is an
 integer, and one wants to get rid of its denominator |/1| which would be left by
-\csa{xintIrr}.
+\csa{xintIrr} (or one can use \csbxint{PRaw} on top of \csbxint{Irr}).
 
 
 The macro \csbxint{Trunc}|{N}{f}| prints\footnote{`prints' does not at all mean
@@ -2150,10 +2182,12 @@ convergents of a fraction, ... the next two sections explain ways to deal,
 expandably or not, with such outputs.
 
 See the \autoref{xintDecSplit} for a rare example of a bundle macro which may
-return an empty string, or a number prefixed by a chain of zeros. This is the
-only situation where a macro from the package \xintname may output something
-which could require parsing through \csa{xintNum} before further processing by
-the other (integer-only) package macros from \xintname.
+return an empty string, or a number prefixed by a chain of zeros. 
+
+% This is the
+% only situation where a macro from the package \xintname may output something
+% which could require parsing through \csa{xintNum} before further processing by
+% the other (integer-only) package macros from \xintname.
 
 
 \section{Assignments}
@@ -2193,7 +2227,7 @@ expandability. For example why not allow oneself the two definitions
     \expandafter\allowsplits\meaning\tmpV\relax} and |\D|\digitstt{=\tmpD}.
 
   When one does not know in advance the number of tokens, one can use
-  \csa{xintAssignArray} or its synonym \csa{xintDigitsOf}:
+  \csbxint{AssignArray} or its synonym \csbxint{DigitsOf}:
   \centeredline{\csbxint{DigitsOf}\csa{xintiPow}|{2}{100}|\csbnolk{to}\csa{Out}}
   This defines \csa{Out} to be macro with one parameter, \csa{Out}|{0}| gives
   the size |N| of the array and \csa{Out}|{n}|, for |n| from |1| to |N| then
@@ -2418,9 +2452,8 @@ Inner macros of \xintname, \xintfracname, \xintexprname, \xintbinhexname,
   sign. A handful of private macros starting with |\string\XINT| do not have
   the 
   underscore for technical reasons: 
-  \csa{XINTsetupcatcodes}, \csa{XINTdigits} and macros starting with
-  \csa{XINTinFloat..} 
-  or \csa{XINTinfloat..}.}
+  \csa{XINTsetupcatcodes}, \csa{XINTdigits} and macros with names starting with
+  |XINTinFloat| or |XINTinfloat|.}
 The package public commands all start with |\xint|. Some other control sequences
 are used only as delimiters, and left undefined, they may have been defined
 elsewhere, their meaning doesn't matter and is not touched.
@@ -2550,20 +2583,23 @@ For the rules regarding direct use of count registers or \csa{numexpr}
 expression, in the argument to the package macros, see the
 \hyperlink{useofcount}{use of count section} in \autoref{sec:inputs}.
 
-Some of these macros are extended by \xintfracname to accept fractions on
-input, and, generally, to output a fraction. This will be mentioned and the
-original integer only macro \csa{xintAbc} remains then available under the
-name \csa{xintiAbc}. Even the original integer-only macros may now accept
-fractions on input as long as they are integers in disguise; they still
-produce on output integers without any forward slash mark nor trailing |[n]|.
-On the other hand macros such as |\xintAdd| will output fractions |A/B[n]|,
-with |B| present even if its value is one. To remove this unit denominator and
-convert the |[n]| part into explicit zeros, one has \csbxint{Num} (if one is
-certain to deal with an integer; see also \csbxint{PRaw}). This is mandatory
-when the computation result is fetched into a context where \TeX{} expects a
-number (assuming it does not exceed @2^31@). See the also the \xintfracname
-\hyperref[sec:comfrac]{documentation} for more information on how macros of
-\xintname are modified after loading \xintfracname (or \xintexprname).
+Some of these macros are extended by \xintfracname to accept fractions on input,
+and, generally, to output a fraction. But this means that additions,
+subtractions, multiplications output fractions and not integers; to guarantee
+the integer format on output when the inputs are integers, the original
+integer-only macros \csa{xintAdd}, \csa{xintSub}, \csa{xintMul} remain available
+under the names \csa{xintiAdd}, \csa{xintiSub}, \csa{xintiMul}. Even the
+original integer-only macros may now accept fractions on input as long as they
+are integers in disguise; they still produce on output integers without any
+forward slash mark nor trailing |[n]|. On the other hand macros such as
+|\xintAdd| will output fractions |A/B[n]|, with |B| present even if its value is
+one. To remove this unit denominator and convert the |[n]| part into explicit
+zeros, one has \csbxint{Num} (if one is certain to deal with an integer; see
+also \csbxint{PRaw}). This is mandatory when the computation result is fetched
+into a context where \TeX{} expects a number (assuming it does not exceed
+@2^31@). See the also the \xintfracname \hyperref[sec:comfrac]{documentation}
+for more information on how macros of \xintname are modified after loading
+\xintfracname (or \xintexprname).
 
 
 Package \xintname also provides some general macro programming or token
@@ -2856,8 +2892,8 @@ fail. On the other hand |\xintiPrd {1234}|\digitstt{=\xintiPrd {1234}}.
 
 Extended by \xintfracname to fractions.
 
-With \xintexprname, the above would be coded simply as \centeredline{|\xintNum
-  {\xinttheexpr 2^200*3^100*7^100\relax }|} (\csa{xintNum} to print an integer, not a fraction).
+With \xintexprname, the above would be coded simply as \centeredline
+{|\xintthenumexpr 2^200*3^100*7^100\relax |}
 
 % I temporarily remove mention of \xintPrdExpr from the documentation; I
 % really dislike the name now.
@@ -2921,10 +2957,10 @@ use, or which values to confer to their arguments.
 \subsection{\csbh{xintifSgn}}\label{xintifSgn}
 {\small New with release |1.09a|.\par}
 
-Same as \csa{xintSgnFork} except that the first argument may expand to an 
-integer (or a fraction if \xintfracname is loaded), it is its sign which decides
-which of the three branches is taken. This first argument may be a count
-register, with no |\the| or |\number| prefix.
+Similar to \csa{xintSgnFork} except that the first argument may expand to a
+(big) integer (or a fraction if \xintfracname is loaded), and it is its sign
+which decides which of the three branches is taken. Furthermore this first
+argument may be a count register, with no |\the| or |\number| prefix.
 
 \subsection{\csbh{xintifZero}}\label{xintifZero}
 {\small New with release |1.09a|.\par}
@@ -2954,7 +2990,7 @@ possibly an empty brace pair |{}|.
 {\small New with release |1.09e|.\par}
 
 \csa{xintifCmp}\marg{A}\marg{B}\marg{if A<B}\marg{if A=B}\marg{if A>B} compares
-its two numeric arguments and chooses accordingly the correct branch.
+its arguments and chooses accordingly the correct branch.
 
 \subsection{\csbh{xintifEq}}\label{xintifEq}
 {\small New with release |1.09a|.\par}
@@ -3059,8 +3095,7 @@ decimal expansion.
 number is positive, this is the same as the remainder in the
 euclidean division by ten.
 
-\subsection{\csbh{xintMON}, \csbh{xintMMON}}\label{xintiMON}%
-\label{xintiMMON}\label{xintMON}\label{xintMMON}
+\subsection{\csbh{xintMON}, \csbh{xintMMON}}\label{xintMON}\label{xintMMON}
 {\small New in version |1.03|.\par}
 
 \csa{xintMON\n} returns |(-1)^N| and \csa{xintMMON\n} returns
@@ -3329,38 +3364,218 @@ for a variant which first \fexpan ds its argument.
 \centeredline{${}\neq{}$|\xintLen {\xintiPow {2}{100}}|\digitstt{=\xintLen
     {\xintiPow{2}{100}}}}
 
-\subsection{\csbh{xintCSVtoList}}\label{xintCSVtoList}
+\subsection{\csbh{xintZapFirstSpaces}, \csbh{xintZapLastSpaces}, \csbh{xintZapSpaces}, \csbh{xintZapSpacesB}}
+\label{xintZapFirstSpaces}
+\label{xintZapLastSpaces}
+\label{xintZapSpaces}
+\label{xintZapSpacesB}
+{\small New with release |1.09f|.\par}
 
-{\small New with release |1.06|.\par}
+\csa{xintZapFirstSpaces}\marg{stuff} does not do \emph{any} expansion of its
+argument, nor brace removal of any sort, nor does it alter \meta{stuff} in
+anyway apart from stripping away all \emph{leading} spaces.
 
-\edef\X{\xintCSVtoList {1,2,a  ,  b  ,c  d,x,y }}
-\def\y {a,b,c,d,e}
-\edef\z{\xintCSVtoList \y}
+This macro will be mostly of interest to programmers who will know what I will
+now be talking about. \emph{The essential points, naturally, are the complete
+  expandability and the fact that no brace removal or any other alteration is
+  done to the input.} 
 
-\csa{xintCSVtoList}|{a,b,c...,z}| returns |{a}{b}{c}...{z}|. A \emph{list} is in
-this manual the word we use to describe a succession or tokens where braced
-tokens count as one thing. The argument to |\xintCSVtoList| may be a macro which
-is first expanded fully. This means that the first item before the comma, if it
-is itself a
-macro, will be expanded which may or may not be a good thing. A space at the
-start of the first item will stop the expansion and be gobbled.
+\TeX's input scanner already converts consecutive blanks into single space
+tokens, but \csa{xintZapFirstSpaces} handles successfully also inputs with
+consecutive multiple space tokens.
+However, it is assumed that \meta{stuff} does not contain (except in braced
+sub-material) space tokens of character code distinct from @32@.
+
+It expands in two steps, and if the goal is to apply it to the
+expansion text of |\x| to define |\y|, then one should do:
+|\expandafter\def\expandafter\y\expandafter
+        {\romannumeral0\expandafter\xintzapfirstspaces\expandafter{\x}}|.
+
+Other use case: inside a macro as |\edef\x{\xintZapFirstSpaces {#1}}| assuming
+naturally that |#1| is compatible with such an |\edef| once the leading spaces
+have been stripped.
+
+\begingroup
+\def\x {  \a {  \X } {  \b  \Y }  }
+\centeredline{|\xintZapFirstSpaces {  \a {  \X } {  \b  \Y }  }->|%
+\digitstt{\color{magenta}{}\expandafter\detokenize\expandafter
+{\romannumeral0\expandafter\xintzapfirstspaces\expandafter{\x}}}+++}
+\endgroup                                   
+
+\medskip
+
+\noindent\csbxint{ZapLastSpaces}\marg{stuff} does not do \emph{any} expansion of
+its argument, nor brace removal of any sort, nor does it alter \meta{stuff} in
+anyway apart from stripping away all \emph{ending} spaces. The same remarks as
+for \csbxint{ZapFirstSpaces} apply.
+
+% ATTENTION à l'\ignorespaces fait par \color!
+\begingroup
+\def\x {  \a {  \X } {  \b  \Y }  }
+\centeredline{|\xintZapLastSpaces {  \a {  \X } {  \b  \Y }  }->|%
+\digitstt{\color{magenta}{}\expandafter\detokenize\expandafter
+{\romannumeral0\expandafter\xintzaplastspaces\expandafter{\x}}}+++}
+\endgroup                                   
+
+\medskip
+
+\noindent\csbxint{ZapSpaces}\marg{stuff} does not do \emph{any} expansion of its
+argument, nor brace removal of any sort, nor does it alter \meta{stuff} in
+anyway apart from stripping away all \emph{leading} and all \emph{ending}
+spaces. The same remarks as for \csbxint{ZapFirstSpaces} apply.
+
+\begingroup
+\def\x {  \a {  \X } {  \b  \Y }  }
+\centeredline{|\xintZapSpaces {  \a {  \X } {  \b  \Y }  }->|%
+\digitstt{\color{magenta}{}\expandafter\detokenize\expandafter
+{\romannumeral0\expandafter\xintzapspaces\expandafter{\x}}}+++}
+\endgroup                                   
+
+\medskip
+
+\noindent\csbxint{ZapSpacesB}\marg{stuff} does not do \emph{any} expansion of
+its argument, nor does it alter \meta{stuff} in anyway apart from stripping away
+all leading and all ending spaces and possibly removing one level of braces if
+\meta{stuff} had the shape |<spaces>{braced}<spaces>|. The same remarks as for
+\csbxint{ZapFirstSpaces} apply.
+
+\begingroup
+\def\x {  \a {  \X } {  \b  \Y }  }
+\centeredline{|\xintZapSpacesB {  \a {  \X } {  \b  \Y }  }->|%
+\digitstt{\color{magenta}{}\expandafter\detokenize\expandafter
+{\romannumeral0\expandafter\xintzapspacesb\expandafter{\x}}}+++}
+\def\x {  { \a {  \X } {  \b  \Y } }  }
+\centeredline{|\xintZapSpacesB {  { \a {  \X } {  \b  \Y } }  }->|%
+\digitstt{\color{magenta}{}\expandafter\detokenize\expandafter
+{\romannumeral0\expandafter\xintzapspacesb\expandafter{\x}}}+++}
+\endgroup                                   
+ The spaces here at the start and end of the output come from the braced
+ material, and are not removed (one would need a second application for that;
+ recall though that the \xintname zapping macros do not expand their argument).
+
+\subsection{\csbh{xintCSVtoList}}
+\label{xintCSVtoList}
+\label{xintCSVtoListNoExpand}
+
+{\small New with release |1.06|. Starting with |1.09f|, \fbox{\emph{removes
+    spaces around commas}!}\par}
+
+\csa{xintCSVtoList}|{a,b,c...,z}| returns |{a}{b}{c}...{z}|. A \emph{list} is by
+convention in this manual simply a succession of tokens, where each braced thing
+will count as one item (``items'' are defined according to the rules of \TeX{}
+for fetching undelimited parameters of a macro, which are exactly the same rules
+as for \LaTeX{} and command arguments [they are the same things]). The word
+`list' in `comma separated list of items' has its usual linguistic meaning,
+and then an ``item'' is what is delimited by commas.
+
+So \csa{xintCSVtoList} takes on input a `comma separated list of items' and
+converts it into a `\TeX{} list of braced items'. The argument to
+|\xintCSVtoList| may be a macro: it will first be
+\hyperref[sec:expansions]{\fexpan ded}. Hence the item before the first comma,
+if it is itself a macro, will be expanded which may or may not be a good thing.
+A space inserted at the start of the first item serves to stop that expansion
+(and disappear). The macro \csbxint{CSVtoListNoExpand} does the same job without
+the initial expansion of the list argument.
+
+Apart from that no expansion of the items is done and the list items may thus be
+completely arbitrary (and even contain perilous stuff such as unmatched |\if|
+and |\fi| tokens).
 
 Contiguous spaces, tab characters, or other blanc spaces (empty lines not
-allowed) are collapsed by \TeX{} into single spaces. \fbox{\emph{No attempt}
-  is made to get rid of such spaces} either before or after the commas, as
-priority has been given to the speed of the conversion (but without impacting
-the input stack size). 
-\centeredline{|\xintCSVtoList {1,2,a , b ,c d,x,y }->|%
+allowed) are collapsed by \TeX{} into single spaces. All such spaces around
+commas\footnote{and multiple space tokens are not a problem; but those at the
+  top level (not hidden inside braces) \emph{must} be of character code |32|.}
+\fbox{are removed}, as well as the spaces at the start and the spaces at the end
+of the list.\footnote{let us recall that this is all done completely
+  expandably...   There is
+  absolutely no alteration of any sort of the item apart from the stripping of
+  initial and final space tokens (of character code |32|) and brace
+removal if and only if the item apart from intial and final spaces (or more
+generally multiple |char 32| space tokens) is braced.}
+
+\begingroup
+
+\edef\X{\xintCSVtoList { 1 ,{ 2 , 3 , 4 , 5 }, a , {b,T} U , { c , d } , { {x ,
+        y} } }}
+
+\centeredline{|\xintCSVtoList { 1 ,{ 2 , 3 , 4 , 5 }, a , {b,T} U , { c , d } ,
+    { {x , y} } }|}
+\centeredline{|->|%
 {\makeatletter\digitstt{\expandafter\strip@prefix\meaning\X}}}
-\centeredline{|\def\y{a,b,c,d,e} \xintCSVtoList\y->|%
-{\makeatletter\digitstt{\expandafter\strip@prefix\meaning\z}}}
 
-The macro \csa{xintCSVtoListNoExpand} does the same job without the initial
-expansion.
-\centeredline{|\xintCSVtoListNoExpand{\a,\b,\c,\d,\e}->{\a}{\b}{\c}{\d}{\e}|}
-  % \digitstt{\expandafter\detokenize\expandafter
-  %          {\romannumeral0\xintcsvtolistnoexpand{\a,\b,\c,\d,\e}}}}
+One sees on this example how braces protect commas from
+sub-lists to be perceived as delimiters of the top list. Braces around an entire
+item are removed, even when surrounded by spaces before and/or after. Braces for
+sub-parts of an item are not removed. 
 
+We observe also that there is a slight difference regarding the brace stripping
+of an item: if the braces were not surrounded by spaces, also the initial and
+final (but no other) spaces of the \emph{enclosed} material are removed. This is
+the only situation where spaces protected by braces are nevertheless removed.
+
+From the rules above: for an empty argument (only spaces, no braces, no comma)
+the output is
+\digitstt{\expandafter\detokenize\expandafter{\romannumeral0\xintcsvtolist { }}}
+(a list with one empty item), 
+for ``|<opt. spaces>{}<opt.
+spaces>|'' the output is
+\digitstt{\expandafter\detokenize\expandafter
+   {\romannumeral0\xintcsvtolist { {} }}} 
+(again a list with one empty item, the braces were removed),
+for ``|{ }|'' the output is
+\digitstt{\expandafter\detokenize\expandafter
+ {\romannumeral0\xintcsvtolist {{ }}}} 
+(again a list with one empty item, the braces were removed and then
+the inner space was removed), 
+for ``| { }|'' the output is
+\digitstt{\expandafter\detokenize\expandafter 
+{\romannumeral0\xintcsvtolist { { }}}} (again a list with one empty item, the initial space served only to stop the expansion, so this was like ``|{ }|'' as input, the braces were removed and the inner space was stripped),
+for ``\texttt{\ \{\ \ \}\ }'' the output is
+\digitstt{\expandafter\detokenize\expandafter 
+{\romannumeral0\xintcsvtolist { {  } }}} (this time the ending space of the first
+item meant that after brace removal the inner spaces were kept; recall though
+that \TeX{} collapses on input consecutive blanks into one space token),
+for ``|,|'' the output consists of two consecutive
+empty items
+\digitstt{\expandafter\detokenize\expandafter{\romannumeral0\xintcsvtolist
+    {,}}}. Recall that on output everything is braced, a |{}| is an ``empty''
+item.
+%
+Most of the above is mainly irrelevant for every day use, apart perhaps from the
+fact to be noted that an empty input does not give an empty output but a
+one-empty-item list (it is as if an ending comma was always added at the end of
+the input).
+
+\def\y { \a,\b,\c,\d,\e}
+\expandafter\def\expandafter\Y\expandafter{\romannumeral0\xintcsvtolist{\y}}
+\def\t {{\if},\ifnum,\ifx,\ifdim,\ifcat,\ifmmode}
+\expandafter\def\expandafter\T\expandafter{\romannumeral0\xintcsvtolist{\t}}
+
+\centeredline{|\def\y{ \a,\b,\c,\d,\e} \xintCSVtoList\y->|%
+  {\makeatletter\digitstt{\expandafter\strip@prefix\meaning\Y}}}
+\centeredline{|\def\t {{\if},\ifnum,\ifx,\ifdim,\ifcat,\ifmmode}|} \centeredline
+{|\xintCSVtoList\t->|\makeatletter\digitstt{\expandafter\strip@prefix\meaning\T}}
+The results above were automatically displayed using \TeX's primitive
+\csa{meaning}, which adds a space after each control sequence name. These spaces
+are not in the actual braced items of the produced lists. The first items |\a|
+and |\if| were either preceded by a space or braced to prevent expansion. The
+macro \csa{xintCSVtoListNoExpand} would have done the same job without the
+initial expansion of the list argument, hence no need for such protection but if
+|\y| is defined as |\def\y{\a,\b,\c,\d,\e}| we then must do:
+\centeredline{|\expandafter\xintCSVtoListNoExpand\expandafter {\y}|} Else, we
+may have direct use: \centeredline{|\xintCSVtoListNoExpand
+  {\if,\ifnum,\ifx,\ifdim,\ifcat,\ifmmode}|}
+\centeredline{|->|\digitstt{\expandafter\detokenize\expandafter
+    {\romannumeral0\xintcsvtolistnoexpand
+      {\if,\ifnum,\ifx,\ifdim,\ifcat,\ifmmode}}}} 
+%
+Again these spaces are an artefact from the use in the source of the document of
+\csa{meaning} (or rather here, \csa{detokenize}) to display the result of using
+\csa{xintCSVtoListNoExpand} (which is done for real). The original non-stripping
+macro is available as \csa{xintCSVtoListNonStripped}. There is also
+\csa{xintCSVtoListNonStrippedNoExpand}.
+
+\endgroup
 
 \subsection{\csbh{xintNthElt}}\label{xintNthElt}
 
@@ -3536,7 +3751,7 @@ given input is prime and @0@ if not:
 \def\IsPrime #1{\xintANDof 
                 {\xintApply {\remainder {#1}}{\xintSeq {2}{\xintiSqrt{#1}}}}}
 |
-This uses \csbxint{iSqrt} and assumes its input is at least @3@. Rather than
+This uses \csbxint{iSqrt} and assumes its input is at least @5@. Rather than
 \xintname's own \csbxint{Rem} we used a quicker |\numexpr| expression as we
 are dealing with short integers. Also we used \csbxint{ANDof} which will
 return @1@ only if all the items are non-zero. The macro is a bit
@@ -3554,7 +3769,7 @@ silly with an even input, ok, let's enhance it to detect an even input:
 |
 
 We used the \xintname provided expandable tests (on big integers or fractions)
-to maintain the complete expanability of |\IsPrime| in a strong
+to maintain the complete expandability of |\IsPrime| in a strong
 sense\footnote{\label{fn:fullexp}technically, prefixing it with
   \csa{romannumeral-`0} must expand it completely; this is the case of all
   \xintname expandable macros, and in turn the arguments must be of this
@@ -3736,8 +3951,9 @@ Output: 0\xintApplyInline\Macro {3141592653}.
 
 The first argument |\macro| does not have to be an expandable macro.
 
-\csa{xintApplyInline} submits its second, token list parameter to an \fexpan
-sion. Then, each \emph{unbraced} item will also be \fexpan ded. This provides
+\csa{xintApplyInline} submits its second, token list parameter to an 
+\hyperref[sec:expansions]{\fexpan
+sion}. Then, each \emph{unbraced} item will also be \fexpan ded. This provides
 an easy way to insert one list inside another. \emph{Braced} items are not
 expanded. Spaces in-between items are gobbled (as well as those at the start
 or the end of the list), but not the spaces \emph{inside} the braced items.
@@ -3752,7 +3968,7 @@ This tabular for example:\par
      $N$ & $N^2$ & $N^3$ \\ \hline
      \def\Row #1{ #1 & \xintiSqr {#1} & \xintiPow {#1}{3} \\ \hline }%
      \xintApplyInline \Row {\xintCSVtoList{17,28,39,50,61}}
-   \end{tabular}}\ifhmode MERDE\fi
+   \end{tabular}}
 \smallskip
 % 38 = &, 43 = +, 36=$, 45 = -
 was obtained from the following input:
@@ -3817,81 +4033,99 @@ this does not work:\par
 But see \csbxint{For}.
 
 \subsection{\csbh{xintFor}, \csbh{xintFor*}}\label{xintFor}\label{xintFor*}
-{\small New with |1.09c|. Extended in |1.09e| (see \csbxint{BreakFor}).\par}
+{\small New with |1.09c|. Extended in |1.09e| (\csbxint{BreakFor},
+  \csbxint{integers}, \dots). |1.09f| version handles all macro parameters up to
+  |#9| and removes spaces around commas.\par}  
 
 \csbxint{For} is a new kind of for loop. Rather than using macros for
 encapsulating list items, its behavior is more like a macro with
-parameters: |#1|, |#2|, |#3|, |#4| can be used to represent the items
-for up to four levels of nested loops. Here is an example:
+parameters: |#1|, |#2|, \dots, |#9| are used to represent the items
+for up to nine levels of nested loops. Here is an example:
 \dverb|@
-\xintFor #1 in {1,2,3} \do {%
-  \xintFor #2 in {4,5,6} \do {%
+\xintFor #9 in {1,2,3} \do {%
+  \xintFor #1 in {4,5,6} \do {%
     \xintFor #3 in {7,8,9} \do {%
-      \xintFor #4 in {10,11,12} \do {%
-      $$#1\times#2\times#3\times#4=\xintiPrd{{#1}{#2}{#3}{#4}}$$}}}} 
+      \xintFor #2 in {10,11,12} \do {%
+      $$#9\times#1\times#3\times#2=\xintiPrd{{#1}{#2}{#3}{#9}}$$}}}} 
 |%
-The use of either |#1|, |#2|, |#3|, or |#4| to denote the item is mandatory,
-but one does not have to use necessarily |#1| as the first one.\footnote{the
-  reason for not having implemented use of \texttt{\#5}, etc\dots{} is that
-  this would, in the current implementation, make the code a bit heavier, also
-  for \texttt{\#1},\dots I decided to postpone it to perhaps later, if people
-  require such a feature (on the basis that someone will actually read these
-  lines, one day; I mean someone besides me).} 
+This example illustrates that one does not have to use |#1| as the first one:
+the order is arbitrary. But each level of nesting should have its specific macro
+parameter. Nine levels of nesting is presumably overkill, but I did not know
+where it was reasonable to stop. 
 
-The spaces between the various declarative elements are all optional; but
-spaces inside the braced comma separated list are obeyed, even around the
-commas. The list argument may be a macro |\MyList| which then does not need to
-be braced (if it has no arguments!). It will be expanded once to reveal its
-comma separated items.
+\begin{framed}
+  A macro |\macro| whose definition uses internally an \csbxint{For} loop may be
+  used inside another \csbxint{For} loop even if the two loops both use the same
+  macro parameter. By the way the loop definition inside |\macro| must double
+  the character |#| as is the general rule in \TeX{} with definitions done
+  inside macros.
+\end{framed}
+
+The spaces between the various declarative elements are all optional;
+furthermore spaces around the commas or at the start and end of the list
+argument are allowed, they will be removed. If an item must contain itself
+commas, it should be braced to prevent these commas from being misinterpreted as
+list separator. The braces will be removed during processing. The list
+argument may be a macro |\MyList| which then does not need to be braced (except
+if it has some arguments, as then the whole thing \emph{must} be braced). It
+will be expanded (only once) to reveal its comma separated items for processing.
+
+A starred variant \csbxint{For*} deals with lists of braced items, rather than
+comma separated items. It has also a distinct expansion policy, which is
+detailed below.
 
 Contrarily to what happens in loops where the item is represented by a macro,
 here it is truly exactly as when defining (in \LaTeX{}) a ``command'' with
 parameters |#1|, etc... This may avoid the user quite a few troubles with
 |\expandafter|s or other |\edef/\noexpand|s which one encounters at times when
-trying to do things with the \LaTeX's {\makeatother|\@for|} or other loops
+trying to do things with \LaTeX's {\makeatother|\@for|} or other loops
 which encapsulate the item in a macro expanding to that item.
 
 \begin{framed}
   The non-starred variant \csbxint{For} deals with comma separated values
-  (\emph{no effort is done to remove the spaces before and after the commas})
-  and the comma separated list may be a macro which is only expanded once (to
-  prevent expansion of the first item if the list is input as |{\x,\y,...}| it
-  should be |{{\x},\y,..}|). The items are not expanded, if the input is
-  |<stuff>,\x,<stuff>| then |#1| will be at some point |\x| not its expansion
-  (and not 
-  either a macro with |\x| as replacement text, just the token |\x|). Input
-  such as |<stuff>,,<stuff>| creates an empty |#1|, the iteration is not
-  skipped. An 
-  empty list does lead to the use of the replacement text, once, with an empty
-  |#1|. Except if the list argument is a single token, \fbox{it must be braced.}
+  (\emph{spaces before and after the commas are removed}) and the comma
+  separated list may be a macro which is only expanded once (to prevent
+  expansion of the first item |\x| in a list directly input as |\x,\y,...| it
+  should be input as |{\x},\y,..| or |<space>\x,\y,..|, naturally all of that
+  within the mandatory braces of the \csa{xintFor \#n in \{list\}} syntax). The
+  items are not expanded, if the input is |<stuff>,\x,<stuff>| then |#1| will be
+  at some point |\x| not its expansion (and not either a macro with |\x| as
+  replacement text, just the token |\x|). Input such as |<stuff>,,<stuff>|
+  creates an empty |#1|, the iteration is not skipped. An empty list does lead
+  to the use of the replacement text, once, with an empty |#1| (or |#n|). Except
+  if the entire list is represented as a single macro (with no parameters),
+  \fbox{it must be braced.}
+\end{framed}
 
-  The starred variant \csbxint{For*} deals with token lists and \fexpan ds
-  each \emph{unbraced} list item. This makes it easy to simulate concatenation
-  of various list macros |\x|, |\y|, ... If |\x| expands to |{1}{2}{3}| and
-  |\y| expands to |{4}{5}{6}| then |{\x\y}| as argument to |\xintFor*| has the
-  same effect as |{{1}{2}{3}{4}{5}{6}}|%
-\stepcounter{footnote}%
-\makeatletter\hbox {\@textsuperscript {\normalfont \thefootnote }}\makeatother.
-  Spaces at the start, 
-  end, or in-between items are gobbled (but naturally not the spaces which may
-  be inside \emph{braced} items). Except if the list argument is a single
-  token, \fbox{it must be braced.} Each item which is not braced will be fully
-  expanded (as the |\x| and |\y| in the example above).
+\begin{framed}
+  The starred variant \csbxint{For*} deals with token lists (\emph{spaces
+    between braced items or single tokens are not significant}) and
+  \hyperref[fn:expansions]{\fexpan ds} each \emph{unbraced} list item. This
+  makes it easy to simulate concatenation of various list macros |\x|, |\y|, ...
+  If |\x| expands to |{1}{2}{3}| and |\y| expands to |{4}{5}{6}| then |{\x\y}|
+  as argument to |\xintFor*| has the same effect as |{{1}{2}{3}{4}{5}{6}}|%
+  \stepcounter{footnote}%
+  \makeatletter\hbox {\@textsuperscript {\normalfont \thefootnote
+    }}\makeatother. Spaces at the start, end, or in-between items are gobbled
+  (but naturally not the spaces which may be inside \emph{braced} items). Except
+  if the list argument is a single macro (with no parameters), \fbox{it must be
+    braced.} Each item which is not braced will be fully expanded (as the |\x|
+  and |\y| in the example above). An empty list leads to an empty result.
 
   The macro \csbxint{Seq} which generates arithmetic sequences may only be used
-  with \csbxint{For*} (no commas!).
-  \centeredline{|\xintFor* #1 in {\xintSeq [+2]{-7}{+2}}\do {stuff with #1}|}
-  will have |#1=-7,-5,-3,-1, and 1|. The |#1| as issued from the list produced
-  by \csbxint{Seq} is the litteral representation
-  as would be produced by |\arabic| on a \LaTeX{} counter, it is not a count
-  register. When used in |\ifnum| tests or other contexts where \TeX{} looks
-  for a 
-  number it is recommended to use
+  with \csbxint{For*} (numbers from output of |\xintSeq| are braced, not
+  separated by commas). \centeredline{|\xintFor* #1 in {\xintSeq
+      [+2]{-7}{+2}}\do {stuff with #1}|} will have |#1=-7,-5,-3,-1, and 1|. The
+  |#1| as issued from the list produced by \csbxint{Seq} is the litteral
+  representation as would be produced by |\arabic| on a \LaTeX{} counter, it is
+  not a count register. When used in |\ifnum| tests or other contexts where
+  \TeX{} looks for a number it is recommended to use
   |#1\space|\stepcounter{footnote}%
-\makeatletter\hbox {\@textsuperscript {\normalfont \thefootnote }}\makeatother.
-  or |#1\relax| if expandability of the process is not an issue (for example
-  if the iterated commands  do an |\edef| using such a test, |\relax| will not
-  do). 
+  \makeatletter\hbox {\@textsuperscript {\normalfont \thefootnote
+    }}\makeatother, or |#1\relax| if expandability of the process is not an
+  issue (for example if the iterated commands do an |\edef| using such a test,
+  |\relax| is not a good choice as it will be kept in the complete expansion if
+  it is in the true branch of the conditional, whereas |\space| will disappear).
 \end{framed}
 \begingroup\makeatletter
 \def\@footnotetext #1{\insert\footins {\reset@font \footnotesize \interlinepenalty \interfootnotelinepenalty \splittopskip \footnotesep \splitmaxdepth \dp \strutbox \floatingpenalty \@MM \hsize \columnwidth \@parboxrestore \color@begingroup \@makefntext {\rule \z@ \footnotesep \ignorespaces #1\@finalstrut \strutbox }\color@endgroup }}
@@ -3908,45 +4142,45 @@ which encapsulate the item in a macro expanding to that item.
 \endgroup
 \addtocounter{Hfootnote}{2}
 
-The \csbxint{For} loops may be used inside alignments or other contexts
-with the replacement text closing groups. Here is an example
-(still using \LaTeX's tabular):
+The \csbxint{For} loops are not completely expandable; but they may be nested
+and used inside alignments or other contexts where the replacement text closes
+groups. Here is an example (still using \LaTeX's tabular):
 
+\begingroup
 \centeredline{\begin{tabular}{rccccc}
-    \xintFor #2 in {A,B,C} \do {%
-      #2:\xintFor* #1 in {abcde} \do {&($ #1 \to #2 $)}\\ }%
+    \xintFor #7 in {A,B,C} \do {%
+      #7:\xintFor* #3 in {abcde} \do {&($ #3 \to #7 $)}\\ }%
 \end{tabular}}
+\endgroup
 
 \dverb|@
 \begin{tabular}{rccccc}
-    \xintFor #2 in {A,B,C} \do {%
-      #2:\xintFor* #1 in {abcde} \do {&($ #1 \to #2 $)}\\ }%
+    \xintFor #7 in {A,B,C} \do {%
+      #7:\xintFor* #3 in {abcde} \do {&($ #3 \to #7 $)}\\ }%
 \end{tabular}|
 
-It is not an expandable
-macro and has some strong cousinage to \csbxint{ApplyInline}.
-When inserted inside a macro for later execution the |#| characters must
-be doubled.\footnote{sometimes what seems to be a macro argument isn't really;
-  in \csa{raisebox\{1cm\}\{}\csa{xintFor \#1 in \{a,b,c\} }\csa{do \{\#1\}\}} no
-  doubling should be done.} For example:
-\dverb|@
+When
+inserted inside a macro for later execution the |#| characters must be
+doubled.\footnote{sometimes what seems to be a macro argument isn't really; in
+  \csa{raisebox\{1cm\}\{}\csa{xintFor \#1 in \{a,b,c\} }\csa{do \{\#1\}\}} no
+  doubling should be done.} For example: 
+%
+\dverb|@ 
 \def\T{\def\z {}%
-    \xintFor* ##1 in {{u}{v}{w}} \do {%
-        \xintFor ##2 in {x,y,z} \do {%
-          \expandafter\def\expandafter\z\expandafter {\z\sep (##1,##2)}
-        }%
-    }%
+  \xintFor* ##1 in {{u}{v}{w}} \do {%
+    \xintFor ##2 in {x,y,z} \do {%
+      \expandafter\def\expandafter\z\expandafter {\z\sep (##1,##2)} }%
+  }%
 }%
 \T\def\sep {\def\sep{, }}\z |%
 \def\T{\def\z {}%
-\xintFor* ##1 in {{u}{v}{w}} \do {%
+  \xintFor* ##1 in {{u}{v}{w}} \do {%
     \xintFor ##2 in {x,y,z} \do {%
-      \expandafter\def\expandafter\z\expandafter {\z\sep (##1,##2)}
-    }%
-}}%
-\centeredline{\T\def\sep {\def\sep{, }}\z}
-Similarly when the replacement text of |\xintFor| defines a macro with
-parameters, the macro character |#| must be doubled. 
+      \expandafter\def\expandafter\z\expandafter {\z\sep (##1,##2)} }%
+  }}%
+\centeredline{\T\def\sep {\def\sep{, }}\z} Similarly when the replacement text
+of |\xintFor| defines a macro with parameters, the macro character |#| must be
+doubled.
 
 It is licit to use inside an \csbxint{For} a |\macro| which itself has
 been defined to use internally some other \csbxint{For}. The same macro
@@ -3955,14 +4189,19 @@ definition of |\macro| the |#| used in the \csbxint{For} declaration must be
 doubled, as is the general rule in \TeX{} with things defined inside other
 things).
 
-The iterated commands as well as the list items are allowed to contain
-explicit |\par| tokens. Neither \csbxint{For} nor \csbxint{For*} create groups.
-The effect is like piling up the iterated commands with each time |#1| (or
-|#2| ...) replaced by an item of the list. However, contrarily to the
-completely expandable \csbxint{ApplyUnbraced}, but similarly to the non
-completely expandable \csbxint{ApplyInline} each iteration is executed
-first before looking at the next |#1| (and the starred variant \csbxint{For*}
-keeps on expanding each unbraced item it finds, gobbling spaces).
+The iterated commands as well as the list items are allowed to contain explicit
+|\par| tokens. Neither \csbxint{For} nor \csbxint{For*} create groups. The
+effect is like piling up the iterated commands with each time |#1| (or |#2| ...)
+replaced by an item of the list. However, contrarily to the completely
+expandable \csbxint{ApplyUnbraced}, but similarly to the non completely
+expandable \csbxint{ApplyInline} each iteration is executed first before looking
+at the next |#1|\footnote{to be completely honest, both \csbxint{For} and
+  \csbxint{For*} intially scoop up both the list and the iterated commands;
+  \csbxint{For} scoops up a second time the entire comma separated list in order
+  to feed it to \csbxint{CSVtoList}. The starred variant \csbxint{For*} which
+  does not need this step will thus be a bit faster on equivalent inputs.} (and
+the starred variant \csbxint{For*} keeps on expanding each unbraced item it
+finds, gobbling spaces).
 
 \subsection{\csbh{xintifForFirst}, \csbh{xintifForLast}}
 \label{xintifForFirst}\label{xintifForLast}
@@ -4012,22 +4251,24 @@ in the next section which is devoted to ``forever'' loops.
 If the list argument to \csbxint{For} (or \csbxint{For*}, the two are here
 completely equivalent) is \csbxint{integers} (equivalently \csbxint{egers}) or
 more generally \csbxint{integers}|[||start|\allowbreak|+|\allowbreak|delta||]|
- (\emph{within
-  braces}!),
-then \csbxint{For} does an infinite iteration where |#1| (or |#2|, |#3|, |#4|)
-will run through the arithmetic sequence of (short) integers with initial value
-|start| and increment |delta| (default values: |start=1|, |delta=1|; if the
-optional argument is present it must contains both of them, and they may be
-explicit integers, or macros or count registers. The |#1| (or |#2|, |#3|, |#4|)
-will stand for |\numexpr <opt sign><digits>\relax|, and the litteral
-representation as a string of digits can thus be obtained as \fbox{\csa{the\#1}}
-or |\number#1|. Such a |#1| can be used in an |\ifnum| test with no need to be
-postfixed with a space or a |\relax| and one should \emph{not} add them.
+(\emph{the whole within braces}!)\footnote{the |start+delta| optional
+  specification may have extra spaces around the plus sign of near the square
+  brackets, such spaces are removed. The same applies with \csa{xintdimensions}
+  and \csa{xintrationals}.}, then \csbxint{For} does an infinite
+iteration where |#1| (or |#2|, \dots, |#9|) will run through the arithmetic
+sequence of (short) integers with initial value |start| and increment |delta|
+(default values: |start=1|, |delta=1|; if the optional argument is present it
+must contains both of them, and they may be explicit integers, or macros or
+count registers. The |#1| (or |#2|, \dots, |#9|) will stand for |\numexpr <opt
+sign><digits>\relax|, and the litteral representation as a string of digits can
+thus be obtained as \fbox{\csa{the\#1}} or |\number#1|. Such a |#1| can be used
+in an |\ifnum| test with no need to be postfixed with a space or a |\relax| and
+one should \emph{not} add them.
 
 If the list argument is \csbxint{dimensions} or more generally
 \csbxint{dimensions}|[||start|\allowbreak|+|\allowbreak|delta||]|  (\emph{within
   braces}!), then
-\csbxint{For} does an infinite iteration where |#1| (or |#2|, |#3|, |#4|) will
+\csbxint{For} does an infinite iteration where |#1| (or |#2|, \dots, |#9|) will
 run through the arithmetic sequence of dimensions with initial value
 |start| and increment |delta|. Default values: |start=0pt|, |delta=1pt|; if
 the optional argument is present it must contain both of them, and they may
@@ -4042,77 +4283,117 @@ incrementation with no rounding errors accumulating from converting into
 points at each step. 
 
 
-\def\DimToNum #1{\number\dimexpr #1\relax }
-% cube
-\xintNewNumExpr \FA [2] {{_DimToNum {$2}}^3/{_DimToNum {$1}}^2} %$
-% square root
-\xintNewNumExpr \FB [2] {sqrt ({_DimToNum {$2}}*{_DimToNum {$1}})}
+% original definitions, a bit slow.
 
-\xintNewExpr \Ratio [2] {trunc({_DimToNum {$2}}/{_DimToNum{$1}},3)}
+% \def\DimToNum #1{\number\dimexpr #1\relax }
+% % cube
+% \xintNewNumExpr \FA [2] {{_DimToNum {$2}}^3/{_DimToNum {$1}}^2} %$
+% % square root
+% \xintNewNumExpr \FB [2] {sqrt ({_DimToNum {$2}}*{_DimToNum {$1}})}
+% \xintNewExpr \Ratio [2] {trunc({_DimToNum {$2}}/{_DimToNum{$1}},3)}
 
+% improved faster code (4 four times faster)
+
+\def\DimToNum #1{\the\numexpr \dimexpr#1\relax/10000\relax }
+\def\FA #1#2{\xintDSH{-4}{\xintQuo {\xintiPow {\DimToNum {#2}}{3}}{\xintiSqr
+{\DimToNum{#1}}}}}
+\def\FB #1#2{\xintDSH {-4}{\xintiSqrt 
+                          {\xintiMul {\DimToNum {#2}}{\DimToNum{#1}}}}}
+\def\Ratio #1#2{\xintTrunc {2}{\DimToNum {#2}/\DimToNum{#1}}}
+
+% a further 2.5 gain is made through using .25pt as horizontal step.
+\begin{figure*}[ht!]
+\phantomsection\hypertarget{graphic}{}%
 \centeredline{%
 \begingroup
-\hspace{\parindent}%
-\raisebox{-1cm}{\xintFor #1 in {\xintdimensions [0pt+.2pt]} \do
+\raisebox{-1cm}{\xintFor #1 in {\xintdimensions [0pt+.25pt]} \do
  {\ifdim #1>2cm \expandafter\xintBreakFor\fi
   \color [rgb]{\Ratio {2cm}{#1},0,0}%
-  \vrule width .2pt height \FB {2cm}{#1}sp depth -\FA {2cm}{#1}sp
+  \vrule width .25pt height \FB {2cm}{#1}sp depth -\FA {2cm}{#1}sp
   }% end of For iterated text
 }%
 \endgroup
 \hspace{1cm}%
-\begingroup\scriptsize\def\MacroFont {\ttfamily\baselineskip8pt\relax}
+\scriptsize\def\MacroFont {\ttfamily\baselineskip8pt\relax}
 \begin{minipage}{\dimexpr\linewidth-3cm-\parindent\relax}
 \dverb|@
 \def\DimToNum #1{\number\dimexpr #1\relax }
 \xintNewNumExpr \FA [2] {{_DimToNum {$2}}^3/{_DimToNum {$1}}^2}    % cube
 \xintNewNumExpr \FB [2] {sqrt ({_DimToNum {$2}}*{_DimToNum {$1}})} % sqrt
 \xintNewExpr \Ratio [2] {trunc({_DimToNum {$2}}/{_DimToNum{$1}},3)}
-\begingroup
+\begingroup % to limit the scope of color changes
 \xintFor #1 in {\xintdimensions [0pt+.1pt]} \do
  {\ifdim #1>2cm \expandafter\xintBreakFor\fi
   \color [rgb]{\Ratio {2cm}{#1},0,0}%
   \vrule width .1pt height \FB {2cm}{#1}sp depth -\FA {2cm}{#1}sp
  }% end of For iterated text
+\endgroup|\par
+\end{minipage}}
+\end{figure*}
+
+% attention, pour le \meaning dans cette note de base de page
+
+The\xintNewNumExpr \FA [2] {{_DimToNum {$2}}^3/{_DimToNum {$1}}^2} %$
+\hyperlink{graphic}{graphic}, with the code on its right\footnote{the somewhat
+  peculiar use of |\_| and |\$| is explained in \autoref{xintNewExpr}; they are
+  made necessary from the fact that the parameters are passed to a \emph{macro}
+  (\csa{DimToNum}) and not only to \emph{functions}, as are known to
+  \hyperref[sec:exprsummary]{\csa{xintexpr}}. But one can also define directly
+  the desired function, for example the constructed \csa{FA} turns out to have
+  meaning \texttt{\meaning\FA}, where the \csa{romannumeral} part is only to
+  ensure it expands in only two steps, and could be removed. A handwritten macro
+  would use here \csa{xintiPow} and not \csa{xintPow}, as we know it has to deal
+  with integers only. See the next footnote.}, is for illustration only, not
+only because of pdf rendering artefacts when displaying adjacent rules (which do
+\emph{not} show in |dvi| output as rendered by |xdvi|, and depend from your
+viewer), but because not using anything but rules it is quite inefficient and
+must do lots of computations to not confer a too ragged look to the borders.
+With a width of |.5pt| rather than |.1pt| for the rules, one speeds up the
+drawing by a factor of five, but the boundary is then visibly ragged.
+\newbox\codebox
+\begingroup\makeatletter
+\def\x{%
+     \parindent0pt 
+     \def\par{\@@par\leavevmode\null}%
+     \let\do\do@noligs \verbatim@nolig@list
+     \let\do\@makeother \dospecials 
+     \catcode`\@ 14 \makestarlowast
+     \ttfamily \scriptsize\baselineskip 8pt \obeylines \@vobeyspaces 
+     \catcode`\|\active
+     \lccode`\~`\|\lowercase{\let~\egroup}}%
+\global\setbox\codebox \vbox\bgroup\x
+\def\DimToNum #1{\the\numexpr \dimexpr#1\relax/10000\relax } % no need to be more precise!
+\def\FA #1#2{\xintDSH {-4}{\xintQuo {\xintiPow {\DimToNum {#2}}{3}}{\xintiSqr {\DimToNum{#1}}}}}
+\def\FB #1#2{\xintDSH {-4}{\xintiSqrt {\xintiMul {\DimToNum {#2}}{\DimToNum{#1}}}}}
+\def\Ratio #1#2{\xintTrunc {2}{\DimToNum {#2}/\DimToNum{#1}}}
+\begingroup
+\xintFor #1 in {\xintdimensions [0pt+.25pt]} \do
+ {\ifdim #1>2cm \expandafter\xintBreakFor\fi
+  \color [rgb]{\Ratio {2cm}{#1},0,0}%
+  \vrule width .25pt height \FB {2cm}{#1}sp depth -\FA {2cm}{#1}sp
+ }% end of For iterated text
 \endgroup
 |%
-\end{minipage}
 \endgroup
-}
-
-The graphic above, with the code on its right\footnote{the somewhat peculiar
-  use of |\_| and |\$| is explained in \autoref{xintNewExpr}; they are made
-  necessary from the fact that \csa{DimToNum} is not a native
-  package macro, and can not be expanded with a dummy argument. But one can
-  also define directly the desired function, for 
-  example the constructed \csa{FA} turns out to have meaning
-  \texttt{\meaning\FA}, where 
-  the \csa{romannumeral} part is only to ensure it expands in only two steps,
-  and could be removed. Furthermore a handwritten macro would use here
-  \csa{xintiPow} and not \csa{xintPow}, as we know it has to deal with integers
-  only. I tried that, and also for \csa{FB} and \csa{Ratio} but obtained only a
-  |10\%| speed gain.}, is for 
-illustration only, not only because of pdf rendering artefacts when displaying
-adjacent rules (which do \emph{not} show in |dvi| output as rendered by
-|xdvi|, and depend from your viewer), but because not using anything but rules
-it is quite inefficient and must do lots of computations to not confer a too
-ragged look to the borders. With a width of |.5pt| rather than |.1pt| for the
-rules, one speeds up the drawing by a factor of five, but the boundary is then
-visibly ragged.\footnote{actually, this for loop takes the most time of all
-  computations done in this entire document!}
+\footnote{to tell the whole truth we cheated and divided by |10| the
+  computation time through using the following definitions, together with a
+  horizontal step of |.25pt| rather than |.1pt|. The displayed original code
+  would make the slowest computation of all those done in this document using
+  the \xintname bundle macros!\par\smallskip
+  \noindent\box \codebox\par }
 
 If the list argument to \csbxint{For} (or \csbxint{For*}) is \csbxint{rationals}
 or more generally
 \csbxint{rationals}|[||start|\allowbreak|+|\allowbreak|delta||]| (\emph{within
   braces}!), then \csbxint{For} does an infinite iteration where |#1| (or |#2|,
-|#3|, |#4|) will run through the arithmetic sequence of \xintfracname fractions
+\dots, |#9|) will run through the arithmetic sequence of \xintfracname fractions
 with initial value |start| and increment |delta| (default values: |start=1/1|,
 |delta=1/1|). This loop works \emph{only with \xintfracname loaded}. if the
 optional argument is present it must contain both of them, and they may be given
 in any of the formats recognized by \xintfracname (fractions, decimal
 numbers, numbers in scientific notations, numerators and denominators in
 scientific notation, etc...) , or as macros or count registers (if they are
-short integers). The |#1| (or |#2|, |#3|, |#4|) will be an |a/b| fraction
+short integers). The |#1| (or |#2|, \dots, |#9|) will be an |a/b| fraction
 (without a |[n]| part), where
 the denominator |b| is the product of the denominators of
 |start| and |delta| (for reasons of speed |#1| is not reduced to irreducible
@@ -4124,28 +4405,58 @@ achieve that).
 \noindent\dverb|@ 
 \xintFor #1 in {\xintrationals [10/21+1/21]} \do 
 {#1=\xintifInt {#1}
-  {\begingroup\color{blue}\xintTrunc{10}{#1}\endgroup}
+  {\textcolor{blue}{\xintTrunc{10}{#1}}}
   {\xintTrunc{10}{#1}}% in blue if an integer
-  \xintifGt {#1}{2}{\xintBreakFor}{, }%
+  \xintifGt {#1}{1.123}{\xintBreakFor}{, }%
 }|
 
 \smallskip
 \centeredline{\parbox{\dimexpr\linewidth-3em}{\xintFor #1 in {\xintrationals [10/21+1/21]} \do 
-{#1=\xintifInt
-    {#1}{\begingroup\color{blue}\xintTrunc{10}{#1}\endgroup}
+{#1=\xintifInt {#1}
+    {\textcolor{blue}{\xintTrunc{10}{#1}}}
     {\xintTrunc{10}{#1}}% display in blue if an integer
-    \xintifGt {#1}{2}{\xintBreakFor}{, }%
+    \xintifGt {#1}{1.123}{\xintBreakFor}{, }%
   }}}
 \endgroup
 
 \smallskip The example above confirms that computations are done exactly, and
 illustrates that the two initial (reduced) denominators are not multiplied when
-they are found to be equal (so it is recommended to input |start| and |delta|
-with a common smallest possible denominator and also this is the reason why
-|start| and |delta| are not by default made irreducible). As internally the
+they are found to be equal.  It is thus recommended to input |start| and |delta|
+with a common smallest possible denominator, or as fixed point numbers with the
+same numbers of digits after the decimal mark;  and this is also the reason why
+|start| and |delta| are not by default made irreducible. As internally the
 computations are done with numerators and denominators completely expanded, one
 should be careful not to input numbers in scientific notation with exponents in
 the hundreds, as they will get converted into as many zeros.
+
+\begingroup\footnotesize \def\MacroFont {\ttfamily\relax}
+\noindent\dverb|@ 
+\xintFor #1 in {\xintrationals [0.000+0.125]} \do 
+{\edef\tmp{\xintTrunc{3}{#1}}%
+ \xintifInt {#1}
+    {\textcolor{blue}{\tmp}}
+    {\tmp}%
+    \xintifGt {#1}{2}{\xintBreakFor}{, }%
+  }|
+\smallskip
+
+\centeredline{\parbox{\dimexpr.7\linewidth}{\raggedright
+\xintFor #1 in {\xintrationals [0.000+0.125]} \do 
+{\edef\tmp{\xintTrunc{3}{#1}}%
+ \xintifInt {#1}
+    {\textcolor{blue}{\tmp}}
+    {\tmp}%
+    \xintifGt {#1}{2}{\xintBreakFor}{, }%
+  }}}
+
+\smallskip
+
+We see here that \csbxint{Trunc} outputs (deliberately) zero as @0@, not (here)
+@0.000@, the idea being not to lose the information that the truncated thing was
+truly zero. Perhaps this behavior should be changed? or made optional? Anyhow
+printing of fixed points numbers should be dealt with via dedicated packages
+such as |numprint| or |siunitx|.\par
+\endgroup
 
 
 \subsection{Another table of primes}\label{ssec:primesII}
@@ -4181,13 +4492,13 @@ overhead as they are able to deal with arbitrarily big integers.
 }%
 
 \dverb|@
-\def\IsPrime #1#2%
-{\edef\TheNumber {\the\numexpr #2}% positive integer
+\def\IsPrime #1#2% """color[named]{PineGreen}#1=\Result, #2=tested number (assumed >0).;!
+{\edef\TheNumber {\the\numexpr #2}%"""color[named]{PineGreen} hence #2 may be a count or \numexpr.;!
  \ifnumodd {\TheNumber}
- {\ifnumgreater {\TheNumber}{1}
+ {\ifnumgreater {\TheNumber}{1}  
   {\edef\ItsSquareRoot{\xintiSqrt \TheNumber}%
-    \xintFor ##1 in {\xintintegers [3+2]}\do 
-    {\ifnumgreater {##1}{\ItsSquareRoot}
+    \xintFor """color{red}##1;! in {"""color{red}\xintintegers;! [3+2]}\do 
+    {\ifnumgreater {"""color{red}##1;!}{\ItsSquareRoot} """color[named]{PineGreen}% "textcolor{red}{##1} is a \numexpr.;!
                {\def#1{1}\xintBreakFor}
                {}%
      \ifnumequal {\TheNumber}{(\TheNumber/##1)*##1}
@@ -4234,14 +4545,15 @@ been put in a \hyperref[primes]{float}, which appears
   \begin{tabular}{|*{7}c|}
   \hline
   \setcounter{primecount}{0}\setcounter{cellcount}{0}%
-  \xintFor #1 in {\xintintegers [12345+2]} \do
+  \xintFor """color{red}#1;! in {"""color{red}\xintintegers;! [12345+2]} \do 
+"""color[named]{PineGreen}% "textcolor{red}{#1} is a \numexpr.;!
   {\IsPrime\Result{#1}%
    \ifnumgreater{\Result}{0}
    {\stepcounter{primecount}%
     \stepcounter{cellcount}%
     \ifnumequal {\value{cellcount}}{7}
-       {\the#1 \\\setcounter{cellcount}{0}}
-       {\the#1 &}}
+       {"""color{red}\the#1;! \\\setcounter{cellcount}{0}}
+       {"""color{red}\the#1;! &}}
    {}%
     \ifnumequal {\value{primecount}}{50}
      {\xintBreakForAndDo 
@@ -4252,35 +4564,42 @@ been put in a \hyperref[primes]{float}, which appears
 \end{figure*}?
 
 \subsection{\csbh{xintForpair}, \csbh{xintForthree}, \csbh{xintForfour}}\label{xintForpair}\label{xintForthree}\label{xintForfour}
-{\small New in |1.09c| and in experimental status.\par}
+{\small New in |1.09c|. The \csa{xintifForFirst}
+  |1.09e| mechanism was missing and has been added for |1.09f|. The |1.09f|
+  version handles better spaces and admits all (consecutive) macro
+  parameters.\par}
 
-This is experimental and subjected to change. The syntax is illustrated in this example:
+The syntax is illustrated in this
+example. The notation is the usual one for |n|-uples, with parentheses and
+commas. Spaces around commas and parentheses are ignored. 
+%
 \dverb|@
 \begin{tabular}{cccc}
-    \xintForpair #1#2 in {(A,a),(B,b),(C,c)} \do {%
-      \xintForpair #3#4 in {(X,x),(Y,y),(Z,z)} \do {%
-        $\left(\begin{tabular}{cc}
-          #1 & #3\\
-          #4 & #2\\
-        \end{tabular}\right)$&}\\\noalign{\vskip1\jot}}%
+    \xintForpair #1#2 in { ( A , a ) , ( B , b ) , ( C , c ) } \do {%
+      \xintForpair #3#4 in { ( X , x ) , ( Y , y ) , ( Z , z ) } \do {%
+        $\Biggl($\begin{tabular}{cc}
+          -#1- & -#3-\\
+          -#4- & -#2-\\
+        \end{tabular}$\Biggr)$&}\\\noalign{\vskip1\jot}}%
 \end{tabular}|%
 \centeredline{\begin{tabular}{cccc}
-    \xintForpair #1#2 in {(A,a),(B,b),(C,c)} \do {%
-      \xintForpair #3#4 in {(X,x),(Y,y),(Z,z)} \do {%
-        $\left(\begin{tabular}{cc}
-          #1 & #3\\
-          #4 & #2\\
-        \end{tabular}\right)$&}\\\noalign{\vskip1\jot}}%
+    \xintForpair #1#2 in { ( A , a ) , ( B , b ) , ( C , c ) } \do {%
+      \xintForpair #3#4 in { ( X , x ) , ( Y , y ) , ( Z , z ) } \do {%
+        $\Biggl($\begin{tabular}{cc}
+          -#1- & -#3-\\
+          -#4- & -#2-\\
+        \end{tabular}$\Biggr)$&}\\\noalign{\vskip1\jot}}%
 \end{tabular}}
 
-\smallskip
-Only |#1#2|, |#2#3|, |#3#4| are accepted. One can nest with \csbxint{For}, for
-disjoint sets of macro parameters. There is also \csa{xintForthree}
-(with |#1#2#3| or |#2#3#4|) and \csa{xintForfour} (only with |#1#2#3#4|).
+\smallskip Only |#1#2|, |#2#3|, \dots, |#8#9| are valid (no error check is
+done on the input syntax\dots). One can nest with
+\csbxint{For}, for disjoint sets of macro parameters. There is also
+\csa{xintForthree} (from |#1#2#3| to |#7#8#9|) and \csa{xintForfour}
+(from |#1#2#3#4| to |#6#7#8#9|).
 
-These three macros |\xintForpair|, |\xintForthree| and |\xintForfour| are to be
-considered in experimental status, and may be removed or substantially modified
-at some later stage. 
+% These three macros |\xintForpair|, |\xintForthree| and |\xintForfour| are to
+% be considered in experimental status, and may be removed, replaced or
+% substantially modified at some later stage.
 
 \subsection{\csbh{xintAssign}}\label{xintAssign}
 
@@ -4705,16 +5024,33 @@ The fraction format on output is the scientific notation for the `float' macros,
 and the |A/B[n]| format for all other fraction macros, with the exception of
 \csbxint{Trunc}, {\color{blue}\string\xint\-Round} (which produce decimal
 numbers) and \csbxint{Irr}, \csbxint{Jrr}, \csbxint{RawWithZeros} (which returns
-an |A/B| with no trailing |[n]|, and prints the |B| even if it is |1|),
-\csbxint{PRaw} which does not print the |[n]| if |n=0| or the |B| if |B=1|. Use
-\csbxint{Num} (or |\xintPRaw| if simplification is not needed) for fractions a
-priori known to simplify to integers: |\xintNum {\xintAdd {2}{3}}| gives
-\digitstt{\xintNum {\xintAdd {2}{3}}} whereas |\xintAdd {2}{3}| returns
-\digitstt{\xintAdd {2}{3}}. Some macros (among them \csbxint{iTrunc},
-\csbxint{iRound}, and \csbxint{Fac}) already produce integers on output.
+an |A/B| with no trailing |[n]|, and prints the |B| even if it is |1|), and
+\csbxint{PRaw} which does not print the |[n]| if |n=0| or the |B| if |B=1|. 
+
+To be certain to print an integer output without trailing |[n]| nor fraction
+slash, one should use either |\xintPRaw {\xintIrr {f}}| or |\xintNum {f}| when
+it is already known that |f| evaluates to a (big) integer. For example
+|\xintPRaw {\xintAdd {2/5}{3/5}}| gives a perhaps disappointing
+\digitstt{\xintPRaw {\xintAdd {2/5}{3/5}}}\footnote{yes, \csbxint{Add} blindly
+  multiplies denominators... }, whereas |\xintPRaw {\xintIrr {\xintAdd
+    {2/5}{3/5}}}| returns \digitstt{\xintPRaw {\xintIrr {\xintAdd
+    {2/5}{3/5}}}}. As we knew the result was an integer we could have used
+|\xintNum {\xintAdd {2/5}{3/5}}=|\xintNum {\xintAdd {2/5}{3/5}}.
+
+Some macros (such as \csbxint{iTrunc},
+\csbxint{iRound}, and \csbxint{Fac}) always produce directly integers on output.
 
 
 \localtableofcontents
+
+\subsection{\csbh{xintNum}}\label{xintNum}
+
+The macro is extended to accept a fraction on input. But this fraction should
+reduce to an integer. If not an error will be raised. The original is available
+as \csbxint{iNum}. It is imprudent to apply \csa{xintNum} to numbers with a
+large power of ten given either in scientific notation or with the |[n]|
+notation, as the macro will add the necessary zeros to get an explicit
+integer.
 
 \subsection{\csbh{xintifInt}}\label{xintifInt}
 {\small New with release |1.09e|.\par}
@@ -5089,8 +5425,8 @@ was absent, the result of this computation.
 \subsection{\csbh{xintMul}}\label{xintMul}
 
 The original macro is extended to accept fractions on input. Its output will now
-always be in the form |A/B[n]|. 
-The original is available as \csbxint{iMul}.
+always be in the form |A/B[n]|. The original, only for big integers, and
+outputting a big integer, is available as \csbxint{iMul}.
 
 \subsection{\csbh{xintFloatMul}}\label{xintFloatMul}
 
@@ -5104,8 +5440,8 @@ was absent, the result of this computation.
 \subsection{\csbh{xintSqr}}\label{xintSqr}
 
 The original macro is extended to accept a fraction on input. Its output will
-now always be in the form |A/B[n]|. The original is available as
-\csbxint{iSqr}.
+now always be in the form |A/B[n]|. The original which outputs only big integers
+is available as \csbxint{iSqr}.
 
 \subsection{\csbh{xintDiv}}\label{xintDiv}
 
@@ -5236,7 +5572,7 @@ $\sqrt{|f|}$, either using the optional precision |P| or the value of
 
 The original command is extended to accept fractions on input and produce
 fractions on output. The output will now always be in the form |A/B[n]|. The
-original is available \csa{xintiSum}.
+original, for big integers only,  is available \csa{xintiSum}.
 
 
 % \subsection{\csbh{xintPrd}, \csbh{xintPrdExpr}}\label{xintPrd}\label{xintPrdExpr}
@@ -5244,7 +5580,8 @@ original is available \csa{xintiSum}.
 \subsection{\csbh{xintPrd}}\label{xintPrd}\label{xintPrdExpr}
 
 The original is extended to accept fractions on input and produce fractions on
-output. The output will now always be in the form |A/B[n]|. The original
+output. The output will now always be in the form |A/B[n]|. The original, for
+big integers only,
 is 
 available as \csa{xintiPrd}.
 
@@ -5253,17 +5590,15 @@ available as \csa{xintiPrd}.
 
 The macro is extended to fractions. Its output is still either
 |-1|, |0|, or |1| with no forward slash nor trailing |[n]|. 
-The original, which skips the overhead of
-the fraction format parsing, is available as \csbxint{iCmp}.
 
 For choosing branches according to the result of comparing |f| and |g|, the
 following syntax is recommended: |\xintSgnFork{\xintCmp{f}{g}}{code for
   f<g}{code for f=g}{code for f>g}|.
 
-Note that since release |1.08a| using this macro on inputs with large powers of
-tens does not take a quasi-infinite time, contrarily to the earlier, somewhat
-dumb version (the earlier version indirectly led to the creation of giant chains
-of zeros in certain circumstances, causing a serious efficiency impact).
+% Note that since release |1.08a| using this macro on inputs with large powers of
+% tens does not take a quasi-infinite time, contrarily to the earlier, somewhat
+% dumb version (the earlier version indirectly led to the creation of giant chains
+% of zeros in certain circumstances, causing a serious efficiency impact).
 
 \subsection{\csbh{xintIsOne}}
 See \csbxint{IsOne} (\autoref{xintIsOne}).
@@ -5271,23 +5606,21 @@ See \csbxint{IsOne} (\autoref{xintIsOne}).
 \subsection{\csbh{xintGeq}}\label{xintGeq}
 {\small Rewritten in |1.08a|.\par}
 
-The macro is extended to fractions. The original, which skips the overhead of
-the fraction format parsing, is available as \csbxint{iGeq}. Beware that the
+The macro is extended to fractions. Beware that the
 comparison is on 
 the \emph{absolute values} of the fractions. Can be used as:
 \verb+\xintSgnFork{\xintGeq{f}{g}}{}{code for |f|<|g|}{code for
   |f|+$\geqslant$\verb+|g|}+ 
 
 
-Same improvements in |1.08a| as for
-\csbxint{Cmp}. 
 
 \subsection{\csbh{xintMax}}\label{xintMax}
 {\small Rewritten in |1.08a|.\par}
 
 The macro is extended to fractions. But now |\xintMax {2}{3}| returns
-\digitstt{\xintMax {2}{3}}. The original is available as
-\csbxint{iMax}. 
+\digitstt{\xintMax {2}{3}}. The original, for use with (possibly big) integers
+only, is available as \csbxint{iMax}: |\xintiMax {2}{3}=|\digitstt{\xintiMax
+  {2}{3}}.
 
 \subsection{\csbh{xintMaxof}}
 See \csbxint{Maxof} (\autoref{xintMaxof}).
@@ -5295,48 +5628,47 @@ See \csbxint{Maxof} (\autoref{xintMaxof}).
 \subsection{\csbh{xintMin}}\label{xintMin}
 {\small Rewritten in |1.08a|.\par}
 
-The macro is extended to fractions. The original is available as
-\csbxint{iMin}.
+The macro is extended to fractions. The original, for (big) integers only, is
+available as \csbxint{iMin}.
 
 \subsection{\csbh{xintMinof}}
 See \csbxint{Minof} (\autoref{xintMinof}).
 
 \subsection{\csbh{xintAbs}}\label{xintAbs}
 
-The macro is extended to fractions. The original is available as
-\csbxint{iAbs}. Note that |\xintAbs {-2}|\digitstt{=\xintAbs {-2}} whereas
-|\xintiAbs {-2}|\digitstt{=\xintiAbs {-2}}.
+The macro is extended to fractions. The original, for (big) integers only, is
+available as \csbxint{iAbs}. Note that |\xintAbs {-2}|\digitstt{=\xintAbs {-2}}
+whereas |\xintiAbs {-2}|\digitstt{=\xintiAbs {-2}}.
 
 \subsection{\csbh{xintSgn}}\label{xintSgn}
 
-The macro is extended to fractions. Its output is still either
-|-1|, |0|, or |1| with no forward slash nor trailing |[n]|. The
-original, which skips the overhead of the fraction format parsing, is
-available as \csbxint{iSgn}.
+The macro is extended to fractions. Naturally, its output is still either
+|-1|, |0|, or |1| with no forward slash nor trailing |[n]|.
 
 \subsection{\csbh{xintOpp}}\label{xintOpp}
 
 The macro is extended to fractions. The original is available as
-\csbxint{iOpp}. Note that |\xintOpp {3}| now outputs \digitstt{\xintOpp {3}}.
+\csbxint{iOpp}. Note that |\xintOpp {3}| now outputs \digitstt{\xintOpp {3}}
+whereas |\xintiOpp {3}| returns \digitstt{\xintiOpp {3}}.
 
 \subsection{\csbh{xintDivision}, \csbh{xint\-Quo}, \csbh{xint\-Rem},
   \csbh{xintFDg}, \csbh{xintLDg}, \csbh{xintMON}, \csbh{xintMMON}, \csbh{xintOdd}}
+\label{xintiiMON}%
+\label{xintiiMMON}
+
 
 These macros are extended to accept a fraction on input if this fraction
 in fact reduces to an integer (if not an |\xintError:NotAnInteger| will
-be raised). As usual, the `{\color{blue}i}' variants all exist, they
-accept on input only integers in the strict format and have less
-overhead. There is no difference in the output, the difference is only
-in the accepted format for the inputs.
+be raised). There is no difference in the format of the outputs, which are big
+integers without fraction slash nor trailing |[n]|, the sole difference is in
+the extended range of accepted inputs.
 
-\subsection{\csbh{xintNum}}\label{xintNum}
+There are variants with |xintii| rather than |xint| in their names, which accept
+on input only integers in the strict format (they do not use \csbxint{Num}).
+They thus have less overhead, and may be used when one is dealing exclusively
+with (big) integers.
 
-The macro is extended to accept a fraction on input. But this fraction should
-reduce to an integer. If not an error will be raised. The original is available
-as \csbxint{iNum}. It is imprudent to apply \csa{xintNum} to numbers with a
-large power of ten given either in scientific notation or with the |[n]|
-notation, as the macro will add the necessary zeros to get an explicit
-integer.\centeredline{|\xintNum {1e80}|}
+\centeredline{|\xintNum {1e80}|}
 \centeredline{\digitstt{\xintNum{1e80}}}
 
 
@@ -6233,7 +6565,7 @@ first released with version |1.03| of the \xintname bundle.
 
 \subsection{\csbh{xintSeries}}\label{xintSeries}
 
-\def\coeff #1{\xintiMON{#1}/#1.5} % (-1)^n/(n+1/2)
+\def\coeff #1{\xintiiMON{#1}/#1.5} % (-1)^n/(n+1/2)
 \edef\w {\xintSeries {0}{50}{\coeff}}
 \edef\z {\xintJrr {\w}[0]}
 
@@ -6243,9 +6575,11 @@ must obey the |\numexpr| constraint of expanding to numbers at most |2^31-1|.
 The |\coeff| macro must be a
 one-parameter fully expandable command, taking on input an explicit number |n|
 and producing some fraction |\coeff{n}|; it is expanded at the time it is
-needed. 
+needed.\footnote{\label{fn:xintiiMON}\csa{xintiiMON} is like \csbxint{MON} but does not parse its
+  argument through \csbxint{Num}, for efficiency; other macros of this type are
+  \csa{xintiiMMON}, \csa{xintiiLDg}, \csa{xintiiFDg}, \csa{xintiiOdd}.}
 \dverb|@ 
-\def\coeff #1{\xintiMON{#1}/#1.5} % (-1)^n/(n+1/2)
+\def\coeff #1{\xintiiMON{#1}/#1.5} % (-1)^n/(n+1/2)
 \edef\w {\xintSeries {0}{50}{\coeff}} % we want to re-use it
 \edef\z {\xintJrr {\w}[0]} % the [0] for a microsecond gain.
 % \xintJrr preferred to \xintIrr: a big common factor is suspected.
@@ -6349,7 +6683,7 @@ digits) in the denominator. See the explanations in the next section.
 \def\coeff #1{\xintiTrunc {40}{\xintMON{#1}/#1.5}}%
 % better:
 \def\coeff #1{\xintiTrunc {40}
-   {\the\numexpr 2*\xintiMON{#1}\relax/\the\numexpr 2*#1+1\relax [0]}}% 
+   {\the\numexpr 2*\xintiiMON{#1}\relax/\the\numexpr 2*#1+1\relax [0]}}% 
 % better still:
 \def\coeff #1{\xintiTrunc {40}
  {\the\numexpr\ifodd #1 -2\else2\fi\relax/\the\numexpr 2*#1+1\relax [0]}}% 
@@ -6361,7 +6695,8 @@ The |#1.5| trick to define the |\coeff| macro was neat, but |1/3.5|, for
 example, turns internally into |10/35| whereas it would be more efficient to
 have |2/7|. The second way of coding the wanted coefficient avoids a superfluous
 factor of five and leads to a faster evaluation. The third way is faster, after
-all there is no need to use \csbxint{MON} (or rather \csbxint{iMON} which has
+all there is no need to use \csbxint{MON} (or rather
+\hyperref[fn:xintiiMON]{\csa{xintiiMON}} which has 
 less parsing overhead) on integers
 obeying the \TeX{} bound. The denominator having no sign, we have added the
 |[0]| as this speeds up (infinitesimally) the parsing.
@@ -7198,9 +7533,9 @@ zeros may be nine (and the last non-zero one should be decreased).
                                        \the\numexpr 2*#1+1\relax [0]}% 
 % the above computes (-1)^n/(2n+1).
 % Alternatives: 
-% \def\coeffarctg #1{1/\the\numexpr\xintiMON{#1}*(2*#1+1)\relax }%
+% \def\coeffarctg #1{1/\the\numexpr\xintiiMON{#1}*(2*#1+1)\relax }%
 % The [0] can *not* be used above, as the denominator is signed.
-% \def\coeffarctg #1{\xintiMON{#1}/\the\numexpr 2*#1+1\relax [0]}%
+% \def\coeffarctg #1{\xintiiMON{#1}/\the\numexpr 2*#1+1\relax [0]}%
 \def\xa {1/25[0]}%      1/5^2, the [0] for faster parsing
 \def\xb {1/57121[0]}% 1/239^2, the [0] for faster parsing
 \def\Machin #1{% \Machin {\mycount} is allowed
@@ -7920,12 +8255,12 @@ generalized fraction. |N| is givent to a |\numexpr|. As shown, the coefficients
 are enclosed into added pairs of braces, and may thus be fractions.
 \dverb|@
 \def\an #1{\the\numexpr #1*#1*#1+1\relax}%
-\def\bn #1{\the\numexpr \xintiMON{#1}*(#1+1)\relax}%
+\def\bn #1{\the\numexpr \xintiiMON{#1}*(#1+1)\relax}%
 $\xintGCntoGC {5}{\an}{\bn}}=\xintGCFrac {\xintGCntoGC {5}{\an}{\bn}}
         = \displaystyle\xintFrac {\xintGCntoF  {5}{\an}{\bn}}$\par
 |
 \def\an #1{\the\numexpr #1*#1*#1+1\relax}%
-\def\bn #1{\the\numexpr \xintiMON{#1}*(#1+1)\relax}%
+\def\bn #1{\the\numexpr \xintiiMON{#1}*(#1+1)\relax}%
 $\xintGCntoGC {5}{\an}{\bn}=\xintGCFrac {\xintGCntoGC {5}{\an}{\bn}}
         = \displaystyle\xintFrac {\xintGCntoF  {5}{\an}{\bn}}$\par
 
@@ -7994,8 +8329,6 @@ first place.
 %<*xint>
 % \section {Package \xintname implementation}
 % 
-% The commenting of the macros is currently (\docdate) very sparse.
-%
 % With release |1.09a| all macros doing arithmetic operations and a few more
 % apply systematically |\xintnum| to their arguments; this adds a little
 % overhead but this is more convenient for using count registers even with infix
@@ -8166,7 +8499,7 @@ first place.
 \fi
 \XINT_providespackage
 \ProvidesPackage {xint}%
-  [2013/10/29 v1.09e Expandable operations on long numbers (jfB)]%
+  [2013/11/04 v1.09f Expandable operations on long numbers (jfB)]%
 %    \end{macrocode}
 % \subsection{Token management, constants}
 % \lverb|In 1.09e \xint_undef replaced everywhere by \xint_bye.|
@@ -8180,7 +8513,7 @@ first place.
 \def\xint_gobble_vi   #1#2#3#4#5#6{}%
 \def\xint_gobble_vii  #1#2#3#4#5#6#7{}%
 \def\xint_gobble_viii #1#2#3#4#5#6#7#8{}%
-\def\xint_firstofone  #1{#1}%
+\long\def\xint_firstofone  #1{#1}% becomes long in 1.09f, 2013/11/01
 \xint_firstofone{\let\XINT_sptoken= } % 1.09d, 2013/10/22
 \long\def\xint_firstoftwo  #1#2{#1}% made long in 1.09e, 2013/10/28
 \long\def\xint_secondoftwo #1#2{#2}%
@@ -8191,7 +8524,7 @@ first place.
 \def\xint_secondofthree #1#2#3{#2}%
 \def\xint_thirdofthree  #1#2#3{#3}%
 \def\xint_minus_andstop { -}%
-\def\xint_bye #1\xint_bye {}%
+\long\def\xint_bye #1\xint_bye {}% becomes long in 1.09f
 \def\xint_gob_til_R     #1\R {}%
 \def\xint_gob_til_W     #1\W {}%
 \def\xint_gob_til_Z     #1\Z {}%
@@ -8204,7 +8537,7 @@ first place.
 \let\xint_relax\relax
 \def\xint_brelax {\xint_relax }%
 \def\xint_gob_til_relax      #1\relax {}%
-\def\xint_gob_til_xint_relax #1\xint_relax {}%
+\long\def\xint_gob_til_xint_relax #1\xint_relax {}% becomes long in 1.09f
 \def\xint_UDzerofork      #10\dummy  #2#3\krof {#2}%
 \def\xint_UDsignfork      #1-\dummy  #2#3\krof {#2}%
 \def\xint_UDwfork         #1\W\dummy #2#3\krof {#2}%
@@ -8328,14 +8661,13 @@ first place.
 % from \xintNthElt, and there it was necessary not to use \Z. Later use of \Z
 % and \W perfectly safe here.| 
 %    \begin{macrocode}
-\def\xintiLen {\romannumeral0\xintilen }%
-\def\xintilen #1%
+\def\xintLen {\romannumeral0\xintlen }%
+\def\xintlen #1%
 {%
     \expandafter\XINT_length_fork
     \romannumeral0\xintnum{#1}\xint_relax\xint_relax\xint_relax\xint_relax
                       \xint_relax\xint_relax\xint_relax\xint_relax\xint_bye 
 }%
-\let\xintLen\xintiLen \let\xintlen\xintilen
 \def\XINT_Len #1%
 {%
     \romannumeral0\XINT_length_fork
@@ -8382,26 +8714,199 @@ first place.
 }%
 \def\XINT_length_finish_c #1#2\Z #3{\expandafter\space\the\numexpr #3-#1\relax}%
 %    \end{macrocode}
-% \subsection{\csh{xintCSVtoList}}
+% \subsection{\csh{xintZapFirstSpaces}}
+% \lverb+1.09f, written [2013/11/01].+
+%    \begin{macrocode}
+\def\xintZapFirstSpaces {\romannumeral0\xintzapfirstspaces }%
+%    \end{macrocode}
+% \lverb|defined via an \edef in order to inject space tokens inside.|
+%    \begin{macrocode}
+\edef\xintzapfirstspaces #1%
+  {\noexpand\XINT_zapbsp_a \space #1\space\space\noexpand\xint_bye\xint_relax }%
+\xint_firstofone {\def\XINT_zapbsp_a #1 } %<- space token here
+{%
+%    \end{macrocode}
+% \lverb|If the original #1 started with a space, here #1 will be in fact empty,
+% so the effect will be to remove precisely one space from the original, because
+% the first two space tokens are matched to the ones of the macro parameter
+% text. If the original #1 did not start with a space then the #1 will be this
+% original #1, with its added first space, up to the first <sp><sp> found. The
+% added initial space will stop later the \romannumeral0. And in
+% \xintZapLastSpaces we also carried along a space in order to be able to mix
+% tne two codes in \xintZapSpaces. Testing for \emptiness of #1 is NOT done with
+% an \if test because #1 may contain \if, \fi things (one could use a
+% \detokenize method), and also because xint.sty has a style of its own for
+% doing these things...|
+%    \begin{macrocode}
+    \XINT_zapbsp_again? #1\xint_bye\XINT_zapbsp_b {#1}%
+%    \end{macrocode}
+% \lverb|The #1 above is thus either empty, or it starts with a (char 32) space
+% token followed with a non (char 32) space token and at any rate #1 is
+% protected from brace stripping. It is assumed that the initial input does not
+% contain space tokens of other than 32 as character code.|
+%    \begin{macrocode}
+}% 
+\def\XINT_zapbsp_again? #1{\xint_bye #1\XINT_zapbsp_again }%
+%    \end{macrocode}
+% \lverb|In the "empty" situation above, here #1=\xint_bye, else #1 could be
+% some brace things, but unbracing will anyhow not reveal any \xint_bye. When we
+% do below \XINT_zapbsp_again we recall that we have stripped two spaces out of
+% <sp><original #1>, so we have one <sp> less in #1, and when we loop we better
+% not forget to re-insert one initial <sp>.|
+%    \begin{macrocode}
+\edef\XINT_zapbsp_again\XINT_zapbsp_b #1{\noexpand\XINT_zapbsp_a\space }%
+%    \end{macrocode}
+% \lverb|We now have now gotten rid of the initial spaces, but #1 perhaps extend
+% only to some initial chunk which was delimited by <sp><sp>.|
+%    \begin{macrocode}
+\def\XINT_zapbsp_b #1#2\xint_relax
+   {\XINT_zapbsp_end? #2\XINT_zapbsp_e\empty #2{#1}}%
+%    \end{macrocode}
+% \lverb|If the initial chunk up to <sp><sp> (after stripping away the first
+% spaces) was maximal, then #2 above is some spaces followed by \xint_bye, so in
+% the \XINT_zapbsp_end? below it appears as \xint_bye, else the #1 below will
+% not be nor give rise after brace removal to \xint_bye. And then the original
+% \xint_bye in #2 will have the effect that all is swallowed and we continue
+% with \XINT_zapbsp_e. If the chunk was maximal, then the #2 above contains as
+% many space tokens as there were originally at the end.|
+%    \begin{macrocode}
+\def\XINT_zapbsp_end? #1{\xint_bye #1\XINT_zapbsp_end }%
+%    \end{macrocode}
+% \lverb|The #2 starts with a space which stops the \romannumeral.
+% The #1 contains the same number of space tokens there was originally.|
+%    \begin{macrocode}
+\def\XINT_zapbsp_end\XINT_zapbsp_e\empty #1\xint_bye #2{#2#1}%
+%    \end{macrocode}
 % \lverb|&
+% Here the initial chunk was not maximal. So we need to get a second piece
+% all the way up to \xint_bye, we take this opportunity to remove the two
+% initially added ending space tokens. We inserted an \empty to prevent brace
+% removal. The \expandafter get rid of the \empty.|
+%    \begin{macrocode}
+\xint_firstofone{\def\XINT_zapbsp_e #1 } \xint_bye 
+    {\expandafter\XINT_zapbsp_f \expandafter{#1}}%
+%    \end{macrocode}
+% \lverb|Let's not forget when we glue to reinsert the two intermediate space
+% tokens. |
+%    \begin{macrocode}
+\edef\XINT_zapbsp_f #1#2{#2\space\space #1}%
+%    \end{macrocode}
+% \subsection{\csh{xintZapLastSpaces}}
+% \lverb+1.09f, written [2013/11/01].+
+%    \begin{macrocode}
+\def\xintZapLastSpaces {\romannumeral0\xintzaplastspaces }%
+%    \end{macrocode}
+% \lverb|Next macro is defined via an \edef for the space tokens.|
+%    \begin{macrocode}
+\edef\xintzaplastspaces #1{\noexpand\XINT_zapesp_a {\space}\noexpand\empty 
+                         #1\space\space\noexpand\xint_bye \xint_relax}%
+%    \end{macrocode}
+% \lverb|This creates a delimited macro with two space tokens:|
+%    \begin{macrocode}
+\xint_firstofone {\def\XINT_zapesp_a #1#2 } %<- second space here
+    {\expandafter\XINT_zapesp_b\expandafter{#2}{#1}}%
+%    \end{macrocode}
+% \lverb|The \empty from \xintzaplastspaces is to prevent brace removal in the
+% #2 above. The \expandafter chain removes it.|
+%    \begin{macrocode}
+\def\XINT_zapesp_b #1#2#3\xint_relax
+    {\XINT_zapesp_end? #3\XINT_zapesp_e {#2#1}\empty #3\xint_relax }%
+%    \end{macrocode}
+% \lverb|&
+% When we have reached the ending space tokens, #3 is a bunch of spaces followed
+% by \xint_bye. So the #1 below will be \xint_bye. In all other cases #1 can not
+% be \xint_bye nor can it give birth to it via brace stripping.|
+%    \begin{macrocode}
+\def\XINT_zapesp_end? #1{\xint_bye #1\XINT_zapesp_end }%
+%    \end{macrocode}
+% \lverb|& 
+% We are done. The #1 here has accumulated all the previous material. It started
+% with a space token which stops the \romannumeral0. The reason for the space is
+% the recycling of this code in \xintZapSpaces.|
+%    \begin{macrocode}
+\def\XINT_zapesp_end\XINT_zapesp_e #1#2\xint_relax {#1}%
+%    \end{macrocode}
+% \lverb|We haven't yet reached the end, so we need to re-inject two space
+% tokens after what we have gotten so far. Then we loop. We might wonder why in
+% \XINT_zapesp_b we scooped everything up to the end, rather than trying to test
+% if the next thing was a bunch of spaces followed by \xint_bye\xint_relax. But
+% how can we expandably examine what comes next? if we pick up something as
+% undelimited parameter token we risk brace removal and we will never know about
+% it so we cannot reinsert correctly; the only way is to gather a delimited
+% macro parameter and be sure some token will be inside to forbid brace removal.
+% I do not see (so far) any other way than scooping everything up to the end.
+% Anyhow, 99$% of the use cases will NOT have <sp><sp> inside!.|
+%    \begin{macrocode}
+\edef\XINT_zapesp_e #1{\noexpand \XINT_zapesp_a {#1\space\space}}%
+%    \end{macrocode}
+% \subsection{\csh{xintZapSpaces}}
+% \lverb+1.09f, written [2013/11/01].+
+%    \begin{macrocode}
+\def\xintZapSpaces {\romannumeral0\xintzapspaces }%
+%    \end{macrocode}
+% \lverb|We start like \xintZapStartSpaces.|
+%    \begin{macrocode}
+\edef\xintzapspaces #1%
+  {\noexpand\XINT_zapsp_a \space #1\space\space\noexpand\xint_bye\xint_relax}%
+%    \end{macrocode}
+% \lverb|&
+% Once the loop stripping the starting spaces is done, we plug into the
+% \xintZapLast$-Spaces code via \XINT_zapesp_b. As our #1 will always have an
+% initial space, this is why  we arranged code of \xintZapLastSpaces to do the
+% same.|
+%    \begin{macrocode}
+\xint_firstofone {\def\XINT_zapsp_a #1 } %<- space token here
+{%
+    \XINT_zapsp_again? #1\xint_bye\XINT_zapesp_b {#1}{}%
+}%
+\def\XINT_zapsp_again? #1{\xint_bye #1\XINT_zapsp_again }%
+\edef\XINT_zapsp_again\XINT_zapesp_b #1#2{\noexpand\XINT_zapsp_a\space }%
+%    \end{macrocode}
+% \subsection{\csh{xintZapSpacesB}}
+% \lverb+1.09f, written [2013/11/01].+
+%    \begin{macrocode}
+\def\xintZapSpacesB {\romannumeral0\xintzapspacesb }%
+\def\xintzapspacesb #1{\XINT_zapspb_one? #1\xint_relax\xint_relax
+                         \xint_bye\xintzapspaces {#1}}%
+\def\XINT_zapspb_one? #1#2%
+   {\xint_gob_til_xint_relax #1\XINT_zapspb_onlyspaces\xint_relax
+    \xint_gob_til_xint_relax #2\XINT_zapspb_bracedorone\xint_relax
+    \xint_bye {#1}}%
+\def\XINT_zapspb_onlyspaces\xint_relax
+    \xint_gob_til_xint_relax\xint_relax\XINT_zapspb_bracedorone\xint_relax
+    \xint_bye #1\xint_bye\xintzapspaces #2{ }%
+\def\XINT_zapspb_bracedorone\xint_relax
+    \xint_bye #1\xint_relax\xint_bye\xintzapspaces #2{ #1}%
+%    \end{macrocode}
+% \subsection{\csh{xintCSVtoList}, \csh{xintCSVtoListNonStripped}}
+% \lverb|& 
 % \xintCSVtoList transforms a,b,..,z into {a}{b}...{z}. The comma separated list
-% may 
-% be a macro which is first expanded (protect the first item with a space if it
-% is not to be expanded). Blanks either before or after the separator will be
-% collapsed into one space and the is no
-% attempt to get rid of those. 
-% First included in release 1.06. Here, use of \Z (and \R) perfectly safe.|
+% may be a macro which is first expanded (protect the first item with a space if
+% it is not to be expanded). First included in release 1.06. Here, use of \Z
+% (and \R) perfectly safe.
+%
+% [2013/11/02]: Starting with 1.09f, automatically filters items through
+% \xintZapSpacesB to strip off all spaces around commas, and spaces at the start
+% and end of the list. The original is kept as \xintCSVtoListNonStripped, and is
+% faster. But ... it doesn't strip spaces.|
 %    \begin{macrocode}
 \def\xintCSVtoList {\romannumeral0\xintcsvtolist }%
+\def\xintcsvtolist #1{\expandafter\xintApply\expandafter\xintzapspacesb
+           \expandafter{\romannumeral0\xintcsvtolistnonstripped{#1}}}%
 \def\xintCSVtoListNoExpand {\romannumeral0\xintcsvtolistnoexpand }%
-\def\xintcsvtolist #1%
+\def\xintcsvtolistnoexpand #1{\expandafter\xintApply\expandafter\xintzapspacesb
+           \expandafter{\romannumeral0\xintcsvtolistnonstrippednoexpand{#1}}}%
+\def\xintCSVtoListNonStripped {\romannumeral0\xintcsvtolistnonstripped }%
+\def\xintCSVtoListNonStrippedNoExpand 
+         {\romannumeral0\xintcsvtolistnonstrippednoexpand }%
+\def\xintcsvtolistnonstripped #1%
 {%
     \expandafter\XINT_csvtol_loop_a\expandafter 
     {\expandafter}\romannumeral-`0#1%
         ,\xint_bye,\xint_bye,\xint_bye,\xint_bye
         ,\xint_bye,\xint_bye,\xint_bye,\xint_bye,\Z
 }%
-\def\xintcsvtolistnoexpand #1%
+\def\xintcsvtolistnonstrippednoexpand #1%
 {%
     \XINT_csvtol_loop_a 
     {}#1,\xint_bye,\xint_bye,\xint_bye,\xint_bye
@@ -8566,7 +9071,7 @@ first place.
 % where each instance of \macro is ff-expanded. The list is first
 % expanded and may thus be a macro. Introduced with release 1.04.
 %
-% Modified in 1.09e to not use \Z but rather \xint_bye|
+% Modified in 1.09e to not use \Z but rather \xint_bye.|
 %    \begin{macrocode}
 \def\xintApply         {\romannumeral0\xintapply }%
 \def\xintApplyNoExpand {\romannumeral0\xintapplynoexpand }%
@@ -8598,7 +9103,7 @@ first place.
 % Define \macro to start with a space if it is not expandable or its execution
 % should be delayed only when all of \macro{a}...\macro{z} is ready. 
 %
-% Modified in 1.09e to use \xint_bye rather than \Z|
+% Modified in 1.09e to use \xint_bye rather than \Z.|
 %    \begin{macrocode}
 \def\xintApplyUnbraced {\romannumeral0\xintapplyunbraced }%
 \def\xintApplyUnbracedNoExpand {\romannumeral0\xintapplyunbracednoexpand }%
@@ -8641,7 +9146,7 @@ first place.
 }%
 \def\XINT_seq #1#2%
 {%
-   \ifcase\xintiSgn{\the\numexpr #2-#1\relax}
+   \ifcase\xintiiSgn{\the\numexpr #2-#1\relax}
       \expandafter\xint_firstoftwo_andstop
    \or
       \expandafter\XINT_seq_p
@@ -8678,7 +9183,7 @@ first place.
 }%
 \def\XINT_seqo #1#2%
 {%
-   \ifcase\xintiSgn{\the\numexpr #2-#1\relax}
+   \ifcase\xintiiSgn{\the\numexpr #2-#1\relax}
       \expandafter\XINT_seqo_a
    \or
       \expandafter\XINT_seqo_pa
@@ -8741,28 +9246,23 @@ first place.
 \def\XINT_seqo_nd #1#2#3#4{\XINT_seqo_nb {#1}{#2}{#3}{#4{#1}}}%
 %    \end{macrocode}
 % \subsection{\csh{XINT\_xflet}}
-% \lverb|& 
-% 1.09e: we expand unbraced tokens and swallow arising space tokens
-% until the dust settles. For treating cases {<blank>\x<blank>\y...}, with
-% guaranteed expansion of the \x (which may itself give space tokens), a
-% simpler approach is possible with doubled \romannumeral-`0, this is what I
-% first did, but it had the feature that <sptoken><sptoken>\x would not expand
-% the \x. At any rate, <sptoken>'s before the list terminator z were all
-% correctly moved out of the way, hence the stuff was robust for use in
-% \xintApplyInline and \xintFor. Although *two* space tokens would need
-% devilishly prepared input, nevertheless I decided to also survive that, so
-% here the method is a bit more complicated. The advantage though is that now
-% the calling macro does not have to do a check for a space token anymore. But
-% I have to store the calling macro in the \XINT_xflet_macro token and use
-% \XINT_tokenB additionally to \XINT_token. The thing can still be fooled in
-% the sense of not expanding some non space non braced token but it has to be
-% very very malicious input... |
+% \lverb|1.09e [2013/10/29]: we expand fully unbraced tokens and swallow arising
+% space tokens until the dust settles. For treating cases
+% {<blank>\x<blank>\y...}, with guaranteed expansion of the \x (which may itself
+% give space tokens), a simpler approach is possible with doubled
+% \romannumeral-`0, this is what I first did, but it had the feature that
+% <sptoken><sptoken>\x would not expand the \x. At any rate, <sptoken>'s before
+% the list terminator z were all correctly moved out of the way, hence the stuff
+% was robust for use in (the then current versions of) \xintApplyInline and
+% \xintFor. Although *two* space tokens would need devilishly prepared input,
+% nevertheless I decided to also survive that, so here the method is a bit more
+% complicated. But it simplifies things on the caller side.|
 %    \begin{macrocode}
 \def\XINT_xflet #1%
 {%
-    \def\XINT_xflet_macro {#1}\XINT_xflet_get
+    \def\XINT_xflet_macro {#1}\XINT_xflet_zapsp
 }%
-\def\XINT_xflet_get
+\def\XINT_xflet_zapsp
 {%
     \expandafter\futurelet\expandafter\XINT_token
     \expandafter\XINT_xflet_sp?\romannumeral-`0%
@@ -8770,11 +9270,11 @@ first place.
 \def\XINT_xflet_sp?
 {%
     \ifx\XINT_token\XINT_sptoken
-         \expandafter\XINT_xflet_get
-    \else\expandafter\XINT_xflet_getB
+         \expandafter\XINT_xflet_zapsp
+    \else\expandafter\XINT_xflet_zapspB
     \fi
 }%
-\def\XINT_xflet_getB
+\def\XINT_xflet_zapspB
 {%
     \expandafter\futurelet\expandafter\XINT_tokenB
     \expandafter\XINT_xflet_spB?\romannumeral-`0%
@@ -8782,7 +9282,7 @@ first place.
 \def\XINT_xflet_spB?
 {%
     \ifx\XINT_tokenB\XINT_sptoken
-         \expandafter\XINT_xflet_getB
+         \expandafter\XINT_xflet_zapspB
     \else\expandafter\XINT_xflet_eq?
     \fi
 }%
@@ -8790,7 +9290,7 @@ first place.
 {%
     \ifx\XINT_token\XINT_tokenB
          \expandafter\XINT_xflet_macro
-    \else\expandafter\XINT_xflet_get
+    \else\expandafter\XINT_xflet_zapsp
     \fi
 }%
 %    \end{macrocode}
@@ -8806,7 +9306,7 @@ first place.
 %
 % Release 1.09c has a new \xintApplyInline: the new version, while not
 % expandable, is designed to survive when the applied macro closes a group, as
-% is the case in alignemnts when it contains a $& or \\. It uses catcode 3 z as
+% is the case in alignemnts when it contains a $& or \\. It uses catcode 3 Z as
 % list terminator. Don't use it among the list items. 
 %
 % 1.09d: the bug which was discovered in \xintFor* regarding space tokens at the
@@ -8816,18 +9316,20 @@ first place.
 %
 % 1.09e: the applied macro is allowed to be long, with items containing
 % explicit \par's.
+%
+% 1.09f: terminator used to be z, now Z (still catcode 3).
 %|
 %    \begin{macrocode}
-\catcode`z 3%
+\catcode`Z 3%
 \def\xintApplyInline #1#2%
 {%
   \long\expandafter\def\expandafter\XINT_inline_macro
   \expandafter ##\expandafter 1\expandafter {#1{##1}}%
-  \XINT_xflet\XINT_inline_b #2z% this z has catcode 3
+  \XINT_xflet\XINT_inline_b #2Z% this Z has catcode 3
 }%
 \def\XINT_inline_b
 {%
-    \ifx\XINT_token z\expandafter\xint_gobble_i
+    \ifx\XINT_token Z\expandafter\xint_gobble_i
     \else\expandafter\XINT_inline_d
     \fi 
 }%
@@ -8837,7 +9339,7 @@ first place.
 }%
 \def\XINT_inline_e 
 {%
-    \ifx\XINT_token z\expandafter\XINT_inline_w
+    \ifx\XINT_token Z\expandafter\XINT_inline_w
     \else\expandafter\XINT_inline_f
     \fi
 }%
@@ -8857,22 +9359,16 @@ first place.
 %    \end{macrocode}
 % \subsection{\csh{xintFor},
 % \csh{xintFor*}, \csh{xintBreakFor}, \csh{xintBreakForAndDo}} 
-% \lverb|& 
-% 1.09c: 
-% a new kind of loop which uses macro parameters #1, #2, #3,
-% #4 rather than macros; while not expandable it survives executing code
-% closing groups, like what happens in an alignment with the $& character.
+% \lverb|1.09c [2013/10/09]: a new kind of loop which uses macro parameters
+% #1, #2, #3, #4 rather than macros; while not expandable it survives executing
+% code closing groups, like what happens in an alignment with the $& character.
 % When inserted in a macro for later use, the # character must be doubled.
 % 
 % The non-star variant works on a csv list, which it expands once, the
 % star variant works on a token list, expanded fully.
 %
-% The #1 will be the macro character #. The \romannumeral#2 in \XINT_for(x) will
-% swallow a space token from blanks  before the `in'. Blanks after the `in'
-% disappear as #3 is not delimited.  
-%
 % 1.09d: [2013/10/22] \xintFor* crashed when a space token was at the very end
-% of the list. It is crucial in this code to not let the ending z be picked up
+% of the list. It is crucial in this code to not let the ending Z be picked up
 % as a macro parameter without knowing in advance that it is its turn. So, we
 % conscientiously clean out of the way space tokens, but also we ff-expand with
 % \romannumeral-`0 (unbraced) items, a process which may create new space
@@ -8881,56 +9377,90 @@ first place.
 % Unbraced items consecutive to an even (non-zero) number of space tokens will
 % not get expanded. 
 %
-% 1.09e: does this better, no difference between an even or odd number of
-% explicit consecutive space tokens. Normal situations anyhow only create at
-% most one space token, but well.
-% 1.09e: There was a feature in \xintFor (not \xintFor*) from 1.09c that it
-% treated an empty list as a list with one, empty, item. This feature is kept in
-% 1.09e, knowingly... Also, some macros are made long, the iterated text may
-% contain \par and also the looped over items. I thought about providing some
-% macro expanding to the loop count, but this complicates things and as the
+% 1.09e: [2013/10/29] does this better, no difference between an even or odd
+% number of explicit consecutive space tokens. Normal situations anyhow only
+% create at most one space token, but well. There was a feature in \xintFor (not
+% \xintFor*) from 1.09c that it treated an empty list as a list with one, empty,
+% item. This feature is kept in 1.09e, knowingly... Also, macros are made long,
+% hence the iterated text may contain \par and also the looped over items. I
+% thought about providing some macro expanding to the loop count, but as the
 % \xintFor is not expandable anyhow, there is no loss of generality if the
 % iterated commands do themselves the bookkeeping using a count or a LaTeX
-% counter.
+% counter, and deal with nesting or other problems. I can't do *everything*!
 % 
-% 1.09e adds \XINT_forever with \xintintegers, \xintdimensions,
-% \xintrationals  and  \xintBreakFor, \xintBreakForAndDo.
+% 1.09e adds \XINT_forever with \xintintegers, \xintdimensions, \xintrationals
+% and \xintBreakFor, \xintBreakForAndDo, \xintifForFirst, \xintifForLast. On
+% this occasion \xint_firstoftwo and \xint_secondoftwo are made long.
 %
-% 1.09e adds \xintifForFirst, \xintifForLast. On this occasion firstoftwo and
-% secondoftwo are made long. 
+% 1.09f: rewrites large parts of \xintFor code in order to filter the comma
+% separated list via \xintCSVtoList which gets rid of spaces. Compatibility
+% with \XINT_forever, the necessity to  prevent unwanted brace stripping, and
+% shared code with \xintFor*, make this all a delicate balancing act. The #1 in
+% \XINT_for_forever? has an initial space token which serves two purposes:
+% preventing brace stripping, and stopping the expansion made by \xintcsvtolist.
+% If the \XINT_forever branch is taken, the added space will not be a problem
+% there. 
 %
-% |
+% [2013/11/03]: 1.09f rewrites the code to allow all macro parameters from #1 to
+% #9 in \xintFor, \xintFor*, and \XINT_forever. |
 %    \begin{macrocode}
-\long\def\xintBreakFor      #1z{}%
-\long\def\xintBreakForAndDo #1#2z{#1}%
-\catcode`U 3 % with numexpr
-\catcode`V 3 % with xintfrac.sty (xint.sty not enough, uses \xintIrr)
-\catcode`D 3 % with dimexpr
-\catcode`j 3
-\def\xintFor {\futurelet\XINT_token\XINT_for_ifstar }%
-\def\XINT_for_ifstar {\let\xintifForFirst\xint_firstoftwo
-                      \ifx\XINT_token*\expandafter\XINT_forx
+\def\XINT_tmpa #1#2{\ifnum #2<#1 \xint_afterfi {{#########2}}\fi}%
+\def\XINT_tmpb #1#2{\ifnum #1<#2 \xint_afterfi {{#########2}}\fi}%
+\def\XINT_tmpc #1%
+{%
+    \expandafter\edef \csname XINT_for_left#1\endcsname  
+               {\xintApplyUnbraced {\XINT_tmpa #1}{123456789}}%
+    \expandafter\edef \csname XINT_for_right#1\endcsname 
+               {\xintApplyUnbraced {\XINT_tmpb #1}{123456789}}%
+}%
+\xintApplyInline \XINT_tmpc {123456789}%
+\long\def\xintBreakFor      #1Z{}%
+\long\def\xintBreakForAndDo #1#2Z{#1}%
+\def\xintFor {\let\xintifForFirst\xint_firstoftwo
+              \futurelet\XINT_token\XINT_for_ifstar }%
+\def\XINT_for_ifstar {\ifx\XINT_token*\expandafter\XINT_forx
                                  \else\expandafter\XINT_for \fi }%
+\catcode`U 3 % with numexpr
+\catcode`V 3 % with xintfrac.sty (xint.sty not enough)
+\catcode`D 3 % with dimexpr
+% \def\XINT_flet #1%
+% {%
+%     \def\XINT_flet_macro {#1}\XINT_flet_zapsp
+% }%
+\def\XINT_flet_zapsp
+{%
+    \futurelet\XINT_token\XINT_flet_sp?
+}%
+\def\XINT_flet_sp?
+{%
+    \ifx\XINT_token\XINT_sptoken
+         \xint_afterfi{\expandafter\XINT_flet_zapsp\romannumeral0}%
+    \else\expandafter\XINT_flet_macro
+    \fi
+}%
 \long\def\XINT_for #1#2in#3#4#5%
 {%
-    \XINT_toks {\csname XINT_for_d\romannumeral#2\endcsname {#5}}%
-    \expandafter\futurelet\expandafter\XINT_token
-    \expandafter\XINT_for_forever? #3,z% this z has catcode 3
+    \count 255 #2\relax
+    \expandafter\XINT_toks\expandafter
+        {\expandafter\XINT_for_d\the\count 255{#5}}%
+    \def\XINT_flet_macro {\expandafter\XINT_for_forever?\space}%
+    \expandafter\XINT_flet_zapsp #3Z%
 }%
-\long\def\XINT_forx *#1#2in#3#4#5%
-{%
-    \XINT_toks {\csname XINT_forx_d\romannumeral#2\endcsname {#5}}%
-    \XINT_xflet\XINT_forx_forever? #3jz% j and z have catcode 3
-}%
-\def\XINT_to_forever #1\XINT_toks {\fi \XINT_forever }%
-\def\XINT_for_forever?
+\def\XINT_for_forever? #1Z%
 {%
     \ifx\XINT_token U\XINT_to_forever\fi
     \ifx\XINT_token V\XINT_to_forever\fi
     \ifx\XINT_token D\XINT_to_forever\fi
-    \the\XINT_toks
+    \expandafter\the\expandafter\XINT_toks\romannumeral0\xintcsvtolist {#1}Z%
 }%
-\def\XINT_to_forxever #1\XINT_forx_empty? {\fi \XINT_forever }%
+\def\XINT_to_forever\fi #1\xintcsvtolist #2{\fi \XINT_forever #2}%
+\long\def\XINT_forx *#1#2in#3#4#5%
+{%
+    \count 255 #2\relax
+    \expandafter\XINT_toks\expandafter
+       {\expandafter\XINT_forx_d\the\count 255{#5}}%
+    \XINT_xflet\XINT_forx_forever? #3Z%
+}%
 \def\XINT_forx_forever? 
 {%
     \ifx\XINT_token U\XINT_to_forxever\fi
@@ -8938,87 +9468,51 @@ first place.
     \ifx\XINT_token D\XINT_to_forxever\fi
     \XINT_forx_empty?
 }%
+\def\XINT_to_forxever\fi #1\XINT_forx_empty? {\fi \XINT_forever }%
+\catcode`U 11
+\catcode`D 11
+\catcode`V 11
 \def\XINT_forx_empty?
 {%
-    \ifx\XINT_token j\expandafter\xint_gobble_iv\fi
+    \ifx\XINT_token Z\expandafter\xintBreakFor\fi
     \the\XINT_toks
 }%
-\long\def\XINT_for_di #1#2,% 
+\long\def\XINT_for_d #1#2#3%
 {%
-  \long\def\XINT_y ##1##2##3##4{#1}%
-  \long\def\XINT_x {\XINT_y {#2}{####2}{####3}{####4}}% 
-  \XINT_toks {\XINT_x\let\xintifForFirst\xint_secondoftwo\XINT_for_di {#1}}%
+  \long\def\XINT_y ##1##2##3##4##5##6##7##8##9{#2}%
+  \XINT_toks {{#3}}%
+  \long\edef\XINT_x {\noexpand\XINT_y \csname XINT_for_left#1\endcsname
+                     \the\XINT_toks   \csname XINT_for_right#1\endcsname }%
+  \XINT_toks {\XINT_x\let\xintifForFirst\xint_secondoftwo\XINT_for_d #1{#2}}%
   \futurelet\XINT_token\XINT_for_last?
 }%
-\long\def\XINT_for_dii #1#2,% 
+\long\def\XINT_forx_d #1#2#3%
 {%
-  \long\def\XINT_y ##1##2##3##4{#1}%
-  \long\def\XINT_x {\XINT_y {####1}{#2}{####3}{####4}}% 
-  \XINT_toks {\XINT_x\let\xintifForFirst\xint_secondoftwo\XINT_for_dii {#1}}%
-  \futurelet\XINT_token\XINT_for_last?
-}%
-\long\def\XINT_for_diii #1#2,% 
-{%
-  \long\def\XINT_y ##1##2##3##4{#1}%
-  \long\def\XINT_x {\XINT_y {####1}{####2}{#2}{####4}}% 
-  \XINT_toks {\XINT_x\let\xintifForFirst\xint_secondoftwo\XINT_for_diii {#1}}%
-  \futurelet\XINT_token\XINT_for_last?
-}%
-\long\def\XINT_for_div #1#2,% 
-{%
-  \long\def\XINT_y ##1##2##3##4{#1}%
-  \long\def\XINT_x {\XINT_y {####1}{####2}{####3}{#2}}% 
-  \XINT_toks {\XINT_x\let\xintifForFirst\xint_secondoftwo\XINT_for_div {#1}}%
-  \futurelet\XINT_token\XINT_for_last?
+  \long\def\XINT_y ##1##2##3##4##5##6##7##8##9{#2}%
+  \XINT_toks {{#3}}%
+  \long\edef\XINT_x {\noexpand\XINT_y \csname XINT_for_left#1\endcsname
+                     \the\XINT_toks   \csname XINT_for_right#1\endcsname }%
+  \XINT_toks {\XINT_x\let\xintifForFirst\xint_secondoftwo\XINT_forx_d #1{#2}}%
+  \XINT_xflet\XINT_for_last?
 }%
 \def\XINT_for_last?
 {% 
-    \ifx\XINT_token z\xint_afterfi{\let\xintifForLast\xint_firstoftwo
-                                   \expandafter\XINT_x\xint_gobble_vi}\fi
-    \let\xintifForLast\xint_secondoftwo\the\XINT_toks 
+    \let\xintifForLast\xint_secondoftwo
+    \ifx\XINT_token Z\let\xintifForLast\xint_firstoftwo
+                     \xint_afterfi{\xintBreakForAndDo\XINT_x}\fi
+    \the\XINT_toks 
 }%
-\long\def\XINT_forx_di #1#2% 
-{%
-  \long\def\XINT_y ##1##2##3##4{#1}%
-  \long\def\XINT_x {\XINT_y {#2}{####2}{####3}{####4}}% 
-  \XINT_toks {\XINT_x\let\xintifForFirst\xint_secondoftwo\XINT_forx_di {#1}}%
-  \XINT_xflet\XINT_forx_last?
-}%
-\long\def\XINT_forx_dii #1#2% 
-{%
-  \long\def\XINT_y ##1##2##3##4{#1}%
-  \long\def\XINT_x {\XINT_y {####1}{#2}{####3}{####4}}% 
-  \XINT_toks {\XINT_x\let\xintifForFirst\xint_secondoftwo\XINT_forx_dii {#1}}%
-  \XINT_xflet\XINT_forx_last?
-}%
-\long\def\XINT_forx_diii #1#2% 
-{%
-  \long\def\XINT_y ##1##2##3##4{#1}%
-  \long\def\XINT_x {\XINT_y {####1}{####2}{#2}{####4}}% 
-  \XINT_toks {\XINT_x\let\xintifForFirst\xint_secondoftwo\XINT_forx_diii {#1}}%
-  \XINT_xflet\XINT_forx_last?
-}%
-\long\def\XINT_forx_div #1#2% 
-{%
-  \long\def\XINT_y ##1##2##3##4{#1}%
-  \long\def\XINT_x {\XINT_y {####1}{####2}{####3}{#2}}% 
-  \XINT_toks {\XINT_x\let\xintifForFirst\xint_secondoftwo\XINT_forx_div {#1}}%
-  \XINT_xflet\XINT_forx_last?
-}%
-\def\XINT_forx_last?
-{% 
-    \ifx\XINT_token j\xint_afterfi{\let\xintifForLast\xint_firstoftwo
-                                   \expandafter\XINT_x\xint_gobble_vii}\fi
-    \let\xintifForLast\xint_secondoftwo\the\XINT_toks 
-}%
-\catcode`j 11
 %    \end{macrocode}
 % \subsection{\csh{XINT\_forever}, \csh{xintintegers}, \csh{xintdimensions}, \csh{xintrationals}}
-% \lverb|&
-% 1.09e. The apparently complicated \XINT_?expr_D is to maintain optimal
-% precision. Well other things now are apparently complicated... the code is
-% shared by the three, and this is not easy.|
+% \lverb|New with 1.09e. But this used inadvertently \xintiadd/\xintimul which
+% have the unnecessary \xintnum overhead. Changed in 1.09f to use
+% \xintiiadd/\xintiimul which do not have this overhead. Also 1.09f has
+% \xintZapSpacesB which helps getting rid of spaces for the \xintrationals case
+% (the other cases end up inside a \numexpr, or \dimexpr, so not necessary).|
 %    \begin{macrocode}
+\catcode`U 3
+\catcode`D 3
+\catcode`V 3
 \let\xintegers      U%
 \let\xintintegers   U%
 \let\xintdimensions D%
@@ -9041,23 +9535,24 @@ first place.
    {\expandafter{\expandafter\dimexpr\number\dimexpr #1\expandafter\relax 
                  \expandafter s\expandafter p\expandafter\relax\expandafter}%
     \expandafter{\number\dimexpr #2}}%
-\catcode`z 11
+\catcode`Z 11
 \def\XINT_?expr_Va #1#2%
 {%
     \expandafter\XINT_?expr_Vb\expandafter 
-          {\romannumeral-`0\xintrawwithzeros{#2}}%
-          {\romannumeral-`0\xintrawwithzeros{#1}}%
+          {\romannumeral-`0\xintrawwithzeros{\xintZapSpacesB{#2}}}%
+          {\romannumeral-`0\xintrawwithzeros{\xintZapSpacesB{#1}}}%
 }%
-\catcode`z 3
+\catcode`Z 3
 \def\XINT_?expr_Vb #1#2{\expandafter\XINT_?expr_Vc #2.#1.}%
 \def\XINT_?expr_Vc #1/#2.#3/#4.%
 {%   
-     \xintifEq {#2}{#4}
-     {\XINT_?expr_Vf {#3}{#1}{#2}}
-     {\expandafter\XINT_?expr_Vd\expandafter
-     {\romannumeral0\xintimul {#2}{#4}}%
-     {\romannumeral0\xintimul {#1}{#4}}%
-     {\romannumeral0\xintimul {#2}{#3}}}%
+     \xintifEq {#2}{#4}%
+       {\XINT_?expr_Vf {#3}{#1}{#2}}%
+       {\expandafter\XINT_?expr_Vd\expandafter
+        {\romannumeral0\xintiimul {#2}{#4}}%
+        {\romannumeral0\xintiimul {#1}{#4}}%
+        {\romannumeral0\xintiimul {#2}{#3}}%
+       }%
 }%
 \def\XINT_?expr_Vd #1#2#3{\expandafter\XINT_?expr_Ve\expandafter {#2}{#3}{#1}}%
 \def\XINT_?expr_Ve #1#2{\expandafter\XINT_?expr_Vf\expandafter {#2}{#1}}%
@@ -9073,128 +9568,105 @@ first place.
 \def\XINT_?expr_Vx #1#2%
 {%
      \expandafter\XINT_?expr_Vy\expandafter 
-        {\romannumeral0\xintiadd {#1}{#2}}{#2}%
+        {\romannumeral0\xintiiadd {#1}{#2}}{#2}%
 }%
 \def\XINT_?expr_Vy #1#2#3#4%
 {%
-     \expandafter{\romannumeral0\xintiadd {#3}{#1}/#4}{{#1}{#2}{#3}{#4}}%
+     \expandafter{\romannumeral0\xintiiadd {#3}{#1}/#4}{{#1}{#2}{#3}{#4}}%
 }%
 \def\XINT_forever_a #1#2#3#4%
 {%
     \ifx #4[\expandafter\XINT_forever_opt_a
        \else\expandafter\XINT_forever_b 
-    \fi #1#2#3%
+    \fi #1#2#3#4%
 }%
-\def\XINT_forever_b #1#2#3#4z{\expandafter\XINT_forever_c\the\XINT_toks #2#3}%
-\long\def\XINT_forever_c #1\romannumeral #2#3#4#5#6%
-{%
-    \csname XINT_forever_d\romannumeral#2\expandafter\endcsname #5#6{#4}z%
-}%
-\def\XINT_forever_opt_a #1#2#3#4+#5]#6z% 
+\def\XINT_forever_b #1#2#3Z{\expandafter\XINT_forever_c\the\XINT_toks #2#3}%
+\long\def\XINT_forever_c #1#2#3#4#5%
+    {\expandafter\XINT_forever_d\expandafter #2#4#5{#3}Z}%
+\def\XINT_forever_opt_a #1#2#3[#4+#5]#6Z% 
 {%
     \expandafter\expandafter\expandafter
     \XINT_forever_opt_c\expandafter\the\expandafter\XINT_toks
     \romannumeral-`0#1{#4}{#5}#3%
 }%
-\long\def\XINT_forever_opt_c #1\romannumeral #2#3#4#5#6#7%
+\long\def\XINT_forever_opt_c #1#2#3#4#5#6{\XINT_forever_d #2{#4}{#5}#6{#3}Z}%
+\long\def\XINT_forever_d #1#2#3#4#5% 
 {%
-    \csname XINT_forever_d\romannumeral#2\endcsname {#5}{#6}#7{#4}z%
-}%
-\long\def\XINT_forever_di #1#2#3#4% 
-{%
-  \long\def\XINT_y ##1##2##3##4{#4}%
-  \XINT_y {#1}{##2}{##3}{##4}% 
+  \long\def\XINT_y ##1##2##3##4##5##6##7##8##9{#5}%
+  \XINT_toks {{#2}}%
+  \long\edef\XINT_x {\noexpand\XINT_y \csname XINT_for_left#1\endcsname
+                     \the\XINT_toks   \csname XINT_for_right#1\endcsname }%
+  \XINT_x
   \let\xintifForFirst\xint_secondoftwo
-  \expandafter\XINT_forever_di\romannumeral-`0#3{#1}{#2}#3{#4}%
-}%
-\long\def\XINT_forever_dii #1#2#3#4% 
-{%
-  \long\def\XINT_y ##1##2##3##4{#4}%
-  \XINT_y {##1}{#1}{##3}{##4}% 
-  \let\xintifForFirst\xint_secondoftwo
-  \expandafter\XINT_forever_dii\romannumeral-`0#3{#1}{#2}#3{#4}%
-}%
-\long\def\XINT_forever_diii #1#2#3#4% 
-{%
-  \long\def\XINT_y ##1##2##3##4{#4}%
-  \XINT_y {##1}{##2}{#1}{##4}% 
-  \let\xintifForFirst\xint_secondoftwo
-  \expandafter\XINT_forever_diii\romannumeral-`0#3{#1}{#2}#3{#4}%
-}%
-\long\def\XINT_forever_div #1#2#3#4% 
-{%
-  \long\def\XINT_y ##1##2##3##4{#4}%
-  \XINT_y {##1}{##2}{##3}{#1}% 
-  \let\xintifForFirst\xint_secondoftwo
-  \expandafter\XINT_forever_div\romannumeral-`0#3{#1}{#2}#3{#4}%
+  \expandafter\XINT_forever_d\expandafter #1\romannumeral-`0#4{#2}{#3}#4{#5}%
 }%
 %    \end{macrocode}
 % \subsection{\csh{xintForpair}, \csh{xintForthree}, \csh{xintForfour}}
-% \lverb|&
-% 1.09c: experimental status. Particularly I don't know yet if {a}{b} is better
-% for the user or worse than (a,b). I prefer the former. I am
-% not very motivated to deal with spaces in the (a,b) approach which is
-% the one (currently) followed here.
-%|
+% \lverb|1.09c: I don't know yet if {a}{b} is better for the user or worse than
+% (a,b). I prefer the former. I am not very motivated to deal with spaces in the
+% (a,b) approach which is the one (currently) followed here.
+% 
+% [2013/11/02] 1.09f: I may not have been very motivated in 1.09c, but since
+% then I developped the \xintZapSpaces/\xintZapSpacesB tools (much to my
+% satisfaction). Based on this, and better parameter texts, \xintForpair and its
+% cousins now handle spaces very satisfactorily (this relies partly on the new
+% \xintCSVtoList which makes use of \xintZapSpacesB). Does not share code with
+% \xintFor anymore.
+%
+% [2013/11/03] 1.09f: \xintForpair extended to accept #1#2, #2#3 etc... up to
+% #8#9, \xintForthree, #1#2#3 up to #7#8#9, \xintForfour id. |
 %    \begin{macrocode}
-\long\def\xintForpair #1#2#3#4in#5#6#7%
+\catcode`j 3
+\long\def\xintForpair #1#2#3in#4#5#6%
 {%
-    \XINT_toks \expandafter{\csname XINT_forii_d\romannumeral#2\endcsname {#7}}%
-    \expandafter\the\expandafter\XINT_toks #5,z% THIS z HAS CATCODE 3
+    \let\xintifForFirst\xint_firstoftwo
+    \XINT_toks  {\XINT_forpair_d #2{#6}}%
+    \expandafter\the\expandafter\XINT_toks #4jZ%
 }%
-\long\def\XINT_forii_di #1(#2,#3),%
+\long\def\XINT_forpair_d #1#2#3(#4)#5%
 {%
-  \long\def\XINT_y ##1##2##3##4{#1}%
-  \def\XINT_x {\XINT_y {#2}{#3}{####3}{####4}}%
-  \XINT_toks {\XINT_x\XINT_forii_di {#1}}%
-  \futurelet\XINT_token\XINT_for_last?
-}%
-\long\def\XINT_forii_dii #1(#2,#3),%
-{%
-  \long\def\XINT_y ##1##2##3##4{#1}%
-  \def\XINT_x {\XINT_y {####1}{#2}{#3}{####4}}%
-  \XINT_toks {\XINT_x \XINT_forii_dii {#1}}%
-  \futurelet\XINT_token\XINT_for_last?
-}%
-\long\def\XINT_forii_diii #1(#2,#3),%
-{%
-  \long\def\XINT_y ##1##2##3##4{#1}%
-  \long\def\XINT_x {\XINT_y {####1}{####2}{#2}{#3}}%
-  \XINT_toks {\XINT_x \XINT_forii_diii {#1}}%
-  \futurelet\XINT_token\XINT_for_last?
+  \long\def\XINT_y ##1##2##3##4##5##6##7##8##9{#2}%
+  \XINT_toks \expandafter{\romannumeral0\xintcsvtolist{ #4}}%
+  \long\edef\XINT_x {\noexpand\XINT_y \csname XINT_for_left#1\endcsname
+        \the\XINT_toks \csname XINT_for_right\the\numexpr#1+1\endcsname}%
+  \let\xintifForLast\xint_secondoftwo
+  \ifx #5j\let\xintifForLast\xint_firstoftwo\expandafter\xintBreakForAndDo\fi
+  \XINT_x\let\xintifForFirst\xint_secondoftwo\XINT_forpair_d #1{#2}%
 }%
 \long\def\xintForthree #1#2#3in#4#5#6%
 {%
-   \XINT_toks \expandafter{\csname XINT_foriii_d\romannumeral#2\endcsname {#6}}%
-   \expandafter\the\expandafter\XINT_toks #4,z%
+    \let\xintifForFirst\xint_firstoftwo
+    \XINT_toks  {\XINT_forthree_d #2{#6}}%
+    \expandafter\the\expandafter\XINT_toks #4jZ%
 }%
-\long\def\XINT_foriii_di #1(#2,#3,#4),%
+\long\def\XINT_forthree_d #1#2#3(#4)#5%
 {%
-  \long\def\XINT_y ##1##2##3##4{#1}%
-  \long\def\XINT_x {\XINT_y {#2}{#3}{#4}{####4}}%
-  \XINT_toks {\XINT_x\XINT_foriii_di {#1}}%
-  \futurelet\XINT_token\XINT_for_last?
-}%
-\long\def\XINT_foriii_dii #1(#2,#3,#4),%
-{%
-  \long\def\XINT_y ##1##2##3##4{#1}%
-  \long\def\XINT_x {\XINT_y {####1}{#2}{#3}{#4}}%
-  \XINT_toks {\XINT_x \XINT_foriii_dii {#1}}%
-  \futurelet\XINT_token\XINT_for_last?
+  \long\def\XINT_y ##1##2##3##4##5##6##7##8##9{#2}%
+  \XINT_toks \expandafter{\romannumeral0\xintcsvtolist{ #4}}%
+  \long\edef\XINT_x {\noexpand\XINT_y \csname XINT_for_left#1\endcsname
+        \the\XINT_toks \csname XINT_for_right\the\numexpr#1+2\endcsname}%
+  \let\xintifForLast\xint_secondoftwo
+  \ifx #5j\let\xintifForLast\xint_firstoftwo\expandafter\xintBreakForAndDo\fi
+  \XINT_x\let\xintifForFirst\xint_secondoftwo\XINT_forthree_d #1{#2}%
 }%
 \long\def\xintForfour #1#2#3in#4#5#6%
 {%
-    \XINT_toks {\XINT_foriv_di {#6}}%
-    \expandafter\the\expandafter\XINT_toks #4,z%
+    \let\xintifForFirst\xint_firstoftwo
+    \XINT_toks  {\XINT_forfour_d #2{#6}}%
+    \expandafter\the\expandafter\XINT_toks #4jZ%
 }%
-\long\def\XINT_foriv_di #1(#2,#3,#4,#5),%
+\long\def\XINT_forfour_d #1#2#3(#4)#5%
 {%
-  \long\def\XINT_y ##1##2##3##4{#1}%
-  \long\def\XINT_x {\XINT_y {#2}{#3}{#4}{#5}}%
-  \XINT_toks {\XINT_x\XINT_foriv_di {#1}}%
-  \futurelet\XINT_token\XINT_for_last?
+  \long\def\XINT_y ##1##2##3##4##5##6##7##8##9{#2}%
+  \XINT_toks \expandafter{\romannumeral0\xintcsvtolist{ #4}}%
+  \long\edef\XINT_x {\noexpand\XINT_y \csname XINT_for_left#1\endcsname
+        \the\XINT_toks \csname XINT_for_right\the\numexpr#1+3\endcsname}%
+  \let\xintifForLast\xint_secondoftwo
+  \ifx #5j\let\xintifForLast\xint_firstoftwo\expandafter\xintBreakForAndDo\fi
+  \XINT_x\let\xintifForFirst\xint_secondoftwo\XINT_forfour_d #1{#2}%
 }%
-\catcode`z 11
+\catcode`Z 11
+\catcode`j 11
 %    \end{macrocode}
 % \subsection{\csh{xintAssign}, \csh{xintAssignArray}, \csh{xintDigitsOf}}
 % \lverb|&
@@ -9553,8 +10025,8 @@ first place.
 % \lverb|&
 % Changed in 1.05. Earlier code was unnecessarily strange. 1.09a with \xintnum|
 %    \begin{macrocode}
-\def\xintiSgn {\romannumeral0\xintisgn }%
-\def\xintisgn #1%
+\def\xintiiSgn {\romannumeral0\xintiisgn }%
+\def\xintiisgn #1%
 {%
     \expandafter\XINT_sgn \romannumeral-`0#1\Z%
 }%
@@ -10536,14 +11008,14 @@ first place.
 }%
 %    \end{macrocode}
 % \subsection{\csh{xintCmp}}
-% \lverb|Release 1.09a has \xintnum added into \xintiCmp.|
+% \lverb|Release 1.09a has \xintnum inserted into \xintCmp. Unnecessary
+% \xintiCmp suppressed in 1.09f.|
 %    \begin{macrocode}
-\def\xintiCmp {\romannumeral0\xinticmp }%
-\def\xinticmp #1%
+\def\xintCmp {\romannumeral0\xintcmp }%
+\def\xintcmp #1%
 {%
     \expandafter\xint_cmp\expandafter{\romannumeral0\xintnum{#1}}%
 }%
-\let\xintCmp\xintiCmp \let\xintcmp\xinticmp
 \def\xint_cmp #1#2%
 {%
     \expandafter\XINT_cmp_fork \romannumeral0\xintnum{#2}\Z #1\Z 
@@ -10800,16 +11272,16 @@ first place.
 %    \end{macrocode}
 % \subsection{\csh{xintGeq}}
 % \lverb|& 
-% Release 1.09a has \xintnum added into \xintiGeq.
+% Release 1.09a has \xintnum added into \xintGeq. Unused and useless \xintiGeq
+% removed in 1.09e. 
 % PLUS GRAND OU ÉGAL
 % attention compare les **valeurs absolues**|
 %    \begin{macrocode}
-\def\xintiGeq {\romannumeral0\xintigeq }%
-\def\xintigeq #1%
+\def\xintGeq {\romannumeral0\xintgeq }%
+\def\xintgeq #1%
 {%
     \expandafter\xint_geq\expandafter {\romannumeral0\xintnum{#1}}%
 }%
-\let\xintGeq\xintiGeq \let\xintgeq\xintigeq
 \def\xint_geq #1#2%
 {%
     \expandafter\XINT_geq_fork \romannumeral0\xintnum{#2}\Z #1\Z 
@@ -10965,7 +11437,7 @@ first place.
 }%
 %    \end{macrocode}
 % \subsection{\csh{xintMaxof}}
-% \lverb|New with 1.09a|.
+% \lverb|New with 1.09a.|
 %    \begin{macrocode}
 \def\xintiMaxof      {\romannumeral0\xintimaxof }%
 \def\xintimaxof    #1{\expandafter\XINT_imaxof_a\romannumeral-`0#1\relax }%
@@ -10980,7 +11452,7 @@ first place.
 \let\xintMaxof\xintiMaxof \let\xintmaxof\xintimaxof
 %    \end{macrocode}
 % \subsection{\csh{xintMin}}
-% \lverb|\xintnum added New with 1.09a|.
+% \lverb|\xintnum added New with 1.09a.|
 %    \begin{macrocode}
 \def\xintiMin {\romannumeral0\xintimin }%
 \def\xintimin #1%
@@ -11752,8 +12224,16 @@ first place.
 % adapted for computing powers. Then I moved in 1.03 the special variants of
 % multiplication (hence of addition) which were needed to earlier in this file.
 % Modified in 1.06, the exponent is  given to a \numexpr  rather than twice
-% expanded. \xintnum added in 1.09a.|
+% expanded. \xintnum added in 1.09a. However this added some overhead to some
+% inner macros of the \xintPow routine of xintfrac.sty... we did the similar
+% things correctly for \xintiadd etc, but not here, so 1.09f has now the
+% necessary \xintiipow.|
 %    \begin{macrocode}
+\def\xintiiPow {\romannumeral0\xintiipow }%
+\def\xintiipow #1%
+{%
+    \expandafter\xint_pow\romannumeral-`0#1\Z%
+}%
 \def\xintiPow {\romannumeral0\xintipow }%
 \def\xintipow #1%
 {%
@@ -11926,27 +12406,41 @@ first place.
 }%
 %    \end{macrocode}
 % \subsection{\csh{xintDivision}, \csh{xintQuo}, \csh{xintRem}}
-% \lverb|1.09a inserts the use of \xintnum|
+% \lverb|1.09a inserts the use of \xintnum. However this was also used in
+% internal macros in places it should not for reasons of efficency, so in 1.09f
+% I reinstall the private versions with less overhead. Besides, there was some
+% duplicated code in xintfrac.sty which is removed.|
 %    \begin{macrocode}
-\def\xintiQuo {\romannumeral0\xintiquo }%
-\def\xintiRem {\romannumeral0\xintirem }%
-\def\xintiquo {\expandafter\xint_firstoftwo_andstop
-               \romannumeral0\xintidivision }%
-\def\xintirem {\expandafter\xint_secondoftwo_andstop
-               \romannumeral0\xintidivision }%
-\let\xintQuo\xintiQuo \let\xintquo\xintiquo
-\let\xintRem\xintiRem \let\xintrem\xintirem
+\def\xintiiQuo {\romannumeral0\xintiiquo }%
+\def\xintiiRem {\romannumeral0\xintiirem }%
+\def\xintiiquo {\expandafter\xint_firstoftwo_andstop
+               \romannumeral0\xintiidivision }%
+\def\xintiirem {\expandafter\xint_secondoftwo_andstop
+               \romannumeral0\xintiidivision }%
+\def\xintQuo {\romannumeral0\xintquo }%
+\def\xintRem {\romannumeral0\xintrem }%
+\def\xintquo {\expandafter\xint_firstoftwo_andstop
+               \romannumeral0\xintdivision }%
+\def\xintrem {\expandafter\xint_secondoftwo_andstop
+               \romannumeral0\xintdivision }%
 %    \end{macrocode}
 % \lverb|&
 % #1 = A, #2 = B. On calcule le quotient de A par B.$\
 % 1.03 adds the detection of 1 for B.|
 %    \begin{macrocode}
-\def\xintiDivision {\romannumeral0\xintidivision }%
-\def\xintidivision #1%
+\def\xintiidivision #1%
+{%
+    \expandafter\xint_iidivision\expandafter {\romannumeral-`0#1}%
+}%
+\def\xint_iidivision #1#2%
+{%
+    \expandafter\XINT_div_fork \romannumeral-`0#2\Z #1\Z 
+}%
+\def\xintDivision {\romannumeral0\xintdivision }%
+\def\xintdivision #1%
 {%
     \expandafter\xint_division\expandafter {\romannumeral0\xintnum{#1}}%
 }%
-\let\xintDivision\xintiDivision \let\xintdivision\xintidivision
 \def\xint_division #1#2%
 {%
     \expandafter\XINT_div_fork \romannumeral0\xintnum{#2}\Z #1\Z 
@@ -12610,8 +13104,8 @@ first place.
 % And prepared for redefinition by xintfrac to parse through \xintNum. Version
 % 1.09a inserts the \xintnum already here.|
 %    \begin{macrocode}
-\def\xintiFDg {\romannumeral0\xintifdg }%
-\def\xintifdg #1%
+\def\xintiiFDg {\romannumeral0\xintiifdg }%
+\def\xintiifdg #1%
 {%
     \expandafter\XINT_fdg \romannumeral-`0#1\W\Z
 }%
@@ -12634,10 +13128,11 @@ first place.
 % \lverb|&
 % LAST DIGIT. Simplified in 1.05. And prepared for extension by xintfrac
 %    to parse through \xintNum. Release 1.09a adds the \xintnum already here,
-%    and this propagates to \xintOdd, etc... .|
+%    and this propagates to \xintOdd, etc... 1.09e The \xintiiLDg is for
+%    defining \xintiiOdd which is used once (currently) elsewhere .|
 %    \begin{macrocode}
-\def\xintiLDg {\romannumeral0\xintildg }%
-\def\xintildg #1%
+\def\xintiiLDg {\romannumeral0\xintiildg }%
+\def\xintiildg #1%
 {%
     \expandafter\XINT_ldg\expandafter {\romannumeral-`0#1}%
 }%
@@ -12653,23 +13148,23 @@ first place.
 }%
 \def\XINT_ldg_ #1#2\Z{ #1}%
 %    \end{macrocode}
-% \subsection{\csh{xintMON}}
+% \subsection{\csh{xintMON}, \csh{xintMMON}}
 % \lverb|&
-% MINUS ONE TO THE POWER N|
+% MINUS ONE TO THE POWER N and (-1)^{N-1}|
 %    \begin{macrocode}
-\def\xintiMON {\romannumeral0\xintimon }%
-\def\xintimon #1%
+\def\xintiiMON {\romannumeral0\xintiimon }%
+\def\xintiimon #1%
 {%
-    \ifodd\xintiLDg {#1}
+    \ifodd\xintiiLDg {#1}
         \xint_afterfi{ -1}%
     \else
         \xint_afterfi{ 1}%
     \fi
 }%
-\def\xintiMMON {\romannumeral0\xintimmon }%
-\def\xintimmon #1%
+\def\xintiiMMON {\romannumeral0\xintiimmon }%
+\def\xintiimmon #1%
 {%
-    \ifodd\xintiLDg {#1}
+    \ifodd\xintiiLDg {#1}
         \xint_afterfi{ 1}%
     \else
         \xint_afterfi{ -1}%
@@ -12695,20 +13190,15 @@ first place.
 }%
 %    \end{macrocode}
 % \subsection{\csh{xintOdd}}
-% \lverb|1.05 has \xintiOdd, whereas \xintOdd parses through \xintNum.|
+% \lverb|1.05 has \xintiOdd, whereas \xintOdd parses through \xintNum.
+% Inadvertently, 1.09a redefined \xintiLDg so \xintiOdd also parsed through
+% \xintNum. Anyway, having a \xintOdd and a \xintiOdd was silly. Removed in
+% 1.09f | 
 %    \begin{macrocode}
-\def\xintiOdd {\romannumeral0\xintiodd }%
-\def\xintiodd #1%
+\def\xintiiOdd {\romannumeral0\xintiiodd }%
+\def\xintiiodd #1%
 {%
-    \ifodd\xintiLDg{#1}
-        \xint_afterfi{ 1}%
-    \else
-        \xint_afterfi{ 0}%
-    \fi
-}%
-\def\XINT_Odd #1%
-{\romannumeral0%
-    \ifodd\XINT_LDg{#1}
+    \ifodd\xintiiLDg{#1}
         \xint_afterfi{ 1}%
     \else
         \xint_afterfi{ 0}%
@@ -12983,7 +13473,11 @@ first place.
 % v1.06: Improvements in \XINT_split_fromleft_loop, \XINT_split_fromright_loop
 % and related macros. More readable coding, speed gains.
 % Also, I now feed immediately a \numexpr with x. Some simplifications should
-% probably be made to the code, which is kept as is for the time being.!
+% probably be made to the code, which is kept as is for the time being.
+%
+% 1.09e pays attention to the use of xintiabs which acquired in 1.09a the
+% xintnum overhead. So xintiiabs rather without that overhead.
+% !
 %    \begin{macrocode}
 \def\xintDecSplitL {\romannumeral0\xintdecsplitl }%
 \def\xintDecSplitR {\romannumeral0\xintdecsplitr }%
@@ -13001,7 +13495,7 @@ first place.
 \def\xintdecsplit #1#2%
 {%
     \expandafter \xint_split \expandafter
-    {\romannumeral0\xintiabs {#2}}{#1}%  fait expansion de A
+    {\romannumeral0\xintiiabs {#2}}{#1}%  fait expansion de A
 }%
 \def\xint_split #1#2%
 {%
@@ -13331,7 +13825,11 @@ first place.
 %    \end{macrocode}
 % \subsection{\csh{xintiSqrt}, \csh{xintiSquareRoot}}
 % \lverb|v1.08. 1.09a uses \xintnum. Very embarrassing  to discover at the
-% time of 1.09e that \xintiSqrt {0} was buggy! |
+% time of 1.09e that \xintiSqrt {0} was buggy! 
+%
+% Some overhead was added inadvertently in 1.09a to inner routines when
+% \xintiquo and \xintidivision were promoted to use \xintnum. Reverted in 1.09f.
+% |
 %    \begin{macrocode}
 \def\XINT_dsx_addzerosnofuss #1{\XINT_dsx_zeroloop {#1}{}\Z }%
 \def\xintiSqrt {\romannumeral0\xintisqrt }%
@@ -13509,7 +14007,7 @@ first place.
 \def\XINT_sqrt_big_g #1#2%
 {%
     \expandafter\XINT_sqrt_big_j
-    \romannumeral0\xintidivision{#1}
+    \romannumeral0\xintiidivision{#1}
         {\romannumeral0\XINT_dbl_pos #2\R\R\R\R\R\R\R\Z \W\W\W\W\W\W\W }{#2}%
 }%
 \def\XINT_sqrt_big_j #1%
@@ -13531,6 +14029,7 @@ first place.
    {#2}{#1}%
 }%
 \def\XINT_sqrt_big_end #1#2#3#4{ {#3}{#2}}%
+\let\XINT_tmpa\relax \let\XINT_tmpb\relax \let\XINT_tmpc\relax 
 \XINT_restorecatcodes_endinput%
 %    \end{macrocode}
 %\catcode`\<=0 \catcode`\>=11 \catcode`\*=11 \catcode`\/=11
@@ -13648,7 +14147,7 @@ first place.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintbinhex}%
-  [2013/10/29 v1.09e Expandable binary and hexadecimal conversions (jfB)]%
+  [2013/11/04 v1.09f Expandable binary and hexadecimal conversions (jfB)]%
 %    \end{macrocode}
 % \subsection{Constants, etc...}
 % \lverb!v1.08!
@@ -13663,20 +14162,20 @@ first place.
 \newcount\xint_c_ii^xvi \xint_c_ii^xvi 65536
 \newcount\xint_c_x^v    \xint_c_x^v    100000
 \newcount\xint_c_x^ix   \xint_c_x^ix   1000000000
-\def\XINT_tmp_def #1{%
+\def\XINT_tmpa #1{%
   \expandafter\edef\csname XINT_sdth_#1\endcsname
   {\ifcase #1 0\or 1\or 2\or 3\or 4\or 5\or 6\or 7\or
               8\or 9\or A\or B\or C\or D\or E\or F\fi}}%
-\xintApplyInline\XINT_tmp_def 
+\xintApplyInline\XINT_tmpa 
     {{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}{15}}%
-\def\XINT_tmp_def #1{%
+\def\XINT_tmpa #1{%
   \expandafter\edef\csname XINT_sdtb_#1\endcsname
   {\ifcase #1 
    0000\or 0001\or 0010\or 0011\or 0100\or 0101\or 0110\or 0111\or
    1000\or 1001\or 1010\or 1011\or 1100\or 1101\or 1110\or 1111\fi}}%
-\xintApplyInline\XINT_tmp_def 
+\xintApplyInline\XINT_tmpa
     {{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}{15}}%
-\let\XINT_tmp_def\empty
+\let\XINT_tmpa\relax
 \expandafter\def\csname XINT_sbtd_0000\endcsname {0}%
 \expandafter\def\csname XINT_sbtd_0001\endcsname {1}%
 \expandafter\def\csname XINT_sbtd_0010\endcsname {2}%
@@ -14351,7 +14850,7 @@ first place.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintgcd}%
-  [2013/10/29 v1.09e Euclide algorithm with xint package (jfB)]%
+  [2013/11/04 v1.09f Euclide algorithm with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintGCD}}
 % The macros of |1.09a| benefits from the |\xintnum| which has been inserted
@@ -14424,7 +14923,9 @@ first place.
 \def\XINT_gcdof:_e ,#1,{#1}%
 %    \end{macrocode}
 % \subsection{\csh{xintLCM}}
-% \lverb|New with 1.09a|
+% \lverb|New with 1.09a. Inadvertent use of \xintiQuo which was promoted at the
+% same time to add the \xintnum overhead. So with 1.09f \xintiiQuo without the
+% overhead.| 
 %    \begin{macrocode}
 \def\xintLCM {\romannumeral0\xintlcm}%
 \def\xintlcm #1%
@@ -14447,7 +14948,7 @@ first place.
 }%
 \def\XINT_lcm_AisZero #1#2#3#4#5{ 0}%
 \def\XINT_lcm_BisZero #1#2#3#4#5{ 0}%
-\def\XINT_lcm_notzero #1#2#3{\xintiimul {#2}{\xintQuo{#3}{#1}}}%
+\def\XINT_lcm_notzero #1#2#3{\xintiimul {#2}{\xintiiQuo{#3}{#1}}}%
 %    \end{macrocode}
 % \subsection{\csh{xintLCMof}}
 % \lverb|New with 1.09a|
@@ -14577,7 +15078,7 @@ first place.
 \def\XINT_bezout_pm_post #1%
 {%
     \expandafter \XINT_bezout_pm_postb \expandafter
-        {\romannumeral0\xintiopp{#1}}%
+        {\romannumeral0\xintiiopp{#1}}%
 }%
 \def\XINT_bezout_pm_postb #1#2#3#4#5%
 {%
@@ -15071,7 +15572,7 @@ first place.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintfrac}%
-  [2013/10/29 v1.09e Expandable operations on fractions (jfB)]%
+  [2013/11/04 v1.09f Expandable operations on fractions (jfB)]%
 \chardef\xint_c_vi     6
 \chardef\xint_c_vii    7
 \chardef\xint_c_xviii 18
@@ -15460,7 +15961,7 @@ first place.
 \def\xintFloor {\romannumeral0\xintfloor }%
 \def\xintfloor #1{\expandafter\XINT_floor
                   \romannumeral0\xintrawwithzeros {#1}.}%
-\def\XINT_floor #1/#2.{\xintiquo {#1}{#2}}%
+\def\XINT_floor #1/#2.{\xintiiquo {#1}{#2}}%
 %    \end{macrocode}
 % \subsection{\csh{xintCeil}}
 % \lverb|1.09a|
@@ -15745,8 +16246,8 @@ first place.
 \def\xint_irr_loop_exit0\XINT_irr_loop_a #1#2#3#4%
 {%
     \expandafter\XINT_irr_loop_exitb\expandafter
-    {\romannumeral0\xintiquo {#3}{#2}}%
-    {\romannumeral0\xintiquo {#4}{#2}}%
+    {\romannumeral0\xintiiquo {#3}{#2}}%
+    {\romannumeral0\xintiiquo {#4}{#2}}%
 }%
 \def\XINT_irr_loop_exitb #1#2%
 {%
@@ -15859,7 +16360,9 @@ first place.
 %    \end{macrocode}
 % \subsection{\csh{xintTrunc}, \csh{xintiTrunc}}
 % \lverb|&
-% Modified in 1.06 to give the first argument to a \numexpr.|
+% Modified in 1.06 to give the first argument to a \numexpr. 1.09f fixes the
+% overhead added in 1.09a to some inner routines when \xintiquo was redefined to
+% use \xintnum, whereas it should not. Now called \xintiiquo, by the way.|
 %    \begin{macrocode}
 \def\xintTrunc {\romannumeral0\xinttrunc }%
 \def\xintiTrunc {\romannumeral0\xintitrunc }%
@@ -15925,10 +16428,10 @@ first place.
     \krof
     {#4}{#2}%
 }%
-\def\XINT_trunc_minusminus #1#2{\xintiquo {#1}{#2}\Z \space}%
-\def\XINT_trunc_minusplus #1#2#3{\xintiquo {#1#2}{#3}\Z \xint_minus_andstop}%
-\def\XINT_trunc_plusminus #1#2#3{\xintiquo {#2}{#1#3}\Z \xint_minus_andstop}%
-\def\XINT_trunc_plusplus  #1#2#3#4{\xintiquo {#1#3}{#2#4}\Z \space}%
+\def\XINT_trunc_minusminus #1#2{\xintiiquo {#1}{#2}\Z \space}%
+\def\XINT_trunc_minusplus #1#2#3{\xintiiquo {#1#2}{#3}\Z \xint_minus_andstop}%
+\def\XINT_trunc_plusminus #1#2#3{\xintiiquo {#2}{#1#3}\Z \xint_minus_andstop}%
+\def\XINT_trunc_plusplus  #1#2#3#4{\xintiiquo {#1#3}{#2#4}\Z \space}%
 \def\XINT_itrunc_G #1#2\Z #3#4%
 {%
     \xint_gob_til_zero #1\XINT_trunc_zero 0\xint_firstoftwo {#3#1#2}0%
@@ -16060,7 +16563,9 @@ first place.
 % gains. The earlier version was seriously silly when dealing with
 % inputs having a big power of ten. Again some modifications in 1.08b
 % for a better treatment of cases with long explicit numerators or
-% denominators. Macro \xintFloat:csv added in 1.09 for use by xintexpr.|
+% denominators. Macro \xintFloat:csv added in 1.09 for use by xintexpr. Here
+% again some inner macros used the \xintiquo with extra \xintnum overhead in
+% 1.09a, reverted in 1.09f.|
 %    \begin{macrocode}
 \def\xintFloat   {\romannumeral0\xintfloat }%
 \def\xintfloat #1{\XINT_float_chkopt #1\Z }%
@@ -16166,13 +16671,13 @@ first place.
 \def\XINT_float_Ri #1#2#3%
 {%
     \expandafter\XINT_float_Sa
-    \romannumeral0\xintiquo {#2}%
+    \romannumeral0\xintiiquo {#2}%
          {\XINT_dsx_addzerosnofuss {-#1}{#3}}\Z {#1}%
 }%
 \def\XINT_float_Rii #1#2#3%
 {%
     \expandafter\XINT_float_Sa
-    \romannumeral0\xintiquo
+    \romannumeral0\xintiiquo
          {\XINT_dsx_addzerosnofuss {#1}{#2}}{#3}\Z {#1}%
 }%
 \def\XINT_float_Sa #1%
@@ -16262,6 +16767,10 @@ first place.
 % \xintNewExpr)  1.09a adds \XINTinFloat. I also decide in 1.09a not to use
 % anymore \romannumeral`-0 mais \romannumeral0 in the float routines, for
 % consistency of style.
+%
+% Here
+% again some inner macros used the \xintiquo with extra \xintnum overhead in
+% 1.09a, reverted in 1.09f.
 % | 
 %    \begin{macrocode}
 \def\XINTinFloat {\romannumeral0\XINT_inFloat }%
@@ -16296,13 +16805,13 @@ first place.
 \def\XINT_infloat_Ri #1#2#3%
 {%
     \expandafter\XINT_infloat_S\expandafter
-    {\romannumeral0\xintiquo {#2}%
+    {\romannumeral0\xintiiquo {#2}%
          {\XINT_dsx_addzerosnofuss {-#1}{#3}}}{#1}%
 }%
 \def\XINT_infloat_Rii #1#2#3%
 {%
     \expandafter\XINT_infloat_S\expandafter
-    {\romannumeral0\xintiquo
+    {\romannumeral0\xintiiquo
          {\XINT_dsx_addzerosnofuss {#1}{#2}}{#3}}{#1}%
 }%
 \def\XINT_infloat_S #1#2#3%
@@ -16523,15 +17032,15 @@ first place.
 {%
     \expandafter\XINT_fpow_pos_A\expandafter
     {\the\numexpr #1#2*#3\expandafter}\expandafter
-    {\romannumeral0\xintipow {#5}{#1#2}}%
-    {\romannumeral0\xintipow {#4}{#1#2}}%
+    {\romannumeral0\xintiipow {#5}{#1#2}}%
+    {\romannumeral0\xintiipow {#4}{#1#2}}%
 }%
 \def\XINT_fpow_neg #1#2#3#4%
 {%
     \expandafter\XINT_fpow_pos_A\expandafter
     {\the\numexpr -#1*#2\expandafter}\expandafter
-    {\romannumeral0\xintipow {#3}{#1}}%
-    {\romannumeral0\xintipow {#4}{#1}}%
+    {\romannumeral0\xintiipow {#3}{#1}}%
+    {\romannumeral0\xintiipow {#4}{#1}}%
 }%
 \def\XINT_fpow_pos_A #1#2#3%
 {%
@@ -16657,7 +17166,7 @@ first place.
 \def\XINT_fgeq_D #1#2#3%
 {%
     \xintSgnFork
-    {\xintiSgn{\the\numexpr #2+\xintLength{#3}-\xintLength{#1}\relax}}%
+    {\xintiiSgn{\the\numexpr #2+\xintLength{#3}-\xintLength{#1}\relax}}%
     { 0}{\XINT_fgeq_E #2\Z {#3}{#1}}{ 1}%
 }%
 \def\XINT_fgeq_E #1%
@@ -16931,7 +17440,7 @@ first place.
 \def\XINT_fcmp_D #1#2#3%
 {%
     \xintSgnFork
-    {\xintiSgn{\the\numexpr #2+\xintLength{#3}-\xintLength{#1}\relax}}%
+    {\xintiiSgn{\the\numexpr #2+\xintLength{#3}-\xintLength{#1}\relax}}%
     { -1}{\XINT_fcmp_E #2\Z {#3}{#1}}{ 1}%
 }%
 \def\XINT_fcmp_E #1%
@@ -16988,25 +17497,7 @@ first place.
 {%
     \expandafter\xint_fsgn\romannumeral0\XINT_infrac {#1}%
 }%
-\def\xint_fsgn #1#2#3{\xintisgn {#2}}%
-%    \end{macrocode}
-% \subsection{\csh{xintDivision}, \csh{xintQuo}, \csh{xintRem}}
-%    \begin{macrocode}
-\def\xintDivision {\romannumeral0\xintdivision }%
-\def\xintdivision #1%
-{%
-    \expandafter\xint_xdivision\expandafter{\romannumeral0\xintnum {#1}}%
-}%
-\def\xint_xdivision #1#2%
-{%
-    \expandafter\XINT_div_fork\romannumeral0\xintnum {#2}\Z #1\Z 
-}%
-\def\xintQuo {\romannumeral0\xintquo }%
-\def\xintRem {\romannumeral0\xintrem }%
-\def\xintquo {\expandafter\xint_firstoftwo_andstop
-               \romannumeral0\xintdivision }%
-\def\xintrem {\expandafter\xint_secondoftwo_andstop
-               \romannumeral0\xintdivision }%
+\def\xint_fsgn #1#2#3{\xintiisgn {#2}}%
 %    \end{macrocode}
 % \subsection{\csh{xintFloatAdd}}
 % \lverb|1.07|
@@ -17414,7 +17905,7 @@ first place.
 }%
 \def\XINT_flpower_b #1#2[#3]#4#5%
 {%
-    \XINT_flpower_c {#4}{#5}{#2[#3]}{#1*\xintOdd {#5}}%
+    \XINT_flpower_c {#4}{#5}{#2[#3]}{#1*\xintiiOdd {#5}}%
 }%
 \def\XINT_flpower_c #1#2#3#4%
 {%
@@ -17600,7 +18091,7 @@ first place.
 \def\XINT_flsqrt_big_g #1#2%
 {%
     \expandafter\XINT_flsqrt_big_j
-    \romannumeral0\xintidivision
+    \romannumeral0\xintiidivision
     {#1}{\romannumeral0\XINT_dbl_pos #2\R\R\R\R\R\R\R\Z \W\W\W\W\W\W\W }{#2}%
 }%
 \def\XINT_flsqrt_big_j #1%
@@ -17627,7 +18118,7 @@ first place.
    {\the\numexpr -#4+#5/\xint_c_ii\expandafter}\expandafter
    {\romannumeral0\xintiisub 
     {\XINT_dsx_addzerosnofuss {#4}{#3}}%
-    {\xintHalf{\xintiQuo{\XINT_dsx_addzerosnofuss {#4}{#2}}{#3}}}}%
+    {\xintHalf{\xintiiQuo{\XINT_dsx_addzerosnofuss {#4}{#2}}{#3}}}}%
 }%
 \def\XINT_flsqrt_big_end_b #1#2{#2[#1]}%
 \XINT_restorecatcodes_endinput%
@@ -17742,7 +18233,7 @@ first place.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintseries}%
-  [2013/10/29 v1.09e Expandable partial sums with xint package (jfB)]%
+  [2013/11/04 v1.09f Expandable partial sums with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintSeries}}
 % \lverb|&
@@ -18278,7 +18769,7 @@ first place.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcfrac}%
-  [2013/10/29 v1.09e Expandable continued fractions with xint package (jfB)]%
+  [2013/11/04 v1.09f Expandable continued fractions with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintCFrac}}
 %    \begin{macrocode}
@@ -18317,7 +18808,7 @@ first place.
 }%
 \def\XINT_cfrac_A #1/#2\Z
 {%
-    \expandafter\XINT_cfrac_B\romannumeral0\xintidivision {#1}{#2}{#2}%
+    \expandafter\XINT_cfrac_B\romannumeral0\xintiidivision {#1}{#2}{#2}%
 }%
 \def\XINT_cfrac_B #1#2%
 {%
@@ -18442,7 +18933,7 @@ first place.
 }%
 \def\XINT_ftc_A #1/#2\Z
 {%
-    \expandafter\XINT_ftc_B\romannumeral0\xintidivision {#1}{#2}{#2}%
+    \expandafter\XINT_ftc_B\romannumeral0\xintiidivision {#1}{#2}{#2}%
 }%
 \def\XINT_ftc_B #1#2%
 {%
@@ -18481,7 +18972,7 @@ first place.
 }%
 \def\XINT_ftcx_A #1/#2\Z
 {%
-    \expandafter\XINT_ftcx_B\romannumeral0\xintidivision {#1}{#2}{#2}%
+    \expandafter\XINT_ftcx_B\romannumeral0\xintiidivision {#1}{#2}{#2}%
 }%
 \def\XINT_ftcx_B #1#2%
 {%
@@ -18530,7 +19021,7 @@ first place.
 }%
 \def\XINT_ftcc_B #1/#2\Z 
 {%
-    \expandafter\XINT_ftcc_C\expandafter {\romannumeral0\xintiquo {#1}{#2}}%
+    \expandafter\XINT_ftcc_C\expandafter {\romannumeral0\xintiiquo {#1}{#2}}%
 }%
 \def\XINT_ftcc_C #1#2%
 {%
@@ -18563,7 +19054,7 @@ first place.
 \def\XINT_ftcc_loop_b #1/#2\Z
 {%
     \expandafter\XINT_ftcc_loop_c\expandafter 
-    {\romannumeral0\xintiquo {#1}{#2}}%
+    {\romannumeral0\xintiiquo {#1}{#2}}%
 }%
 \def\XINT_ftcc_loop_c #1#2%
 {%
@@ -19430,7 +19921,7 @@ first place.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintexpr}%
-  [2013/10/29 v1.09e Expandable expression parser (jfB)]%
+  [2013/11/04 v1.09f Expandable expression parser (jfB)]%
 %    \end{macrocode}
 % \subsection{Helper macros}
 %    \begin{macrocode}
@@ -19750,7 +20241,7 @@ first place.
 % \lverb|1.09a removes some doubling of \romannumeral-`\0 from 1.08b
 % which served no useful purpose here (I think...). |
 %    \begin{macrocode}
-\def\xint_tmp_do_defs #1#2#3#4#5%
+\def\XINT_tmpa #1#2#3#4#5%
 {%
     \def#1##1%
     {%
@@ -19772,20 +20263,20 @@ first place.
         \fi
     }%
 }%
-\expandafter\xint_tmp_do_defs
+\expandafter\XINT_tmpa
     \csname XINT_expr_until_end_a\expandafter\endcsname
     \csname XINT_expr_until_end_b\expandafter\endcsname
     \csname XINT_expr_op_-vi\expandafter\endcsname 
     \csname XINT_expr_done\endcsname 
     {expr}%
-\expandafter\xint_tmp_do_defs
+\expandafter\XINT_tmpa
     \csname XINT_flexpr_until_end_a\expandafter\endcsname
     \csname XINT_flexpr_until_end_b\expandafter\endcsname
     \csname XINT_flexpr_op_-vi\expandafter\endcsname 
     \csname XINT_flexpr_done\endcsname 
     {flexpr}%
 \def\XINT_expr_extra_closing_paren {\xintError:removed }%
-\def\xint_tmp_do_defs #1#2#3#4#5#6%
+\def\XINT_tmpa #1#2#3#4#5#6%
 {%
     \def #1{\expandafter #3\romannumeral-`0\XINT_expr_getnext }%
     \let #2#1%
@@ -19802,14 +20293,14 @@ first place.
         \fi
     }%
 }%
-\expandafter\xint_tmp_do_defs
+\expandafter\XINT_tmpa
     \csname XINT_expr_op_(\expandafter\endcsname
     \csname XINT_expr_oparen\expandafter\endcsname
     \csname XINT_expr_until_)_a\expandafter\endcsname
     \csname XINT_expr_until_)_b\expandafter\endcsname
     \csname XINT_expr_op_-vi\endcsname 
     {expr}%
-\expandafter\xint_tmp_do_defs
+\expandafter\XINT_tmpa
     \csname XINT_flexpr_op_(\expandafter\endcsname
     \csname XINT_flexpr_oparen\expandafter\endcsname
     \csname XINT_flexpr_until_)_a\expandafter\endcsname
@@ -19826,9 +20317,9 @@ first place.
 % comparison operators, arithmetic operators, scientfic notation.}
 % \lverb|Extended in 1.09a with comparison and boolean operators.|
 %    \begin{macrocode}
-\def\xint_tmp_def #1#2#3#4#5#6%
+\def\XINT_tmpb #1#2#3#4#5#6%
 {%
-    \expandafter\xint_tmp_do_defs
+    \expandafter\XINT_tmpc
     \csname XINT_#1_op_#3\expandafter\endcsname
     \csname XINT_#1_until_#3_a\expandafter\endcsname
     \csname XINT_#1_until_#3_b\expandafter\endcsname
@@ -19837,7 +20328,7 @@ first place.
     \csname #2#6\expandafter\endcsname 
     \csname XINT_expr_precedence_#3\endcsname {#1}%
 }%
-\def\xint_tmp_do_defs #1#2#3#4#5#6#7#8%
+\def\XINT_tmpc #1#2#3#4#5#6#7#8%
 {%
     \def #1##1% \XINT_expr_op_<op>
     {% keep value, get next number and operator, then do until
@@ -19862,8 +20353,8 @@ first place.
     }%
     \let #7#5%
 }%
-\def\xint_tmp_def_a #1{\xint_tmp_def {expr}{xint}#1}%
-\xintApplyInline {\xint_tmp_def_a }{%
+\def\XINT_tmpa #1{\XINT_tmpb {expr}{xint}#1}%
+\xintApplyInline {\XINT_tmpa }{%
   {|{iii}{vi}{OR}}%
   {&{iv}{vi}{AND}}%
   {<{v}{vi}{Lt}}%
@@ -19877,16 +20368,16 @@ first place.
   {e{ix}{ix}{fE}}%
   {E{ix}{ix}{fE}}%
 }%
-\def\xint_tmp_def_a #1{\xint_tmp_def {flexpr}{xint}#1}%
-\xintApplyInline {\xint_tmp_def_a }{%
+\def\XINT_tmpa #1{\XINT_tmpb {flexpr}{xint}#1}%
+\xintApplyInline {\XINT_tmpa }{%
   {|{iii}{vi}{OR}}%
   {&{iv}{vi}{AND}}%
   {<{v}{vi}{Lt}}%
   {>{v}{vi}{Gt}}%
   {={v}{vi}{Eq}}%
 }%
-\def\xint_tmp_def_a #1{\xint_tmp_def {flexpr}{XINTinFloat}#1}%
-\xintApplyInline {\xint_tmp_def_a }{%
+\def\XINT_tmpa #1{\XINT_tmpb {flexpr}{XINTinFloat}#1}%
+\xintApplyInline {\XINT_tmpa }{%
   {+{vi}{vi}{Add}}%
   {-{vi}{vi}{Sub}}%
   {*{vii}{vii}{Mul}}%
@@ -19895,12 +20386,11 @@ first place.
   {e{ix}{ix}{fE}}%
   {E{ix}{ix}{fE}}%
 }%
-\let\xint_tmp_def_a\empty
 %    \end{macrocode}
 % \subsection{The comma as binary operator}
 % \lverb|New with 1.09a.|
 %    \begin{macrocode}
-\def\xint_tmp_do_defs #1#2#3#4#5#6%
+\def\XINT_tmpa #1#2#3#4#5#6%
 {%
     \def #1##1% \XINT_expr_op_,_a
     {%
@@ -19924,13 +20414,13 @@ first place.
     }%
     \let #5\xint_c_ii
 }%
-\expandafter\xint_tmp_do_defs
+\expandafter\XINT_tmpa
     \csname XINT_expr_op_,\expandafter\endcsname
     \csname XINT_expr_until_,_a\expandafter\endcsname
     \csname XINT_expr_until_,_b\expandafter\endcsname
     \csname XINT_expr_op_-vi\expandafter\endcsname 
     \csname XINT_expr_precedence_,\endcsname {expr}%
-\expandafter\xint_tmp_do_defs
+\expandafter\XINT_tmpa
     \csname XINT_flexpr_op_,\expandafter\endcsname
     \csname XINT_flexpr_until_,_a\expandafter\endcsname
     \csname XINT_flexpr_until_,_b\expandafter\endcsname
@@ -19939,15 +20429,15 @@ first place.
 %    \end{macrocode}
 % \subsection{\csh{XINT\_expr\_op\_-<level>}: minus as prefix inherits its precedence level}
 %    \begin{macrocode}
-\def\xint_tmp_def #1#2%
+\def\XINT_tmpa #1#2%
 {%
-    \expandafter\xint_tmp_do_defs
+    \expandafter\XINT_tmpb
     \csname XINT_#1_op_-#2\expandafter\endcsname
     \csname XINT_#1_until_-#2_a\expandafter\endcsname
     \csname XINT_#1_until_-#2_b\expandafter\endcsname
     \csname xint_c_#2\endcsname {#1}%
 }%
-\def\xint_tmp_do_defs #1#2#3#4#5%
+\def\XINT_tmpb #1#2#3#4#5%
 {%
     \def #1% \XINT_expr_op_-<level> 
     {%  get next number+operator then switch to _until macro
@@ -19969,8 +20459,8 @@ first place.
         \fi
     }%
 }%
-\xintApplyInline{\xint_tmp_def {expr}}{{vi}{vii}{viii}{ix}}%
-\xintApplyInline{\xint_tmp_def {flexpr}}{{vi}{vii}{viii}{ix}}%
+\xintApplyInline{\XINT_tmpa {expr}}{{vi}{vii}{viii}{ix}}%
+\xintApplyInline{\XINT_tmpa {flexpr}}{{vi}{vii}{viii}{ix}}%
 %    \end{macrocode}
 % \subsection{? as two-way conditional}
 % \lverb|New with 1.09a. Modified in 1.09c to have less precedence than
@@ -20016,8 +20506,6 @@ first place.
 % \subsection{Functions}
 % \lverb|New with 1.09a.|
 %    \begin{macrocode}
-\let\xint_tmp_def\empty
-\let\xint_tmp_do_defs\empty
 \def\XINT_expr_op_@ #1%
 {%
     \ifcsname XINT_expr_onlitteral_#1\endcsname
@@ -20310,7 +20798,7 @@ first place.
                 FloatMaxof,FloatMinof,Sum,Prd,FloatSum,FloatPrd} \do
  {\toks0
   \expandafter{\the\toks0\expandafter\def\csname xint#1:csv\endcsname
-                         ####1{_xint#1 {\xintCSVtoList {####1}}}}}%
+                         ####1{_xint#1 {\xintCSVtoListNonStripped {####1}}}}}%
 \xintFor #1 in {,Sqrt,Add,Sub,Mul,Div,Power,fE} \do
   {\toks0
    \expandafter{\the\toks0\expandafter\def\csname XINTinFloat#1\endcsname
@@ -20318,13 +20806,13 @@ first place.
 \expandafter\def\expandafter\XINT_expr_protect\expandafter{\the\toks0
     \def\XINTdigits {_XINTdigits}%
     \def\XINT_expr_print ##1{\expandafter\XINT_newexpr_print\expandafter
-                {\romannumeral0\xintcsvtolist{\XINT_expr_unlock ##1}}}%
+            {\romannumeral0\xintcsvtolistnonstripped{\XINT_expr_unlock ##1}}}%
     \def\XINT_flexpr_print ##1{\expandafter\XINT_newflexpr_print\expandafter
-                {\romannumeral0\xintcsvtolist{\XINT_expr_unlock ##1}}}%
+            {\romannumeral0\xintcsvtolistnonstripped{\XINT_expr_unlock ##1}}}%
     \def\XINT_numexpr_print ##1{\expandafter\XINT_newnumexpr_print\expandafter
-                {\romannumeral0\xintcsvtolist{\XINT_expr_unlock ##1}}}%
+            {\romannumeral0\xintcsvtolistnonstripped{\XINT_expr_unlock ##1}}}%
     \def\XINT_boolexpr_print ##1{\expandafter\XINT_newboolexpr_print\expandafter
-                {\romannumeral0\xintcsvtolist{\XINT_expr_unlock ##1}}}%
+            {\romannumeral0\xintcsvtolistnonstripped{\XINT_expr_unlock ##1}}}%
 }%
 \toks0 {}%
 \def\xintNewExpr      {\xint_NewExpr\xinttheexpr      }%
@@ -20417,6 +20905,7 @@ first place.
         \catcode44=12  % ,
         \catcode61=12  % =
 }%    
+\let\XINT_tmpa\relax \let\XINT_tmpb\relax \let\XINT_tmpc\relax 
 \XINT_restorecatcodes_endinput%
 %    \end{macrocode}
 % \DeleteShortVerb{\|}
@@ -20455,7 +20944,7 @@ first place.
   Right bracket \]     Circumflex    \^     Underscore    \_
   Grave accent  \`     Left brace    \{     Vertical bar  \|
   Right brace   \}     Tilde         \~}
-\CheckSum {19783}
+\CheckSum {19898}
 \makeatletter\check@checksum\makeatother
 \Finale
 %%
