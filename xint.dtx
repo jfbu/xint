@@ -1,8 +1,8 @@
 % -*- coding: iso-latin-1; -*-
-% This file: xint.dtx (1.05, 2013/05/01)
+% This file: xint.dtx (1.05a, 2013/05/02)
 %%
 %%----------------------------------------------------------------
-%% The xint bundle (version 1.05 of May 1st, 2013)
+%% The xint bundle (version 1.05a of May 2nd, 2013)
 %<xint>%% xint: Expandable operations on long numbers
 %<xintgcd>%% xintgcd: Euclidean algorithm with xint package 
 %<xintfrac>%% xintfrac: Expandable operations on fractions  
@@ -75,9 +75,9 @@
 %                    \input xintcfrac.sty\relax  % (loads xintfrac)
 %
 %<*none>
-\def\lasttimestamp{Time-stamp: <01-05-2013 19:27:41 CEST jfb>}
-\def\pkgversion{1.05}
-\def\pkgdate{2013/05/01}
+\def\lasttimestamp{Time-stamp: <02-05-2013 17:37:34 CEST BURNOL>}
+\def\pkgversion{1.05a}
+\def\pkgdate{2013/05/02}
 \def\striptimestamp #1 <#2 #3 #4 #5>{#2 at #3 #4}
 \def\getdocdate #1 <#2-#3-#4 #5>{#4/#3/#2}
 \edef\docdate{\expandafter\getdocdate\lasttimestamp}
@@ -409,7 +409,7 @@ The main goal is to allow computations with integers and fractions of arbitrary
 sizes.\footnote{Here and elsewhere, ``arbitrarily big'' means roughly with
   numerators and denominators having strictly less than
   2\string^\string{31\string}=2147483648 digits. Memory constraints from the
-  |etex| of |pdftex| executables presumably limit even more the possible
+  |etex| or |pdftex| executables presumably limit even more the possible
   computations, not to mention the time taken by them.} 
 
 Here are some examples:
@@ -484,7 +484,7 @@ complete expandability.\footnote{I could, naturally,
 Currently \xintname does not provide `floating-point' operations. The
 \LaTeX3 project has implemented expandably floating-point computations
 with 16 significant digits
-(\href{http://www.ctan.org/pkg/l3fp}{\color{niceone}l3fp}), including
+(\href{http://www.ctan.org/tex-archive/macros/latex/contrib/l3kernel}{\color{niceone}l3fp}), including
 special functions such as exp, log, sine and cosine.
 
 The most blatantly lacking thing in \xintname so far is a decent input parser,
@@ -833,16 +833,23 @@ versions. They have less parsing overhead.
 
 The macro \csb{xintRaw} prints the fraction in |A/B| form, with the trailing
 |[n]| converted into explicit zeros either at the numerator or the denominator.
-The |B| is printed even if it has value |1|. Conversely, the macro \csb{xintREZ}
-(REZ stands for remove zeros) puts all powers of ten into the |[n]|. It does not
-print the |B| if it is then |1|.
+The |B| is printed even if it has value |1|. 
 
-The macro \csb{xintIrr} reduces the fraction to its irreducible form |C/D|
-(thus, without a trailing |[0]|), and it prints only the |C| if |D=1|. When one
-knows that necessarily the result of a computation is an integer and one wants
-to get rid of the trailing |[n]| one can use \csb{xintNum} which on fractions is
-like \csa{xintIrr} but additionnally raises an error when the fraction doesn't
-simplify to an integer.
+Conversely (sort of), the macro \csb{xintREZ}
+ puts all powers of ten into the |[n]| (REZ stands for remove zeros).
+Here also, the |B| is printed even if it has value |1|.
+
+The macro \csb{xintIrr} reduces the fraction to its irreducible form
+|C/D| (thus, without a trailing |[0]|), and it prints only the |C| if
+|D=1|. The macro \csb{xintNum} from \xintname is extended to act like
+\csb{xintIrr} but additionally raises an error when the fraction
+doesn't simplify to an integer. When one knows that necessarily the
+result of a computation is an integer, and one wants to get rid of the
+denominator and trailing |[n]|, one can thus use \csb{xintIrr} or
+\csb{xintNum} (if the fraction has internally a denominator equal to 1,
+this is quickly identified, there is little overhead; else, the
+denominator will be discovered in the next step to be a divisor of the
+numerator).
 
 
 The macro \csb{xintTrunc}|{N}{f}| prints\footnote{`prints' does not at all mean
@@ -900,10 +907,12 @@ fraction an exact computation would have produced.
 To get the integer part of the decimal expansion of |f|, use
 |\xintiTrunc{0}{f}|: \centeredline{|\xintiTrunc {0}{\xintPow
     {1.01}{100}}=|\texttt{\xintiTrunc {0}\z}}%
-\centeredline{|\xintTrunc {30}{\xintPow
-    {1.01}{100}}=|\texttt{\xintTrunc {30}\z}}
+% \centeredline{|(\xintTrunc {30}{\xintPow
+%     {1.01}{100}}=|\texttt{\xintTrunc {30}\z)}}
+\centeredline{|\xintiTrunc {0}{\xintPow{0.123}{-10}}=|\texttt{\xintiTrunc
+    {0}{\xintPow{0.123}{-10}}}}
 
-\section{\csh{ifcase} constructs}
+\section{\csh{ifcase}, \csh{ifnum}, ... constructs}
 
 When using things such as |\ifcase \xintSgn{\A}| one has to leave
 a space after the closing brace for \TeX{} to
@@ -1262,24 +1271,31 @@ within braces expanding in at most two steps to such a number, of for material
 within braces which expands to such a number after two expansions of the first
 token.
 
-Some of these macros are extended by \xintfracname to accept fractions on input,
-and, generally, to output a fraction. This will be mentioned and the original
-macro \csa{xintAbc} remains then available under the name \csa{xintiAbc}. There
-are also macros such as \csa{xint\-Quo} or \csa{xintNum} which are made to
-accept fractions on input, under the condition that this fraction turns out to
-be an integer. The output format is then still a bare number with no trailing
-|[n]|. Again the original is still available with an additional `i' in the name.
-See the \xintfracname \hyperref[sec:comfrac]{\color{niceone}documentation}.
+Some of these macros are extended by \xintfracname to accept fractions
+on input, and, generally, to output a fraction. This will be mentioned
+and the original macro \csa{xintAbc} remains then available under the
+name \csa{xintiAbc}. There are also macros such as \csa{xint\-Quo} or
+\csa{xintNum} which are made to accept fractions on input, under the
+condition that this fraction turns out to be an integer, but still do
+produce pure integers without any forward slash mark nor trailing |[n]|.
+Again the original is still available with an additional `i' in the
+name, in case it is important to skip the parsing, but here the output
+format is the same. See the \xintfracname
+\hyperref[sec:comfrac]{\color{niceone}documentation} for more
+information.
 
-The integer-only macros are more efficient on integers, even for simple
-things such as determining the sign of a number, as there is always some
-overhead due\vadjust{\vskip-\dp\strutbox
+The integer-only macros are more efficient, even for simple things such
+as determining the sign of a number, as there is always some overhead
+due to parsing the fraction format on input; however except if one does
+really a lot of computations, there is no need in general to employ the
+integer-only variants. The exception is when the context requires that
+the macro returns a (possibly long) integer, with no forward slash nor
+trailing |[n]|. This may be because they are used in \xintname macros
+which remain strictly integer-only on input, such as \csb{xintDecSplit},
+or\vadjust{\vskip-\dp\strutbox
   \hbox{\smash{\color{niceone}\llap{\strut\small IMPORTANT!\ $\Bigg\{$\
-      }}}\vskip\dp\strutbox }  to \strut{} parsing the fraction format on input; however except if
-one does really a lot of computations, there is no need in general to
-employ the integer-only variants, apart from one mandatory
-context: when they are used\strut{} as arguments to macros
-which are strictly integer-only on input, such as \csb{xintDecSplit}.
+      }}}\vskip\dp\strutbox } in\strut{} places where a (short) number is
+expected by \TeX{} such as after an |\ifnum| or inside a |\numexpr|.
 
 
 
@@ -1301,10 +1317,7 @@ tokens in the `list'.\footnote{the argument is not a token list variable, just a
   `list' of tokens.} Brace pairs encountered are removed once and the enclosed
 material does not get reverted. Spaces are gobbled.
 \centeredline{|\xintReverseOrder{\xintDigitsOf\xintiPow {2}{100}\to\Stuff}|}
-\centeredline{gives: \ttfamily
-\expandafter\expandafter\expandafter\detokenize
-\expandafter\expandafter\expandafter{%
-\xintReverseOrder{\xintDigitsOf\xintiPow {2}{100}\to\Stuff}}}
+\centeredline{gives: \ttfamily{\string\Stuff\string\to1002\string\xintiPow\string\xintDigitsOf}}
 
 \subsection{\csbh{xintNum}}\label{xintiNum}
 
@@ -1313,7 +1326,7 @@ material does not get reverted. Spaces are gobbled.
   {=\xintNum{+---++----+--000000000367941789479}}} Extended by \xintfracname to
 accept also a fraction on input, as long as it reduces to an integer after
 division of the numerator by the denominator.
-\centeredline{|\xintNum{+---123.48/0.03}|\texttt{=\xintNum{123.48/-0.03}}}
+\centeredline{|\xintNum{123.48/-0.03}|\texttt{=\xintNum{123.48/-0.03}}}
 
 \subsection{\csbh{xintLen}}\label{xintiLen}
 
@@ -1330,7 +1343,7 @@ less than circa &2^{31}&.
 
 \subsection{\csbh{xintLength}}\label{xintLength}
 
-\csa{xintLength}\marg{token\_list} does not do any expansion of
+\csa{xintLength}\marg{list} does not do any expansion of
 its argument and just counts how many tokens there are. Things
 enclosed in braces count as one.
 \centeredline{|\xintLength {\xintiPow {2}{100}}=|\texttt{\xintLength
@@ -1584,7 +1597,7 @@ Extended by \xintfracname to fractions.
 \subsection{\csbh{xintFac}}\label{xintFac}
 
 \csa{xintFac\n} returns the factorial. It is an error if the
-argument is negative or at least &10^9&. It is not recommended to
+argument is negative or at least &10^6&. It is not recommended to
 launch the computation of things such as &100000!&, if you need
 your computer for other tasks. 
 
@@ -1617,18 +1630,23 @@ remainder is always non-negative and the formula |N = QM + R|
 always holds independently of the signs of |N| or |M|. Division by
 zero is of course an error (even if |N| vanishes) and returns |{0}{0}|.
 
-This macro is integer only and not to be confused with the \xintfracname macro
-\csb{xintDiv} which divides one fraction by another.
+This macro is integer only (with \xintfracname loaded it accepts
+fractions on input, but they must be integers in disguise) and not to be
+confused with the \xintfracname macro \csb{xintDiv} which divides one
+fraction by another.
 
 \subsection{\csbh{xintQuo}}\label{xintQuo}
 
-\csa{xintQuo\n\m} returns the quotient from the euclidean division. When both
-|N| and |M| are positive one has \csa{xintQuo\n\m}|=\xintiTrunc {0}{N/M}| (using
-package \xintfracname).
+\csa{xintQuo\n\m} returns the quotient from the euclidean division. When
+both |N| and |M| are positive one has \csa{xintQuo\n\m}|=\xintiTrunc
+{0}{N/M}| (using package \xintfracname). With \xintfracname loaded it
+accepts fractions on input, but they must be integers in disguise.
 
 \subsection{\csbh{xintRem}}\label{xintRem}
 
 \csa{xintRem\n\m} returns the remainder from the euclidean division.
+With \xintfracname loaded it accepts fractions on input, but they must
+be integers in disguise.
 
 
 \subsection{\csbh{xintFDg}}\label{xintFDg}
@@ -2178,13 +2196,15 @@ or |A[n]|.
 
 \subsection{\csbh{xintCmp}}\label{xintCmp}
 
-The macro is extended to fractions. 
+The macro is extended to fractions. Of course its output is still either
+|-1|, |0|, or |1| with no forward slash nor trailing |[n]|. 
 The original, which skips the overhead of
 the fraction format parsing, is available as \csb{xintiCmp}.
 
 \subsection{\csbh{xintMax}}\label{xintMax}
 
-The macro is extended to fractions. The original is available as
+The macro is extended to fractions. But now |\xintMax {2}{3}| returns
+\texttt{\xintMax {2}{3}}. The original is available as
 \csb{xintiMax}.
 
 \subsection{\csbh{xintMin}}\label{xintMin}
@@ -2195,12 +2215,15 @@ The macro is extended to fractions. The original is available as
 \subsection{\csbh{xintAbs}}\label{xintAbs}
 
 The macro is extended to fractions. The original is available as
-\csb{xintiAbs}. 
+\csb{xintiAbs}. Note that |\xintAbs {-2}=|\texttt{\xintAbs {-2}} whereas
+|\xintiAbs {-2}=|\texttt{\xintiAbs {-2}}.
 
 \subsection{\csbh{xintSgn}}\label{xintSgn}
 
-The macro is extended to fractions. The original, which skips the overhead of
-the fraction format parsing, is available as \csb{xintiSgn}.
+The macro is extended to fractions. Of course its output is still either
+|-1|, |0|, or |1| with no forward slash nor trailing |[n]|. The
+original, which skips the overhead of the fraction format parsing, is
+available as \csb{xintiSgn}.
 
 \subsection{\csbh{xintOpp}}\label{xintOpp}
 
@@ -2209,10 +2232,12 @@ The macro is extended to fractions. The original is available as
 
 \subsection{\csbh{xintGeq},~\csbh{xintDivision},~\csbh{xint\-Quo},~\csbh{xint\-Rem},~\csbh{xintFDg},~\csbh{xintLDg},~\csbh{xintMON},~\csbh{xintMMON}}
 
-These macros remain integer-only, but they accept a fraction on input if this
-fraction in fact reduces to an integer. As usual, the `{\color{blue}i}' variants
-all exist, they accept on input only integers in the strict format and have less
-overhead.
+These macros are extended to accept a fraction on input if this fraction
+in fact reduces to an integer (if not an |\xintError:NotAnInteger| will
+be raised). As usual, the `{\color{blue}i}' variants all exist, they
+accept on input only integers in the strict format and have less
+overhead. There is no difference in the output, the difference is only
+in the accepted format for the inputs.
 
 \subsection{\csbh{xintNum}}\label{xintNum}
 
@@ -2811,7 +2836,7 @@ was plaguing the |1.03| version. \footnote{with powers |x\string^k|,
 
 This is the same as \csb{xintPowerSeries} apart from the fact that the last
 parameter (aka |x|), is first twice expanded. If the |x| parameter is to be an
-explicit big fraction |f| with many (i.e. hundreds) digits, rather than using
+explicit big fraction |f| with many (dozens) digits, rather than using
 |f| directly it is slightly better to have some macro |\x| |\def'|ined to expand
 to the explicit |f| and use \csb{xintPowerSeries}; but if |f| has not yet been
 evaluated and will be the output of a complicated expansion of some |\x|, and
@@ -2819,7 +2844,7 @@ if, due to an expanding only context, an |\edef\z{\x}| is no option, then
 \csa{xintPowerSeriesX} should be used with |\x| as last parameter. This |\x|
 will be expanded (as usual, twice) and then its (explicit) output will be used.
 The reason why \csa{xintPowerSeries} doesn't do the same is that explicit
-fractions with many (i.e. hundreds) digits slow down a bit the processing as
+fractions with many (dozens) digits slow down a bit the processing as
 there is some shuffling of tokens going on. With \csa{xintPowerSeriesX} the
 slowing down in token shuffling due to a very big fraction will not be avoided,
 but the far worse cost of re-doing each time the computations leading to
@@ -4094,7 +4119,7 @@ first place.
   \fi
 \expandafter\x\csname ver@xint.sty\endcsname
 \ProvidesPackage{xint}%
-  [2013/05/01 v1.05 Expandable operations on long numbers (jfB)]%
+  [2013/05/02 v1.05a Expandable operations on long numbers (jfB)]%
 %    \end{macrocode}
 % \subsection{Token management macros}
 %    \begin{macrocode}
@@ -4421,6 +4446,8 @@ first place.
 % \escapechar at the time of using \xintAssignArray or \xintRelaxArray
 % These macros are an exception in the xint bundle, they do not care at
 % all about compatibility with expansion-only contexts. 
+% In version 1.05a I suddenly discover incongruous \expandafter's in 
+%  \XINT@assignarray@@@@end, which I remove.
 % \end{verbatim}
 % \vspace*{-1.5\baselineskip}
 %    \begin{macrocode}
@@ -4518,13 +4545,11 @@ first place.
     \def #1##1%
     {%
         \ifnum ##1< 0
-            \xint@afterfi {\xintError:ArrayIndexIsNegative
-                           \expandafter\space 0}%
+            \xint@afterfi {\xintError:ArrayIndexIsNegative\space 0}%
         \else
             \xint@afterfi {%
               \ifnum ##1> #2
-                  \xint@afterfi {\xintError:ArrayIndexBeyondLimit
-                                 \expandafter\space 0}%
+                  \xint@afterfi {\xintError:ArrayIndexBeyondLimit\space 0}%
               \else
                   \xint@afterfi
                   {\expandafter\expandafter\expandafter
@@ -6551,7 +6576,7 @@ first place.
     \or
        \expandafter\XINT@fac@checklength
     \else
-       \xint@afterfi{\xintError:FactorialOfNegativeNumber
+       \xint@afterfi{\expandafter\xintError:FactorialOfNegativeNumber
                 \expandafter\space\expandafter 1\xint@gobble }%
     \fi
     {#1}%
@@ -6559,7 +6584,7 @@ first place.
 \def\XINT@fac@checklength #1%
 {%
     \ifnum\numexpr #1\relax>999999
-         \xint@afterfi{\xintError:FactorialOfTooBigNumber
+         \xint@afterfi{\expandafter\xintError:FactorialOfTooBigNumber
                        \expandafter\space\expandafter 1\xint@gobble }%
     \else
          \xint@afterfi{\ifnum #1>9999
@@ -6755,8 +6780,8 @@ first place.
         \xint@undef\xint@undef\xint@undef\xint@undef
       \xint@UNDEF
 }%
-\def\XINT@pow@BtooBig #1\xint@UNDEF #2\xint@UNDEF
-                       {\xintError:ExponentTooBig\space 0}%
+\def\XINT@pow@BtooBig #1\xint@UNDEF #2\xint@UNDEF 
+                         {\xintError:ExponentTooBig\space 0}%
 \def\XINT@pow@loop #1#2%
 {%
     \ifnum #1 = 1
@@ -7901,8 +7926,7 @@ first place.
 \def\XINT@dsx@xisNeg@checkx #1%
 {%
     \ifnum #1> 9
-       \xint@afterfi {\xintError:TooBigDecimalShift 
-                      \XINT@dsx@toobigx }%
+       \xint@afterfi {\xintError:TooBigDecimalShift\XINT@dsx@toobigx }%
     \else 
        \expandafter \XINT@dsx@zeroloop
     \fi
@@ -8042,8 +8066,7 @@ first place.
 \def\XINT@split@checksizex #1%
 {%
     \ifnum\XINT@Len {#1} > 9  
-       \xint@afterfi {\xintError:TooBigDecimalSplit
-                     \XINT@split@bigx }%
+       \xint@afterfi {\xintError:TooBigDecimalSplit\XINT@split@bigx }%
     \else
        \expandafter\XINT@split@xfork
     \fi
@@ -8393,7 +8416,7 @@ first place.
   \fi
 \expandafter\x\csname ver@xintgcd.sty\endcsname
 \ProvidesPackage{xintgcd}%
-  [2013/05/01 v1.05 Euclide algorithm with xint package (jfB)]%
+  [2013/05/02 v1.05a Euclide algorithm with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintGCD}}
 %    \begin{macrocode}
@@ -9225,7 +9248,7 @@ first place.
   \fi
 \expandafter\x\csname ver@xintfrac.sty\endcsname
 \ProvidesPackage{xintfrac}%
-  [2013/05/01 v1.05 Expandable operations on fractions (jfB)]%
+  [2013/05/02 v1.05a Expandable operations on fractions (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintLen}}
 %    \begin{macrocode}
@@ -9368,8 +9391,7 @@ first place.
 }%
 \def\XINT@frac@Gdivisionbyzero #1\Z #2#3%
 {%
-   \xintError:DivisionByZero 
-   \expandafter\space {0}{#2}{0}%
+   \xintError:DivisionByZero\space {0}{#2}{0}%
 }%
 \def\XINT@frac@Gneg #1\Z #2#3%
 {%
@@ -9728,10 +9750,8 @@ first place.
     \xint@UDkrof      
     {#3#4}{#1#2}{#3#4}{#1#2}%
 }%
-\def\XINT@irr@indeterminate #1#2#3#4#5%
-            {\expandafter\xintError:NaN\space 0/0}%
-\def\XINT@irr@divisionbyzero #1#2#3#4#5%
-            {\expandafter\xintError:DivisionByZero #5#2/0}%
+\def\XINT@irr@indeterminate #1#2#3#4#5{\xintError:NaN\space 0/0}%
+\def\XINT@irr@divisionbyzero #1#2#3#4#5{\xintError:DivisionByZero #5#2/0}%
 \def\XINT@irr@zero #1#2#3#4#5{ 0}%
 \def\XINT@irr@loop@a #1#2%
 {%
@@ -9822,10 +9842,8 @@ first place.
     \xint@UDkrof      
     {#3#4}{#1#2}1001%
 }%
-\def\XINT@jrr@indeterminate #1#2#3#4#5#6#7%
-            {\expandafter\xintError:NaN\space 0/0}%
-\def\XINT@jrr@divisionbyzero #1#2#3#4#5#6#7%
-            {\expandafter\xintError:DivisionByZero #7#2/0}%
+\def\XINT@jrr@indeterminate #1#2#3#4#5#6#7{\xintError:NaN\space 0/0}%
+\def\XINT@jrr@divisionbyzero #1#2#3#4#5#6#7{\xintError:DivisionByZero #7#2/0}%
 \def\XINT@jrr@zero #1#2#3#4#5#6#7{ 0}%
 \def\XINT@jrr@loop@a #1#2%
 {%
@@ -10613,7 +10631,7 @@ first place.
   \fi
 \expandafter\x\csname ver@xintseries.sty\endcsname
 \ProvidesPackage{xintseries}%
-  [2013/05/01 v1.05 Expandable partial sums with xint package (jfB)]%
+  [2013/05/02 v1.05a Expandable partial sums with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintSeries}}
 %    \begin{macrocode}
@@ -11155,7 +11173,7 @@ first place.
   \fi
 \expandafter\x\csname ver@xintcfrac.sty\endcsname
 \ProvidesPackage{xintcfrac}%
-  [2013/05/01 v1.05 Expandable continued fractions with xint package (jfB)]%
+  [2013/05/02 v1.05a Expandable continued fractions with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintCFrac}}
 %    \begin{macrocode}
@@ -12158,7 +12176,7 @@ first place.
   Grave accent  \`     Left brace    \{     Vertical bar  \|
   Right brace   \}     Tilde         \~}
 
-\CheckSum{11717}
+\CheckSum{11712}
 \makeatletter\check@checksum\makeatother
 \Finale
 %%
