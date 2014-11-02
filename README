@@ -1,5 +1,5 @@
 The xint bundle
-Release 1.09kb (2014/02/13). Documentation date: 2014/02/13
+Release 1.09m (2014/02/26). Documentation date: 2014/02/26
 
 Copyright (C) 2013-2014 by Jean-Francois B.
 License: LaTeX Project Public License 1.3c or later.
@@ -152,7 +152,7 @@ License
    LaTeX version 2005/12/01 or later. 
  
 This work consists of the source file xint.dtx and of its derived files:
-xinttools.sty xint.sty, xintfrac.sty, xintexpr.sty, xintbinhex.sty,
+xinttools.sty, xint.sty, xintfrac.sty, xintexpr.sty, xintbinhex.sty,
 xintgcd.sty, xintseries.sty, xintcfrac.sty, as well as xint.ins, xint.tex
 and the documentation xint.pdf (or xint.dvi).
 
