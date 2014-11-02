@@ -1,5 +1,5 @@
 % -*- coding: iso-latin-1; -*-
-% This file: xint.dtx (1.07, 2013/05/25)
+% This file: xint.dtx (1.07a, 2013/05/26)
 %
 % Style files which will self-extract from xint.dtx:
 % (base) xint.sty       Expandable operations on long numbers
@@ -78,7 +78,7 @@
 %
 %%
 %%----------------------------------------------------------------
-%% The xint bundle (version 1.07 of May 25, 2013)
+%% The xint bundle (version 1.07a of May 26, 2013)
 %<xint>%% xint: Expandable operations on long numbers
 %<xintfrac>%% xintfrac: Expandable operations on fractions  
 %<xintexpr>%% xintexpr: Expandable expression parser
@@ -89,9 +89,9 @@
 %%----------------------------------------------------------------
 %%
 %<*none>
-\def\lasttimestamp{Time-stamp: <25-05-2013 21:15:30 CEST jfb>}
-\def\pkgversion{1.07}
-\def\pkgdate{2013/05/25}
+\def\lasttimestamp{Time-stamp: <26-05-2013 11:42:13 CEST jfb>}
+\def\pkgversion{1.07a}
+\def\pkgdate{2013/05/26}
 \def\striptimestamp #1 <#2 #3 #4 #5>{#2 at #3 #4}
 \def\getdocdate #1 <#2-#3-#4 #5>{#4/#3/#2}
 \edef\docdate{\expandafter\getdocdate\lasttimestamp}
@@ -278,8 +278,8 @@ pdfpagemode=UseOutlines}
 
 %---- a macro to manually have some margin note
 \def\MyMarginNote #1{\vadjust{\vskip-\dp\strutbox
-    \hbox{\smash{\color{niceone}\normalfont\llap{\strut\small #1\
-          $\to$\kern\parindent 
+    \hbox{\smash{\color{niceone}\normalfont\strut
+     \llap{\small #1\ $\to$\ 
         }}}\vskip\dp\strutbox }\strut{}} 
 
 
@@ -364,7 +364,7 @@ pdfpagemode=UseOutlines}
   \bgroup \MicroFont
   \let\do\do@noligs  \verbatim@nolig@list
   \let\do\@makeother \dospecials
-  \catcode32 10 \@jfverb 
+  \catcode32 10 \catcode`\~ 0 \@jfverb 
 }
 \def\@jfverb #1{\catcode`#1\active\lccode`\~`#1\lowercase{\let~\egroup}}
 % ATTENTION!
@@ -469,6 +469,8 @@ pdfpagemode=UseOutlines}
 
 \newcount\cnta
 \newcount\cntb
+\newcommand\lowast{\raisebox{-.25\height}{*}}
+% to be used as ~lowast in my short verbs
 
 \begin{document}
 \thispagestyle{empty}
@@ -513,7 +515,7 @@ pdfpagemode=UseOutlines}
   Most macros, and all of those doing computations, work purely by expansion
   without assignments, and may thus be used almost everywhere in \TeX{}.
 
-  The packages may be used with any flavor of \TeX{} supporting the e\TeX{}
+  The packages may be used with any flavor of \TeX{} supporting the \eTeX{}
   extensions. \LaTeX{} users will use |\usepackage| and others |\input| to
   load the package components.
 \end{abstract}
@@ -593,7 +595,7 @@ of arbitrary sizes.\footnote{Here and elsewhere, ``arbitrarily big'' means
   biggest constraint is the one of computation time, related to the
   propriety of expandability. As explained in the text multiplying two one
   thousand digits numbers is already expensive. On the other hand, floating
-  point computations is implemented with arbitrary precision, and one can
+  point computations are implemented with arbitrary precision, and one can
   work comfortably with fifty digits of precision for example. }
 
 Here are some examples:
@@ -843,19 +845,19 @@ Important points, to be noted, related to the expansion of arguments:
 \begin{enumerate}
 \item the macros expand `fully' their arguments, this means that they expand
   the first token seen (for each argument), then expand
-  \MyMarginNote{Changed in |1.06|!}, etc..., until something un-expandable
+  \MyMarginNote{Changed in |1.06|}, etc..., until something un-expandable
   such as a\strut{} digit or a brace is hit against.\footnote{the
     knowledgeable people will have recognized
     \texttt{\string\romannumeral-\string`0}} This example
-  \centeredline{|\def\x{12}\def\y{34}|%
+  \centeredline{|\def\x{98765}\def\y{43210}|%
     |\xintAdd {\x}{\x\y}|} is \emph{not} a legal construct, as the |\y| will
   remain untouched by expansion and not get converted into the digits which
-  are expected by the sub-routines of |\xintAdd|. It works here by sheer
-  luck as the |\y| gets expanded inside a |\numexpr|. But this would fail in
-  general.
+  are expected by the sub-routines of |\xintAdd|. It is a |\numexpr|
+  which will expand it and an arithmetic overflow will arise as |9876543210|
+  exceeds the \TeX{} bounds.
 
   \begingroup\slshape
-    The |1.07| novelty\MyMarginNote{New with |1.07|!} \csb{xinttheexpr} has brought a solution: here one
+    The |1.07| novelty\MyMarginNote{New with |1.07|} \csb{xinttheexpr} has brought a solution: here one
     would write |\xinttheexpr \x+\x\y\relax|, or
     |\xintAdd\x{\xinttheexpr\x\y\relax}|.\hfill
   \endgroup
@@ -868,7 +870,7 @@ Important points, to be noted, related to the expansion of arguments:
 
   \begingroup\slshape
   Again, this is otherwise inside an \csb{xinttheexpr}-ession or
-  \csb{xintthefloatexpr}-ession. There,\MyMarginNote{New with |1.07|!} the
+  \csb{xintthefloatexpr}-ession. There,\MyMarginNote{New with |1.07|} the
   minus sign may prefix macros which will expand to numbers (or parentheses
   etc...)
   \endgroup
@@ -906,16 +908,17 @@ Important points, to be noted, related to the expansion of arguments:
   \hspace*{1cm}|\def\aplusbc #1#2#3{\xintadd {#1}{\xintMul {#2}{#3}}}|\par
   \hspace*{1cm}|\def\AplusBC {\romannumeral0\aplusbc}|\par
   Or, for people using the \LaTeX{} vocabulary:\par
-  \hspace*{1cm}|\newcommand{\aplusbc}[3]{\xintadd {#1}{\xintMul {#2}{#3}}}|\par
-  \hspace*{1cm}|\newcommand{\AplusBC}{\romannumeral0\aplusbc}|\par
+  \hspace*{1cm}|\newcommand~lowast{\aplusbc}[3]{\xintadd {#1}{\xintMul
+      {#2}{#3}}}|\par 
+  \hspace*{1cm}|\newcommand~lowast{\AplusBC}{\romannumeral0\aplusbc}|\par
 
   This then allows further definitions of macros expanding in two steps only,
   such as:\par
   |\def\aplusbcsquared #1#2#3{\aplusbc {#1}{#2}{\xintSqr{#3}}}|\par
   |\def\AplusBCSquared {\romannumeral0\aplusbcsquared}|\par
-  |\newcommand\myalgebra [6]{\xintmul {\AplusBC {#1}{#2}{#3}}{\AplusBC
+  |\newcommand~lowast\myalgebra [6]{\xintmul {\AplusBC {#1}{#2}{#3}}{\AplusBC
       {#4}{#5}{#6}}}|\par
-  |\newcommand\MyAlgebra {\romannumeral0\myalgebra}|\par
+  |\newcommand~lowast\MyAlgebra {\romannumeral0\myalgebra}|\par
 \end{enumerate}
 
 The |\romannumeral0| things above look like an invitation to hacker's
@@ -925,11 +928,11 @@ package macros, and the new ones will be completely expandable and usable one
 within the other.
 
 Release |1.07| has the \csb{xintNewExpr} command\MyMarginNote{New with
-  |1.07|!} which automatizes the creation of such expandable macros:
+  |1.07|} which automatizes the creation of such expandable macros:
 \centeredline{|\xintNewExpr\AplusBC[3]{_1+_2*_3}|} creates the |\AplusBC|
 macro doing the above and expanding in two expansion steps.
 
-  Those macro arguments \MyMarginNote{New with |1.06|!} which are
+  Those macro arguments \MyMarginNote{New with |1.06|} which are
   intrinsically constrained to obey the \TeX{} bounds on integers (see the next
   section) are now systematically fed to a |\numexpr|, hence they will be
   subjected to a complete expansion, registers are allowed, and things such as
@@ -941,7 +944,7 @@ macro doing the above and expanding in two expansion steps.
   other cases.
 
   Note however that inside an |\xintexpr|-ession count registers for
-  the\MyMarginNote{New with |1.07|!} exponent of the power function or the
+  the\MyMarginNote{New with |1.07|} exponent of the power function or the
   argument of the factorial are not accepted (they are, if prefixed with
   |\the|); on the other hand these arguments may be fractions, as long as
   they turn out to be in truth integers after simplification. And the
@@ -975,7 +978,7 @@ extending in generality:
   latter cases. When the argument exceeds the \TeX{} bound (either positively or
   negatively), an error will originate from a \csa{numexpr} expression and it
   may sometimes be followed by a more specific error `message' from a package
-  macros.
+  macro.
 \item `long' integers, which are the bread and butter of the package commands.
   They are signed integers with an illimited number of digits.
   Theoretically though, most of the macros require that the number of digits
@@ -989,7 +992,7 @@ extending in generality:
 \item `fractions': they become available after having loaded the \xintfracname
   package. Their format on input will be described next, a fraction has a
   numerator, a forward slash and then a denominator.\MyMarginNote{New with
-    |1.07|!} It is now possible to use scientific notation, with a lowercase
+    |1.07|} It is now possible to use scientific notation, with a lowercase
   |e| on input (an uppercase |E| is accepted inside the |\xintexpr|-essions).
   The decimal mark must be a dot and not a comma. No separator for thousands
   should be used on inputs, and except within |\xintexpr|-essions, spaces
@@ -1002,9 +1005,10 @@ extending in generality:
   accepting `long numbers' or fractions on input: they must be prefixed by
   |\the| or |\number|. The same for \csa{numexpr} expressions. However,\strut{}
   count registers and |\numexpr| expressions\vadjust{\vskip-\dp\strutbox
-    \hbox{\smash{\color{niceone}\llap{\strut\small NEW WITH |1.06|\
-          $\to$\kern\parindent 
-        }}}\vskip\dp\strutbox } are allowed in arguments intrinsically
+    \hbox{\smash{\color{niceone}\normalfont\strut
+     \llap{\small New with |1.06|\ $\to$\kern\parindent
+        }}}\vskip\dp\strutbox }\strut{} are
+  allowed in arguments intrinsically 
   constrained to obey the \TeX{} bounds.
 \end{framed}
 
@@ -1012,16 +1016,12 @@ extending in generality:
 \edef\z {\xintAdd
     {+--0367.8920280/-++278.289287}{-109.2882/+270.12898}}
 
-The package macros first operate a `full' expansion\vadjust{\vskip-\dp\strutbox
-    \hbox{\smash{\color{niceone}\llap{\strut\small NEW WITH |1.06|\ $\to$\
-        }}}\vskip\dp\strutbox }  of their \strut{} arguments, as
-explained above: only the first token is repeatedly expanded until no more is
-possible.
+  The package macros first operate a `full' expansion\MyMarginNote{New with
+    |1.06|} of their \strut{} arguments, as explained above: only the first
+  token is repeatedly expanded until no more is possible.
 
 On the other hand, this
-expansion is\strut{} a \emph{complete one }\vadjust{\vskip-\dp\strutbox
-    \hbox{\smash{\color{niceone}\llap{\strut\small NEW WITH |1.06|\ $\to$\
-        }}}\vskip\dp\strutbox } for those arguments which
+expansion is a\MyMarginNote{New with |1.06|} for those arguments which
 are constrained to obey the \TeX{} bounds on numbers, as they are systematically
 inserted inside a |\numexpr...\relax| expression.
 
@@ -1072,26 +1072,30 @@ A number can start directly with a decimal point:
 \centeredline{|\xinttheexpr (-.3/.7)^11\relax=|\texttt{\xinttheexpr (-.3/.7)^11\relax}}
 It is also licit to use |\A/\B| as input if each of |\A| and |\B| expands (in
 the sense previously described) to a ``decimal number'' as examplified above by
-the numerators and denominators. Or one may have just one macro |\C| which
+the numerators and denominators (thus, possibly with a `scientific' exponent
+part, with a lowercase `e'). Or one may have just one macro |\C| which
 expands to such a ``fraction with optional decimal points'', or mixed things
 such as |\A 245/7.77|, where the numerator will be the concatenation of the
 expansion of |\A| and |245|. But, as explained already |123\A| is a no-go,
-\emph{except inside an |\string\xintexpr|-ession of course!}.
+\emph{except inside an |\string\xintexpr|-ession of course}!
 
 Finally, after the decimal point there may be |eN| where |N| is a positive
 or negative number (obeying the \TeX{} bounds on
-integers).\MyMarginNote{New with |1.07|!} This `|e|' part (which must be in
-lowercase, except inside |\xintexpr|-essions) may appear both the numerator
+integers).\MyMarginNote{New with |1.07|} This `|e|' part (which must be in
+lowercase, except inside |\xintexpr|-essions) may appear both at the numerator
 and at the denominator. \centeredline{|\xintRaw
   {+--+1253.2782e++--3/---0087.123e---5}=|\texttt{\xintRaw
     {+--+1253.2782e++--3/---0087.123e---5}}}
 
+\medskip
+
 Loading \xintfracname not only relaxes the format of the inputs; it also
-modifies the format of the outputs: except when filtered through the
-\csb{xintIrr} (and \csb{xintJrr}) or \csb{xintRaw} macros, a fraction is always
-output in the |A/B[n]| form (which stands for &(A/B)10^n&). The |A| and |B| may
-end in zeros (\emph{i.e}, |n| does not represent all powers of ten), and will
-generally have a common factor. The denominator |B| is always strictly positive.
+modifies the format of the outputs: except when a fraction is filtered on output
+by \csb{xintIrr} (and \csb{xintJrr}) or \csb{xintRawWithZeros}, or by the
+truncation or rounding macros, it will always be in the |A/B[n]| form (which
+stands for |(A/B)|$\times$|10^n|). The |A| and |B| may end in zeros (\emph{i.e},
+|n| does not represent all powers of ten), and will generally have a common
+factor. The denominator |B| is always strictly positive.
 
 A macro \csb{xintFrac} is provided
 for the typesetting (math-mode only) of such a `raw' output. Of course, the
@@ -1099,9 +1103,8 @@ for the typesetting (math-mode only) of such a `raw' output. Of course, the
 
 Direct user input of things such as |16000/289072[17]| or |3[-4]| is authorized.
 It is even possible to use |\A/\B[17]| if |\A| expands to |16000| and |\B| to
-|289072|, or |\A| if |\A| expands to |3[-4]|. However,\strut{}\vadjust{\vskip-\dp\strutbox
-  \hbox{\smash{\color{niceone}\llap{\strut\small IMPORTANT!\ $\to$\
-      }}}\vskip\dp\strutbox }  NEITHER the numerator NOR
+|289072|, or |\A| if |\A| expands to |3[-4]|. However,\MyMarginNote{IMPORTANT!}
+NEITHER the numerator NOR 
 the denominator may then have a decimal
 point. And, for this format, ONLY the numerator may carry
 a UNIQUE minus sign (and no superfluous leading zeros; and NO plus sign).
@@ -1134,7 +1137,7 @@ This is entirely otherwise inside an |\xintexpr|-ession, where spaces are
 expected to, as a general rule (with possible exceptions related to the
 allowed use of braces, see the
 \hyperref[sec:comexpr]{\color{niceone}documentation}) be completely
-harmless, and even recommanded for making the source more legible.
+harmless, and even recommended for making the source more legible.
 
 Syntax such as |\xintMul\A\B|
 is accepted and equivalent\footnote{see however near the end of
@@ -1185,7 +1188,8 @@ versions. They have less parsing overhead.
 
 
 
-The macro \csb{xintRaw} prints\MyMarginNote{CHANGED IN 1.07!!} the fraction
+The macro \csb{xintRaw} prints\MyMarginNote{\parbox[t]{1.5cm}{Changed\\ in
+    |1.07|!!}} the fraction 
 directly from its internal representation in |a/b[n]| form. To convert
 the trailing |[n]| into explicit zeros either at the numerator or the
 denominator, use \csb{xintRawWithZeros}. In both cases the |B| is printed
@@ -1526,7 +1530,7 @@ Here is a list of  common input errors. Some will cause compilation errors,
 others are more annoying as they may pass through unsignaled.
 \begin{itemize}
 \item using |-| to prefix some macro: |-\xintiSqr{35}/271|.\footnote{this is 
-    allowed inside an |\string\xintexpr|ession.}  
+    allowed inside an |\string\xintexpr|-ession.}  
 \item using one pair of braces too many |\xintIrr{{\xintiPow {3}{13}}/243}| (the
   computation goes through with no error signaled, but the result is completely
   wrong). 
@@ -1538,7 +1542,9 @@ others are more annoying as they may pass through unsignaled.
   that, with \xintfracname loaded, this expands to \texttt{\x} which is
   invalid on input. Using this |\x| in a fraction macro will most certainly
   cause a compilation error, with its usual arcane and undecipherable
-  accompanying message. The fix here is to use rather |\xintiMul|.
+  accompanying message. The fix here is to use rather |\xintiMul|, or
+  |\xinttheexpr 3*5\relax/\xinttheexpr 7*9\relax|. The more advanced among us
+  in mental power will have done the computations in their heads.
 \end{itemize}
 
 
@@ -1600,12 +1606,18 @@ escape character, digits have category code other and letters have
 category code letter. Nothing else is assumed, and the previous
 configuration is restored after the loading of each one of the packages.
 
-This is for the loading of the packages. For the actual use of the
+This is for the loading of the packages. 
+
+For the actual use of the
 macros, note that when feeding them with negative numbers the
 minus sign must have category code other, as is standard. Similarly the
 slash used for inputting fractions must be of category other, as usual.
 And the square brackets also must be of category code other, if used on
-input. 
+input. The `e' of the scientific notation must be of category code letter.
+All of that is relaxed when inside an 
+|\xintexpr|-ession (but arguments to macros which have been inserted in
+the expression must obey the rules, as it is the macro and not the parser which
+will get the tokens). In an |\xintexpr|-ession, the scientific `e' may be `E'.
 
 The components of the \xintname bundle presuppose that the usual
 \csa{space} and \csa{empty} macros are pre-defined, which is the case in
@@ -1788,8 +1800,8 @@ contiguous spaces are collapsed by the \TeX{} scanning into single spaces.
   }->|\makeatletter\texttt{\expandafter\strip@prefix\meaning\X}\makeatother}
 \centeredline{|\def\y{a,b,c,d,e}\xintCSVtoList\y->|\makeatletter\texttt{\expandafter\strip@prefix\meaning\z}\makeatother}
 
-% The macro \csa{xintCSVtoListNoExpand} does the same job without the initial
-% expansion.
+The macro \csa{xintCSVtoListNoExpand} does the same job without the initial
+expansion.
 
 \subsection{\csbh{xintNthElt}}\label{xintNthElt}
 
@@ -1817,9 +1829,9 @@ future versions. \centeredline{|\xintNthElt {7}{\xintCSVtoList
 \centeredline{|\xintNthElt {0}{\xintCSVtoList {1,2,3,4,5,6,7,8,9}}=|%
   \texttt{\xintNthElt {0}{\xintCSVtoList {1,2,3,4,5,6,7,8,9}}}} 
 
-% The macro
-% \csa{xintNthEltNoExpand} does the same job without first expanding its 
-% second argument.
+The macro
+\csa{xintNthEltNoExpand} does the same job without first expanding its 
+second argument.
 
 \subsection{\csbh{xintListWithSep}}\label{xintListWithSep}
 
@@ -1839,8 +1851,8 @@ top-level braced material constituting the \meta{list}.
 \centeredline{|\xintListWithSep{:}{\xintFac
     {20}}=|\texttt{\xintListWithSep{:}{\xintFac {20}}}}
 
-% The  macro \csa{xintListWithSepNoExpand} does the same
-% job without the initial expansion.
+The  macro \csa{xintListWithSepNoExpand} does the same
+job without the initial expansion.
 
 \subsection{\csbh{xintApply}}\label{xintApply}
 
@@ -1864,9 +1876,9 @@ by the result of applying |\macro| on it. \centeredline{|\def\macro
   #1{\the\numexpr 9-#1\relax}|} \centeredline{|\xintApply\macro{\xintFac
     {20}}=|\texttt{\xintApply\macro{\xintFac {20}}}} 
 
-% The macro 
-% \csa{xintApplyNoExpand} does the same job without the first initial expansion
-% which gave the \meta{list}  of braced tokens to which |\macro| is applied.
+The macro 
+\csa{xintApplyNoExpand} does the same job without the first initial expansion
+which gave the \meta{list}  of braced tokens to which |\macro| is applied.
 
 \subsection{\csbh{xintApplyUnbraced}}\label{xintApplyUnbraced}
 
@@ -1888,10 +1900,10 @@ $ $ $ $ \def\macro #1{\expandafter\def\csname myself#1\endcsname {#1}}$\
 $null$ $ $ $ \xintApplyUnbraced\macro{{elta}{eltb}{eltc}}$\
 $null$ $ $ $ \meaning\myselfelta:$ $ $meaning$myselfelta
 | 
-% The macro \csa{xintApplyUnbracedNoExpand} does the same job without the first
-% initial expansion which gave the \meta{list} of braced tokens to which
-% |\macro| 
-% is applied.
+The macro \csa{xintApplyUnbracedNoExpand} does the same job without the first
+initial expansion which gave the \meta{list} of braced tokens to which
+|\macro| 
+is applied.
 
 \subsection{\csbh{xintAssign}}\label{xintAssign}
 
@@ -2853,19 +2865,20 @@ contents during the scanning):
 \item integers or decimal numbers, such as |123.345|, or numbers in scientific
   notation |6.02e23| or |6.02E23| (or anything expanding to
   these things; a decimal number may start directly with a decimal point), 
-\item fractions |a/b|, or |a.b/c.d| or |a.beN/c.deM| to be treated as one
-  entity, they should then be parenthesized else the slash will be treated
-  as binary operator, and |a/b^2| will not be |(a/b)^2|,
+\item fractions |a/b|, or |a.b/c.d| or |a.beN/c.deM|, if they are to be treated
+  as one entity should then be parenthesized, \emph{e.g.} disambiguating |a/b^2|
+  from |(a/b)^2|,
 \item fractions |a/b[n]| as produced on output by the macros of the
-  \xintfracname package; they \emph{must} be enclosed in one pair of braces,
-  for example |{13/35[3]}| or |{\x\y\z}| with |\x| expanding to |13/|, |\y|
+  \xintfracname package; they \emph{must} be enclosed in one pair of braces, for
+  example |{13/35[3]}| or |{\x\y\z}| with |\x| expanding to |13/|, |\y|
   expanding to |35[| and |\z| expanding to |3]|, (\emph{note that using
-    parentheses does not suffice, braces are required: the parser will not
-    like the square brackets and braces hide them from its scanning.
-    Material within braces must after complete expansion give something
-    which will be recognized on input as a fraction by the \xintfracname
-    macros. Braces should not for things expanding to a binary operator or a
-    prefix or a factorial sign, etc..., only a number or fraction}),
+    parentheses does not suffice, braces are required: the parser can not digest
+    directly square brackets. Material within braces \emph{must} 
+    after complete expansion give something in the {\upshape|a/b[n]|} form.
+    Braces should not be used for numbers in scientific notation, or macros
+    expanding to something else than a fraction, etc..., but exclusively for
+    material expanding to an {\upshape|a/b[n]|}; of course braces also appear in
+  the completely other r\^ole of feeding macros with their parameters.}),
 \item the standard binary operators, |+|, |-|, |*|, |/|, and |^| (the |**|
   notation for exponentiation is not recognized and will give an error),
 \item opening and closing parentheses, with arbitrary level of nesting,
@@ -2911,10 +2924,15 @@ Again:
 \item recognized numbers on input are either integers, decimal numbers, or
   numbers written in scientific notation, (or anything expanding to the previous
   things), 
-\item fractions on input (containing the |[n]| part, or expanding to something
-  with this part) must be enclosed in 
+\item fractions on input which contain the |[n]| part, or macros expanding to
+  some |a/b[n]| with the trailing |[n]| must be enclosed in 
   (precisely one) pair of braces to be parsable by the expression
-  scanner,
+  scanner,\footnote{the reason why the braced material should not be a number in
+    scientific notation is that the `e' will become of catcode other and not be
+    understood then by the package macros; this is different from an `e'
+    directly seen by the parser, for which the catcode does not matter. Of
+    course if the brace pair is for feeding an argument to a macro, then all of
+    the above is irrelevant.}
 \item the expression may contain arbitrarily many levels of nested parenthesized
   sub-expressions,  
 \item sub-contents evaluating to fractions should be either
@@ -2984,27 +3002,27 @@ get the job done faster.)
 
 Sub-material within braces is treated technically in a different manner, and
 depending on the macros used therein may be more sensitive to the catcode of the
-five operations (the minus sign as prefix in particular). Everything (digits,
-slash, square brackets, sign) produced on output by an |\xinttheexpr| is of
-catcode 12. Note that if some macro like |\xintAdd| is encountered it will
-expand and then its arguments must be with catcode 12 digits or minus sign,
-these arguments are grabbed by |\xintAdd| and not seen by the parser; it is only
-when the |+| is used as infix operator that the parser gets a chance to
-normalize the catcode of the digits and signs constituting the operands (the |+|
-itself may be of any catcode, except of course active or ignored or comment or
-macro character or...)
+five operations (the minus sign as prefix in particular). Digits, slash, square
+brackets, sign, produced on output by an |\xinttheexpr| are all of catcode 12.
+For the output of |\xintthefloatexp| digits, decimal dot, signs are of catcode
+12, and the `e' is of catcode 11. 
 
-Spaces are allowed in the expression and will be (generally speaking) ignored.
-Again, this is otherwise for material inside braces: there, spaces should be (it
-depends on what actually happens with the macros therein during the expansion)
-avoided.
+Note that if some macro is inserted in the expression it will expand and grab
+its arguments before the parser may get a chance to see them, so the situation
+with catcodes and spaces is not as flexible within the macro arguments as it is
+for top-level material (top-level here does not refer to the nesting of
+parentheses).
+
 
 \subsection{Expandability}
 
 As is the case with all other package macros |\xintexpr| expands in two steps to
 its final (non-printable) result; and similarly for |\xinttheexpr|. The
 `lowercase' form are a bit unusual as these macros are already in lowercase... :
-|\xinteval| for |\xintexpr| and |\xinttheeval| for |\xinttheexpr|.
+|\xinteval| for |\xintexpr| and |\xinttheeval| for |\xinttheexpr|. 
+
+Similarly,
+there are |\xintfloateval| and |\xintthefloateval|.
 
 As explained above the expressions should contain only expandable material,
 except that braces are allowed when they enclose either a fraction (or decimal
@@ -3232,13 +3250,14 @@ following:
 \xintNewExpr\formula[3]{_2{:xintSgnFork{:xintSgn{_1}}+-*}_3}
 |
 we would discover that it would not compile, despite seemingly following the
-enunciated rules. I forgot to explicitly recall:
+enunciated rules. I recall:
 \begin{enumerate}\setcounter{enumi}{4}
 \item braced material, if not an argument to a macro, must correspond to the
-  evaluation of a number or fraction, and not to an infix operator or
+  evaluation of a fraction to |a/b[n]| form, and in particular it can not be
+  used to produce  an infix operator or an opening or closing
   parenthesis, etc...
 \end{enumerate}
-This rule was tacitly mentioned in the description of \xintexprname{}ession, 
+This rule was mentioned in the description of \xintexprname{}-ession, 
 and it
 has to be obeyed in the syntax of the expression argument to \csa{xintNewExpr}.
 We could try then:
@@ -3321,8 +3340,20 @@ hundreds of digits. For elementary calculations with hand written numbers
 (not using the scientific notation with exponents differing greatly) it will
 generally be more efficient to use |\xinttheexpr|. The situation is quickly
 otherwise if one starts using the Power function. Then, |\xintthefloat| is
-oftent useful; and sometimes indispensable to achieve the (approximate)
+often useful; and sometimes indispensable to achieve the (approximate)
 computation in reasonable time.
+
+We can try some crazy things:\footnote{this evaluation takes a little more than
+  a 
+  quarter of a second on my laptop. Recall the constraints of expandability.}
+\centeredline{|\xintDigits:=12;\xintthefloatexpr 1.000000000000001^1e15\relax|}
+\centeredline{\xintDigits:=12;\xintthefloatexpr 1.000000000000001^1e15\relax}
+Note that contrarily to some professional computing sofware which are our
+concurrents on this market, the \texttt{\np{1.000000000000001}} wasn't rounded
+to |1| despite the setting of \csa{xintDigits}; it would if we had input it as
+|(1+1e-15)|. 
+
+\xintDigits := 16;
 
 \subsection{\csbh{xintNewFloatExpr}}\label{xintNewFloatExpr}
 
@@ -5357,7 +5388,7 @@ first place.
   \fi
 \expandafter\x\csname ver@xint.sty\endcsname
 \ProvidesPackage{xint}%
-  [2013/05/25 v1.07 Expandable operations on long numbers (jfB)]%
+  [2013/05/26 v1.07a Expandable operations on long numbers (jfB)]%
 %    \end{macrocode}
 % \subsection{Token management macros}
 %    \begin{macrocode}
@@ -5445,19 +5476,23 @@ first place.
 % \lverb|New with 1.06. Makes the expansion of its argument and then reverses
 % the 
 % resulting tokens or braced tokens, adding a pair of braces to each (thus,
-% maintaining it when it was already there.) |
+% maintaining it when it was already there.)$\
+% hmm, at some point when I was cleaning up the code towards 1.07, I have
+% accidentally removed the {} which must be after\XINT_revwbr_loop.
+% Corrected for 1.07a
+% |
 %    \begin{macrocode}
 \def\xintRevWithBraces         {\romannumeral0\xintrevwithbraces }%
 \def\xintRevWithBracesNoExpand {\romannumeral0\xintrevwithbracesnoexpand }%
 \def\xintrevwithbraces #1%
 {%
-    \expandafter\XINT_revwbr_loop % #1 empty ok
+    \expandafter\XINT_revwbr_loop\expandafter{\expandafter}%
     \romannumeral-`0#1\xint_relax\xint_relax\xint_relax\xint_relax
                       \xint_relax\xint_relax\xint_relax\xint_relax\Z
 }%
 \def\xintrevwithbracesnoexpand #1%
 {%
-    \romannumeral0\XINT_revwbr_loop
+    \romannumeral0\XINT_revwbr_loop\expandafter{\expandafter}%
     #1\xint_relax\xint_relax\xint_relax\xint_relax
       \xint_relax\xint_relax\xint_relax\xint_relax\Z
 }%
@@ -5559,7 +5594,7 @@ first place.
 % First included in release 1.06.|
 %    \begin{macrocode}
 \def\xintCSVtoList {\romannumeral0\xintcsvtolist }%
-% \def\xintCSVtoListNoExpand {\romannumeral0\xintcsvtolistnoexpand }%
+\def\xintCSVtoListNoExpand {\romannumeral0\xintcsvtolistnoexpand }%
 \def\xintcsvtolist #1%
 {%
     \expandafter\XINT_csvtol_loop_a\expandafter 
@@ -5567,12 +5602,12 @@ first place.
         ,\xint_undef,\xint_undef,\xint_undef,\xint_undef
         ,\xint_undef,\xint_undef,\xint_undef,\xint_undef,\Z
 }%
-% \def\xintcsvtolistnoexpand #1%
-% {%
-%     \romannumeral0\XINT_csvtol_loop_a 
-%     {}#1,\xint_undef,\xint_undef,\xint_undef,\xint_undef
-%         ,\xint_undef,\xint_undef,\xint_undef,\xint_undef,\Z
-% }%
+\def\xintcsvtolistnoexpand #1%
+{%
+    \romannumeral0\XINT_csvtol_loop_a 
+    {}#1,\xint_undef,\xint_undef,\xint_undef,\xint_undef
+        ,\xint_undef,\xint_undef,\xint_undef,\xint_undef,\Z
+}%
 \def\XINT_csvtol_loop_a #1#2,#3,#4,#5,#6,#7,#8,#9,% 
 {%
     \xint_gob_til_xint_undef #9\XINT_csvtol_finish_a\xint_undef
@@ -5620,12 +5655,12 @@ first place.
 % strangely it was for a zero-element list).|
 %    \begin{macrocode}
 \def\xintListWithSep {\romannumeral0\xintlistwithsep }%
-% \def\xintListWithSepNoExpand {\romannumeral0\xintlistwithsepnoexpand }%
+\def\xintListWithSepNoExpand {\romannumeral0\xintlistwithsepnoexpand }%
 \long\def\xintlistwithsep #1#2%
     {\expandafter\XINT_lws\expandafter {\romannumeral-`0#2}{#1}}%
 \long\def\XINT_lws #1#2{\XINT_lws_start {#2}#1\Z }%
-% \long\def\xintlistwithsepnoexpand #1#2%
-%     {\romannumeral0\XINT_lws_start {#1}#2\Z }%
+\long\def\xintlistwithsepnoexpand #1#2%
+    {\romannumeral0\XINT_lws_start {#1}#2\Z }%
 \long\def\XINT_lws_start #1#2%
 {%
     \xint_gob_til_z #2\XINT_lws_dont\Z 
@@ -5650,16 +5685,16 @@ first place.
 % expand its argument.|
 %    \begin{macrocode}
 \def\xintNthElt         {\romannumeral0\xintnthelt }%
-% \def\xintNthEltNoExpand {\romannumeral0\xintntheltnoexpand }%
+\def\xintNthEltNoExpand {\romannumeral0\xintntheltnoexpand }%
 \def\xintnthelt #1#2%
 {%
     \expandafter\XINT_nthelt\expandafter {\romannumeral-`0#2}%
                                          {\numexpr #1\relax }%
 }%
-% \def\xintntheltnoexpand #1#2%
-% {%
-%     \romannumeral0\XINT_nthelt {#2}{\numexpr #1\relax}%
-% }%
+\def\xintntheltnoexpand #1#2%
+{%
+    \romannumeral0\XINT_nthelt {#2}{\numexpr #1\relax}%
+}%
 \def\XINT_nthelt #1#2%
 {%
     \ifnum #2>0
@@ -5704,14 +5739,14 @@ first place.
 % expanded. Introduced with release 1.04|
 %    \begin{macrocode}
 \def\xintApply         {\romannumeral0\xintapply }%
-% \def\xintApplyNoExpand {\romannumeral0\xintapplynoexpand }%
+\def\xintApplyNoExpand {\romannumeral0\xintapplynoexpand }%
 \def\xintapply #1#2%
 {%
     \expandafter\XINT_apply\expandafter {\romannumeral-`0#2}%
     {#1}%
 }%
 \def\XINT_apply #1#2{\XINT_apply_loop_a {}{#2}#1\Z }%
-% \def\xintapplynoexpand #1#2{\romannumeral0\XINT_apply_loop_a {}{#1}#2\Z }%
+\def\xintapplynoexpand #1#2{\romannumeral0\XINT_apply_loop_a {}{#1}#2\Z }%
 \def\XINT_apply_loop_a #1#2#3%
 {%
     \xint_gob_til_z #3\XINT_apply_end\Z 
@@ -5730,15 +5765,15 @@ first place.
 % having to do \gdef. The list is first expanded. Introduced with release 1.06b|
 %    \begin{macrocode}
 \def\xintApplyUnbraced {\romannumeral0\xintapplyunbraced }%
-% \def\xintApplyUnbracedNoExpand {\romannumeral0\xintapplyunbracednoexpand }%
+\def\xintApplyUnbracedNoExpand {\romannumeral0\xintapplyunbracednoexpand }%
 \def\xintapplyunbraced #1#2%
 {%
     \expandafter\XINT_applyunbr\expandafter {\romannumeral-`0#2}%
     {#1}%
 }%
 \def\XINT_applyunbr #1#2{\XINT_applyunbr_loop_a {}{#2}#1\Z }%
-% \def\xintapplyunbracednoexpand #1#2%
-%    {\romannumeral0\XINT_applyunbr_loop_a {}{#1}#2\Z }%
+\def\xintapplyunbracednoexpand #1#2%
+   {\romannumeral0\XINT_applyunbr_loop_a {}{#1}#2\Z }%
 \def\XINT_applyunbr_loop_a #1#2#3%
 {%
     \xint_gob_til_z #3\XINT_applyunbr_end\Z 
@@ -9417,7 +9452,7 @@ first place.
   \fi
 \expandafter\x\csname ver@xintgcd.sty\endcsname
 \ProvidesPackage{xintgcd}%
-  [2013/05/25 v1.07 Euclide algorithm with xint package (jfB)]%
+  [2013/05/26 v1.07a Euclide algorithm with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintGCD}}
 %    \begin{macrocode}
@@ -10126,7 +10161,7 @@ first place.
   \fi
 \expandafter\x\csname ver@xintfrac.sty\endcsname
 \ProvidesPackage{xintfrac}%
-  [2013/05/25 v1.07 Expandable operations on fractions (jfB)]%
+  [2013/05/26 v1.07a Expandable operations on fractions (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintLen}}
 %    \begin{macrocode}
@@ -12246,7 +12281,7 @@ first place.
   \fi
 \expandafter\x\csname ver@xintseries.sty\endcsname
 \ProvidesPackage{xintseries}%
-  [2013/05/25 v1.07 Expandable partial sums with xint package (jfB)]%
+  [2013/05/26 v1.07a Expandable partial sums with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintSeries}}
 % \lverb|&
@@ -12748,7 +12783,7 @@ first place.
   \fi
 \expandafter\x\csname ver@xintcfrac.sty\endcsname
 \ProvidesPackage{xintcfrac}%
-  [2013/05/25 v1.07 Expandable continued fractions with xint package (jfB)]%
+  [2013/05/26 v1.07a Expandable continued fractions with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintCFrac}}
 %    \begin{macrocode}
@@ -13883,7 +13918,7 @@ first place.
   \fi
 \expandafter\x\csname ver@xintexpr.sty\endcsname
 \ProvidesPackage{xintexpr}%
-  [2013/05/25 v1.07 Expandable expression parser (jfB)]%
+  [2013/05/26 v1.07a Expandable expression parser (jfB)]%
 %    \end{macrocode}
 % \subsection{Constants, helper macros...}
 %    \begin{macrocode}
@@ -14528,7 +14563,7 @@ first place.
   Grave accent  \`     Left brace    \{     Vertical bar  \|
   Right brace   \}     Tilde         \~}
 
-\CheckSum{13961}
+\CheckSum{13965}
 \makeatletter\check@checksum\makeatother
 \Finale
 %%
