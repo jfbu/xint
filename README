@@ -6,7 +6,7 @@
 %        xintseries.sty Expandable partial sums with xint package
 %        xintcfrac.sty  Expandable continued fractions with xint package
 % Copyright (C) 2013 by Jean-Francois B. 
-% Version: v1.06 (2013/05/07)
+% Version: v1.06a (2013/05/09)
 %----------------------------------------------------------------
 
 This work consists of the source file xint.dtx and of its derived files
