@@ -1,6 +1,11 @@
 % -*- coding: iso-latin-1; -*-
-% xint.dtx, 1.09a (2013/09/24)
+%<*doc>
+\def\lasttimestamp{Time-stamp <03-10-2013 22:14:18 CEST *>}
+%</doc>
+% xint.dtx, 1.09b (2013/10/03)
+%
 % Copyright (C) 2013 by Jean-François B.
+%
 % Style files which will self-extract from xint.dtx:
 % (base) xint.sty       Expandable operations on long numbers
 %        xintfrac.sty   Expandable operations on fractions
@@ -9,14 +14,15 @@
 %        xintgcd.sty    Euclidean algorithm with xint package
 %        xintseries.sty Expandable partial sums with xint package
 %        xintcfrac.sty  Expandable continued fractions with xint package
-% To be used with Plain TeX (\input) or LaTeX (\usepackage)
+% installation: --> TDS:tex/generic/xint/
+%
 %  License
 %  =======
 %
 %  This work consists of the source file xint.dtx and of its derived files:
-%  xint.sty, xintfrac.sty, xintexpr.sty,
-%  xintbinhex.sty, xintgcd.sty, xintseries.sty, xintcfrac.sty, 
-%  as well as xint.ins and the documentation xint.pdf (or xint.dvi).
+%  xint.sty, xintfrac.sty, xintexpr.sty, xintbinhex.sty, xintgcd.sty,
+%  xintseries.sty, xintcfrac.sty, as well as xint.ins and the documentation
+%  xint.pdf (or xint.dvi).
 %
 %     This work may be distributed and/or modified under the
 %     conditions of the LaTeX Project Public License, either
@@ -81,7 +87,7 @@
 %
 %%
 %%----------------------------------------------------------------
-%% The xint bundle (version 1.09a of September 22, 2013)
+%% The xint bundle (version 1.09b of October 3, 2013)
 %<xint>%% xint: Expandable operations on long numbers
 %<xintfrac>%% xintfrac: Expandable operations on fractions  
 %<xintexpr>%% xintexpr: Expandable expression parser
@@ -93,9 +99,8 @@
 %%----------------------------------------------------------------
 %%
 %<*doc>
-\def\lasttimestamp{Time-stamp: <24-09-2013 15:29:15 CEST *>}
-\def\pkgversion{1.09a}
-\def\pkgdate{2013/09/24}
+\def\pkgversion{1.09b}
+\def\pkgdate{2013/10/03}
 \def\striptimestamp #1 <#2 #3 #4 #5>{#2 at #3 #4}
 \def\getdocdate #1 <#2-#3-#4 #5>{#4/#3/#2}
 \edef\docdate{\expandafter\getdocdate\lasttimestamp}
@@ -599,15 +604,15 @@ pdfpagemode=UseOutlines}
 \begin{abstract}
   The \xintname package implements with expandable \TeX{} macros the basic
   arithmetic operations of addition, subtraction, multiplication and division,
-  applied to arbitrarily long numbers represented as chains of digits with an
-  optional minus sign. The \xintfracname package extends the scope of \xintname
-  to fractional numbers with arbitrarily long numerators and denominators.
+  applied to arbitrarily long numbers. The \xintfracname package extends the
+  scope of \xintname to fractional numbers with arbitrarily long numerators and
+  denominators.
 
   \xintexprname provides an expandable parser |\xintexpr . . . \relax| of
   expressions involving arithmetic operations in infix notation on decimal
   numbers, fractions, numbers in scientific notation, with parentheses,
   factorial symbol, function names, comparison operators, logic operators, 2way
-  and 3way conditionals (they do \emph{not} evaluate the false branches),
+  and 3way conditionals (not evaluating the false branches),
   sub-expressions, macros expanding to the previous items.
 
   The \xintbinhexname package is for conversions to and from binary and
@@ -638,7 +643,7 @@ the name |tex| in command line.
 
 The goal is too compute \emph{exactly}, purely by expansion, without counters
 nor assignments nor definitions, with arbitrarily big numbers and fractions. As
-will be commented upon more about later, this works fine when the data has
+will be commented upon more later, this works fine when the data has
 dozens of digits, but multiplying out two &1000& digits numbers under this
 constraint of expandability is expensive; so in many cases the user will round
 intermediate results. There are also macros working with arbitrary-precision
@@ -739,7 +744,7 @@ has no memory impact.
   in |\y| as {|\def\x {( \a + \b )}|} but the earlier method is better than with
   parentheses, as it allows {|\xintthe\x|}.
 \item sometimes one needs an integer, not a fraction or decimal number. The
-  |round| function rounds to the neareast integer (half-integers are rounded
+  |round| function rounds to the nearest integer (half-integers are rounded
   towards $\pm\infty$), and |\xintexpr round(...)\relax| has an alternative
   syntax as |\xintnumexpr ... \relax|. There is also the |\xintthenumexpr|. The
   rounding is applied to the final result only.
@@ -747,21 +752,22 @@ has no memory impact.
   floating point approximation (also for each intermediate result). Use the
   syntax 
   |\xintDigits:=N;| to set the precision. Default: &16& digits.
-  \centeredline{|\xintthefloatexpr 2^{100000}\relax|: \xintthefloatexpr
-    2^{100000}\relax } The square-root operation can be used in |\xintexpr|, it
+  \centeredline{|\xintthefloatexpr 2^100000\relax:| \digitstt{\xintthefloatexpr
+    2^100000\relax }} The square-root operation can be used in |\xintexpr|, it
   is computed as a float with the precision set by |\xintDigits| or by the
   optional second argument: \centeredline{|\xinttheexpr sqrt(2,60)\relax|:}
-  \centeredline{\xinttheexpr sqrt(2,60)\relax } Notice the |a/b[n]| notation
+  \centeredline{\digitstt{\xinttheexpr sqrt(2,60)\relax }} Notice the |a/b[n]|
+  notation 
   (usually |/b| even if |b=1| gets printed; this is the exception)  which is the
   default format of the macros of the \xintfracname 
   package (hence of |\xintexpr|). To get a float format from the |\xintexpr| one
   needs something more: \centeredline{|\xintFloat[60]{\xinttheexpr
-      sqrt(2,60)\relax}|:} \centeredline{\xintFloat[60]{\xinttheexpr
-      sqrt(2,60)\relax }} The precision used by |\xintfloatexpr| must be set by
+      sqrt(2,60)\relax}|:} \centeredline{\digitstt{\xintFloat[60]{\xinttheexpr
+      sqrt(2,60)\relax }}} The precision used by |\xintfloatexpr| must be set by
   |\xintDigits|, it can not be passed as an option to |\xintfloatexpr|.
-  \centeredline{|\xintDigits:=48; \xintthefloatexpr 2^{100000}\relax|: }
-  \centeredline{\begingroup \xintDigits:=48;\xintthefloatexpr
-    2^{100000}\relax \endgroup} Floats are quickly indispensable when using the
+  \centeredline{|\xintDigits:=48; \xintthefloatexpr 2^100000\relax|: }
+  \centeredline{\begingroup \xintDigits:=48;\digitstt{\xintthefloatexpr
+    2^100000\relax}\endgroup} Floats are quickly indispensable when using the
   power function (which can only have an integer exponent), as exact results
   will easily have hundreds of digits.
 \item when producing very long numbers there is the question of printing them on
@@ -814,7 +820,9 @@ math subscript. This should cause no problem. As an alternative to
 |\xintexprSafeCatcodes| one may also use |\string| inside the expression.
 
 Although the |A/B[N]| notation is the output format of most \xintfracname
-macros, for user input in an |\xintexpr..\relax| it is mandatory to use for such
+macros,\footnote{this format is convenient for chaining macros; when displaying
+  the final result of a computation one has \csb{xintFrac} in math mode, or
+  \csb{xintIrr} for inline text mode.}  for user input in an |\xintexpr..\relax| it is mandatory to use for such
 a fraction rather the scientific notation |AeN/B| (or |A/Be-N|; capital |E| is
 allowed): the square brackets are \emph{not} understood by the parser. Or, as an
 alternative \emph{braces} can be used: |{A/B[N]}|. 
@@ -836,7 +844,7 @@ format which requires protection by braces. Do not put within braces numbers in
 scientific notation.
 
 
-Here is, listed from the highest priority to the lowest, the complete list of
+Here is, listed from the highest priority categories to the lowest, the complete list of
 operators and functions. Functions always produce \emph{numbers or fractions}.
 The |?| and |:| conditional operators are a bit special, though. 
 
@@ -853,6 +861,11 @@ The |\relax| at the end of an expression is absolutely \emph{mandatory}.
 
 \begin{itemize}
 \item
+  These items are at the same top level of priority, apart from |!| for the
+  factorial which takes precedence to everything: |sqrt(4)!| computes |sqrt(24)|
+  (\digitstt{=\np{\xintthefloatexpr sqrt(4)!\relax}}) and not the factorial of
+  |2|. 
+  Possibly this could change in a future release.
   \begin{description}
   \item[functions with one argument]
     \texttt{floor, ceil, reduce, sqr, abs, sgn, ?, !, not}. The |?(x)| function
@@ -950,6 +963,17 @@ The |\relax| at the end of an expression is absolutely \emph{mandatory}.
 
 \subsection{Recent changes}
 
+\noindent Release |1.09b| (|[2013/10/03]|):
+\begin{itemize}
+\item various improvements in the documentation,
+\item more economical catcode management and re-loading handling,
+\item removal of all those |[0]|'s previously forcefully added at the end of
+  fractions by various macros of \xintcfracname,
+\item |\xintNthElt| with a negative index returns from the tail of the list,
+\item new macro |\xintPRaw| to have something like what |\xintFrac| does in math
+  mode; i.e. a |\xintRaw| which does not print the denominator if it is one.
+\end{itemize}
+
 
 \noindent Release |1.09a| (|[2013/09/24]|):
 \begin{itemize}
@@ -993,7 +1017,7 @@ The |\relax| at the end of an expression is absolutely \emph{mandatory}.
   \hyperlink{useofcount}{Use of count registers}.  
 \end{itemize}
 
-\noindent Release |1.08a|:
+\noindent Release |1.08a| (|[2013/06/11]|):
 \begin{itemize}
 \item Improved efficiency of the basic conversion from exact
   fractions to floating point numbers,
@@ -1005,7 +1029,7 @@ The |\relax| at the end of an expression is absolutely \emph{mandatory}.
 \item Macros for floating point numbers added to the \xintseriesname package.
 \end{itemize}
 
-\noindent Release |1.08|:
+\noindent Release |1.08| (|[2013/06/07]|):
 \begin{itemize}
 \item Extraction of square roots, for floating point numbers
   (\csb{xintFloatSqrt}), and also in 
@@ -1014,7 +1038,7 @@ The |\relax| at the end of an expression is absolutely \emph{mandatory}.
     routines} to and from binary and hexadecimal bases.
 \end{itemize}
  
-\noindent Release |1.07|:
+\noindent Release |1.07| (|[2013/05/25)]|):
 \begin{itemize}
 \item The \xintfracname macros accept numbers written in scientific notation,
   the \csb{xintFloat} command serves to output its argument with a given number
@@ -1048,6 +1072,10 @@ will replace pointwise |D|; this argument may exceed the |32767| bound.
 To write the |\xintexpr| parser I benefited from the commented source of the
 \LaTeX3 parser; the |\xintexpr| parser has its own features and peculiarities.
 See \hyperref[sec:comexpr]{its documentation}.
+
+\noindent Release |1.0| (|[2013/03/28]|): initial release.
+
+
 
 \normalsize
 
@@ -1230,7 +1258,7 @@ was:
 {\color{magenta}Computation of $2^{\np{999999999}}$ with |24| significant
   figures:}\\ 
 {\color{Purple}|\xintFloatPow[24] {2}{999999999}|:}
-\digitstt{\xintFloatPow[24] {2}{999999999}}
+\digitstt{\np{\xintFloatPow[24] {2}{999999999}}}
 
 
 To see more of \xintname in action, jump to the
@@ -1471,7 +1499,9 @@ the input format is rather strict.
 
 \begin{framed}
   With release |1.09a|, arithmetic macros of \xintname parse their arguments
-  automatically through \csb{xintNum}.
+  automatically through \csb{xintNum}. This means also that the arguments may
+  already contain infix algebra with count registers, see
+  \hyperlink{useofcount}{Use of count registers}.
 \end{framed}
 
 Then \xintfracname extends the scope to
@@ -1549,12 +1579,11 @@ extending in generality:
   numbers, as they are systematically inserted inside a |\numexpr...\relax|
   expression.
 
-\def\obsolete{\MyMarginNote{This paragraph made obsolete by \digitstt{1.09a}.}}
+%% \def\obsolete{\MyMarginNote{This paragraph made obsolete by \digitstt{1.09a}.}}
 
 The allowed input formats for `long numbers' and `fractions' are:
 \begin{enumerate}
-\item the strict format is when \xintfracname is not loaded.\obsolete
-  The number should
+\item the strict format is for some macros of \xintname. The number should
   be a string of digits, optionally preceded by a unique minus sign. The first
   digit can be zero only if the number is zero. A plus sign is not accepted.
   There is a macro \csb{xintNum} which normalizes to this form an input having
@@ -1564,10 +1593,13 @@ The allowed input formats for `long numbers' and `fractions' are:
     {+-+-+----++-++----0000000009876543210}}}%
   Note that |-0| is not legal input and will confuse \xintname (but not
   \csa{xintNum} which even accepts an  empty input).
-\item the extended format is when \xintfracname is loaded: the macros are
-  extended from operating on integers to operating on fractions, which are input
-  as (or expand to) |A/B| (or just an integer |A|), where |A| and |B| will be
-  automatically given to the sign and zeros normalizing macro \csb{xintNum}.
+\item the extended integer format is for the arithmetic macros of \xintname
+  which 
+  automatically parse their arguments via \csb{xintNum}, and for the fractions
+  serving as input to 
+  the macros of  \xintfracname: they are 
+  (or expand to) |A/B| (or just an integer |A|), where |A| and |B| will be
+  automatically given to \csb{xintNum}.
   Each of |A| and |B| may be decimal numbers: with a decimal point and 
   digits following it. Here is an example: \centeredline{|\xintAdd
     {+--0367.8920280/-++278.289287}{-109.2882/+270.12898}|}%
@@ -1580,16 +1612,19 @@ The allowed input formats for `long numbers' and `fractions' are:
   input both for the numerators and denominators of fractions, and is produced
   on output by \csb{xintFloat}: \centeredline{|\xintAdd{10.1e1}{101.010e3}|%
     \digitstt{=\xintAdd{10.1e1}{101.010e3}}}%
-
-  \centeredline{|\xintRaw{1.234e5/6.789e3}|\digitstt{=\xintRaw{1.234e5/6.789e3}}}%
+This last example shows that fractions with a denominator equal to one, are
+generally printed as fraction. In math mode \csb{xintFrac} will remove such
+dummy denominators, and in inline text mode one has \csb{xintPRaw}.
+ \centeredline{|\xintPRaw{\xintAdd{10.1e1}{101.010e3}}|%
+    \digitstt{=\xintPRaw{\xintAdd{10.1e1}{101.010e3}}}} \centeredline{|\xintRaw{1.234e5/6.789e3}|\digitstt{=\xintRaw{1.234e5/6.789e3}}}%
   \centeredline{|\xintFloat[24]{1/66049}|\digitstt{=\xintFloat[24]{1/66049}}}
 \end{enumerate}
-Of course, even when \xintfracname is loaded, some macros can not treat
-fractions on input. Starting with release |1.05| most of them have also been
-extended to accept the relaxed format on input as long as the fraction actually
-represents an integer. For example it used to be the case with the earlier
-releases that |\xintQuo {100/2}{12/3}| would not work (the macro \csb{xintQuo}
-computes a euclidean quotient). It now does, because its arguments are in truth
+Of course, even with \xintfracname is loaded, some macros by their nature can
+not accept fractions on input. Starting with release |1.05| most of them have
+also been extended to accept a fraction actually reducing to an integer. For
+example it used to be the case with the earlier releases that |\xintQuo
+{100/2}{12/3}| would not work (the macro \csb{xintQuo} computes a euclidean
+quotient). It now does, because its arguments are, after simplification,
 integers.
 
 A number can start directly with a decimal point:
@@ -1666,11 +1701,12 @@ For long algebraic expressions, the trick is to encompass them in |\numexpr
 ... \relax| \emph{inside a pair of braces}: 
 \dverb|&
 \cnta 100 \cntb 10 \cntc 1 
-\xintRaw {\numexpr {\cnta*\cnta+\cntb*\cntb+\cntc*\cntc+
+\xintPRaw {\numexpr {\cnta*\cnta+\cntb*\cntb+\cntc*\cntc+
                     2*\cnta*\cntb+2*\cnta*\cntc+2*\cntb*\cntc}\relax/%
           \numexpr {\cnta*\cnta+\cntb*\cntb+\cntc*\cntc}\relax }|
 \cnta 100 \cntb 10 \cntc 1 
-\centeredline{\digitstt{\xintRaw {\numexpr {\cnta*\cnta+\cntb*\cntb+\cntc*\cntc+
+\centeredline{\digitstt{\xintPRaw {\numexpr
+      {\cnta*\cnta+\cntb*\cntb+\cntc*\cntc+ 
                     2*\cnta*\cntb+2*\cnta*\cntc+2*\cntb*\cntc}\relax/%
           \numexpr {\cnta*\cnta+\cntb*\cntb+\cntc*\cntc}\relax }}}
     \begin{framed}
@@ -1690,14 +1726,15 @@ For long algebraic expressions, the trick is to encompass them in |\numexpr
       |\numexpr|).
     \end{framed}
 
-\paragraph {Outputs: } loading \xintfracname not only relaxes the format of the
-inputs; it also modifies the format of the outputs: except when a fraction is
-filtered on output by \csb{xintIrr} (and \csb{xintJrr}) or
-\csb{xintRawWithZeros}, or by the truncation or rounding macros, it will always
-be in the \fbox{|A/B[n]|} form (which stands for |(A/B)|$\times$|10^n|). The |A| and
-|B| may end in zeros (\emph{i.e}, |n| does not represent all powers of ten), and
-will generally have a common factor. The denominator |B| is always strictly
-positive.
+    \paragraph {Outputs: } loading \xintfracname not only relaxes the format of
+    the inputs; it also modifies the format of the outputs: except when a
+    fraction is filtered on output by \csb{xintIrr} or \csb{xintRawWithZeros},
+    or \csb{xintPRaw}, or by the truncation or rounding macros, or is given as
+    argument in math mode to \csb{xintFrac}, the output format is normally of
+    the the \fbox{|A/B[n]|} form (which stands for |(A/B)|$\times$|10^n|). The
+    |A| and |B| may end in zeros (\emph{i.e}, |n| does not represent all powers
+    of ten), and will generally have a common factor. The denominator |B| is
+    always strictly positive.
 
 A macro \csb{xintFrac} is provided
 for the typesetting (math-mode only) of such a `raw' output. Of course, the
@@ -1785,7 +1822,7 @@ number without denominator).\footnote{at each stage of the computations, the sum
 
 The \csb{xintiAdd}, \csb{xintiSub}, \csb{xintiMul}, \csb{xintiPow},
 \csb{xintiSum}, \csb{xintiPrd}, etc... are the
-original\MyMarginNote{\digitstt{1.09a}: now original uses also \csa{xintNum}}
+original\MyMarginNote{\digitstt{1.09a}: the original now also use \csa{xintNum}}
 un-modified 
 integer-only versions. They have less parsing overhead.
 
@@ -1795,7 +1832,8 @@ The macro \csb{xintRaw} prints the fraction
 directly from its internal representation in |A/B[n]| form. To convert
 the trailing |[n]| into explicit zeros either at the numerator or the
 denominator, use \csb{xintRawWithZeros}. In both cases the |B| is printed
-even if it has value |1|.\MyMarginNote{Changed in |1.07|}
+even if it has value |1|. The macro \csb{xintPRaw} will not print the |[n]| if
+|n=0| and will not print the |/B| if |B=1|.
 
 Conversely (sort of), the macro \csb{xintREZ}
  puts all powers of ten into the |[n]| (REZ stands for remove zeros).
@@ -2126,8 +2164,10 @@ sequences:
 \xintError:NoBezoutForZeros
 \xintError:ignored
 \xintError:removed
-\xintError:use_xintthe!
 \xintError:inserted
+\xintError:use_xintthe!
+\xintError:bigtroubleahead
+\xintError:unknownfunction
 |
 
 \section{Common input errors when using the package macros}
@@ -2455,34 +2495,45 @@ expansion.
 
 \subsection{\csbh{xintNthElt}}\label{xintNthElt}
 
-{\small New in release |1.06| and modified in |1.06a|.\par}
+{\small New in release |1.06|. With |1.09b| negative indices count from the tail.\par}
 
 \def\macro #1{\the\numexpr 9-#1\relax}
 
 \csa{xintNthElt\x}\marg{list} gets (expandably) the |x|th element of the
-\meta{list}, which may be a macro: it is first expanded (fully for the first
-tokens). The seeked element is returned with
-one pair of braces removed (if initially present). \centeredline{|\xintNthElt
-  {37}{\xintFac {100}}|\digitstt{=\xintNthElt {37}{\xintFac {100}}}} is the
-thirty-seventh digit of &100!&. \centeredline{|\xintNthElt {10}{\xintFtoCv
+\meta{list}, which may be a macro: the list argument is first expanded. The seeked element is returned with
+one pair of braces removed (if initially present).  \centeredline{|\xintNthElt
+  {3}{{agh}\u{zzz}\v{Z}}| is \texttt{\xintNthElt
+  {3}{{agh}\u{zzz}\v{Z}}}}\centeredline{|\xintNthElt
+  {37}{\xintFac {100}}|\digitstt{=\xintNthElt {37}{\xintFac {100}}} is the
+thirty-seventh digit of &100!&.}
+\centeredline{|\xintNthElt {10}{\xintFtoCv
     {566827/208524}}|\digitstt{=\xintNthElt {10}{\xintFtoCv {566827/208524}}}}
 is 
 the tenth convergent of &566827/208524& (uses \xintcfracname package). 
-
-If |x=0| or |x<0|, the macro returns the length of the expanded list: this is
-not equivalent to \csb{xintLength} due to the initial full expansion of the
-first token, and differs from \csb{xintLen} which is to be used on numbers or
-fractions only. The situation with |x| larger than the length of the list is
-kept silent, the macro then returns nothing; this will perhaps be modified in
-future versions. \centeredline{|\xintNthElt {7}{\xintCSVtoList
-    {1,2,3,4,5,6,7,8,9}}|%
+ \centeredline{|\xintNthElt {7}{\xintCSVtoList {1,2,3,4,5,6,7,8,9}}|%
   \digitstt{=\xintNthElt {7}{\xintCSVtoList {1,2,3,4,5,6,7,8,9}}}}%
 \centeredline{|\xintNthElt {0}{\xintCSVtoList {1,2,3,4,5,6,7,8,9}}|%
-  \digitstt{=\xintNthElt {0}{\xintCSVtoList {1,2,3,4,5,6,7,8,9}}}} 
+  \digitstt{=\xintNthElt {0}{\xintCSVtoList {1,2,3,4,5,6,7,8,9}}}}
+\centeredline{|\xintNthElt {-3}{\xintCSVtoList {1,2,3,4,5,6,7,8,9}}|%
+  \digitstt{=\xintNthElt {-3}{\xintCSVtoList {1,2,3,4,5,6,7,8,9}}}}
+If |x=0|, the macro returns the length of the expanded list: this is
+not equivalent to \csb{xintLength} which does no  pre-expansion. And it
+is different from \csb{xintLen} which is to be used only on integers or
+fractions. 
+
+If |x<0|, the macro returns the \texttt{|x|}th element from the end of the list.
+   \centeredline{|\xintNthElt
+  {-5}{{{agh}}\u{zzz}\v{Z}}| is \texttt{\expandafter\expandafter\expandafter
+ \detokenize
+ \expandafter\expandafter\expandafter{\xintNthElt
+  {-5}{{{agh}}\u{zzz}\v{Z}}}}}
+
+An |x| argument larger than the length of the list makes the macro returns
+nothing.
 
 The macro
-\csa{xintNthEltNoExpand} does the same job without first expanding its 
-second argument.
+\csa{xintNthEltNoExpand} does the same job but without first expanding the 
+list argument.
 
 \subsection{\csbh{xintListWithSep}}\label{xintListWithSep}
 
@@ -3066,8 +3117,10 @@ Package \xintfracname has \csb{xintFloatSqrt} for square
 roots of floating point numbers. 
 
 \begin{framed}
-The macros described next are strictly for integer-only arguments. If
-\xintfracname is loaded, use \csb{xintNum} if necessary.
+  The macros described next are strictly for integer-only arguments. If
+  \xintfracname is loaded, use \csb{xintNum} to convert integers arising as
+  results of computations into the strict format as required by these
+  macros.
 \end{framed}
 
 \subsection{\csbh{xintInc}, \csbh{xintDec}}
@@ -3250,12 +3303,13 @@ The fraction format on output is the scientific notation for the `float' macros,
 and the |A/B[n]| format for all other fraction macros, with the exception of
 \csb{xintTrunc}, {\color{blue}\string\xint\-Round} (which produce decimal
 numbers) and \csb{xintIrr}, \csb{xintJrr}, \csb{xintRawWithZeros} (which returns
-an |A/B| with no trailing |[n]|, and prints the |B| even if it is |1|). Use
-\csb{xintNum} for fractions a priori known to simplify to integers: |\xintNum
-{\xintAdd {2}{3}}| gives \digitstt{\xintNum {\xintAdd {2}{3}}} whereas |\xintAdd
-{2}{3}| returns \digitstt{\xintAdd {2}{3}}. Some macros (among them
-\csb{xintiTrunc}, \csb{xintiRound}, and \csb{xintFac}) already produce integers
-on output.
+an |A/B| with no trailing |[n]|, and prints the |B| even if it is |1|),
+\csb{xintPRaw} which does not print the |[n]| if |n=0| or the |B| if |B=1|. Use
+\csb{xintNum} (or |\xintPRaw| if simplification is not needed) for fractions a
+priori known to simplify to integers: |\xintNum {\xintAdd {2}{3}}| gives
+\digitstt{\xintNum {\xintAdd {2}{3}}} whereas |\xintAdd {2}{3}| returns
+\digitstt{\xintAdd {2}{3}}. Some macros (among them \csb{xintiTrunc},
+\csb{xintiRound}, and \csb{xintFac}) already produce integers on output.
 
 
 \localtableofcontents
@@ -3269,13 +3323,12 @@ The original macro is extended to accept a fraction on input.
 
 
 \subsection{\csbh{xintRaw}}\label{xintRaw}
-
 {\small New with release |1.04|.\par}
 {\small \color{red}MODIFIED IN |1.07|.\par}
 
 This macro `prints' the 
 fraction |f| as it is received by the package after its parsing and
-expansion, in a printable form |A/B[n]| equivalent to the internal
+expansion, in a form |A/B[n]| equivalent to the internal
 representation: the denominator |B| is always strictly positive and is
 printed even if it has value |1|. 
 \centeredline{|\xintRaw{\the\numexpr 571*987\relax.123e-10/\the\numexpr
@@ -3283,26 +3336,21 @@ printed even if it has value |1|.
 \centeredline{\digitstt{\xintRaw{\the\numexpr
       571*987\relax.123e-10/\the\numexpr -201+59\relax e-7}}}
 
+\subsection{\csbh{xintPRaw}}\label{xintPRaw}
+{\small New in |1.09b|.\par}
 
-\subsection{\csbh{xintRawWithZeros}}\label{xintRawWithZeros}
-
-{\small New name in |1.07| (former name |\xintRaw|).\par}
-
-This macro `prints' the 
-fraction |f| (after its parsing and expansion) in |A/B| form, with |A|
-as returned by \csa{xintNumerator}|{f}| and |B| as returned by
-\csa{xintDenominator}|{f}|.
-\centeredline{|\xintRawWithZeros{\the\numexpr 571*987\relax.123e-10/\the\numexpr
-    -201+59\relax e-7}=|}%
-\centeredline{\digitstt{\xintRawWithZeros{\the\numexpr
-      571*987\relax.123e-10/\the\numexpr -201+59\relax e-7}}} 
-
-\subsection{\csbh{xintFloor}}\label{xintFloor}
-{\small New with release |1.09a|.\par}
-
-\subsection{\csbh{xintCeil}}\label{xintCeil}
-{\small New with release |1.09a|.\par}
-
+|PRaw| stands for ``pretty raw''. It does \emph{not} show the |[n]| if |n=0| and
+does \emph{not} show the |B| if |B=1|. \centeredline{|\xintPRaw
+  {123e10/321e10}=|\digitstt{\xintPRaw {123e10/321e10}}, |\xintPRaw
+  {123e9/321e10}=|\digitstt{\xintPRaw {123e9/321e10}}}
+\centeredline{|\xintPRaw
+  {\xintIrr{861/123}}=|\digitstt{\xintPRaw{\xintIrr{861/123}}} \ vz.\ 
+|\xintIrr{861/123}=|\digitstt{\xintIrr{861/123}}} See also
+\csb{xintFrac} (or \csb{xintFwOver}) for math mode. As is examplified above the
+\csb{xintIrr} macro which puts the fraction into irreducible form does not
+remove the |/1| if the fraction is an integer. One can use \csb{xintNum} for
+that, but there will be an error message if the fraction was not an integer; so
+the combination |\xintPRaw{\xintIrr{f}}| is the way to go.
 
 \subsection{\csbh{xintNumerator}}\label{xintNumerator}
 
@@ -3335,6 +3383,30 @@ input is done. The denominator looks wrong in the last example, but the
 numerator was tacitly multiplied by &1000& through the removal of the decimal
 point.   For a result uniquely associated to the value of the fraction
 first apply \csa{xintIrr}.
+
+\subsection{\csbh{xintRawWithZeros}}\label{xintRawWithZeros}
+{\small New name in |1.07| (former name |\xintRaw|).\par}
+
+This macro `prints' the 
+fraction |f| (after its parsing and expansion) in |A/B| form, with |A|
+as returned by \csa{xintNumerator}|{f}| and |B| as returned by
+\csa{xintDenominator}|{f}|.
+\centeredline{|\xintRawWithZeros{\the\numexpr 571*987\relax.123e-10/\the\numexpr
+    -201+59\relax e-7}=|}%
+\centeredline{\digitstt{\xintRawWithZeros{\the\numexpr
+      571*987\relax.123e-10/\the\numexpr -201+59\relax e-7}}} 
+
+
+\subsection{\csbh{xintREZ}}\label{xintREZ}
+
+This command normalizes a fraction by removing the powers of ten from its
+numerator and denominator: \centeredline{|\xintREZ {178000/25600000[17]}|\digitstt{=\xintREZ
+  {178000/25600000[17]}}}
+\centeredline{|\xintREZ
+{1780000000000e30/2560000000000e15}|\digitstt{=\xintREZ 
+{1780000000000e30/2560000000000e15}}}
+As shown by the example, it does not
+otherwise simplify the fraction.
 
 
 \subsection{\csbh{xintFrac}}\label{xintFrac}
@@ -3383,28 +3455,6 @@ front, not in the numerator.
 \[\xintFwOver {-355/113}=\xintSignedFwOver {-355/113}\]
 
 
-\subsection{\csbh{xintREZ}}\label{xintREZ}
-
-This command normalizes a fraction by removing the powers of ten from its
-numerator and denominator: |\xintREZ {178000/25600000[17]}|\digitstt{=\xintREZ
-  {178000/25600000[17]}}, |\xintREZ
-{1780000000000e30/2560000000000e15}|\digitstt{=\xintREZ 
-{1780000000000e30/2560000000000e15}}. As shown by the example, it does not
-otherwise simplify the fraction.
-
-\subsection{\csbh{xintE}}\label{xintE}
-{\small New with |1.07|.}
-
-|\xintE {f}{x}| multiplies the fraction |f| by &10^x&. The \emph{second}
-argument |x| must obey the \TeX{} bounds. Example: |\count
-255 123456789 \xintE {10}{\count 255}|\digitstt{->\count
-255 123456789 \xintE {10}{\count 255}}. Be careful that for obvious reasons such
-gigantic numbers should not be given to \csb{xintNum}, or added to something
-with a widely different order of magnitude, as the package always works to get
-the \emph{exact} result. There is \emph{no problem} using them for
-\emph{float} operations:\centeredline{|\xintFloatAdd
-  {1e1234567890}{1}|\digitstt{=\xintFloatAdd {1e1234567890}{1}}}
-
 \subsection{\csbh{xintIrr}}\label{xintIrr}
 {\small \color{red}MODIFIED IN |1.08|.\par}
 
@@ -3418,10 +3468,11 @@ Euclidean division of |2|\raisebox{.5ex}{|.|}|10^{100}| by |3|, which is a bit
 stupid.
 
 Starting with release |1.08|, \csa{xintIrr} does not remove the trailing |/1|
-when the output is an integer. This makes things easier for post-treatment by
-user defined macros. So the output format is now \emph{always} |A/B| with |B>0|.
-Use \csb{xintNum} rather than \csa{xintIrr} if it is known that the output is an
-integer and the trailing |/1| is a nuisance.
+when the output is an integer. This was deemed better for various (stupid?)
+reasons and thus the output format is now \emph{always} |A/B| with |B>0|. Use
+\csb{xintPRaw} on top of \csa{xintIrr} if it is needed to get rid of a possible
+trailing |/1|. For display in math mode, use rather |\xintFrac{\xintIrr {f}}| or
+|\xintFwOver{\xintIrr {f}}|.
 
 \subsection{\csbh{xintJrr}}\label{xintJrr}
 {\small \color{red}MODIFIED IN |1.08|.\par}
@@ -3518,6 +3569,26 @@ Differences between \csa{xintRound}|{0}{f}| and \csa{xintiRound}|{0}{f}|:
 the former cannot be used inside integer-only macros, and the 
 latter removes the decimal point, and never returns |-0| (and of course removes
 all superfluous leading zeros.)
+
+\subsection{\csbh{xintFloor}}\label{xintFloor}
+{\small New with release |1.09a|.\par}
+
+\subsection{\csbh{xintCeil}}\label{xintCeil}
+{\small New with release |1.09a|.\par}
+
+
+\subsection{\csbh{xintE}}\label{xintE}
+{\small New with |1.07|.}
+
+|\xintE {f}{x}| multiplies the fraction |f| by &10^x&. The \emph{second}
+argument |x| must obey the \TeX{} bounds. Example: |\count
+255 123456789 \xintE {10}{\count 255}|\digitstt{->\count
+255 123456789 \xintE {10}{\count 255}}. Be careful that for obvious reasons such
+gigantic numbers should not be given to \csb{xintNum}, or added to something
+with a widely different order of magnitude, as the package always works to get
+the \emph{exact} result. There is \emph{no problem} using them for
+\emph{float} operations:\centeredline{|\xintFloatAdd
+  {1e1234567890}{1}|\digitstt{=\xintFloatAdd {1e1234567890}{1}}}
 
 \subsection{\csbh{xintDigits}, \csbh{xinttheDigits}}\label{xintDigits}
 
@@ -3908,19 +3979,21 @@ no simplification of the result. The output format can be coded\MyMarginNote{new
   with |1.09a|} inside the expression through the use of one of the functions
 |round|, |trunc|, |float|, |reduce|.\footnote{In |round| and |trunc| the second
   optional parameter is the number of digits of the fractional part; in |float|
-  it is the total number of digits.} 
-\centeredline{|\xinttheexpr 1/5!-1/7!-1/9!\relax|%
-    \digitstt{=\xinttheexpr 1/5!-1/7!-1/9!\relax}}
-\centeredline{|\xinttheexpr round(1/5!-1/7!-1/9!,18)\relax|%
-    \digitstt{=\xinttheexpr round(1/5!-1/7!-1/9!,18)\relax}}
-\centeredline{|\xinttheexpr float(1/5!-1/7!-1/9!,18)\relax|%
-    \digitstt{=\xinttheexpr float(1/5!-1/7!-1/9!,18)\relax}}
-\centeredline{|\xinttheexpr reduce(1/5!-1/7!-1/9!)\relax|%
-    \digitstt{=\xinttheexpr reduce(1/5!-1/7!-1/9!)\relax}}
-\centeredline{|\xinttheexpr 1.99^-2 - 2.01^-2 \relax|%
-    \digitstt{=\xinttheexpr 1.99^-2 - 2.01^-2 \relax}} 
-\centeredline{|\xinttheexpr round(1.99^-2 - 2.01^-2, 10)\relax|%
-    \digitstt{=\xinttheexpr round(1.99^-2 - 2.01^-2, 10) \relax}}
+  it is the total number of digits of the mantissa.} \par
+\begingroup\raggedright\leftskip.5cm
+{|\xinttheexpr 1/5!-1/7!-1/9!\relax|%
+    \digitstt{=\xinttheexpr 1/5!-1/7!-1/9!\relax}}\\
+{|\xinttheexpr round(1/5!-1/7!-1/9!,18)\relax|%
+    \digitstt{=\xinttheexpr round(1/5!-1/7!-1/9!,18)\relax}}\\
+{|\xinttheexpr float(1/5!-1/7!-1/9!,18)\relax|%
+    \digitstt{=\xinttheexpr float(1/5!-1/7!-1/9!,18)\relax}}\\
+{|\xinttheexpr reduce(1/5!-1/7!-1/9!)\relax|%
+    \digitstt{=\xinttheexpr reduce(1/5!-1/7!-1/9!)\relax}}\\
+{|\xinttheexpr 1.99^-2 - 2.01^-2 \relax|%
+    \digitstt{=\xinttheexpr 1.99^-2 - 2.01^-2 \relax}}\\
+{|\xinttheexpr round(1.99^-2 - 2.01^-2, 10)\relax|%
+    \digitstt{=\xinttheexpr round(1.99^-2 - 2.01^-2, 10) \relax}}\par
+\endgroup
 
 \smallskip
 \begin{itemize}
@@ -3999,7 +4072,7 @@ Restores the catcodes to the earlier state.
 \bigskip
 
 Spaces inside an |\xinttheexpr...\relax| should mostly be
-innocuous\footnote{release |1.08b| fixes a bug in this context.} (if the
+innocuous (if the
 expression contains macros, then it is the macro which is responsible for
 grabbing its arguments, so spaces within the arguments are presumably to be
 avoided, as a general rule.).
@@ -4020,7 +4093,7 @@ scanner will get the job done faster.)
 
 Sub-material within braces is treated technically in a different manner, and
 depending on the macros used therein may be more sensitive to the catcode of the
-five operations (the minus sign as prefix in particular). Digits, slash, square
+five operations. Digits, slash, square
 brackets, sign, produced on output by an |\xinttheexpr| are all of catcode 12.
 For the output of |\xintthefloatexpr| digits, decimal dot, signs are of catcode
 12, and the `e' is of catcode 11. 
@@ -4092,8 +4165,10 @@ as:\centeredline{|\xintNewExpr{\myformula}[n]|\marg{stuff}, where}
 \item \meta{stuff} will be inserted inside |\xinttheexpr . . . \relax|,
 \item |n| is an integer between zero and nine, inclusive, and tells how many
   parameters will |\myformula| have (it is \emph{mandatory} despite the bracket
-  notation, and |n=0| if the macro to be defined  has no parameter -- but what
-  the point then?, an |\edef| will do fine with |\xinttheexpr..\relax|),
+  notation, and |n=0| if the macro to be defined  has no
+  parameter,\footnote{there is some use for \csa{xintNewExpr}|[0]| compared to
+    an 
+    \csa{edef} as \csa{xintNewExpr} has some built-in catcode protection.}
 \item the placeholders |#1|, |#2|, ..., |#n| are used inside \meta{stuff}
   in their usual r\^ole. 
 \end{itemize}
@@ -4107,9 +4182,10 @@ The definition of |\myformula| made by |\xintNewExpr| is global, it transcends
 is done automatically.
 
 It will be a completely expandable macro entirely built-up using |\xintAdd|,
-|\xintSub|, |\xintMul|, |\xintDiv|, |\xintPow|, |\xintOpp| and |\xintFac| and
+|\xintSub|, |\xintMul|, |\xintDiv|, |\xintPow|, |\xintOpp| and
+|\xintFac|\MyMarginNote{|1.09a|: and many others... } and 
 corresponding to the formula as written with the infix
-operators.\MyMarginNote{|1.09a|: and many others... }
+operators.
 
 \begin{framed}
   A ``formula'' created by |\xintNewExpr| is thus a macro whose parameters are
@@ -4414,10 +4490,10 @@ package, specifically the |l3fp-parse.dtx| file. Also the source of the |calc|
 package was instructive, despite the fact that here for |\xintexpr| the
 principles are necessarily different due to the aim of achieving expandability.
 
-I apologize for not including
-comments currently in my own code, the reason being that this a time-consuming
-task which should wait until the code has a rather certain more-or-less final
-form.
+% I apologize for not including
+% comments currently in my own code, the reason being that this a time-consuming
+% task which should wait until the code has a rather certain more-or-less final
+% form.
 
 \section{Commands of the \xintbinhexname package}\label{sec:combinhex} 
 
@@ -4503,9 +4579,11 @@ one hundred hexadecimal digits.
 
 
 This package was included in the original release |1.0| of the \xintname bundle.
-The numbers on input have only one optional minus sign and no leading zeros, as
-is the rule with the macros of package \xintname. In case of need, macro
-\csb{xintNum} can be used to normalize the inputs.
+
+Since release |1.09a| the macros filter their inputs through the \csb{xintNum}
+macro, so one can use count registers, or fractions as long as they reduce to
+integers. 
+
 
 \localtableofcontents
 
@@ -4642,7 +4720,7 @@ they may be count registers, etc...
 This package was
 first released with version |1.03| of the \xintname bundle.
 
-%% \clearpage
+% \clearpage
 
 \localtableofcontents
 
@@ -5772,7 +5850,7 @@ decimal expansion, so we truncate and compute more terms until the
 earlier result gets validated. Finally if we do want the rounding we can
 always do it on a value computed with |D+1| truncation.
 
-%%  \clearpage
+  \clearpage
 
 \section{Commands of the \xintcfracname package} 
 
@@ -6191,12 +6269,15 @@ fractions, but otherwise it is of course not necessarily the case.
 \centeredline{|\xintListWithSep:{\xintCstoCv{1,2,3,4,5,6}}|}%
 \centeredline{\digitstt{\xintListWithSep:{\xintCstoCv{1,2,3,4,5,6}}}}
 \centeredline{|\xintListWithSep:{\xintCstoCv{1,1/2,1/3,1/4,1/5,1/6}}|}%
-\centeredline{\digitstt{\xintListWithSep:{\xintCstoCv{1,1/2,1/3,1/4,1/5,1/6}}}} I
-know that these |[0]| are a bit annoying\footnote{and the awful truth is that it
-  is added forcefully by \csa{xintCstoCv} at the last step\dots } but this is
-the way \xintfracname likes to reception fractions: this format is best for
-further processing by the bundle macros. For `inline' printing, one may apply
-\csb{xintRaw} and for display in math mode \csb{xintFrac}.
+\centeredline{\digitstt{\xintListWithSep:{\xintCstoCv{1,1/2,1/3,1/4,1/5,1/6}}}}
+% j'ai retiré les [0] à partir de la version 1.09b, le 3 octobre 2013.
+% I
+% know that these |[0]| are a bit annoying\footnote{and the awful truth is that
+% it 
+%   is added forcefully by \csa{xintCstoCv} at the last step\dots } but this is
+% the way \xintfracname likes to reception fractions: this format is best for
+% further processing by the bundle macros. For `inline' printing, one may apply
+% \csb{xintRaw} and for display in math mode \csb{xintFrac}.
 \centeredline{|\[\xintListWithSep{\to}{\xintApply\xintFrac{\xintCstoCv|}%
     \centeredline{|{\xintPow {-.3}{-5},7.3/4.57,\xintCstoF{3/4,9,-1/3}}}}\]|}%
 \[\xintListWithSep{\to}{\xintApply\xintFrac{\xintCstoCv
@@ -6409,22 +6490,27 @@ first place.
 % \subsection{Catcodes, \protect\eTeX{} and reload detection}
 % 
 % The method for package identification and reload detection is copied verbatim
-% from the packages by \textsc{Heiko Oberdiek}.
+% from the packages by \textsc{Heiko Oberdiek} (with some modifications starting
+% with 
+% release |1.09b|).
 %
 % The method for catcodes was also inspired by these packages, we proceed
-% slightly differently. |1.05| adds a |\relax| near the end of
-% |\XINT_restorecatcodes_endinput|. Plain TeX users following the doc
-% instruction to do |\input xint.sty\relax| were anyhow protected from any side
-% effect. I did not realize earlier that the |\endinput| would not stop \TeX{}'s
-% scan for a number which was initiated by the last |\the\catcode|.
+% slightly differently. 
 %
-% Starting with version |1.06| of the package, also |`| must be sanitized,
+% Starting with version |1.06| of the package, also |`| must be
+% catcode-protected, 
 % because we replace everywhere in the code the twice-expansion done with
 % |\expandafter| by the systematic use of |\romannumeral-`0|.
 %
 % Starting with version |1.06b| I decide that I suffer from an indigestion of @
 % signs, so I replace them all with underscores |_|, \`a la \LaTeX 3. 
 %
+% Release |1.09b| is more economical: some macros are defined already in
+% |xint.sty| and re-used in other modules. All catcode changes have been unified
+% and \csa{XINT_storecatcodes} will be used by  each module
+% to redefine |\XINT_restorecatcodes_endinput| in case catcodes have changed
+% in-between the loading of |xint.sty| and the module (not very probable
+% anyhow...). 
 %
 %    \begin{macrocode}
 \begingroup\catcode61\catcode48\catcode32=10\relax%
@@ -6433,7 +6519,7 @@ first place.
   \catcode123=1   % {
   \catcode125=2   % }
   \catcode64=11   % @
-  \catcode95=11   % _  (starting with 1.06b, used inside cs names)
+  \catcode95=11   % _
   \catcode35=6    % #
   \catcode44=12   % ,
   \catcode45=12   % -
@@ -6465,8 +6551,16 @@ first place.
   \def\ChangeCatcodesIfInputNotAborted
   {%
       \endgroup
-      \edef\XINT_restorecatcodes_endinput
-      {%
+      \def\XINT_storecatcodes
+      {% takes care of all, to allow more economical code in modules
+           \catcode63=\the\catcode63   % ? xintexpr
+           \catcode124=\the\catcode124 % | xintexpr
+           \catcode38=\the\catcode38   % & xintexpr
+           \catcode64=\the\catcode64   % @ xintexpr
+           \catcode33=\the\catcode33   % ! xintexpr
+           \catcode93=\the\catcode93   % ] -, xintfrac, xintseries, xintcfrac
+           \catcode91=\the\catcode91   % [ -, xintfrac, xintseries, xintcfrac
+           \catcode36=\the\catcode36   % $ xintgcd only
         \catcode94=\the\catcode94   % ^
         \catcode96=\the\catcode96   % `
         \catcode47=\the\catcode47   % /
@@ -6488,7 +6582,10 @@ first place.
         \catcode13=\the\catcode13   % ^^M
         \catcode32=\the\catcode32   % 
         \catcode61=\the\catcode61\relax   % =
-        \noexpand\endinput
+      }%
+      \edef\XINT_restorecatcodes_endinput
+      {%
+           \XINT_storecatcodes\noexpand\endinput %
       }%
       \def\XINT_setcatcodes
       {%
@@ -6512,41 +6609,50 @@ first place.
         \catcode41=12   % )
         \catcode47=12   % /
         \catcode96=12   % `
-        \catcode94=11   % ^
+        \catcode94=11   % ^ 
+      \catcode36=3   % $
+      \catcode91=12  % [
+      \catcode93=12  % ]
+      \catcode33=11  % !
+      \catcode64=11  % @
+      \catcode38=12  % &
+      \catcode124=12 % |
+      \catcode63=11  % ?
       }%
       \XINT_setcatcodes
   }%
 \ChangeCatcodesIfInputNotAborted 
+\def\XINTsetupcatcodes {% for use by other modules
+      \edef\XINT_restorecatcodes_endinput
+      {%
+           \XINT_storecatcodes\noexpand\endinput %
+      }%
+      \XINT_setcatcodes 
+}%
 %    \end{macrocode}
 % \subsection{Package identification}
 %
-% Copied verbatim from \textsc{Heiko Oberdiek}'s packages.
+% Inspired from \textsc{Heiko Oberdiek}'s packages. Modified in |1.09b| to allow
+% re-use in the other modules. Also I assume now that if |\ProvidesPackage|
+% exists it then does define |\ver@<pkgname>.sty|, code of |HO| for some reason
+% escaping me  (compatibility with LaTeX 2.09 or other things ??) seems to set
+% extra precautions. 
 %
 %    \begin{macrocode}
 \begingroup
-  \catcode64=11 % @
-  \catcode91=12 % [
-  \catcode93=12 % ]
-  \catcode58=12 % : (does not really matter, was letter)
+  \catcode58=12 % : (does not matter, actually)
   \expandafter\ifx\csname ProvidesPackage\endcsname\relax
-    \def\x#1#2#3[#4]{\endgroup
-      \immediate\write-1{Package: #3 #4}%
-      \xdef#1{#4}%
-    }%
+    \def\x{\endgroup
+           \def\XINT_providespackage ##1##2[##3]%
+              {\immediate\write-1{Package: ##2 ##3}%
+               \expandafter\xdef\csname ver@##2.sty\endcsname{##3}}}%
   \else
-    \def\x#1#2[#3]{\endgroup
-      #2[{#3}]%
-      \ifx#1\@undefined
-        \xdef#1{#3}%
-      \fi
-      \ifx#1\relax
-        \xdef#1{#3}%
-      \fi
-    }%
+    \def\x{\endgroup\let\XINT_providespackage\relax }%
   \fi
-\expandafter\x\csname ver@xint.sty\endcsname
-\ProvidesPackage{xint}%
-  [2013/09/24 v1.09a Expandable operations on long numbers (jfB)]%
+\x
+\XINT_providespackage
+\ProvidesPackage {xint}%
+  [2013/10/03 v1.09b Expandable operations on long numbers (jfB)]%
 %    \end{macrocode}
 % \subsection{Token management, constants}
 %    \begin{macrocode}
@@ -6574,6 +6680,7 @@ first place.
 \def\xint_gob_til_zero  #10{}%
 \def\xint_gob_til_one   #11{}%
 \def\xint_gob_til_G     #1G{}%
+\def\xint_gob_til_minus #1-{}% was missing since 1.06b, \xintDSR could not work.
 \def\xint_gob_til_zeros_iii #1000{}%
 \def\xint_gob_til_zeros_iv  #10000{}%
 \def\xint_gob_til_relax      #1\relax {}%
@@ -6646,12 +6753,7 @@ first place.
 % \lverb|New with 1.06. Makes the expansion of its argument and then reverses
 % the 
 % resulting tokens or braced tokens, adding a pair of braces to each (thus,
-% maintaining it when it was already there.)$\
-% hmm, at some point when I was cleaning up the code towards 1.07, I have
-% accidentally removed the {} which must be after\XINT_revwbr_loop.
-% Corrected for 1.07a. Damn'it all the `noexpand` things in 1.07a were buggy,
-% this was caused by a frivolous midnight de-commenting-out. Fixed for 1.08.
-% |
+% maintaining it when it was already there.|
 %    \begin{macrocode}
 \def\xintRevWithBraces         {\romannumeral0\xintrevwithbraces }%
 \def\xintRevWithBracesNoExpand {\romannumeral0\xintrevwithbracesnoexpand }%
@@ -6763,7 +6865,8 @@ first place.
 % may 
 % be a macro which is first expanded (protect the first item with a space if it
 % is not to be expanded). Each chain of spaces from the initial
-% input will be collapsed as usual by the TeX initial scanning
+% input will be collapsed as usual by the TeX initial scanning. There is no
+% attempt to get rid of those spaces.
 % First included in release 1.06.|
 %    \begin{macrocode}
 \def\xintCSVtoList {\romannumeral0\xintcsvtolist }%
@@ -6822,7 +6925,7 @@ first place.
 % \xintListWithSep {\sep}{{a}{b}...{z}} returns a \sep b \sep .... \sep z$\
 % Included in release 1.04. The 'sep' can be \par's: the macro
 % xintlistwithsep etc... are all declared long. 'sep' does not have to be a
-% single token. The list may be a macro it is first expanded.
+% single token. It is not expandded. The list may be a macro and it is expanded.
 % 1.06 modifies the `feature' of returning sep if the list is empty: the output
 % is now empty in that case. (sep was not used for a one element list, but
 % strangely it was for a zero-element list).|
@@ -6854,26 +6957,39 @@ first place.
 % First included in release 1.06. With 1.06a, a value of i = 0 (or negative)
 % makes the macro return the length. This is different from \xintLen which is
 % for numbers (checks sign) and different from \xintLength which does not first
-% expand its argument.|
+% expand its argument. With 1.09b, only i=0 gives the length, negative values
+% return the i th element from the end.|
 %    \begin{macrocode}
 \def\xintNthElt         {\romannumeral0\xintnthelt }%
 \def\xintNthEltNoExpand {\romannumeral0\xintntheltnoexpand }%
 \def\xintnthelt #1#2%
 {%
-    \expandafter\XINT_nthelt\expandafter {\romannumeral-`0#2}%
-                                         {\numexpr #1\relax }%
+    \expandafter\XINT_nthelt_a\expandafter {\the\numexpr #1\expandafter}%
+                              \expandafter {\romannumeral-`0#2}%
 }%
 \def\xintntheltnoexpand #1#2%
 {%
-    \XINT_nthelt {#2}{\numexpr #1\relax}%
+    \expandafter\XINT_nthelt_a\expandafter {\the\numexpr #1}{#2}%
 }%
-\def\XINT_nthelt #1#2%
+\def\XINT_nthelt_a #1%
 {%
-    \ifnum #2>\xint_c_
-          \xint_afterfi {\XINT_nthelt_loop_a {#2}}%
+     \ifnum #1<0 
+     \expandafter\XINT_nthelt_b\else\expandafter\XINT_nthelt_c
+     \fi {#1}%
+}%
+\def\XINT_nthelt_b #1#2%
+{%
+    \expandafter\XINT_nthelt_c\expandafter
+               {\the\numexpr -#1\expandafter}\expandafter
+               {\romannumeral0\xintrevwithbraces {#2}}%
+}%
+\def\XINT_nthelt_c #1#2%
+{%
+    \ifnum #1>\xint_c_
+          \xint_afterfi {\XINT_nthelt_loop_a {#1}}%
     \else
           \xint_afterfi {\XINT_length_loop {0}}%
-    \fi #1\xint_relax\xint_relax\xint_relax\xint_relax
+    \fi #2\xint_relax\xint_relax\xint_relax\xint_relax
           \xint_relax\xint_relax\xint_relax\xint_relax\Z
 }%
 \def\XINT_nthelt_loop_a #1%
@@ -7265,8 +7381,8 @@ first place.
 % \subsection{\csh{xintIsOne}}
 % \lverb|&
 % Added in 1.03. Attention: \XINT_isOne does not do any expansion. Release 1.09a
-% defines \xintIsOne which is more user-friendly. xintfrac will have its own
-% version. | 
+% defines \xintIsOne which is more user-friendly. Will be modified if xintfracis
+% loaded. | 
 %    \begin{macrocode}
 \def\xintIsOne {\romannumeral0\xintisone }%
 \def\xintisone #1{\expandafter\XINT_isone \romannumeral0\xintnum{#1}\W\Z }%
@@ -10473,7 +10589,10 @@ first place.
 %    \end{macrocode}
 % \subsection{\csh{xintDSR}}
 % \lverb|&
-% DECIMAL SHIFT RIGHT (=DIVISION PAR 10)|
+% DECIMAL SHIFT RIGHT (=DIVISION PAR 10). Release 1.06b which replaced all @'s
+% by 
+% underscores left undefined the \xint_minus used in \XINT_dsr_b, and this bug
+% was fixed only later in release 1.09b| 
 %    \begin{macrocode}
 \def\xintDSR {\romannumeral0\xintdsr }%
 \def\xintdsr #1%
@@ -10488,7 +10607,7 @@ first place.
 \def\XINT_dsr_b #1#2#3\Z
 {%
     \xint_gob_til_W #2\xint_dsr_onedigit\W
-    \xint_minus #2\xint_dsr_onedigit-%
+    \xint_gob_til_minus #2\xint_dsr_onedigit-%
     \expandafter\XINT_dsr_removew
     \romannumeral0\XINT_rev {#2#3}%
 }%
@@ -11365,75 +11484,17 @@ first place.
 % \subsection{Catcodes}
 %
 % Perhaps catcodes have changed after the loading of \xintname
-% and prior to the current loading of \xintbinhexname, so we can not employ
-% the |\XINT_restorecatcodes_endinput| in this style file. But
-% there is no problem using |\XINT_setcatcodes|.
+% and prior to the current loading of \xintbinhexname, so we redefine
+% the |\XINT_restorecatcodes_endinput| in this style file. 
 %
 %    \begin{macrocode}
-\begingroup\catcode61\catcode48\catcode32=10\relax%
-  \catcode13=5    % ^^M
-  \endlinechar=13 %
-  \catcode123=1   % {
-  \catcode125=2   % }
-  \catcode95=11   % _
-  \def\x
-  {%
-      \endgroup
-      \edef\XINT_binhex_restorecatcodes_endinput
-      {%
-        \catcode94=\the\catcode94   % ^
-        \catcode96=\the\catcode96   % `
-        \catcode47=\the\catcode47   % /
-        \catcode41=\the\catcode41   % )
-        \catcode40=\the\catcode40   % (
-        \catcode42=\the\catcode42   % *
-        \catcode43=\the\catcode43   % +
-        \catcode62=\the\catcode62   % >
-        \catcode60=\the\catcode60   % <
-        \catcode58=\the\catcode58   % :
-        \catcode46=\the\catcode46   % .
-        \catcode45=\the\catcode45   % -
-        \catcode44=\the\catcode44   % ,
-        \catcode35=\the\catcode35   % #
-        \catcode95=\the\catcode95   % _
-        \catcode125=\the\catcode125 % }
-        \catcode123=\the\catcode123 % {
-        \endlinechar=\the\endlinechar
-        \catcode13=\the\catcode13   % ^^M
-        \catcode32=\the\catcode32   % 
-        \catcode61=\the\catcode61\relax   % =
-        \noexpand\endinput
-      }%
-      \XINT_setcatcodes % defined in xint.sty
-  }%
-\x
+\XINTsetupcatcodes%
 %    \end{macrocode}
 % \subsection{Package identification}
 %    \begin{macrocode}
-\begingroup
-  \catcode64=11 % @
-  \catcode91=12 % [
-  \catcode93=12 % ]
-  \catcode58=12 % :
-  \expandafter\ifx\csname ProvidesPackage\endcsname\relax
-    \def\x#1#2#3[#4]{\endgroup
-      \immediate\write-1{Package: #3 #4}%
-      \xdef#1{#4}%
-    }%
-  \else
-    \def\x#1#2[#3]{\endgroup
-      #2[{#3}]%
-      \ifx#1\@undefined
-        \xdef#1{#3}%
-      \fi
-      \ifx#1\relax
-        \xdef#1{#3}%
-      \fi
-    }%
-  \fi
-\expandafter\x\csname ver@xintbinhex.sty\endcsname
+\XINT_providespackage
 \ProvidesPackage{xintbinhex}%
-  [2013/09/24 v1.09a Expandable binary and hexadecimal conversions (jfB)]%
+  [2013/10/03 v1.09b Expandable binary and hexadecimal conversions (jfB)]%
 %    \end{macrocode}
 % \subsection{Constants, etc...}
 % \lverb!v1.08!
@@ -12024,7 +12085,7 @@ first place.
 {%
     \XINT_num_loop
 }%
-\XINT_binhex_restorecatcodes_endinput%
+\XINT_restorecatcodes_endinput%
 %    \end{macrocode}
 %\catcode`\<=0 \catcode`\>=11 \catcode`\*=11 \catcode`\/=11
 %\let</xintbinhex>\relax
@@ -12130,79 +12191,14 @@ first place.
 \endgroup%
 %    \end{macrocode}
 % \subsection{Catcodes}
-%
-% Perhaps catcodes have changed after the loading of \xintname
-% and prior to the current loading of \xintgcdname, so we can not employ
-% the |\XINT_restorecatcodes_endinput| in this style file. But
-% there is no problem using |\XINT_setcatcodes|.
-%
 %    \begin{macrocode}
-\begingroup\catcode61\catcode48\catcode32=10\relax%
-  \catcode13=5    % ^^M
-  \endlinechar=13 %
-  \catcode123=1   % {
-  \catcode125=2   % }
-  \catcode95=11   % _
-  \def\x
-  {%
-      \endgroup
-      \edef\XINT_gcd_restorecatcodes_endinput
-      {%
-        \catcode36=\the\catcode36   % $
-        \catcode94=\the\catcode94   % ^
-        \catcode96=\the\catcode96   % `
-        \catcode47=\the\catcode47   % /
-        \catcode41=\the\catcode41   % )
-        \catcode40=\the\catcode40   % (
-        \catcode42=\the\catcode42   % *
-        \catcode43=\the\catcode43   % +
-        \catcode62=\the\catcode62   % >
-        \catcode60=\the\catcode60   % <
-        \catcode58=\the\catcode58   % :
-        \catcode46=\the\catcode46   % .
-        \catcode45=\the\catcode45   % -
-        \catcode44=\the\catcode44   % ,
-        \catcode35=\the\catcode35   % #
-        \catcode95=\the\catcode95   % _
-        \catcode125=\the\catcode125 % }
-        \catcode123=\the\catcode123 % {
-        \endlinechar=\the\endlinechar
-        \catcode13=\the\catcode13   % ^^M
-        \catcode32=\the\catcode32   % 
-        \catcode61=\the\catcode61\relax   % =
-        \noexpand\endinput
-      }%
-      \XINT_setcatcodes % defined in xint.sty
-      \catcode36=3  % $
-  }%
-\x
+\XINTsetupcatcodes%
 %    \end{macrocode}
 % \subsection{Package identification}
 %    \begin{macrocode}
-\begingroup
-  \catcode64=11 % @
-  \catcode91=12 % [
-  \catcode93=12 % ]
-  \catcode58=12 % :
-  \expandafter\ifx\csname ProvidesPackage\endcsname\relax
-    \def\x#1#2#3[#4]{\endgroup
-      \immediate\write-1{Package: #3 #4}%
-      \xdef#1{#4}%
-    }%
-  \else
-    \def\x#1#2[#3]{\endgroup
-      #2[{#3}]%
-      \ifx#1\@undefined
-        \xdef#1{#3}%
-      \fi
-      \ifx#1\relax
-        \xdef#1{#3}%
-      \fi
-    }%
-  \fi
-\expandafter\x\csname ver@xintgcd.sty\endcsname
+\XINT_providespackage
 \ProvidesPackage{xintgcd}%
-  [2013/09/24 v1.09a Euclide algorithm with xint package (jfB)]%
+  [2013/10/03 v1.09b Euclide algorithm with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintGCD}}
 % The macros of |1.09a| benefits from the |\xintnum| which has been inserted
@@ -12810,7 +12806,7 @@ first place.
   \par
   \endgroup
 }%
-\XINT_gcd_restorecatcodes_endinput%
+\XINT_restorecatcodes_endinput%
 %    \end{macrocode}
 %\catcode`\<=0 \catcode`\>=11 \catcode`\*=11 \catcode`\/=11
 %\let</xintgcd>\relax
@@ -12916,79 +12912,14 @@ first place.
 \endgroup%
 %    \end{macrocode}
 % \subsection{Catcodes}
-%
-% Perhaps catcodes have changed after the loading of \xintname
-% and prior to the current loading of \xintfracname, so we can not employ
-% the |\XINT_restorecatcodes_endinput| in this style file. But
-% there is no problem using |\XINT_setcatcodes|.
-%
 %    \begin{macrocode}
-\begingroup\catcode61\catcode48\catcode32=10\relax%
-  \catcode13=5    % ^^M
-  \endlinechar=13 %
-  \catcode123=1   % {
-  \catcode125=2   % }
-  \catcode95=11   % _
-  \def\x
-  {%
-      \endgroup
-      \edef\XINT_frac_restorecatcodes_endinput
-      {%
-        \catcode93=\the\catcode93   % ]
-        \catcode91=\the\catcode91   % [
-        \catcode94=\the\catcode94   % ^
-        \catcode96=\the\catcode96   % `
-        \catcode47=\the\catcode47   % /
-        \catcode41=\the\catcode41   % )
-        \catcode40=\the\catcode40   % (
-        \catcode42=\the\catcode42   % *
-        \catcode43=\the\catcode43   % +
-        \catcode62=\the\catcode62   % >
-        \catcode60=\the\catcode60   % <
-        \catcode58=\the\catcode58   % :
-        \catcode46=\the\catcode46   % .
-        \catcode45=\the\catcode45   % -
-        \catcode44=\the\catcode44   % ,
-        \catcode35=\the\catcode35   % #
-        \catcode95=\the\catcode95   % _
-        \catcode125=\the\catcode125 % }
-        \catcode123=\the\catcode123 % {
-        \endlinechar=\the\endlinechar
-        \catcode13=\the\catcode13   % ^^M
-        \catcode32=\the\catcode32   % 
-        \catcode61=\the\catcode61\relax   % =
-        \noexpand\endinput
-      }%
-      \XINT_setcatcodes % defined in xint.sty
-      \catcode91=12 % [
-      \catcode93=12 % ]
-  }%
-\x
+\XINTsetupcatcodes%    
 %    \end{macrocode}
 % \subsection{Package identification}
 %    \begin{macrocode}
-\begingroup
-  \catcode64=11 % @
-  \catcode58=12 % :
-  \expandafter\ifx\csname ProvidesPackage\endcsname\relax
-    \def\x#1#2#3[#4]{\endgroup
-      \immediate\write-1{Package: #3 #4}%
-      \xdef#1{#4}%
-    }%
-  \else
-    \def\x#1#2[#3]{\endgroup
-      #2[{#3}]%
-      \ifx#1\@undefined
-        \xdef#1{#3}%
-      \fi
-      \ifx#1\relax
-        \xdef#1{#3}%
-      \fi
-    }%
-  \fi
-\expandafter\x\csname ver@xintfrac.sty\endcsname
+\XINT_providespackage
 \ProvidesPackage{xintfrac}%
-  [2013/09/24 v1.09a Expandable operations on fractions (jfB)]%
+  [2013/10/03 v1.09b Expandable operations on fractions (jfB)]%
 \chardef\xint_c_vi     6
 \chardef\xint_c_vii    7
 \chardef\xint_c_xviii 18
@@ -13318,6 +13249,33 @@ first place.
     \expandafter\XINT_raw\romannumeral0\XINT_infrac
 }%
 \def\XINT_raw #1#2#3{ #2/#3[#1]}%
+%    \end{macrocode}
+% \subsection{\csh{xintPRaw}}
+% \lverb|&
+% 1.09b: these [n]'s and especially the possible /1 are truly annoying at
+% times.| 
+%    \begin{macrocode}
+\def\xintPRaw {\romannumeral0\xintpraw }%
+\def\xintpraw
+{%
+    \expandafter\XINT_praw\romannumeral0\XINT_infrac
+}%
+\def\XINT_praw #1%
+{%
+    \ifnum #1=\xint_c_ \expandafter\XINT_praw_a\fi \XINT_praw_A {#1}%
+}%
+\def\XINT_praw_A #1#2#3%
+{%
+    \if\XINT_isOne{#3}1\expandafter\xint_firstoftwo
+                  \else\expandafter\xint_secondoftwo
+    \fi { #2[#1]}{ #2/#3[#1]}%
+}%
+\def\XINT_praw_a\XINT_praw_A #1#2#3%
+{%
+    \if\XINT_isOne{#3}1\expandafter\xint_firstoftwo
+                  \else\expandafter\xint_secondoftwo
+    \fi { #2}{ #2/#3}%
+}%
 %    \end{macrocode}
 % \subsection{\csh{xintRawWithZeros}}
 % \lverb|&
@@ -15546,7 +15504,7 @@ first place.
     {\xintHalf{\xintiQuo{\XINT_dsx_addzerosnofuss {#4}{#2}}{#3}}}}%
 }%
 \def\XINT_flsqrt_big_end_b #1#2{#2[#1]}%
-\XINT_frac_restorecatcodes_endinput%
+\XINT_restorecatcodes_endinput%
 %    \end{macrocode}
 %\catcode`\<=0 \catcode`\>=11 \catcode`\*=11 \catcode`\/=11
 %\let</xintfrac>\relax
@@ -15652,79 +15610,14 @@ first place.
 \endgroup%
 %    \end{macrocode}
 % \subsection{Catcodes}
-%
-% Perhaps catcodes have changed after the loading of \xintname and
-% \xintfracname and prior to the current loading of \xintseriesname, 
-% so we can not employ the |\XINT_restorecatcodes_endinput| in this style 
-% file. But there is no problem using |\XINT_setcatcodes|.
-%
 %    \begin{macrocode}
-\begingroup\catcode61\catcode48\catcode32=10\relax%
-  \catcode13=5    % ^^M
-  \endlinechar=13 %
-  \catcode123=1   % {
-  \catcode125=2   % }
-  \catcode95=11   % _
-  \def\x
-  {%
-      \endgroup
-      \edef\XINT_series_restorecatcodes_endinput
-      {%
-        \catcode93=\the\catcode93   % ]
-        \catcode91=\the\catcode91   % [
-        \catcode94=\the\catcode94   % ^
-        \catcode96=\the\catcode96   % `
-        \catcode47=\the\catcode47   % /
-        \catcode41=\the\catcode41   % )
-        \catcode40=\the\catcode40   % (
-        \catcode42=\the\catcode42   % *
-        \catcode43=\the\catcode43   % +
-        \catcode62=\the\catcode62   % >
-        \catcode60=\the\catcode60   % <
-        \catcode58=\the\catcode58   % :
-        \catcode46=\the\catcode46   % .
-        \catcode45=\the\catcode45   % -
-        \catcode44=\the\catcode44   % ,
-        \catcode35=\the\catcode35   % #
-        \catcode95=\the\catcode95   % _
-        \catcode125=\the\catcode125 % }
-        \catcode123=\the\catcode123 % {
-        \endlinechar=\the\endlinechar
-        \catcode13=\the\catcode13   % ^^M
-        \catcode32=\the\catcode32   % 
-        \catcode61=\the\catcode61\relax   % =
-        \noexpand\endinput
-      }%
-      \XINT_setcatcodes % defined in xint.sty
-      \catcode91=12 % [
-      \catcode93=12 % ]
-  }%
-\x
+\XINTsetupcatcodes%
 %    \end{macrocode}
 % \subsection{Package identification}
 %    \begin{macrocode}
-\begingroup
-  \catcode64=11 % @
-  \catcode58=12 % :
-  \expandafter\ifx\csname ProvidesPackage\endcsname\relax
-    \def\x#1#2#3[#4]{\endgroup
-      \immediate\write-1{Package: #3 #4}%
-      \xdef#1{#4}%
-    }%
-  \else
-    \def\x#1#2[#3]{\endgroup
-      #2[{#3}]%
-      \ifx#1\@undefined
-        \xdef#1{#3}%
-      \fi
-      \ifx#1\relax
-        \xdef#1{#3}%
-      \fi
-    }%
-  \fi
-\expandafter\x\csname ver@xintseries.sty\endcsname
+\XINT_providespackage
 \ProvidesPackage{xintseries}%
-  [2013/09/24 v1.09a Expandable partial sums with xint package (jfB)]%
+  [2013/10/03 v1.09b Expandable partial sums with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintSeries}}
 % \lverb|&
@@ -16148,7 +16041,7 @@ first place.
        {\romannumeral0\XINTinfloatpow [#5]{#1}{#2}}%
        {#2}{#1}{#3}{#4}{#5}%
 }%
-\XINT_series_restorecatcodes_endinput%
+\XINT_restorecatcodes_endinput%
 %    \end{macrocode}
 %\catcode`\<=0 \catcode`\>=11 \catcode`\*=11 \catcode`\/=11
 %\let</xintseries>\relax
@@ -16254,79 +16147,14 @@ first place.
 \endgroup%
 %    \end{macrocode}
 % \subsection{Catcodes}
-%
-% Perhaps catcodes have changed after the loading of \xintname and
-% \xintfracname and prior to the current loading of \xintcfracname, 
-% so we can not employ the |\XINT_restorecatcodes_endinput| in this style 
-% file. But there is no problem using |\XINT_setcatcodes|.
-%
 %    \begin{macrocode}
-\begingroup\catcode61\catcode48\catcode32=10\relax%
-  \catcode13=5    % ^^M
-  \endlinechar=13 %
-  \catcode123=1   % {
-  \catcode125=2   % }
-  \catcode95=11   % _
-  \def\x
-  {%
-      \endgroup
-      \edef\XINT_cfrac_restorecatcodes_endinput
-      {%
-        \catcode93=\the\catcode93   % ]
-        \catcode91=\the\catcode91   % [
-        \catcode94=\the\catcode94   % ^
-        \catcode96=\the\catcode96   % `
-        \catcode47=\the\catcode47   % /
-        \catcode41=\the\catcode41   % )
-        \catcode40=\the\catcode40   % (
-        \catcode42=\the\catcode42   % *
-        \catcode43=\the\catcode43   % +
-        \catcode62=\the\catcode62   % >
-        \catcode60=\the\catcode60   % <
-        \catcode58=\the\catcode58   % :
-        \catcode46=\the\catcode46   % .
-        \catcode45=\the\catcode45   % -
-        \catcode44=\the\catcode44   % ,
-        \catcode35=\the\catcode35   % #
-        \catcode95=\the\catcode95   % _
-        \catcode125=\the\catcode125 % }
-        \catcode123=\the\catcode123 % {
-        \endlinechar=\the\endlinechar
-        \catcode13=\the\catcode13   % ^^M
-        \catcode32=\the\catcode32   % 
-        \catcode61=\the\catcode61\relax   % =
-        \noexpand\endinput
-      }%
-      \XINT_setcatcodes % defined in xint.sty
-      \catcode91=12 % [
-      \catcode93=12 % ]
-  }%
-\x
+\XINTsetupcatcodes%
 %    \end{macrocode}
 % \subsection{Package identification}
 %    \begin{macrocode}
-\begingroup
-  \catcode64=11 % @
-  \catcode58=12 % :
-  \expandafter\ifx\csname ProvidesPackage\endcsname\relax
-    \def\x#1#2#3[#4]{\endgroup
-      \immediate\write-1{Package: #3 #4}%
-      \xdef#1{#4}%
-    }%
-  \else
-    \def\x#1#2[#3]{\endgroup
-      #2[{#3}]%
-      \ifx#1\@undefined
-        \xdef#1{#3}%
-      \fi
-      \ifx#1\relax
-        \xdef#1{#3}%
-      \fi
-    }%
-  \fi
-\expandafter\x\csname ver@xintcfrac.sty\endcsname
+\XINT_providespackage
 \ProvidesPackage{xintcfrac}%
-  [2013/09/24 v1.09a Expandable continued fractions with xint package (jfB)]%
+  [2013/10/03 v1.09b Expandable continued fractions with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintCFrac}}
 %    \begin{macrocode}
@@ -16691,7 +16519,7 @@ first place.
 {%
     \expandafter\XINT_cstf_loop_a\expandafter{#2}#1%
 }%
-\def\XINT_cstf_end #1.#2#3#4#5{\xintrawwithzeros {#2/#3}[0]}%
+\def\XINT_cstf_end #1.#2#3#4#5{\xintrawwithzeros {#2/#3}}% 1.09b removes [0]
 %    \end{macrocode}
 % \subsection{\csh{xintiCstoF}}
 %    \begin{macrocode}
@@ -16721,7 +16549,7 @@ first place.
 {%
     \expandafter\XINT_icstf_loop_a\expandafter {#2}{#1}%
 }%
-\def\XINT_icstf_end#1.#2#3#4#5{\xintrawwithzeros {#2/#3}[0]}%
+\def\XINT_icstf_end#1.#2#3#4#5{\xintrawwithzeros {#2/#3}}% 1.09b removes [0]
 %    \end{macrocode}
 % \subsection{\csh{xintGCtoF}}
 %    \begin{macrocode}
@@ -16785,7 +16613,7 @@ first place.
 {%
     \expandafter\XINT_gctf_loop_a\expandafter {#2}#1%
 }%
-\def\XINT_gctf_end #1.#2#3#4#5{\xintrawwithzeros {#2/#3}[0]}%
+\def\XINT_gctf_end #1.#2#3#4#5{\xintrawwithzeros {#2/#3}}% 1.09b removes [0]
 %    \end{macrocode}
 % \subsection{\csh{xintiGCtoF}}
 %    \begin{macrocode}
@@ -16834,7 +16662,7 @@ first place.
 {%
     \XINT_igctf_loop_a {#3}{#4}{#1}{#2}%
 }%
-\def\XINT_igctf_end #1.#2#3#4#5{\xintrawwithzeros {#4/#5}[0]}%
+\def\XINT_igctf_end #1.#2#3#4#5{\xintrawwithzeros {#4/#5}}% 1.09b removes [0]
 %    \end{macrocode}
 % \subsection{\csh{xintCstoCv}}
 %    \begin{macrocode}
@@ -16878,7 +16706,7 @@ first place.
     \expandafter\XINT_cstcv_loop_g\expandafter 
     {\romannumeral0\xintrawwithzeros {#1/#2}}{#5}{#1}{#2}{#3}{#4}%
 }%
-\def\XINT_cstcv_loop_g #1#2{\XINT_cstcv_loop_a {#2{#1[0]}}}%
+\def\XINT_cstcv_loop_g #1#2{\XINT_cstcv_loop_a {#2{#1}}}% 1.09b removes [0]
 \def\XINT_cstcv_end #1.#2#3#4#5#6{ #6}%
 %    \end{macrocode}
 % \subsection{\csh{xintiCstoCv}}
@@ -16914,8 +16742,8 @@ first place.
     \expandafter\XINT_icstcv_loop_e\expandafter
     {\romannumeral0\xintrawwithzeros {#1/#2}}{{#1}{#2}}%
 }%
-\def\XINT_icstcv_loop_e #1#2#3#4{\XINT_icstcv_loop_a {#4{#1[0]}}#2#3}%
-\def\XINT_icstcv_end #1.#2#3#4#5#6{ #6}%
+\def\XINT_icstcv_loop_e #1#2#3#4{\XINT_icstcv_loop_a {#4{#1}}#2#3}%
+\def\XINT_icstcv_end #1.#2#3#4#5#6{ #6}%  1.09b removes [0]
 %    \end{macrocode}
 % \subsection{\csh{xintGCtoCv}}
 %    \begin{macrocode}
@@ -16960,7 +16788,7 @@ first place.
 }%
 \def\XINT_gctcv_loop_g #1#2#3#4%
 {%
-    \XINT_gctcv_loop_h {#4{#1[0]}}{#2#3}%
+    \XINT_gctcv_loop_h {#4{#1}}{#2#3}% 1.09b removes [0]
 }%
 \def\XINT_gctcv_loop_h #1#2#3/%
 {%
@@ -17047,7 +16875,7 @@ first place.
     \expandafter\XINT_igctcv_end_b\expandafter
     {\romannumeral0\xintrawwithzeros {#2/#3}}%
 }%
-\def\XINT_igctcv_end_b #1#2{ #2{#1[0]}}%
+\def\XINT_igctcv_end_b #1#2{ #2{#1}}% 1.09b removes [0]
 %    \end{macrocode}
 % \subsection{\csh{xintCntoF}}
 % \lverb|&
@@ -17280,7 +17108,7 @@ first place.
     \expandafter\XINT_gctgc_end_b
 }%
 \def\XINT_gctgc_end_b #1#2#3{ #3{#1}}%
-\XINT_cfrac_restorecatcodes_endinput%
+\XINT_restorecatcodes_endinput%
 %    \end{macrocode}
 %\catcode`\<=0 \catcode`\>=11 \catcode`\*=11 \catcode`\/=11
 %\let</xintcfrac>\relax
@@ -17466,88 +17294,14 @@ first place.
 \endgroup%
 %    \end{macrocode}
 % \subsection{Catcodes}
-%
-% Perhaps catcodes have changed after the loading of \xintname and
-% \xintfracname and prior to the current loading of \xintexprname, 
-% so we can not employ the |\XINT_restorecatcodes_endinput| in this style 
-% file. But there is no problem using |\XINT_setcatcodes|.
-%
 %    \begin{macrocode}
-\begingroup\catcode61\catcode48\catcode32=10\relax%
-  \catcode13=5    % ^^M
-  \endlinechar=13 %
-  \catcode123=1   % {
-  \catcode125=2   % }
-  \catcode95=11   % _
-  \def\x
-  {%
-      \endgroup
-      \edef\XINT_expr_restorecatcodes_endinput
-      {%
-        \catcode63=\the\catcode63   % ?
-        \catcode124=\the\catcode124 % |
-        \catcode38=\the\catcode38   % &
-        \catcode64=\the\catcode64   % @
-        \catcode33=\the\catcode33   % !
-        \catcode93=\the\catcode93   % ]
-        \catcode91=\the\catcode91   % [
-        \catcode94=\the\catcode94   % ^
-        \catcode96=\the\catcode96   % `
-        \catcode47=\the\catcode47   % /
-        \catcode41=\the\catcode41   % )
-        \catcode40=\the\catcode40   % (
-        \catcode42=\the\catcode42   % *
-        \catcode43=\the\catcode43   % +
-        \catcode62=\the\catcode62   % >
-        \catcode60=\the\catcode60   % <
-        \catcode58=\the\catcode58   % :
-        \catcode46=\the\catcode46   % .
-        \catcode45=\the\catcode45   % -
-        \catcode44=\the\catcode44   % ,
-        \catcode35=\the\catcode35   % #
-        \catcode95=\the\catcode95   % _
-        \catcode125=\the\catcode125 % }
-        \catcode123=\the\catcode123 % {
-        \endlinechar=\the\endlinechar
-        \catcode13=\the\catcode13   % ^^M
-        \catcode32=\the\catcode32   % 
-        \catcode61=\the\catcode61\relax   % =
-        \noexpand\endinput
-      }%
-      \XINT_setcatcodes % defined in xint.sty
-      \catcode91=12  % [
-      \catcode93=12  % ]
-      \catcode33=11  % !
-      \catcode64=11  % @
-      \catcode38=12  % &
-      \catcode124=12 % |
-      \catcode63=11  % ?
-  }%
-\x
+\XINTsetupcatcodes%
 %    \end{macrocode}
 % \subsection{Package identification}
 %    \begin{macrocode}
-\begingroup
-  \catcode58=12 % : (but doesn't matter)
-  \expandafter\ifx\csname ProvidesPackage\endcsname\relax
-    \def\x#1#2#3[#4]{\endgroup
-      \immediate\write-1{Package: #3 #4}%
-      \xdef#1{#4}%
-    }%
-  \else
-    \def\x#1#2[#3]{\endgroup
-      #2[{#3}]%
-      \ifx#1\@undefined
-        \xdef#1{#3}%
-      \fi
-      \ifx#1\relax
-        \xdef#1{#3}%
-      \fi
-    }%
-  \fi
-\expandafter\x\csname ver@xintexpr.sty\endcsname
+\XINT_providespackage
 \ProvidesPackage{xintexpr}%
-  [2013/09/24 v1.09a Expandable expression parser (jfB)]%
+  [2013/10/03 v1.09b Expandable expression parser (jfB)]%
 %    \end{macrocode}
 % \subsection{Helper macros}
 %    \begin{macrocode}
@@ -18092,7 +17846,7 @@ first place.
 %    \end{macrocode}
 % \subsection{! as postfix factorial operator of highest precedence}
 % \lverb|\XINT_expr_precedence_! is not a \chardef constant indicating a
-% precedence level but its gets executed immediately on the number is followed.
+% precedence level but it  gets executed immediately on the number is followed.
 % It acts the same in \xintexpr and \xintfloatexpr and triggers the exact
 % \xintFac.| 
 %    \begin{macrocode}
@@ -18548,7 +18302,7 @@ first place.
         \catcode44=12  % ,
         \catcode61=12  % =
 }%    
-\XINT_expr_restorecatcodes_endinput%
+\XINT_restorecatcodes_endinput%
 %    \end{macrocode}
 % \DeleteShortVerb{\|}
 % \MakePercentComment
@@ -18565,8 +18319,9 @@ first place.
 \def\mymacroaux #1#2{#2}%
 \parbox[t]{10cm}{Total number of code lines:
   \digitstt{\xintiSum{\xintApply\mymacro\storedlinecounts}}. Each package starts
-  with circa \digitstt{140} lines (\digitstt{114} for \texttt{xint}) dealing
-  with catcodes, identification and reloading management\strut. Version
+  with circa \digitstt{80} lines dealing
+  with catcodes, package identification and reloading management, also for Plain
+  \TeX\strut. Version
   \texttt{\pkgversion} of \texttt{\pkgdate}.\par}
  
 
@@ -18585,7 +18340,7 @@ first place.
   Right bracket \]     Circumflex    \^     Underscore    \_
   Grave accent  \`     Left brace    \{     Vertical bar  \|
   Right brace   \}     Tilde         \~}
-\CheckSum{19450}
+\CheckSum{18823}
 \makeatletter\check@checksum\makeatother
 \Finale
 %%
