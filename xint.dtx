@@ -1,16 +1,16 @@
 % -*- coding: iso-latin-1; time-stamp-format: "%02d-%02m-%:y %02H:%02M:%02S %Z" -*-
-% File: xint.dtx, package: 1.09k (2014/01/21), documentation: 2014/01/21
+% File: xint.dtx, package: 1.09ka (2014/02/05), documentation: 2014/02/05
 % License: LaTeX Project Public License 1.3c or later.
 % Copyright (C) 2013-2014 by Jean-Francois B. <2589111+jfbu@users.noreply.github.com>
 %<*dtx>
-\def\lasttimestamp{Time-stamp: <22-01-2014 21:08:09 CET>}
+\def\lasttimestamp{Time-stamp: <05-02-2014 21:53:23 CET>}
 %</dtx>
 %<*drv>
-\def\xintdate    {2014/01/21} 
-\def\xintversion {1.09k}
+\def\xintdate    {2014/02/05} 
+\def\xintversion {1.09ka}
 %</drv>
 %%----------------------------------------------------------------
-%% The xint bundle (version 1.09k of January 21, 2014)
+%% The xint bundle (version 1.09ka of February 5, 2014)
 %<xinttools>%% xinttools: Expandable and non-expandable utilities
 %<xint>%% xint: Expandable operations on long numbers
 %<xintfrac>%% xintfrac: Expandable operations on fractions  
@@ -1317,13 +1317,22 @@ naturally! (but \digitstt{F(\xintiiPow2{31}}) would be rather big anyhow...).
 
 \footnotesize
 
+\noindent Release |1.09ka| (|[2014/02/05]|):
+\begin{itemize}
+\item bug fix (\xinttoolsname): \csbxint{BreakFor} and \csbxint{BreakForAndDo}
+  were buggy when used in the last iteration of an |\xintFor| loop.
+\item bug fix (\xinttoolsname): \csbxint{Seq} from |1.09k| needed a |\chardef|
+  which was missing from |xinttools.sty|, it was in |xint.sty|.
+\end{itemize}
+
 \noindent Release |1.09k| (|[2014/01/21]|):
 \begin{itemize}
 \item inside |\xintexpr..\relax| (and its variants) tacit multiplication
   is implied when a number or operand is followed directly with an
   opening parenthesis,
 \item the |"| for denoting (arbitrarily big) hexadecimal numbers is recognized
-  by |\xintexpr| and its variants; a fractional hexadecimal part introduced by a
+  by |\xintexpr| and its variants (package \xintbinhexname is required); a
+  fractional hexadecimal part introduced by a 
   dot |.| is allowed.
 \item re-organization of the first sections of the user manual.
 \item bug fix: forgotten loading time |"| catcode sanity check has been added.
@@ -2078,7 +2087,7 @@ Although most would be harmless in most macros, there are some cases
 where spaces could break havoc. So the best is to avoid them entirely.
 
 This is entirely otherwise inside an |\xintexpr|-ession, where spaces are
-ignored (except when they occur inside arguments to some some macros, thus
+ignored (except when they occur inside arguments to some macros, thus
 escaping the |\xintexpr| parser). See the \hyperref[sec:expr]{documentation}.
 
 
@@ -2877,9 +2886,12 @@ Usage with TeX:   \input xinttools.sty\relax
 We have added, directly copied from packages by \textsc{Heiko Oberdiek}, a
 mechanism of re-load and \eTeX{} detection, especially for Plain \TeX{}. As
 \eTeX{} is required, the executable |tex| can not be used, |etex| or |pdftex|
-(version |1.40| or later) or ..., must be invoked. Each package refuses to
-be loaded twice and automatically loads the other components on which it has
-dependencies.
+(version |1.40| or later) or ..., must be invoked. Each package refuses to be
+loaded twice and automatically loads the other components on which it has
+dependencies.\footnote{exception: \xintexprname needs the user to explicitely
+  load \xintgcdname, resp. \xintbinhexname, if use is to be made in
+  \csa{xintexpr} of the \texttt{lcm} and \texttt{gcd} functions, and, resp.,
+  hexadecimal numbers.}
 
 Also initially inspired from the \textsc{Heiko Oberdiek} packages we have
 included a complete catcode protection mecanism. The packages may be loaded in
@@ -11095,7 +11107,7 @@ first place.
 \fi
 \XINT_providespackage
 \ProvidesPackage {xinttools}%
-  [2014/01/21 v1.09k Expandable and non-expandable utilities (jfB)]%
+  [2014/02/05 v1.09ka Expandable and non-expandable utilities (jfB)]%
 %    \end{macrocode}
 % \subsection{Token management, constants}
 % \lverb|In 1.09e \xint_undef replaced everywhere by \xint_bye.
@@ -11126,6 +11138,7 @@ first place.
 \long\def\xint_gob_til_xint_relax #1\xint_relax {}%
 \long\def\xint_afterfi #1#2\fi {\fi #1}%
 \chardef\xint_c_     0
+\chardef\xint_c_i    1 % 1.09k did not have it, but needed in \xintSeq
 \chardef\xint_c_viii 8
 \newtoks\XINT_toks
 %    \end{macrocode}
@@ -12012,7 +12025,10 @@ first place.
 % The 1.09f \xintFor and \xintFor* modified the value of \count 255
 % which was silly, 1.09g used \XINT_count, but requiring a \count only
 % for that was also silly, 1.09h just uses \numexpr (all of that was only to
-% get rid simply of a possibly space in #2...).|
+% get rid simply of a possibly space in #2...).
+%
+% 1.09ka [2014/02/05] corrects the following bug: \xintBreakFor and
+% \xintBreakForAndDo could not be used in the last iteration.|
 %    \begin{macrocode}
 \def\XINT_tmpa #1#2{\ifnum #2<#1 \xint_afterfi {{#########2}}\fi}%
 \def\XINT_tmpb #1#2{\ifnum #1<#2 \xint_afterfi {{#########2}}\fi}%
@@ -12107,7 +12123,7 @@ first place.
 {% 
     \let\xintifForLast\xint_secondoftwo
     \ifx\XINT_token Z\let\xintifForLast\xint_firstoftwo
-                     \xint_afterfi{\xintBreakForAndDo\XINT_x}\fi
+        \xint_afterfi{\xintBreakForAndDo{\XINT_x\xint_gobble_i Z}}\fi
     \the\XINT_toks 
 }%
 %    \end{macrocode}
@@ -12238,8 +12254,13 @@ first place.
   \long\edef\XINT_x {\noexpand\XINT_y \csname XINT_for_left#1\endcsname
         \the\XINT_toks \csname XINT_for_right\the\numexpr#1+1\endcsname}%
   \let\xintifForLast\xint_secondoftwo
-  \ifx #5j\let\xintifForLast\xint_firstoftwo\expandafter\xintBreakForAndDo\fi
-  \XINT_x\let\xintifForFirst\xint_secondoftwo\XINT_forpair_d #1{#2}%
+  \ifx #5j\expandafter\xint_firstoftwo
+     \else\expandafter\xint_secondoftwo
+  \fi
+  {\let\xintifForLast\xint_firstoftwo
+   \xintBreakForAndDo {\XINT_x \xint_gobble_i Z}}%
+  \XINT_x
+  \let\xintifForFirst\xint_secondoftwo\XINT_forpair_d #1{#2}%
 }%
 \long\def\xintForthree #1#2#3in#4#5#6%
 {%
@@ -12254,8 +12275,13 @@ first place.
   \long\edef\XINT_x {\noexpand\XINT_y \csname XINT_for_left#1\endcsname
         \the\XINT_toks \csname XINT_for_right\the\numexpr#1+2\endcsname}%
   \let\xintifForLast\xint_secondoftwo
-  \ifx #5j\let\xintifForLast\xint_firstoftwo\expandafter\xintBreakForAndDo\fi
-  \XINT_x\let\xintifForFirst\xint_secondoftwo\XINT_forthree_d #1{#2}%
+  \ifx #5j\expandafter\xint_firstoftwo
+     \else\expandafter\xint_secondoftwo
+  \fi
+  {\let\xintifForLast\xint_firstoftwo
+   \xintBreakForAndDo {\XINT_x \xint_gobble_i Z}}%
+  \XINT_x
+  \let\xintifForFirst\xint_secondoftwo\XINT_forthree_d #1{#2}%
 }%
 \long\def\xintForfour #1#2#3in#4#5#6%
 {%
@@ -12270,8 +12296,13 @@ first place.
   \long\edef\XINT_x {\noexpand\XINT_y \csname XINT_for_left#1\endcsname
         \the\XINT_toks \csname XINT_for_right\the\numexpr#1+3\endcsname}%
   \let\xintifForLast\xint_secondoftwo
-  \ifx #5j\let\xintifForLast\xint_firstoftwo\expandafter\xintBreakForAndDo\fi
-  \XINT_x\let\xintifForFirst\xint_secondoftwo\XINT_forfour_d #1{#2}%
+  \ifx #5j\expandafter\xint_firstoftwo
+     \else\expandafter\xint_secondoftwo
+  \fi
+  {\let\xintifForLast\xint_firstoftwo
+   \xintBreakForAndDo {\XINT_x \xint_gobble_i Z}}%
+  \XINT_x
+  \let\xintifForFirst\xint_secondoftwo\XINT_forfour_d #1{#2}%
 }%
 \catcode`Z 11
 \catcode`j 11
@@ -12557,7 +12588,7 @@ first place.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xint}%
-  [2014/01/21 v1.09k Expandable operations on long numbers (jfB)]%
+  [2014/02/05 v1.09ka Expandable operations on long numbers (jfB)]%
 %    \end{macrocode}
 % \subsection{Token management, constants}
 %    \begin{macrocode}
@@ -12584,7 +12615,7 @@ first place.
 \def\xint_UDzerominusfork #10-#2#3\krof {#2}%
 \def\xint_UDsignsfork     #1--#2#3\krof {#2}%
 % \chardef\xint_c_   0 % already done in xinttools
-\chardef\xint_c_i    1 
+% \chardef\xint_c_i  1 % already done in xinttools
 \chardef\xint_c_ii   2
 \chardef\xint_c_iii  3
 \chardef\xint_c_iv   4
@@ -17212,7 +17243,7 @@ first place.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintbinhex}%
-  [2014/01/21 v1.09k Expandable binary and hexadecimal conversions (jfB)]%
+  [2014/02/05 v1.09ka Expandable binary and hexadecimal conversions (jfB)]%
 %    \end{macrocode}
 % \subsection{Constants, etc...}
 % \lverb!v1.08!
@@ -17918,7 +17949,7 @@ first place.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintgcd}%
-  [2014/01/21 v1.09k Euclide algorithm with xint package (jfB)]%
+  [2014/02/05 v1.09ka Euclide algorithm with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintGCD}}
 % The macros of |1.09a| benefits from the |\xintnum| which has been inserted
@@ -18637,7 +18668,7 @@ first place.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintfrac}%
-  [2014/01/21 v1.09k Expandable operations on fractions (jfB)]%
+  [2014/02/05 v1.09ka Expandable operations on fractions (jfB)]%
 \chardef\xint_c_vi     6
 \chardef\xint_c_vii    7
 \chardef\xint_c_xviii 18
@@ -20792,7 +20823,7 @@ first place.
 \def\xintsgn #1{\expandafter\XINT_sgn\romannumeral0\xintraw {#1}\Z }%
 %    \end{macrocode}
 % \subsection{\csh{xintFloatAdd}, \csh{XINTinFloatAdd}}
-% \lverb|1.07; 1.09k improves a bit the efficieny of the coding of
+% \lverb|1.07; 1.09ka improves a bit the efficieny of the coding of
 % \XINT_FL_Add_d.|
 %    \begin{macrocode}
 \def\xintFloatAdd      {\romannumeral0\xintfloatadd }%
@@ -21675,7 +21706,7 @@ first place.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintseries}%
-  [2014/01/21 v1.09k Expandable partial sums with xint package (jfB)]%
+  [2014/02/05 v1.09ka Expandable partial sums with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintSeries}}
 % \lverb|&
@@ -22210,7 +22241,7 @@ first place.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcfrac}%
-  [2014/01/21 v1.09k Expandable continued fractions with xint package (jfB)]%
+  [2014/02/05 v1.09ka Expandable continued fractions with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintCFrac}}
 %    \begin{macrocode}
@@ -23378,7 +23409,7 @@ first place.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintexpr}%
-  [2014/01/21 v1.09k Expandable expression parser (jfB)]%
+  [2014/02/05 v1.09k Expandable expression parser (jfB)]%
 %    \end{macrocode}
 % \subsection{Encapsulation in pseudo cs names, helper macros}
 % \lverb|1.09i uses .= for encapsulation, thus allowing \escapechar to be
@@ -24722,7 +24753,7 @@ first place.
   Right bracket \]     Circumflex    \^     Underscore    \_
   Grave accent  \`     Left brace    \{     Vertical bar  \|
   Right brace   \}     Tilde         \~}
-\CheckSum {21356}
+\CheckSum {21378}
 \makeatletter\check@checksum\makeatother
 \Finale
 %% End of file xint.dtx
