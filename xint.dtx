@@ -1,96 +1,14 @@
-% -*- coding: iso-latin-1; -*-
-%<*doc>
-\def\lasttimestamp{Time-stamp <28-11-2013 17:10:29 CET *>}
-%</doc>
-% xint.dtx, 1.09h (2013/11/28)
-%
-% Copyright (C) 2013 by Jean-François B.
-%
-% Style files which will self-extract from xint.dtx:
-%        xinttools.sty  Expandable and non expandable utilities
-%        xint.sty       Expandable operations on long numbers
-%        xintfrac.sty   Expandable operations on fractions
-%        xintexpr.sty   Expandable expression parser
-%        xintbinhex.sty Expandable binary and hexadecimal conversions
-%        xintgcd.sty    Euclidean algorithm with xint package
-%        xintseries.sty Expandable partial sums with xint package
-%        xintcfrac.sty  Expandable continued fractions with xint package
-% installation: --> TDS:tex/generic/xint/
-%
-%  License
-%  =======
-%
-%  This work consists of the source file xint.dtx and of its derived files:
-%  xinttools.sty xint.sty, xintfrac.sty, xintexpr.sty, xintbinhex.sty,
-%  xintgcd.sty, xintseries.sty, xintcfrac.sty, as well as xint.ins and the
-%  documentation xint.pdf (or xint.dvi).
-%
-%     This work may be distributed and/or modified under the
-%     conditions of the LaTeX Project Public License, either
-%     version 1.3c of this license or (at your option) any later
-%     version. This version of this license is in 
-%          http://www.latex-project.org/lppl/lppl-1-3c.txt
-%     and the latest version of this license is in
-%          http://www.latex-project.org/lppl.txt
-%     and version 1.3 or later is part of all distributions of
-%     LaTeX version 2005/12/01 or later. 
-% 
-%  The author of this work is Jean-Francois B. <2589111+jfbu@users.noreply.github.com>. 
-%  This work has the LPPL maintenance status `author-maintained'.
-% 
-%  Installation and Usage:
-%  =======================
-%
-%  Run tex or latex on xint.dtx.
-% 
-%  This will extract the style files xinttools.sty, xint.sty, xintfrac.sty,
-%  xintexpr.sty, xintbinhex.sty, xintgcd.sty, xintseries.sty, xintcfrac.sty 
-%    (and xint.ins).
-%
-%  Files with the same names and in the same repertory will be overwritten.
-%  The tex (not latex) run will stop with the complaint that it does not
-%  understand \NeedsTeXFormat, but the style files will already have been
-%  extracted by that time.
-%
-%  Alternatively, run tex or latex on xint.ins if available.
-%
-%  To get xint.pdf run pdflatex thrice on xint.dtx
-%  
-%        xinttools.sty |
-%             xint.sty |
-%         xintfrac.sty |
-%         xintexpr.sty | --> TDS:tex/generic/xint/ 
-%       xintbinhex.sty |
-%          xintgcd.sty |
-%       xintseries.sty |
-%        xintcfrac.sty |
-%             xint.dtx   --> TDS:source/generic/xint/
-%             xint.pdf   --> TDS:doc/generic/xint/
-% 
-%  It may be necessary to then refresh the TeX installation filename
-%  database.
-%
-%  Usage with LaTeX: \usepackage{xinttools}
-%                    \usepackage{xint}       % (loads xinttools)
-%                    \usepackage{xintfrac}   % (loads xint)
-%                    \usepackage{xintexpr}   % (loads xintfrac)
-%
-%                    \usepackage{xintbinhex} % (loads xint)
-%                    \usepackage{xintgcd}    % (loads xint)
-%                    \usepackage{xintseries} % (loads xintfrac)
-%                    \usepackage{xintcfrac}  % (loads xintfrac)
-%
-%  Usage with TeX:   \input xinttools.sty\relax   
-%                    \input xint.sty\relax       % (loads xinttools)
-%                    \input xintfrac.sty\relax   % (loads xint)
-%                    \input xintexpr.sty\relax   % (loads xintfrac)
-%
-%                    \input xintbinhex.sty\relax % (loads xint)
-%                    \input xintgcd.sty\relax    % (loads xint)
-%                    \input xintseries.sty\relax % (loads xintfrac)
-%                    \input xintcfrac.sty\relax  % (loads xintfrac)
-%
-%%
+% -*- coding: iso-latin-1; time-stamp-format: "%02d-%02m-%:y %02H:%02M:%02S %Z" -*-
+% File: xint.dtx, package: 1.09h (2013/11/28), documentation: 2013/12/05
+% License: LaTeX Project Public License 1.3c or later.
+% Copyright (C) 2013 by Jean-Francois B. <2589111+jfbu@users.noreply.github.com>
+%<*dtx>
+\def\lasttimestamp{Time-stamp: <05-12-2013 17:08:06 CET>}
+%</dtx>
+%<*drv>
+\def\xintdate    {2013/11/28} 
+\def\xintversion {1.09h}
+%</drv>
 %%----------------------------------------------------------------
 %% The xint bundle (version 1.09h of November 28, 2013)
 %<xinttools>%% xinttools: Expandable and non-expandable utilities
@@ -103,19 +21,156 @@
 %<xintcfrac>%% xintcfrac: Expandable continued fractions with xint package
 %% Copyright (C) 2013 by Jean-Francois B. 
 %%----------------------------------------------------------------
+% Installation
+% ============
+%
+% A. Installation using xint.tds.zip:
+% -----------------------------------
+%
+% obtain xint.tds.zip from CTAN:
+%   http://www.ctan.org/tex-archive/install/macros/generic/xint.tds.zip
+%
+% cd to the download repertory and issue 
+%   unzip xint.tds.zip -d <TEXMF>
+% for example: (assuming standard access rights, so sudo needed)
+%   sudo unzip xint.tds.zip -d /usr/local/texlive/texmf-local
+%   sudo mktexlsr
+%
+% On Mac OS X, installation into user home folder:
+%   unzip xint.tds.zip -d  ~/Library/texmf
+%
+% B. Installation after file extractions:
+% ---------------------------------------
+%
+% obtain xint.dtx, xint.ins and the README from CTAN:
+%   http://www.ctan.org/tex-archive/macros/generic/xint
+%
+% - "tex xint.ins" generates the style files
+% (pre-existing files in the same repertory will be overwritten).
+%
+% - without xint.ins: "tex or latex or pdflatex or xelatex xint.dtx" 
+% will also generate the style files (and xint.ins).
+%
+% xint.tex is also extracted, use it for the documentation:
+%
+% - with latex+dvipdfmx: latex xint.tex thrice then dvipdfmx xint.dvi
+% Ignore dvipdfmx warnings. In case the pdf file has problems with
+% fonts, use then rather pdflatex or xelatex.
+%
+% - with pdflatex or xelatex: run it directly thrice on xint.dtx, or run 
+% it on xint.tex after having edited the suitable toggle therein.
+%
+% When compiling xint.tex, the documentation is by default produced
+% with the source code included. See instructions in the file for
+% changing this default.
+%
+% When compiling directly xint.dtx, the documentation is produced 
+% without the source code (latex+dvips or pdflatex or xelatex).
+%
+% Finishing the installation: (on first installation the destination
+% repertories may need to be created)
+%
+%       xinttools.sty |
+%            xint.sty |
+%        xintfrac.sty |
+%        xintexpr.sty | --> TDS:tex/generic/xint/ 
+%      xintbinhex.sty |
+%         xintgcd.sty |
+%      xintseries.sty |
+%       xintcfrac.sty |
+%
+%            xint.dtx   --> TDS:source/generic/xint/
+%            xint.ins   --> TDS:source/generic/xint/
+%            xint.tex   --> TDS:source/generic/xint/
+%
+%            xint.pdf   --> TDS:doc/generic/xint/
+%              README   --> TDS:doc/generic/xint/
+%
+% Depending on the TDS destination and the TeX installation, it may be
+% necessary to refresh the TeX installation filename database (mktexlsr)
+%
+% C. Usage:
+% ---------
+%
+% Usage with LaTeX: \usepackage{xinttools}
+%                   \usepackage{xint}       % (loads xinttools)
+%                   \usepackage{xintfrac}   % (loads xint)
+%                   \usepackage{xintexpr}   % (loads xintfrac)
+%
+%                   \usepackage{xintbinhex} % (loads xint)
+%                   \usepackage{xintgcd}    % (loads xint)
+%                   \usepackage{xintseries} % (loads xintfrac)
+%                   \usepackage{xintcfrac}  % (loads xintfrac)
+%
+% Usage with TeX:   \input xinttools.sty\relax   
+%                   \input xint.sty\relax       % (loads xinttools)
+%                   \input xintfrac.sty\relax   % (loads xint)
+%                   \input xintexpr.sty\relax   % (loads xintfrac)
+%
+%                   \input xintbinhex.sty\relax % (loads xint)
+%                   \input xintgcd.sty\relax    % (loads xint)
+%                   \input xintseries.sty\relax % (loads xintfrac)
+%                   \input xintcfrac.sty\relax  % (loads xintfrac)
+%
+%  License
+%  =======
+%
+%     This work may be distributed and/or modified under the
+%     conditions of the LaTeX Project Public License, either
+%     version 1.3c of this license or (at your option) any later
+%     version. This version of this license is in 
+%          http://www.latex-project.org/lppl/lppl-1-3c.txt
+%     and the latest version of this license is in
+%          http://www.latex-project.org/lppl.txt
+%     and version 1.3 or later is part of all distributions of
+%     LaTeX version 2005/12/01 or later. 
+% 
+%  This work consists of the source file xint.dtx and of its derived files:
+%  xinttools.sty xint.sty, xintfrac.sty, xintexpr.sty, xintbinhex.sty,
+%  xintgcd.sty, xintseries.sty, xintcfrac.sty, as well as xint.ins, xint.tex
+%  and the documentation xint.pdf (or xint.dvi).
+%
+%  The author of this work is Jean-Francois B. <2589111+jfbu@users.noreply.github.com>. 
+%  This work has the LPPL maintenance status `author-maintained'.
+% 
+%<*dtx>
+\iffalse
+%</dtx>
+%<*drv>----------------------------------------------------------------------
+%% This is a generated file. Run latex thrice on this file xint.tex then
+%% run dvipdfmx on xint.dvi to produce the documentation xint.pdf, with
+%% source code included. (ignore the dvipdfmx warnings)
 %%
-%<*doc>
-\def\pkgversion{1.09h}
-\def\pkgdate{2013/11/28}
-\def\striptimestamp #1 <#2 #3 #4 #5>{#2 at #3 #4}
-\def\getdocdate #1 <#2-#3-#4 #5>{#4/#3/#2}
-\edef\docdate{\expandafter\getdocdate\lasttimestamp}
-\edef\dtxtimestamp{\expandafter\striptimestamp\lasttimestamp}
-\begingroup
+%% Customize as desired the class options and the two toggles below.
+%%
+%% See xint.dtx for the copyright and the conditions for distribution
+%% and/or modification of this work.
+%%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesFile{xint.tex}%
+[\xintdate\space v\xintversion\space driver file for xint documentation (jfB)]%
+\PassOptionsToClass{a4paper,11pt}{scrdoc}
+\chardef\Withdvipdfmx 1 % replace 1<space> by 0<space> for using latex/pdflatex
+\chardef\NoSourceCode 0 % replace 0<space> by 1<space> for no source code
+\input xint.dtx
+%%% Local Variables:
+%%% mode: latex
+%%% End:
+%</drv>----------------------------------------------------------------------
+%<*ins>-------------------------------------------------------------------------
+%% This is a generated file. 
+%%  "tex xint.ins"  extracts from xint.dtx:
+%% xinttools.sty, xint.sty, xintfrac.sty, xintexpr.sty, xintbinhex.sty,
+%% xintgcd.sty, xintseries.sty and xintcfrac.sty as well as xint.tex
+%% (for typesetting the documentation).
+%%
+%% See xint.dtx for the copyright and the conditions for distribution
+%% and/or modification of this work.
+%%
 \input docstrip.tex
 \askforoverwritefalse
-\generate{\nopreamble
-\file{xint.ins}{\from{xint.dtx}{ins}}
+\generate{\usepreamble\nopreamble
+\file{xint.tex}{\from{xint.dtx}{drv}}
 \usepreamble\defaultpreamble
 \file{xinttools.sty}{\from{xint.dtx}{xinttools}}
 \file{xint.sty}{\from{xint.dtx}{xint}}
@@ -125,42 +180,123 @@
 \file{xintseries.sty}{\from{xint.dtx}{xintseries}}
 \file{xintcfrac.sty}{\from{xint.dtx}{xintcfrac}}
 \file{xintexpr.sty}{\from{xint.dtx}{xintexpr}}}
-\endgroup
-\iffalse
-%</doc>
-%<*ins>
-%----------- to .ins file ----------------------------------------
-%%
-%% This is a generated file. Run tex or latex on this file to
-%% extract xinttools.sty, xint.sty, xintfrac.sty, xintexpr.sty,
-%% xintbinhex.sty, xintgcd.sty, xintseries.sty and xintcfrac.sty
-%% from xint.dtx
-%%
-%% See xint.dtx for the copyright and the conditions for
-%% distribution and/or modification of this work.
-%%
-\input docstrip.tex
-\askforoverwritefalse
-\generate{\usepreamble\defaultpreamble
-\file{xinttools.sty}{\from{xint.dtx}{xinttools}}
-\file{xint.sty}{\from{xint.dtx}{xint}}
-\file{xintbinhex.sty}{\from{xint.dtx}{xintbinhex}}
-\file{xintgcd.sty}{\from{xint.dtx}{xintgcd}}
-\file{xintfrac.sty}{\from{xint.dtx}{xintfrac}}
-\file{xintseries.sty}{\from{xint.dtx}{xintseries}}
-\file{xintcfrac.sty}{\from{xint.dtx}{xintcfrac}}
-\file{xintexpr.sty}{\from{xint.dtx}{xintexpr}}}
+\catcode32=13\relax% active space
+\let =\space%
+\Msg{************************************************************************}
+\Msg{*}
+\Msg{* To finish the installation you have to move the following}
+\Msg{* files into a directory searched by TeX:}
+\Msg{*}
+\Msg{*     xinttools.sty} 
+\Msg{*     xint.sty} 
+\Msg{*     xintbinhex.sty} 
+\Msg{*     xintgcd.sty} 
+\Msg{*     xintfrac.sty} 
+\Msg{*     xintseries.sty} 
+\Msg{*     xintcfrac.sty} 
+\Msg{*     xintexpr.sty} 
+\Msg{*}
+\Msg{* To produce the documentation run latex thrice on file xint.tex}
+\Msg{* and then run dvipdfmx on file xint.dvi (ignore dvipdfmx warnings)}
+\Msg{*}
+\Msg{* Happy TeXing!}
+\Msg{*}
+\Msg{************************************************************************}
 \endbatchfile
-%----------- end of .ins file ------------------------------------
-%</ins>
-%<*doc>
+%</ins>-------------------------------------------------------------------------
+%<*dtx>
+\fi % end of \iffalse block
+\def\striptimestamp #1 <#2 #3 #4>{#2 at #3 #4}
+\def\getdocdate #1 <#2-#3-#4 #5>{#4/#3/#2}
+\edef\docdate{\expandafter\getdocdate\lasttimestamp}
+\edef\dtxtimestamp{\expandafter\striptimestamp\lasttimestamp}
+\chardef\noetex 0
+\expandafter\ifx\csname numexpr\endcsname\relax \chardef\noetex 1 \fi
+\ifnum\noetex=1 \chardef\extractfiles 0 % extract files, then stop
+\else
+    \expandafter\ifx\csname ProvidesFile\endcsname\relax
+      \chardef\extractfiles 0 % etex etc.. on xint.dtx
+    \else % latex/pdflatex on xint.tex or on xint.dtx
+      \expandafter\ifx\csname Withdvipdfmx\endcsname\relax
+        % latex run is on etoc.dtx, we will extract all files
+        \chardef\extractfiles 1 % 1 = extract all and typeset doc
+        \chardef\Withdvipdfmx 0 % 0 = pdflatex or latex+dvips
+        \chardef\NoSourceCode 1 % 
+        \NeedsTeXFormat{LaTeX2e}%
+        \PassOptionsToClass{a4paper,11pt}{scrdoc}% 
+      \else % latex run is on etoc.tex, 
+        \chardef\extractfiles 2 % no extractions
+      \fi
+      \ProvidesFile{xint.dtx}%
+         [bundle source (\xintversion, \xintdate) and documentation (\docdate)]%
+    \fi
 \fi
-\NeedsTeXFormat{LaTeX2e}
-\ProvidesFile{xint.dtx}[bundle source and documentation (\dtxtimestamp)]
-
-\documentclass[a4paper,11pt,abstract]{scrdoc}
-
-%\OnlyDescription
+\ifnum\extractfiles<2 % extract files
+\def\MessageDeFin{\newlinechar10 \let\Msg\message
+\Msg{^^J}%
+\Msg{********************************************************************^^J}%
+\Msg{*^^J}%
+\Msg{* To finish the installation you have to move the following^^J}%
+\Msg{* files into a directory searched by TeX:^^J}%
+\Msg{*^^J}%
+\Msg{*\space\space\space\space xinttools.sty^^J}%
+\Msg{*\space\space\space\space xint.sty^^J}%
+\Msg{*\space\space\space\space xintbinhex.sty^^J}%
+\Msg{*\space\space\space\space xintgcd.sty^^J}%
+\Msg{*\space\space\space\space xintfrac.sty^^J}%
+\Msg{*\space\space\space\space xintseries.sty^^J}%
+\Msg{*\space\space\space\space xintcfrac.sty^^J}%
+\Msg{*\space\space\space\space xintexpr.sty^^J}%
+\Msg{*^^J}%
+\Msg{* To produce the documentation with source code included run latex^^J}%
+\Msg{* thrice on file xint.tex and then dvipdfmx on xint.dvi^^J}%
+\Msg{* \space\space\space\space(ignore the dvipdfmx warnings)^^J}%
+\Msg{*^^J}%
+\Msg{* Happy TeXing!^^J}%
+\Msg{*^^J}%
+\Msg{********************************************************************^^J}%
+}%
+\begingroup
+    \input docstrip.tex
+    \askforoverwritefalse
+    \generate{\nopreamble
+    \file{xint.ins}{\from{xint.dtx}{ins}}
+    \file{xint.tex}{\from{xint.dtx}{drv}}
+    \usepreamble\defaultpreamble
+    \file{xinttools.sty}{\from{xint.dtx}{xinttools}}
+    \file{xint.sty}{\from{xint.dtx}{xint}}
+    \file{xintbinhex.sty}{\from{xint.dtx}{xintbinhex}}
+    \file{xintgcd.sty}{\from{xint.dtx}{xintgcd}}
+    \file{xintfrac.sty}{\from{xint.dtx}{xintfrac}}
+    \file{xintseries.sty}{\from{xint.dtx}{xintseries}}
+    \file{xintcfrac.sty}{\from{xint.dtx}{xintcfrac}}
+    \file{xintexpr.sty}{\from{xint.dtx}{xintexpr}}}
+\endgroup
+\fi % end of file extraction
+\ifnum\extractfiles=0 
+% direct tex/etex/xetex/etc on xint.dtx, files now extracted, stop
+  \MessageDeFin\expandafter\end
+\fi
+% no use of docstrip to extract files if latex compilation was on etoc.tex
+\ifdefined\MessageDeFin\AtEndDocument{\MessageDeFin}\fi
+%-------------------------------------------------------------------------------
+\documentclass[abstract]{scrdoc}
+\ifnum\NoSourceCode=1 \OnlyDescription\fi
+\makeatletter
+\ifnum\Withdvipdfmx=1
+   \@for\@tempa:=hyperref,bookmark,graphicx,xcolor\do
+            {\PassOptionsToPackage{dvipdfmx}\@tempa}
+   %
+   \PassOptionsToPackage{dvipdfm}{geometry}
+   \PassOptionsToPackage{bookmarks=true}{hyperref}
+   \PassOptionsToPackage{dvipdfmx-outline-open}{hyperref}
+   \PassOptionsToPackage{dvipdfmx-outline-open}{bookmark}
+   %
+   \def\pgfsysdriver{pgfsys-dvipdfm.def}
+\else
+   \PassOptionsToPackage{bookmarks=true}{hyperref}
+\fi
+\makeatother
 
 \pagestyle{headings}
 \usepackage[T1]{fontenc}
@@ -310,7 +446,7 @@
 \usepackage[autolanguage,np]{numprint}
 \AtBeginDocument{\npthousandsep{,\hskip .5pt plus .1pt minus .1pt}}
 
-\usepackage[pdfencoding=pdfdoc,bookmarks=true]{hyperref}
+\usepackage[pdfencoding=pdfdoc]{hyperref}
 \hypersetup{%
 linktoc=all,%
 breaklinks=true,%
@@ -323,6 +459,7 @@ pdfsubject={Arithmetic with TeX},%
 pdfkeywords={Expansion, arithmetic, TeX},%
 pdfstartview=FitH,%
 pdfpagemode=UseOutlines}
+\usepackage{bookmark} 
 
 
 %---- \MyMarginNote: a simple macro for some margin notes with no fuss
@@ -599,7 +736,7 @@ pdfpagemode=UseOutlines}
   \textsc{Jean-François B.}\par
   \footnotesize \ttfamily
   2589111+jfbu@users.noreply.github.com\par
-  Package version: \pkgversion\ (\pkgdate)%
+  Package version: \xintversion\ (\xintdate)%
   \let\thefootnote\empty
   \footnote{Documentation generated from the
     source file with timestamp ``\dtxtimestamp''.}\par
@@ -775,7 +912,7 @@ illustrated through various examples: among those, it is shown in
 \autoref{ssec:quicksort} how to implement in a completely expandable way the
 quick sort algorithm and also how to illustrate it graphically. Other examples
 include some dynamically constructed alignments with automatically computed
-prime number cells (\autoref{ssec:primesI}, \autoref{ssec:primesII}).
+prime number cells (\autoref{ssec:primesI}, \autoref{ssec:primesIII}).
 
 Some other computational examples are \hyperref[ssec:Machin]{the
   computations of $\pi$ and $\log 2$} using \xintname and the computation of the
@@ -817,7 +954,6 @@ Some other computational examples are \hyperref[ssec:Machin]{the
   of |\count 255|.
 \end{itemize}
 
-\clearpage
 \noindent Release |1.09f| (|[2013/11/04]|):
 \begin{itemize}
 \item new \csbxint{ZapFirstSpaces}, \csbxint{ZapLastSpaces},
@@ -861,8 +997,8 @@ Some other computational examples are \hyperref[ssec:Machin]{the
 \item bug fix, |\xintiSqrt {0}| crashed. |:-((|
 \item the documentation has been enriched with various additional examples,
   such as the \hyperref[ssec:quicksort]{the quick sort algorithm illustrated} or
-  the computation of some prime tables (\autoref{ssec:primesI},
-  \autoref{ssec:primesII}). 
+  the computation of prime numbers (\autoref{ssec:primesI},
+  \autoref{ssec:primesII}, \autoref{ssec:primesIII}). 
 \item the documentation explains with more details various expansion related
   issues, particularly in relation to conditionals.
 \end{itemize}
@@ -1226,7 +1362,7 @@ code snippet within a file with filename |myfile.tex|:
 \newwrite\outstream
 \immediate\openout\outstream \jobname-out\relax
 \immediate\write\outstream {\xintQuo{\xintPow{2}{1000}}{\xintFac{100}}}
-% \immediate\closeout\outfile
+% \immediate\closeout\outstream
 |%
 The tex run creates a file |myfile-out.tex|, and then writes to it the quotient
 from the euclidean division of @2^{1000}@ by @100!@. The number of digits is
@@ -2313,11 +2449,6 @@ mechanism of re-load and \eTeX{} detection, especially for Plain \TeX{}. As
 be loaded twice and automatically loads the other components on which it has
 dependencies.
 
-% Furthermore, \xintfracname, \xintbinhexname, and \xintgcdname check for the
-% previous loading of \xintname, and will try to load it if this was not
-% already done. Similarly \xintseriesname, \xintcfracname and \xintexprname do
-% the necessary loading of \xintfracname. 
-
 Also initially inspired from the \textsc{Heiko Oberdiek} packages we have
 included a complete catcode protection mecanism. The packages may be loaded in
 any catcode configuration satisfying these requirements: the percent is of
@@ -2342,34 +2473,60 @@ get the tokens). In an |\xintexpr|-ession, the `e' may be uppercased: `E'.
 The \xintname bundle packages presuppose that the usual
 \csa{space} and \csa{empty} macros are pre-defined, as is the case in
 Plain \TeX{} as well as in \LaTeX.
-% comme je vais passer à \xintloop, plus de \loop, et plus besoin
-% de \endgraf (le \loop de Plain est short, contrairement à celui de LaTeX)
-%%Also, 
-% the macros \csa{xintRelaxArray} (of \xinttoolsname) and
-% \csa{xintTypesetEuclideAlgorithm} and
-% \csa{xintTypesetBezoutAlgorithm} (of \xintgcdname) use 
-% \csa{loop}, both Plain and \LaTeX{} incarnations are
-% compatible. 
-% \csa{xintTypesetBezoutAlgorithm} from \xintgcdname makes use of the
-% \csa{endgraf} macro.
- 
-% \enlargethispage{\baselineskip}
 
-\section{Installation}
+\section{Installation}\label{sec:install}
 
 \begingroup
-\def\MacroFont {\ttfamily\baselineskip12pt\relax\catcode`\"=12 }
-\dverb+@
-If xint.ins is available "tex xint.ins" generates the style files
+\def\MacroFont {\ttfamily\small\baselineskip11pt\relax\catcode`\"=12 }
+\dverb!@
+Installation
+============
+
+A. Installation using xint.tds.zip:
+-----------------------------------
+
+obtain xint.tds.zip from CTAN:
+  http://www.ctan.org/tex-archive/install/macros/generic/xint.tds.zip
+
+cd to the download repertory and issue 
+  unzip xint.tds.zip -d <TEXMF>
+for example: (assuming standard access rights, so sudo needed)
+  sudo unzip xint.tds.zip -d /usr/local/texlive/texmf-local
+  sudo mktexlsr
+
+On Mac OS X, installation into user home folder:
+  unzip xint.tds.zip -d  ~/Library/texmf
+
+B. Installation after file extractions:
+---------------------------------------
+
+obtain xint.dtx, xint.ins and the README from CTAN:
+  http://www.ctan.org/tex-archive/macros/generic/xint
+
+- "tex xint.ins" generates the style files
 (pre-existing files in the same repertory will be overwritten).
 
-Else, either "latex xint.dtx" or "pdflatex xint.dtx" or "tex xint.dtx"
-will also generate the style files (and the xint.ins file). The tex
-run stops (contrarily to latex/pdflatex) with the complaint that it
-does not understand \NeedsTeXFormat, but the style files will already
-have been extracted by that time.
+- without xint.ins: "tex or latex or pdflatex or xelatex xint.dtx" 
+will also generate the style files (and xint.ins).
 
-To get xint.pdf run pdflatex thrice on xint.dtx
+xint.tex is also extracted, use it for the documentation:
+
+- with latex+dvipdfmx: latex xint.tex thrice then dvipdfmx xint.dvi
+Ignore dvipdfmx warnings. In case the pdf file has problems with
+fonts, use then rather pdflatex or xelatex.
+
+- with pdflatex or xelatex: run it directly thrice on xint.dtx, or run 
+it on xint.tex after having edited the suitable toggle therein.
+
+When compiling xint.tex, the documentation is by default produced
+with the source code included. See instructions in the file for
+changing this default.
+
+When compiling directly xint.dtx, the documentation is produced 
+without the source code (latex+dvips or pdflatex or xelatex).
+
+Finishing the installation: (on first installation the destination
+repertories may need to be created)
 
       xinttools.sty |
            xint.sty |
@@ -2379,11 +2536,16 @@ To get xint.pdf run pdflatex thrice on xint.dtx
         xintgcd.sty |
      xintseries.sty |
       xintcfrac.sty |
-           xint.dtx   --> TDS:source/generic/xint/
-           xint.pdf   --> TDS:doc/generic/xint/
 
-It may be necessary to then refresh the TeX installation filename
-database.+
+           xint.dtx   --> TDS:source/generic/xint/
+           xint.ins   --> TDS:source/generic/xint/
+           xint.tex   --> TDS:source/generic/xint/
+
+           xint.pdf   --> TDS:doc/generic/xint/
+             README   --> TDS:doc/generic/xint/
+
+Depending on the TDS destination and the TeX installation, it may be
+necessary to refresh the TeX installation filename database (mktexlsr)!
 \endgroup
 
 \section{The \csh{xintexpr} math parser (I)}
@@ -2591,8 +2753,7 @@ The minus sign as prefix has various precedence levels: |\xintexpr
 
 Here is, listed from the highest priority to the lowest, the complete
 list of operators and functions. Functions are at the top level of priority.
-Next\footnote{in releases earlier than |1.09c|, these postfix operators took
-  precedence on a previous function name; the opposite now holds.} are the
+Next are the
 postfix 
 operators: |!| for the factorial, |?| and |:| are two-fold way and three-fold
 way branching constructs. Then the |e| and |E| of the scientific notation, the
@@ -2942,7 +3103,8 @@ all leading and all ending spaces and possibly removing one level of braces if
 % {\small New with release |1.06|. Starting with |1.09f|, \fbox{\emph{removes
 %     spaces around commas}!}\par}
 
-\csa{xintCSVtoList}|{a,b,c...,z}|\etype{f}  returns |{a}{b}{c}...{z}|. A \emph{list} is by
+\csa{xintCSVtoList}|{a,b,c...,z}|\etype{f}  returns |{a}{b}{c}...{z}|. A
+\emph{list} is by 
 convention in this manual simply a succession of tokens, where each braced thing
 will count as one item (``items'' are defined according to the rules of \TeX{}
 for fetching undelimited parameters of a macro, which are exactly the same rules
@@ -2964,17 +3126,17 @@ Apart from that no expansion of the items is done and the list items may thus be
 completely arbitrary (and even contain perilous stuff such as unmatched |\if|
 and |\fi| tokens).
 
-Contiguous spaces, tab characters, or other blanc spaces (empty lines not
-allowed) are collapsed by \TeX{} into single spaces. All such spaces around
-commas\footnote{and multiple space tokens are not a problem; but those at the
-  top level (not hidden inside braces) \emph{must} be of character code |32|.}
-\fbox{are removed}, as well as the spaces at the start and the spaces at the end
-of the list.\footnote{let us recall that this is all done completely
-  expandably...   There is
-  absolutely no alteration of any sort of the item apart from the stripping of
-  initial and final space tokens (of character code |32|) and brace
-removal if and only if the item apart from intial and final spaces (or more
-generally multiple |char 32| space tokens) is braced.}
+Contiguous spaces and tab characters, are collapsed by \TeX{}
+into single spaces. All such spaces around commas\footnote{and multiple space
+  tokens are not a problem; but those at the top level (not hidden inside
+  braces) \emph{must} be of character code |32|.} \fbox{are removed}, as well as
+the spaces at the start and the spaces at the end of the list.\footnote{let us
+  recall that this is all done completely expandably... There is absolutely no
+  alteration of any sort of the item apart from the stripping of initial and
+  final space tokens (of character code |32|) and brace removal if and only if
+  the item apart from intial and final spaces (or more generally multiple |char
+  32| space tokens) is braced.} The items may contain explicit |\par|'s or
+empty lines (converted by the \TeX{} input parsing into |\par| tokens).
 
 \begingroup
 
@@ -3265,26 +3427,21 @@ silly with an even input, ok, let's enhance it to detect an even input:
    }|
 
 We used the \xintname provided expandable tests (on big integers or fractions)
-to maintain the complete expandability of |\IsPrime| in a strong
-sense\footnote{\label{fn:fullexp}technically, prefixing it with
-  \csa{romannumeral-`0} must expand it completely; this is the case of all
-  \xintname expandable macros, and in turn the arguments must be of this
-  type.}.
+in oder for |\IsPrime| to be \fexpan dable.
 
-Our integers are short, but without
-|\expandafter|'s with \makeatletter|\@firstoftwo|\catcode`@ \active, or some
-other related
- techniques, direct use of |\ifnum..\fi| tests is dangerous. 
-So to make the macro more efficient we are going to use the expandable tests
-provided by the package 
+Our integers are short, but without |\expandafter|'s with
+\makeatletter|\@firstoftwo|\catcode`@ \active, or some other related techniques,
+direct use of |\ifnum..\fi| tests is dangerous. So to make the macro more
+efficient we are going to use the expandable tests provided by the package
 \href{http://ctan.org/pkg/etoolbox}{etoolbox}\footnote{\url{http://ctan.org/pkg/etoolbox}}.
-The macro becomes:
-\dverb|@
+The macro becomes: 
+%
+\dverb|@ 
 \def\IsPrime #1%
-   {\ifnumodd {#1}
-        {\xintANDof % odd case
-            {\xintApply {\remainder {#1}}{\xintSeq [2]{3}{\xintiSqrt{#1}}}}}
-        {\ifnumequal {#1}{2}{1}{0}}}|
+   {\ifnumodd {#1} 
+    {\xintANDof % odd case
+     {\xintApply {\remainder {#1}}{\xintSeq [2]{3}{\xintiSqrt{#1}}}}}
+    {\ifnumequal {#1}{2}{1}{0}}}|
 
 In the odd case however we have to assume the integer is at least @7@, as
 |\xintSeq| generates an empty list if |#1=3| or |5|, and |\xintANDof| returns
@@ -3296,10 +3453,10 @@ letting it work on only @0@'s and @1@'s. We could use:
   {\ifnum\numexpr #1-(#1/#2)*#2=0 \expandafter 0\else \expandafter1\fi}|%
 
 \noindent
-where the |\expandafter|'s are crucial for this macro to be completely
-expandable in the restricted sense mentioned in \autoref{fn:fullexp} which we
-want for applying confidently \csbxint{ANDof}.  Anyhow, now that we have loaded
+where the |\expandafter|'s are crucial for this macro to be \fexpan dable and
+hence work within the applied \csbxint{ANDof}. Anyhow, now that we have loaded
 \href{http://ctan.org/pkg/etoolbox}{etoolbox}, we might as well use:
+%
 \dverb|@
 \newcommand{\IsNotDivisibleBy}[2]{\ifnumequal{#1-(#1/#2)*#2}{0}{0}{1}}
 |%
@@ -3313,32 +3470,39 @@ Let us enhance our prime macro to work also on the small primes:
          {\xintApply 
         { \IsNotDivisibleBy {#1}}{\xintSeq [2]{3}{\xintiSqrt{#1}}}}%
         }}% END OF THE ODD BRANCH
-    {\ifnumequal {#1}{2}{1}{0}}% END OF THE EVEN BRANCH
+    {\ifnumequal {#1}{2}{1}{0}}% EVEN BRANCH
 }|
 
-The
-input is still assumed positive. There is a deliberate blank before
-\csa{IsNotDivisibleBy} to use this
-feature of \csbxint{Apply}: a space stops the expansion of the applied macro
-(and disappears). This expansion will 
-be done by \csbxint{ANDof}, which has been designed to skip
-everything as soon as it finds a false (i.e. zero) input. This way, the
-efficiency is
-considerably improved. We did generate via \csbxint{Seq} too many
-divisors though; if we really wanted to optimize even further it would be
-reasonable to drop the requirement of complete expandability and use the tools
-provided by 
-the \csbxint{For} loop.
+The input is still assumed positive. There is a deliberate blank before
+\csa{IsNotDivisibleBy} to use this feature of \csbxint{Apply}: a space stops the
+expansion of the applied macro (and disappears). This expansion will be done by
+\csbxint{ANDof}, which has been designed to skip everything as soon as it finds
+a false (i.e. zero) input. This way, the efficiency is considerably improved.
 
+We did generate via the \csbxint{Seq} too many potential divisors though. Later
+sections give two variants: one with \csbxint{iloop} (\autoref{ssec:primesII})
+which is still expandable and another one (\autoref{ssec:primesIII}) which is a
+close variant of the |\IsPrime| code above but with the \csbxint{For} loop, thus
+breaking expandability. The \hyperref[ssec:primesII]{xintiloop variant} does not
+first evaluate the integer square root, the \hyperref[ssec:primesIII]{xintFor
+  variant} still does. I did not compare their efficiencies. Hmm, if one really
+needs to compute primes fast, sure I do applaud using \xintname, but, well,
+there is some slight overhead\MyMarginNoteWithBrace{funny private joke} in using
+\TeX{} for these things (something like a factor @1000@? not tested\dots)
+compared to accessing to the |CPU| ressources via standard compiled code from a
+standard programming language\dots
 
-Let us construct a table of the prime numbers up to @1000@. We need to count
-how many we have in order to know how many tab stops one shoud add in the last
-row. There is some subtlety for this last row. Turns out to be better to
-insert a |\\| only when we know for sure we are starting a new row; this is
-how we have designed the |\OneCell| macro. And for the last row, there are
-many ways, we use again |\xintApplyUnbraced| but with a macro which gobbles
-its argument and replaces it with a tabulation character. The \csbxint{For*}
-macro would be more elegant here.
+Let us construct with this expandable primality test a table of the prime
+numbers up to @1000@. We need to count how many we have in order to know how
+many tab stops one shoud add in the last row.\footnote{although a tabular row
+  may have less tabs than in the preamble, there is a problem with the
+  \char`\|\space\space 
+  vertical rule, if one does that.} There is some subtlety for this
+last row. Turns out to be better to insert a |\\| only when we know for sure we
+are starting a new row; this is how we have designed the |\OneCell| macro. And
+for the last row, there are many ways, we use again |\xintApplyUnbraced| but
+with a macro which gobbles its argument and replaces it with a tabulation
+character. The \csbxint{For*} macro would be more elegant here.
 %
 \dverb?@
 \newcounter{primecount}
@@ -3365,9 +3529,11 @@ macro would be more elegant here.
 \end{tabular}
 There are \arabic{primecount} prime numbers up to 1000.?
 
-We had to be careful to use the optional argument |[1]| to \csbxint{Seq} in
-this last row to not generate a decreasing sequence from |1| to |0|, but an
-empty sequence when the row turns out to already have all its cells.
+We had to be careful to use in the last row \csbxint{Seq} with its optional
+argument |[1]| so as to not generate a decreasing sequence from |1| to |0|, but
+really an empty sequence in case the row turns out to already have all its
+cells (which doesn't happen here but would with a number of columns dividing
+@168@).
 %
 \newcommand{\IsNotDivisibleBy}[2]{\ifnumequal{#1-(#1/#2)*#2}{0}{0}{1}}
 
@@ -3379,7 +3545,7 @@ empty sequence when the row turns out to already have all its cells.
              {\xintApply 
                 { \IsNotDivisibleBy {#1}}{\xintSeq [2]{3}{\xintiSqrt{#1}}}}%
             }}% END OF THE ODD BRANCH
-        {\ifnumequal {#1}{2}{1}{0}}% END OF THE EVEN BRANCH
+        {\ifnumequal {#1}{2}{1}{0}}% EVEN BRANCH
 }
 
 \newcounter{primecount}
@@ -3425,8 +3591,8 @@ will be removed and do not create a group.
 
 As this loop and \csbxint{iloop} will primarily be of interest to experienced
 \TeX{} macro programmers, my description will assume that the user is
-knowledgeable enough. The loop and its various constituents are declared short,
-they can not handle |\par| tokens or empty lines.
+knowledgeable enough. The iterated commands may contain |\par| tokens or empty
+lines.
 
 One can abort the loop with \csbxint{breakloop}; this should not be used in the
 final test, and one should expand the |\fi| from the corresponding test before.
@@ -3676,9 +3842,33 @@ When the repeat-test of the loop is, for example, |\ifnum\xintiloopindex<10
 (assuming |delta=1|). There is also |\ifnum\xintiloopindex=10 \else\repeat| to
 get the last iteration to be the one with |\xintiloopindex=10|.
 
-One has \csbxint{breakiloop} and \csbxint{breakiloopanddo} to abort the
-loop, \csbxint{iloopskiptonext} to abort the current iteration and skip to the
-next, \hyperref[xintiloopskipandredo]{\ttfamily\hyphenchar\font45 \char92
+One has \csbxint{breakiloop} and \csbxint{breakiloopanddo} to abort the loop.
+The syntax of |\xintbreakiloopanddo| is a bit surprising, the sequence of tokens
+to be executed after breaking the loop is not within braces but is delimited by
+a dot as in:
+%
+\centeredline{|\xintbreakiloopanddo <afterloop>.etc.. etc... \repeat|} 
+%
+The reason is that one may wish to use the then current value of
+|\xintiloopindex| in |<afterloop>| but it can't be within braces at the time it
+is evaluated. However, it is not that easy as |\xintiloopindex| must be expanded
+before, so one ends up with code like this:
+%
+\centeredline
+{|\expandafter\xintbreakiloopanddo\expandafter\macro\xintiloopindex.%|}
+\centeredline{|etc.. etc.. \repeat|} 
+%
+As moreover the |\fi| from the test leading to the decision of breaking out of
+the loop must be cleared out of the way, the above should be
+a branch of an expandable conditional test, else one needs something such
+as:
+\centeredline
+{|\xint_afterfi{\expandafter\xintbreakiloopanddo\expandafter\macro\xintiloopindex.}%|}
+\centeredline{|\fi etc..etc.. \repeat|}
+
+
+There is \csbxint{iloopskiptonext} to abort the current iteration and skip to
+the next, \hyperref[xintiloopskipandredo]{\ttfamily\hyphenchar\font45 \char92
   xintiloopskip\-and\-redo} to skip to the end of the current iteration and redo
 it with the same value of the index (something else will have to change for this
 not to become an eternal loop\dots ).
@@ -3721,8 +3911,11 @@ list of prime numbers:
   }% no space here
  \ifnum \xintiloopindex < 10999 \repeat }%
 \meaning\z and we should have taken some steps to not have a trailing comma, but
-the point was to show that one can do that in an |\edef|\,!
+the point was to show that one can do that in an |\edef|\,! See also
+\autoref{ssec:primesII} which extracts from this code its way of testing
+primality. 
 \endgroup
+
 
 Let us create an alignment where each row will contain all divisors of its
 first entry. 
@@ -3777,6 +3970,97 @@ Here is the output, thus obtained without any count register:
 }
 \end{multicols}
 \endgroup     
+
+\subsection{Another completely expandable prime test}\label{ssec:primesII}
+
+The |\IsPrime| macro from \autoref{ssec:primesI} checked expandably if a (short)
+integer was prime, here is a partial rewrite using \csbxint{iloop}. We use the
+|etoolbox| expandable conditionals for convenience, but not everywhere as
+|\xintiloopindex| can not be evaluated while being braced. This is also the
+reason why |\xintbreakiloopanddo| is delimited, and the next macro
+|\SmallestFactor| which returns the smallest prime factor examplifies that. One
+could write more efficient completely expandable routines, the aim here was only
+to illustrate use of the general purpose \csbxint{iloop}. A little table giving
+the first values of |\SmallestFactor| follows, its coding uses \csbxint{For},
+which is described later; none of this uses count registers.
+%
+\dverb?@
+\newcommand{\IsPrime}[1] % returns 1 if #1 is prime, and 0 if not
+  {\ifnumodd {#1}
+    {\ifnumless {#1}{8}
+      {\ifnumequal{#1}{1}{0}{1}}% 3,5,7 are primes
+      {\if 
+       \xintiloop [3+2]
+       \ifnum#1<\numexpr\xintiloopindex*\xintiloopindex\relax
+           \expandafter\xintbreakiloopanddo\expandafter1\expandafter.%
+       \fi
+       \ifnum#1=\numexpr (#1/\xintiloopindex)*\xintiloopindex\relax
+       \else
+       \repeat 00\expandafter0\else\expandafter1\fi
+      }%
+    }% END OF THE ODD BRANCH
+    {\ifnumequal {#1}{2}{1}{0}}% EVEN BRANCH
+}%
+\catcode`_ 11
+\newcommand{\SmallestFactor}[1] % returns the smallest prime factor of #1>1
+  {\ifnumodd {#1}
+    {\ifnumless {#1}{8}
+      {#1}% 3,5,7 are primes
+      {\xintiloop [3+2]
+       \ifnum#1<\numexpr\xintiloopindex*\xintiloopindex\relax
+           \xint_afterfi{\xintbreakiloopanddo#1.}%
+       \fi
+       \ifnum#1=\numexpr (#1/\xintiloopindex)*\xintiloopindex\relax
+           \xint_afterfi{\expandafter\xintbreakiloopanddo\xintiloopindex.}%
+       \fi
+       \iftrue\repeat 
+      }%
+     }% END OF THE ODD BRANCH
+   {2}% EVEN BRANCH
+}%
+\catcode`_ 8
+  \begin{tabular}{|c|*{10}c|}
+    \hline
+    \xintFor #1 in {0,1,2,3,4,5,6,7,8,9}\do {&\bfseries #1}\\
+    \hline
+    \bfseries 0&--&--&2&3&2&5&2&7&2&3\\
+    \xintFor #1 in {1,2,3,4,5,6,7,8,9}\do
+    {\bfseries #1%
+      \xintFor #2 in {0,1,2,3,4,5,6,7,8,9}\do
+      {&\SmallestFactor{#1#2}}\\}%
+    \hline
+  \end{tabular}
+?
+\catcode`_ 11
+\newcommand{\SmallestFactor}[1] % returns the smallest prime factor of #1>1
+  {\ifnumodd {#1}
+    {\ifnumless {#1}{8}
+      {#1}% 3,5,7 are primes
+      {\xintiloop [3+2]
+       \ifnum#1<\numexpr\xintiloopindex*\xintiloopindex\relax
+           \xint_afterfi{\xintbreakiloopanddo#1.}%
+       \fi
+       \ifnum#1=\numexpr (#1/\xintiloopindex)*\xintiloopindex\relax
+           \xint_afterfi{\expandafter\xintbreakiloopanddo\xintiloopindex.}%
+       \fi
+       \iftrue\repeat 
+      }%
+     }% END OF THE ODD BRANCH
+   {2}% EVEN BRANCH
+}%
+\catcode`_ 8
+{\centering
+  \begin{tabular}{|c|*{10}c|}
+    \hline
+    \xintFor #1 in {0,1,2,3,4,5,6,7,8,9}\do {&\bfseries #1}\\
+    \hline
+    \bfseries 0&--&--&2&3&2&5&2&7&2&3\\
+    \xintFor #1 in {1,2,3,4,5,6,7,8,9}\do
+    {\bfseries #1%
+      \xintFor #2 in {0,1,2,3,4,5,6,7,8,9}\do
+      {&\SmallestFactor{#1#2}}\\}%
+    \hline
+  \end{tabular}\par }
 
 \subsection{A table of factorizations}
 
@@ -4470,20 +4754,19 @@ such as |numprint| or |siunitx|.\par
 \endgroup
 
 
-\subsection{Another table of primes}\label{ssec:primesII}
+\subsection{Another table of primes}\label{ssec:primesIII}
 
 As a further example, let us dynamically generate a tabular with the first @50@
-prime 
-numbers after @12345@. First we need a macro to test if a (short) number is
-prime. Such a completely expandable macro was given in \autoref{xintSeq}, here
-we consider a variant which will be slightly more efficient. This new
+prime numbers after @12345@. First we need a macro to test if a (short) number
+is prime. Such a completely expandable macro was given in \autoref{xintSeq},
+here we consider a variant which will be slightly more efficient. This new
 |\IsPrime| has two parameters. The first one is a macro which it redefines to
 expand to the result of the primality test applied to the second argument. For
-convenience we use the \href{http://ctan.org/pkg/etoolbox}{etoolbox} wrappers
-to various |\ifnum| tests, although here there isn't anymore the constraint of
+convenience we use the \href{http://ctan.org/pkg/etoolbox}{etoolbox} wrappers to
+various |\ifnum| tests, although here there isn't anymore the constraint of
 complete expandability (but using explicit |\if..\fi| in tabulars has its
-quirks); equivalent tests are provided by \xintname, but they have some
-overhead as they are able to deal with arbitrarily big integers.
+quirks); equivalent tests are provided by \xintname, but they have some overhead
+as they are able to deal with arbitrarily big integers.
 
 \def\IsPrime #1#2%
 {\edef\TheNumber {\the\numexpr #2}% positive integer
@@ -6466,8 +6749,6 @@ dealing exclusively with (big) integers. These variants are already available in
 \centeredline{|\xintNum {1e80}|}
 \centeredline{\digitstt{\xintNum{1e80}}}
 
-
-\clearpage
 
 \etocdepthtag.toc {xintexpr}
 
@@ -9028,6 +9309,29 @@ braces. \dverb|@ \edef\x {\xintGCtoGC {1+\xintPow{1.5}{3}/{1/7}+{-3/5}/\xintFac
 To be honest I have, it seems, forgotten why I wrote this macro in the
 first place.
 
+% will be used by the \lverb things
+
+\def\givesomestretch{%
+\fontdimen2\font=0.33333\fontdimen6\font
+\fontdimen3\font=0.16666\fontdimen6\font
+\fontdimen4\font=0.11111\fontdimen6\font
+}%
+\def\MacroFont{\ttfamily\small\givesomestretch\hyphenchar\font45 
+               \baselineskip12pt\relax }
+
+
+\ifnum\NoSourceCode=1 
+\bigskip
+\begin{framed}
+  \ttfamily\small\givesomestretch\hyphenchar\font45 This documentation
+  has been compiled without the source code. To produce the
+  documentation with the source code included, run "tex xint.dtx" to
+  generate xint.tex (if not already available), then thrice latex on
+  xint.tex and finally dvipdfmx on xint.dvi (ignore the dvipdfmx
+  warnings; see also
+  \autoref{sec:install}).
+\end{framed}
+\fi
 
 \makeatletter
 \StopEventually{\end{document}\endinput}
@@ -9041,25 +9345,15 @@ first place.
 
 \newgeometry{hmarginratio=4:3,hscale=0.75}
 
-\def\givesomestretch{%
-\fontdimen2\font=0.33333\fontdimen6\font
-\fontdimen3\font=0.16666\fontdimen6\font
-\fontdimen4\font=0.11111\fontdimen6\font
-}%
-
-% will be used by the \lverb things
-
-\def\MacroFont{\ttfamily\small\givesomestretch\hyphenchar\font45 
-               \baselineskip12pt\relax }
 
 \etocdepthtag.toc {implementation}
 
 \MakePercentIgnore
 % 
 % \catcode`\<=0 \catcode`\>=11 \catcode`\*=11 \catcode`\/=11
-% \let</doc>\relax
+% \let</dtx>\relax
 % \def<*xinttools>{\catcode`\<=12 \catcode`\>=12 \catcode`\*=12 \catcode`\/=12 }
-%</doc>
+%</dtx>
 %<*xinttools>
 %     \def\MARGEPAGENO{2.5em}
 % \section {Package \xinttoolsnameimp implementation}
@@ -21816,7 +22110,7 @@ first place.
 % \DeleteShortVerb{\|}
 % \MakePercentComment
 %</xintexpr>
-%<*doc>
+%<*dtx>
 \StoreCodelineNo {xintexpr}
 
 \def\mymacro #1{\mymacroaux #1} 
@@ -21832,7 +22126,7 @@ first place.
   package starts 
   with circa \digitstt{80} lines dealing with catcodes, package identification
   and reloading management, also for Plain \TeX\strut. Version
-  \texttt{\pkgversion} of \texttt{\pkgdate}.\par}
+  \texttt{\xintversion} of \texttt{\xintdate}.\par}
  
 
 \CharacterTable
@@ -21853,5 +22147,4 @@ first place.
 \CheckSum {20277}
 \makeatletter\check@checksum\makeatother
 \Finale
-%%
-%% End of file `xint.dtx'.
+%% End of file xint.dtx

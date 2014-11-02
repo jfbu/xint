@@ -1,24 +1,10 @@
 The xint bundle
-Release 1.09h (2013/11/28).
-author: Jean-Francois B.
+Release 1.09h (2013/11/28). Documentation date: 2013/12/05
 
-License: LPPL 1.3c or later. 
-This README: *Abstract*, *Installation*, *License*.
+Copyright (C) 2013 by Jean-Francois B.
+License: LaTeX Project Public License 1.3c or later.
 
-Style files which will self-extract from xint.dtx:
-       xinttools.sty  Expandable and non-expandable utilities
-       xint.sty       Expandable operations on long numbers
-       xintfrac.sty   Expandable operations on fractions
-       xintexpr.sty   Expandable expression parser
-       xintbinhex.sty Expandable binary and hexadecimal conversions
-       xintgcd.sty    Euclidean algorithm with xint package
-       xintseries.sty Expandable partial sums with xint package
-       xintcfrac.sty  Expandable continued fractions with xint package
-
-All these files should go into TDS:tex/generic/xint/
-(see detailed installation instructions below)
-
-May be used with Plain TeX (\input) or as LaTeX packages (\usepackage)
+Contents: Abstract, Installation, License.
 
 Abstract
 ========
@@ -61,20 +47,54 @@ in TeX. The packages may be used with any flavor of TeX supporting the
 e-TeX extensions. LaTeX users will use \usepackage and others \input
 to load the package components.
 
+Installation
+============
 
-Installation and Usage:
-=======================
+A. Installation using xint.tds.zip:
+-----------------------------------
 
-If xint.ins is available "tex xint.ins" generates the style files
+obtain xint.tds.zip from CTAN:
+  http://www.ctan.org/tex-archive/install/macros/generic/xint.tds.zip
+
+cd to the download repertory and issue 
+  unzip xint.tds.zip -d <TEXMF>
+for example: (assuming standard access rights, so sudo needed)
+  sudo unzip xint.tds.zip -d /usr/local/texlive/texmf-local
+  sudo mktexlsr
+ 
+On Mac OS X, installation into user home folder:
+  unzip xint.tds.zip -d  ~/Library/texmf
+ 
+B. Installation after file extractions:
+---------------------------------------
+
+obtain xint.dtx, xint.ins and the README from CTAN:
+  http://www.ctan.org/tex-archive/macros/generic/xint
+
+- "tex xint.ins" generates the style files
 (pre-existing files in the same repertory will be overwritten).
 
-Else, either "latex xint.dtx" or "pdflatex xint.dtx" or "tex xint.dtx"
-will also generate the style files (and the xint.ins file). The tex
-run stops (contrarily to latex/pdflatex) with the complaint that it
-does not understand \NeedsTeXFormat, but the style files will already
-have been extracted by that time.
+- without xint.ins: "tex or latex or pdflatex or xelatex xint.dtx" 
+will also generate the style files (and xint.ins).
 
-To get xint.pdf run pdflatex thrice on xint.dtx
+xint.tex is also extracted, use it for the documentation:
+
+- with latex+dvipdfmx: latex xint.tex thrice then dvipdfmx xint.dvi
+Ignore dvipdfmx warnings. In case the pdf file has problems with
+fonts, use then rather pdflatex or xelatex.
+
+- with pdflatex or xelatex: run it directly thrice on xint.dtx, or run 
+it on xint.tex after having edited the suitable toggle therein.
+
+When compiling xint.tex, the documentation is by default produced
+with the source code included. See instructions in the file for
+changing this default.
+
+When compiling directly xint.dtx, the documentation is produced 
+without the source code (latex+dvips or pdflatex or xelatex).
+ 
+Finishing the installation: (on first installation the destination
+repertories may need to be created)
 
       xinttools.sty |
            xint.sty |
@@ -84,11 +104,19 @@ To get xint.pdf run pdflatex thrice on xint.dtx
         xintgcd.sty |
      xintseries.sty |
       xintcfrac.sty |
-           xint.dtx   --> TDS:source/generic/xint/
-           xint.pdf   --> TDS:doc/generic/xint/
 
-It may be necessary to then refresh the TeX installation filename
-database.
+           xint.dtx   --> TDS:source/generic/xint/
+           xint.ins   --> TDS:source/generic/xint/
+           xint.tex   --> TDS:source/generic/xint/
+
+           xint.pdf   --> TDS:doc/generic/xint/
+             README   --> TDS:doc/generic/xint/
+
+Depending on the TDS destination and the TeX installation, it may be
+necessary to refresh the TeX installation filename database (mktexlsr)
+
+C. Usage:
+---------
 
 Usage with LaTeX: \usepackage{xinttools}
                   \usepackage{xint}       % (loads xinttools)
@@ -113,11 +141,6 @@ Usage with TeX:   \input xinttools.sty\relax
 License
 =======
 
-This work consists of the source file xint.dtx and of its derived files
-xinttools.sty, xint.sty, xintfrac.sty, xintexpr.sty, xintbinhex.sty,
-xintgcd.sty, xintseries.sty, xintcfrac.sty, xint.ins, xint.dvi and
-xint.pdf.
-
    This work may be distributed and/or modified under the
    conditions of the LaTeX Project Public License, either
    version 1.3c of this license or (at your option) any later
@@ -127,7 +150,12 @@ xint.pdf.
         http://www.latex-project.org/lppl.txt
    and version 1.3 or later is part of all distributions of
    LaTeX version 2005/12/01 or later. 
+ 
+This work consists of the source file xint.dtx and of its derived files:
+xinttools.sty xint.sty, xintfrac.sty, xintexpr.sty, xintbinhex.sty,
+xintgcd.sty, xintseries.sty, xintcfrac.sty, as well as xint.ins, xint.tex
+and the documentation xint.pdf (or xint.dvi).
 
 The author of this work is Jean-Francois B. <2589111+jfbu@users.noreply.github.com>. 
 This work has the LPPL maintenance status `author-maintained'.
-
+ 

@@ -1,21 +1,21 @@
-%%
 %%----------------------------------------------------------------
 %% The xint bundle (version 1.09h of November 28, 2013)
 %% Copyright (C) 2013 by Jean-Francois B.
 %%----------------------------------------------------------------
+%% This is a generated file.
+%%  "tex xint.ins"  extracts from xint.dtx:
+%% xinttools.sty, xint.sty, xintfrac.sty, xintexpr.sty, xintbinhex.sty,
+%% xintgcd.sty, xintseries.sty and xintcfrac.sty as well as xint.tex
+%% (for typesetting the documentation).
 %%
-%%
-%% This is a generated file. Run tex or latex on this file to
-%% extract xinttools.sty, xint.sty, xintfrac.sty, xintexpr.sty,
-%% xintbinhex.sty, xintgcd.sty, xintseries.sty and xintcfrac.sty
-%% from xint.dtx
-%%
-%% See xint.dtx for the copyright and the conditions for
-%% distribution and/or modification of this work.
+%% See xint.dtx for the copyright and the conditions for distribution
+%% and/or modification of this work.
 %%
 \input docstrip.tex
 \askforoverwritefalse
-\generate{\usepreamble\defaultpreamble
+\generate{\usepreamble\nopreamble
+\file{xint.tex}{\from{xint.dtx}{drv}}
+\usepreamble\defaultpreamble
 \file{xinttools.sty}{\from{xint.dtx}{xinttools}}
 \file{xint.sty}{\from{xint.dtx}{xint}}
 \file{xintbinhex.sty}{\from{xint.dtx}{xintbinhex}}
@@ -24,6 +24,28 @@
 \file{xintseries.sty}{\from{xint.dtx}{xintseries}}
 \file{xintcfrac.sty}{\from{xint.dtx}{xintcfrac}}
 \file{xintexpr.sty}{\from{xint.dtx}{xintexpr}}}
+\catcode32=13\relax% active space
+\let =\space%
+\Msg{************************************************************************}
+\Msg{*}
+\Msg{* To finish the installation you have to move the following}
+\Msg{* files into a directory searched by TeX:}
+\Msg{*}
+\Msg{*     xinttools.sty}
+\Msg{*     xint.sty}
+\Msg{*     xintbinhex.sty}
+\Msg{*     xintgcd.sty}
+\Msg{*     xintfrac.sty}
+\Msg{*     xintseries.sty}
+\Msg{*     xintcfrac.sty}
+\Msg{*     xintexpr.sty}
+\Msg{*}
+\Msg{* To produce the documentation run latex thrice on file xint.tex}
+\Msg{* and then run dvipdfmx on file xint.dvi (ignore dvipdfmx warnings)}
+\Msg{*}
+\Msg{* Happy TeXing!}
+\Msg{*}
+\Msg{************************************************************************}
 \endbatchfile
 \endinput
 %%
