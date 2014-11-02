@@ -1,5 +1,5 @@
 The xint bundle
-Release 1.09g (2013/11/22).
+Release 1.09h (2013/11/28).
 author: Jean-Francois B.
 
 License: LPPL 1.3c or later. 
@@ -57,32 +57,30 @@ xintcfrac deals with the computation of continued fractions.
 
 Most macros, and all of those doing computations, work purely by
 expansion without assignments, and may thus be used almost everywhere
-in TEX. The packages may be used with any flavor of TEX supporting the
-ε-TEX extensions. LATEX users will use \usepackage and others \input
+in TeX. The packages may be used with any flavor of TeX supporting the
+e-TeX extensions. LaTeX users will use \usepackage and others \input
 to load the package components.
 
 
 Installation and Usage:
 =======================
 
-If xint.ins is available "tex xint.ins".
+If xint.ins is available "tex xint.ins" generates the style files
+(pre-existing files in the same repertory will be overwritten).
 
-Else "tex xint.dtx" or "latex xint.dtx". This will generate the style
-files and the xint.ins file.
-
-The tex (not latex) run will stop with the complaint that it does not
-understand \NeedsTeXFormat, but the style files will already have been
-extracted by that time.
-
-Files with the same names and in the same repertory will be
-overwritten.
+Else, either "latex xint.dtx" or "pdflatex xint.dtx" or "tex xint.dtx"
+will also generate the style files (and the xint.ins file). The tex
+run stops (contrarily to latex/pdflatex) with the complaint that it
+does not understand \NeedsTeXFormat, but the style files will already
+have been extracted by that time.
 
 To get xint.pdf run pdflatex thrice on xint.dtx
 
+      xinttools.sty |
            xint.sty |
        xintfrac.sty |
-       xintexpr.sty |
-     xintbinhex.sty | --> TDS:tex/generic/xint/
+       xintexpr.sty | --> TDS:tex/generic/xint/ 
+     xintbinhex.sty |
         xintgcd.sty |
      xintseries.sty |
       xintcfrac.sty |
@@ -92,32 +90,33 @@ To get xint.pdf run pdflatex thrice on xint.dtx
 It may be necessary to then refresh the TeX installation filename
 database.
 
-Usage with LaTeX: \usepackage{xint}
-                  \usepackage{xintfrac}   (loads xint)
-                  \usepackage{xintexpr}   (loads xintfrac)
+Usage with LaTeX: \usepackage{xinttools}
+                  \usepackage{xint}       % (loads xinttools)
+                  \usepackage{xintfrac}   % (loads xint)
+                  \usepackage{xintexpr}   % (loads xintfrac)
 
-                  \usepackage{xintbinhex} (loads xint)
-                  \usepackage{xintgcd}    (loads xint)
-                  \usepackage{xintseries} (loads xintfrac)
-                  \usepackage{xintcfrac}  (loads xintfrac)
+                  \usepackage{xintbinhex} % (loads xint)
+                  \usepackage{xintgcd}    % (loads xint)
+                  \usepackage{xintseries} % (loads xintfrac)
+                  \usepackage{xintcfrac}  % (loads xintfrac)
 
-Usage with TeX:   \input xint.sty\relax   
-                  \input xintfrac.sty\relax   (loads xint)
-                  \input xintexpr.sty\relax   (loads xintfrac)
+Usage with TeX:   \input xinttools.sty\relax   
+                  \input xint.sty\relax       % (loads xinttools)
+                  \input xintfrac.sty\relax   % (loads xint)
+                  \input xintexpr.sty\relax   % (loads xintfrac)
 
-                  \input xintbinhex.sty\relax (loads xint)
-                  \input xintgcd.sty\relax    (loads xint)
-                  \input xintseries.sty\relax (loads xintfrac)
-                  \input xintcfrac.sty\relax  (loads xintfrac)
-
+                  \input xintbinhex.sty\relax % (loads xint)
+                  \input xintgcd.sty\relax    % (loads xint)
+                  \input xintseries.sty\relax % (loads xintfrac)
+                  \input xintcfrac.sty\relax  % (loads xintfrac)
 
 License
 =======
 
-This work consists of the source file xint.dtx and of its derived files:
-xint.sty, xintfrac.sty, xintexpr.sty, xintbinhex.sty, xintgcd.sty, 
-xintseries.sty, xintcfrac.sty,  as well as xint.ins and the documentation 
-xint.pdf (or xint.dvi).
+This work consists of the source file xint.dtx and of its derived files
+xinttools.sty, xint.sty, xintfrac.sty, xintexpr.sty, xintbinhex.sty,
+xintgcd.sty, xintseries.sty, xintcfrac.sty, xint.ins, xint.dvi and
+xint.pdf.
 
    This work may be distributed and/or modified under the
    conditions of the LaTeX Project Public License, either

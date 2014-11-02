@@ -1,5 +1,5 @@
 #!/bin/sh
-touch -t 201311231253.49 README
-touch -t 201311231226.56 xint.dtx
-touch -t 201311231229.33 xint.ins
-touch -t 201311231229.42 xint.pdf
+touch -t 201311281713.33 README
+touch -t 201311281710.33 xint.dtx
+touch -t 201311281710.35 xint.ins
+touch -t 201311281710.44 xint.pdf
