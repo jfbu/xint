@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <meta name="author" content="xint v1.1" />
+  <meta name="author" content="xint v1.1a" />
   <title>CHANGE LOG</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -17,11 +17,12 @@
 <body>
 <div id="header">
 <h1 class="title">CHANGE LOG</h1>
-<h2 class="author">xint v1.1</h2>
-<h3 class="date">2014/10/28</h3>
+<h2 class="author">xint v1.1a</h2>
+<h3 class="date">2014/11/07</h3>
 </div>
 <div id="TOC">
 <ul>
+<li><a href="#a-20141107"><code>1.1a (2014/11/07)</code></a></li>
 <li><a href="#section"><code>1.1 (2014/10/28)</code></a></li>
 <li><a href="#n-20140401"><code>1.09n (2014/04/01)</code></a></li>
 <li><a href="#m-20140226"><code>1.09m (2014/02/26)</code></a></li>
@@ -49,10 +50,20 @@
 <li><a href="#section-7"><code>1.0 (2013/03/28)</code></a></li>
 </ul>
 </div>
-<pre><code>Source:  xint.dtx (v1.1, 2014/10/28)
+<pre><code>Source:  xint.dtx (v1.1a, 2014/11/07)
 Author:  Jean-Francois B.
 Info:    Expandable operations on big integers, decimals, fractions
 License: LPPL 1.3c or later</code></pre>
+<h2 id="a-20141107"><code>1.1a (2014/11/07)</code></h2>
+<ul>
+<li><p>fixed a bug which prevented <code>\xintNewExpr</code> to produce correctly working macros from a comma separated replacement text.</p></li>
+<li><p>new <code>\xintiiSqrtR</code> for rounded integer square root; former <code>\xintiiSqrt</code> already produced truncated integer square root; corresponding function <code>sqrtr</code> added to <code>\xintiiexpr..\relax</code> syntax.</p></li>
+<li><p>use of straight quotes in the documentation for better legibility.</p></li>
+<li><p>added <code>\xintiiIsOne</code>, <code>\xintiiifOne</code>, <code>\xintiiifCmp</code>, <code>\xintiiifEq</code>, <code>\xintiiifGt</code>, <code>\xintiiifLt</code>, <code>\xintiiifOdd</code>, <code>\xintiiCmp</code>, <code>\xintiiEq</code>, <code>\xintiiGt</code>, <code>\xintiiLt</code>, <code>\xintiiLtorEq</code>, <code>\xintiiGtorEq</code>, <code>\xintiiNeq</code>, mainly for efficiency of <code>\xintiiexpr</code>.</p></li>
+<li><p>for the same reason, added <code>\xintiiGCD</code> and <code>\xintiiLCM</code>.</p></li>
+<li><p>added the previously mentioned <code>ii</code> macros, and some others from <code>v1.1</code>, to the user manual. But their main usage is internal to <code>\xintiiexpr</code>, to skip unnecessary overheads.</p></li>
+<li><p>various typographical fixes throughout the documentation, and a bit of clean up of the code comments. Improved <code>\Factors</code> example of nested <code>subs</code>, <code>rseq</code>, <code>iter</code> in <code>\xintiiexpr</code>.</p></li>
+</ul>
 <h2 id="section"><code>1.1 (2014/10/28)</code></h2>
 <dl>
 <dt>bug fixes</dt>
@@ -68,8 +79,8 @@ License: LPPL 1.3c or later</code></pre>
 <dd><ul>
 <li><p>in <code>\xintiiexpr</code>, <code>/</code> does <em>rounded</em> division, rather than the Euclidean division (for positive arguments, this is truncated division). The new <code>//</code> operator does truncated division,</p></li>
 <li><p>the <code>:</code> operator for three-way branching is gone, replaced with <code>??</code>,</p></li>
-<li><p><code>1e(3+5)</code> is now illegal. The number parser identifies <code>e</code> and <code>E</code> in the same way it does for the decimal mark, earlier versions treated <code>e</code> as <code>E</code> rather as postfix operators,</p></li>
-<li><p>the <code>add</code> and <code>mul</code> have a new syntax, old syntax is with <code>`+`</code> and <code>`*`</code> (quotes mandatory), <code>sum</code> and <code>prd</code> are gone,</p></li>
+<li><p><code>1e(3+5)</code> is now illegal. The number parser identifies <code>e</code> and <code>E</code> in the same way it does for the decimal mark, earlier versions treated <code>e</code> as <code>E</code> rather as infix operators of highest precedence,</p></li>
+<li><p>the <code>add</code> and <code>mul</code> have a new syntax, old syntax is with <code>`+`</code> and <code>`*`</code> (left quotes mandatory), <code>sum</code> and <code>prd</code> are gone,</p></li>
 <li><p>no more special treatment for encountered brace pairs <code>{..}</code> by the number scanner, <code>a/b[N]</code> notation can be used without use of braces (the <code>N</code> will end up as is in a <code>\numexpr</code>, it is not parsed by the <code>\xintexpr</code>-ession scanner),</p></li>
 <li><p>although <code>&amp;</code> and <code>|</code> are still available as Boolean operators the use of <code>&amp;&amp;</code> and <code>||</code> is strongly recommended. The single letter operators might be assigned some other meaning in later releases (bitwise operations, perhaps). Do not use them.</p></li>
 </ul>
@@ -81,17 +92,19 @@ License: LPPL 1.3c or later</code></pre>
 <li><p>neither <strong>xint</strong> nor <strong>xintfrac</strong> load <strong>xinttools</strong>. Only <strong>xintexpr</strong> does,</p></li>
 <li><p>whenever some portion of code has been revised, often use has been made of the <code>\xint_dothis</code> and <code>\xint_orthat</code> pair of macros for expandably branching,</p></li>
 <li><p>these tiny helpful macros, and a few others are in package <strong>xintkernel</strong> which contains also the catcode and loading order management code, initially inspired by code found in Heiko Oberdiek's packages,</p></li>
-<li><p>the <code>\xintAdd</code> and <code>\xintSub</code> macros from package <strong>xintfrac</strong> check if one of the denominator is a multiple of the other, and only if this is not the case do they multiply the denominators. But systematic reduction would be too costly,</p></li>
+<li><p>the source code, which was suppressed from <code>xint.pdf</code> in release <code>1.09n</code>, is now compiled into a separate file <code>sourcexint.pdf</code>,</p></li>
+<li><p>faster handling by <code>\xintAdd</code>, <code>\xintSub</code>, <code>\xintMul</code>, ... of the case where one of the arguments is zero,</p></li>
+<li><p>the <code>\xintAdd</code> and <code>\xintSub</code> macros from package <strong>xintfrac</strong> check if one of the denominators is a multiple of the other, and only if this is not the case do they multiply the denominators. But systematic reduction would be too costly,</p></li>
 <li><p>this naturally will be also the case for the <code>+</code> and <code>-</code> operations in <code>\xintexpr</code>,</p></li>
 <li><p>new macros <code>\xintiiDivRound</code>, <code>\xintiiDivTrunc</code> and <code>\xintiiMod</code> for rounded and truncated division of big integers (now in <strong>xintcore</strong>), alongside the earlier <code>\xintiiQuo</code> and <code>\xintiiRem</code>,</p></li>
 <li><p>with <strong>xintfrac</strong> loaded, the <code>\xintNum</code> macro does <code>\xintTTrunc</code> (which is truncation to an integer, same as <code>\xintiTrunc {0}</code>),</p></li>
 <li><p>new macro <code>\xintMod</code> in <strong>xintfrac</strong> for modulo operation with fractional numbers,</p></li>
 <li><p><code>\xintiexpr</code>, <code>\xinttheiexpr</code> admit an optional argument within brackets <code>[d]</code>, they round the computation result (or results, if comma separated) to <code>d</code> digits after decimal mark, (the whole computation is done exactly, as in <code>xintexpr</code>),</p></li>
 <li><p><code>\xintfloatexpr</code>, <code>\xintthefloatexpr</code> similarly admit an optional argument which serves to keep only <code>d</code> digits of precision, getting rid of cumulated uncertainties in the last digits (the whole computation is done according to the precision set via <code>\xintDigits</code>),</p></li>
-<li><p><code>\xinttheexpr</code> and <code>\xintthefloatexpr</code> ''pretty-print'' if possible, the former removing unit denominator or <code>[0]</code> brackets, the latter avoiding scientific notation if decimal notation is practical,</p></li>
+<li><p><code>\xinttheexpr</code> and <code>\xintthefloatexpr</code> <em>pretty-print</em> if possible, the former removing unit denominator or <code>[0]</code> brackets, the latter avoiding scientific notation if decimal notation is practical,</p></li>
 <li><p>the <code>//</code> does truncated division and <code>/:</code> is the associated modulo,</p></li>
-<li><p>multi-character operators <code>&amp;&amp;</code>, <code>|</code>, <code>==</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>!=</code>, <code>**</code>,</p></li>
-<li><p>multi-letter infix binary words <code>'and'</code>, <code>'or'</code>, <code>'xor'</code>, <code>'mod'</code> (quotes mandatory),</p></li>
+<li><p>multi-character operators <code>&amp;&amp;</code>, <code>||</code>, <code>==</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>!=</code>, <code>**</code>,</p></li>
+<li><p>multi-letter infix binary words <code>'and'</code>, <code>'or'</code>, <code>'xor'</code>, <code>'mod'</code> (straight quotes mandatory),</p></li>
 <li><p>functions <code>even</code>, <code>odd</code>,</p></li>
 <li><p><code>\xintdefvar A3:=3.1415;</code> for variable definitions (non expandable, naturally), usable in subsequent expressions; variable names may contain letters, digits, underscores. They should not start with a digit, the <code>@</code> is reserved, and single lowercase and uppercase Latin letters are predefined to work as dummy variables (see next),</p></li>
 <li><p>generation of comma separated lists <code>a..b</code>, <code>a..[d]..b</code>,</p></li>
