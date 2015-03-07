@@ -18,7 +18,7 @@
 <div id="header">
 <h1 class="title">CHANGE LOG</h1>
 <h2 class="author">xint v1.1a</h2>
-<h3 class="date">2014/11/07</h3>
+<h3 class="date">2014/11/07 (doc 2015/03/07)</h3>
 </div>
 <div id="TOC">
 <ul>
@@ -50,13 +50,13 @@
 <li><a href="#section-7"><code>1.0 (2013/03/28)</code></a></li>
 </ul>
 </div>
-<pre><code>Source:  xint.dtx (v1.1a, 2014/11/07)
+<pre><code>Source:  xint.dtx (v1.1a 2014/11/07, doc of 2015/03/07)
 Author:  Jean-Francois B.
 Info:    Expandable operations on big integers, decimals, fractions
 License: LPPL 1.3c or later</code></pre>
 <h2 id="a-20141107"><code>1.1a (2014/11/07)</code></h2>
 <ul>
-<li><p>fixed a bug which prevented <code>\xintNewExpr</code> to produce correctly working macros from a comma separated replacement text.</p></li>
+<li><p>fixed a bug which prevented <code>\xintNewExpr</code> from producing correctly working macros from a comma separated replacement text.</p></li>
 <li><p>new <code>\xintiiSqrtR</code> for rounded integer square root; former <code>\xintiiSqrt</code> already produced truncated integer square root; corresponding function <code>sqrtr</code> added to <code>\xintiiexpr..\relax</code> syntax.</p></li>
 <li><p>use of straight quotes in the documentation for better legibility.</p></li>
 <li><p>added <code>\xintiiIsOne</code>, <code>\xintiiifOne</code>, <code>\xintiiifCmp</code>, <code>\xintiiifEq</code>, <code>\xintiiifGt</code>, <code>\xintiiifLt</code>, <code>\xintiiifOdd</code>, <code>\xintiiCmp</code>, <code>\xintiiEq</code>, <code>\xintiiGt</code>, <code>\xintiiLt</code>, <code>\xintiiLtorEq</code>, <code>\xintiiGtorEq</code>, <code>\xintiiNeq</code>, mainly for efficiency of <code>\xintiiexpr</code>.</p></li>
@@ -83,6 +83,7 @@ License: LPPL 1.3c or later</code></pre>
 <li><p>the <code>add</code> and <code>mul</code> have a new syntax, old syntax is with <code>`+`</code> and <code>`*`</code> (left quotes mandatory), <code>sum</code> and <code>prd</code> are gone,</p></li>
 <li><p>no more special treatment for encountered brace pairs <code>{..}</code> by the number scanner, <code>a/b[N]</code> notation can be used without use of braces (the <code>N</code> will end up as is in a <code>\numexpr</code>, it is not parsed by the <code>\xintexpr</code>-ession scanner),</p></li>
 <li><p>although <code>&amp;</code> and <code>|</code> are still available as Boolean operators the use of <code>&amp;&amp;</code> and <code>||</code> is strongly recommended. The single letter operators might be assigned some other meaning in later releases (bitwise operations, perhaps). Do not use them.</p></li>
+<li><p>[this missing item added 2015/03/07] place holders for <code>\xintNewExpr</code> could be denoted <code>#1</code>, <code>#2</code>, ... or also, for special purposes <code>$1</code>, <code>$2</code>, ... Only the first form is now accepted and the special cases previously treated via the second form are now managed via a <code>protect(...)</code> function.</p></li>
 </ul>
 </dd>
 </dl>
@@ -110,7 +111,7 @@ License: LPPL 1.3c or later</code></pre>
 <li><p>generation of comma separated lists <code>a..b</code>, <code>a..[d]..b</code>,</p></li>
 <li><p>Python syntax-like list extractors <code>[list][n:]</code>, <code>[list][:n]</code>, <code>[list][a:b]</code> allowing negative indices, but no optional step argument, and <code>[list][n]</code> (<code>n=0</code> for the number of items in the list),</p></li>
 <li><p>functions <code>first</code>, <code>last</code>, <code>reversed</code>,</p></li>
-<li><p>itemwise operations on comma separated lists <code>a*[list]</code>, etc.., possible on both sides <code>a*[list]^b</code>, an obeying the same precedence rules as with numbers,</p></li>
+<li><p>itemwise operations on comma separated lists <code>a*[list]</code>, etc.., possible on both sides <code>a*[list]^b</code>, and obeying the same precedence rules as with numbers,</p></li>
 <li><p><code>add</code> and <code>mul</code> must use a dummy variable: <code>add(x(x+1)(x-1), x=-10..10)</code>,</p></li>
 <li><p>variable substitutions with <code>subs</code>: <code>subs(subs(add(x^2+y^2,x=1..y),y=t),t=20)</code>,</p></li>
 <li><p>sequence generation using <code>seq</code> with a dummy variable: <code>seq(x^3, x=-10..10)</code>,</p></li>
@@ -120,8 +121,10 @@ License: LPPL 1.3c or later</code></pre>
 <li><p>inside <code>seq</code>, <code>rseq</code>, <code>rrseq</code>, <code>iter</code>, possibility to use <code>omit</code>, <code>abort</code> and <code>break</code> to control termination,</p></li>
 <li><p><code>n++</code> potentially infinite index generation for <code>seq</code>, <code>rseq</code>, <code>rrseq</code>, and <code>iter</code>, it is advised to use <code>abort</code> or <code>break(..)</code> at some point,</p></li>
 <li><p>the <code>add</code>, <code>mul</code>, <code>seq</code>, ... are nestable,</p></li>
-<li><p><code>\xintthecoords</code> converts a comma separated list of an even number of items to the format expected by the <code>TikZ</code> <code>coordinates</code> syntax,</p></li>
-<li><p>completely new version <code>\xintNewExpr</code>, <code>protect</code> function to handle external macros. Not all constructs are compatible with <code>\xintNewExpr</code>.</p></li>
+<li><p><code>\xintthecoords</code> converts a comma separated list of an even number of items to the format expected by the <code>TikZ</code> <code>coordinates</code> syntax,</p>
+<ul>
+<li>completely new version <code>\xintNewExpr</code>, <code>protect</code> function to handle external macros. The dollar sign <code>$</code> for place holders is not accepted anymore, only the standard macro parameter <code>#</code>. Not all constructs are compatible with <code>\xintNewExpr</code>.</li>
+</ul></li>
 </ul>
 <h2 id="n-20140401"><code>1.09n (2014/04/01)</code></h2>
 <ul>

@@ -1,10 +1,10 @@
 % -*- coding: iso-latin-1; time-stamp-format: "%02d-%02m-%:y at %02H:%02M:%02S %Z" -*-
 %<*dtx>
-\def\xintdtxtimestamp  {Time-stamp: <07-11-2014 at 23:44:15 CET>}
+\def\xintdtxtimestamp  {Time-stamp: <07-03-2015 at 20:06:50 CET>}
 %</dtx>
 %<*drv>
 %% ---------------------------------------------------------------
-\def\xintdocdate {2014/11/07}
+\def\xintdocdate {2015/03/07}
 \def\xintbndldate{2014/11/07}
 \def\xintbndlversion {1.1a}
 %</drv>
@@ -14,10 +14,10 @@
 %<readme>% README
 %<changes>% CHANGE LOG
 %<readme|changes>% xint v1.1a
-%<readme|changes>% 2014/11/07
+%<readme|changes>% 2014/11/07 (doc 2015/03/07)
 %<*readme|changes>
 
-    Source:  xint.dtx (v1.1a, 2014/11/07)
+    Source:  xint.dtx (v1.1a 2014/11/07, doc of 2015/03/07)
     Author:  Jean-Francois B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c or later
@@ -25,8 +25,8 @@
 %</readme|changes>
 %<*!readme&!changes&!dohtmlsh&!dopdfsh&!makefile>
 %% ---------------------------------------------------------------
-%% The xint bundle v1.1a (2014/11/07)
-%% Copyright (C) 2013-2014 by Jean-Francois B.
+%% The xint bundle v1.1a (2014/11/07; doc: 2015/03/07)
+%% Copyright (C) 2013-2015 by Jean-Francois B.
 %<xintkernel>%% xintkernel: Paraphernalia for the xint packages
 %<xinttools>%% xinttools: Expandable and non-expandable utilities
 %<xintcore>%% xintcore: Expandable arithmetic on big integers
@@ -175,7 +175,7 @@ License
 =======
 
 <div class="mono">
-Copyright (C) 2014 by Jean-Francois B.
+Copyright (C) 2013-2015 by Jean-Francois B.
 
 This Work may be distributed and/or modified under the
 conditions of the LaTeX Project Public License, either
@@ -207,7 +207,7 @@ Makefile.mk.</div>
 `1.1a (2014/11/07)`
 ----
 
- - fixed a bug which prevented `\xintNewExpr` to produce correctly working
+ - fixed a bug which prevented `\xintNewExpr` from producing correctly working
    macros from a comma separated replacement text.
 
  - new `\xintiiSqrtR` for rounded integer square root; former `\xintiiSqrt`
@@ -275,6 +275,11 @@ breaking changes
     use of `&&` and `||` is strongly recommended. The single
     letter operators might be assigned some other meaning in later releases
     (bitwise operations, perhaps). Do not use them.
+
+    - [this missing item added 2015/03/07] place holders for `\xintNewExpr`
+    could be denoted `#1`, `#2`, ... or also, for special purposes `$1`, `$2`,
+    ... Only the first form is now accepted and the special cases previously
+    treated via the second form are now managed via a `protect(...)` function.
 
 There are many novelties, most to be found in package **xintexpr**.
 But first the other changes.
@@ -356,7 +361,7 @@ But first the other changes.
   * functions `first`, `last`, `reversed`,
 
   * itemwise operations on comma separated lists `a*[list]`, etc.., possible
-    on both sides `a*[list]^b`, an obeying the same precedence rules as with
+    on both sides `a*[list]^b`, and obeying the same precedence rules as with
     numbers,
 
   * `add` and `mul` must use a dummy variable: `add(x(x+1)(x-1), x=-10..10)`,
@@ -387,8 +392,10 @@ But first the other changes.
   * `\xintthecoords` converts a comma separated list of an even number
      of items to the format expected by the `TikZ` `coordinates` syntax,
 
-  * completely new version `\xintNewExpr`, `protect` function to handle
-     external macros. Not all constructs are compatible with `\xintNewExpr`.
+     * completely new version `\xintNewExpr`, `protect` function to handle
+     external macros. The dollar sign
+     `$` for place holders is not accepted anymore, only the standard macro
+     parameter `#`. Not all constructs are compatible with `\xintNewExpr`.
 
 `1.09n (2014/04/01)`
 ----
@@ -1585,27 +1592,31 @@ dvipdfmx CHANGES.dvi
 
 \addtocontents{toc}{\protect\hypersetup{hidelinks}}
 
-% Septembre 2014, préparation de la doc pour xint 1.1
-\usepackage[zerostyle=a,scaled=0.95]{newtxtt}
+\usepackage[zerostyle=a,straightquotes,scaled=0.95]{newtxtt}
+% j'ai essayé zerostyle=e, finalement je reviens à =a
 \usepackage{newtxmath}
 
 \makeatletter
 
 % I need also the font with a slashed zero, for verbatim code.
 
+% Mardi 18 novembre 2014 à 09:06:44
+% Test de newtxtt 1.05, 'q' pour uprightquotes
+% (maintenant: straightquotes)
+
 \DeclareFontFamily{T1}{newtxttb}{\hyphenchar\font\m@ne}
 
 \DeclareFontShape{T1}{newtxttb}{m}{n}{
-      <-> s*[\newtxtt@scale]newtxttb
+      <-> s*[\newtxtt@scale]newtxttbq
 }{}
 \DeclareFontShape{T1}{newtxttb}{b}{n}{
-      <-> s*[\newtxtt@scale]newtxbttb
+      <-> s*[\newtxtt@scale]newtxbttbq
 }{}
 \DeclareFontShape{T1}{newtxttb}{bx}{n}{
       <-> ssub * newtxttb/b/n
 }{}
 \DeclareFontShape{T1}{newtxttb}{m}{sl}{
-     <-> s*[\newtxtt@scale]newtxttslb
+     <-> s*[\newtxtt@scale]newtxttslbq
 }{}
 \DeclareFontShape{T1}{newtxttb}{m}{it}{
      <-> ssub * newtxttb/m/sl
@@ -1620,6 +1631,14 @@ dvipdfmx CHANGES.dvi
 % is later some use to it. 
 % 11 octobre, j'essaie couleur, YellowOrange, CadetBlue
 % \def\digitstt {\bgroup \color[named]{OrangeRed}\let\next=}
+
+% Mardi 18 novembre 2014 à 09:07:30
+% test des old style figures par \textsc
+% ATTENTION à cause emploi d'argument pouvant contenir des tokens comme \if 
+% (cf lignes environ 5319)
+% Finalement pour release doc du 7 mars 2015, je n'utilise pas old style
+%\def\digitstt #1{\begingroup\color[named]{OrangeRed}%
+%    \unless\ifmmode\scshape\fi #1\endgroup}
 \def\digitstt #1{\begingroup\color[named]{OrangeRed}#1\endgroup}
 
 \let\dtt\digitstt
@@ -1838,16 +1857,16 @@ pdfpagemode=UseOutlines}
 
 %--- straight quotes, added (finally...) Nov 2, 2014
 
-\begingroup\makeatletter
-  \catcode`\'\active
-  \catcode`\`\active
-\@firstofone {\endgroup
-  \def\makequotesstraight{% assumes textcomp package
-     \let`\textasciigrave 
-     \let'\textquotesingle
-     \catcode39\active
-     \catcode96\active }%
-}
+% \begingroup\makeatletter
+%   \catcode`\'\active
+%   \catcode`\`\active
+% \@firstofone {\endgroup
+%   \def\makequotesstraight{% assumes textcomp package
+%      \let`\textasciigrave 
+%      \let'\textquotesingle
+%      \catcode39\active
+%      \catcode96\active }%
+% }
     
 %--- for soft-wrapping. I will use discretionaries.
 
@@ -1904,7 +1923,7 @@ pdfpagemode=UseOutlines}
 
 \def\macrocode{\macro@code
                \frenchspacing \@vobeyspaces
-               \makestarlowast\makequotesstraight
+               \makestarlowast %\makequotesstraight
                \xmacro@code }
 
 
@@ -1941,7 +1960,7 @@ pdfpagemode=UseOutlines}
   \relax \ifmmode\else\leavevmode\null\fi
   \bgroup
   \let\do\@makeother \dospecials
-  \makequotesstraight  % belatedly added for 1.1a release
+  %\makequotesstraight  % belatedly added for 1.1a release
   \MicroFont % change font, color, catcode hooks, ...
   \catcode 32 10
   \endlinechar 32
@@ -1989,7 +2008,7 @@ pdfpagemode=UseOutlines}
     \aftergroup\@@par \aftergroup\endgroup \aftergroup\medskip
     \let\do\do@noligs  \verbatim@nolig@list
     \let\do\@makeother \dospecials
-    \makequotesstraight  % belatedly added for 1.1a release
+    %\makequotesstraight  % belatedly added for 1.1a release
     \catcode32 10 \catcode`\% 9 \catcode`\& 14 \catcode`\$ 0
   \MicroFont % sera donc en couleur.
     \@lverb
@@ -2005,11 +2024,6 @@ pdfpagemode=UseOutlines}
 
 \makeatletter
 \catcode`_ 11
-
-\def\everbatimxprehook  {\colorlet{everbsavedcolor}{.}\color[named]{OrangeRed}}
-\def\everbatimxposthook {\color{everbsavedcolor}}
-% \def\everbatimxprehook  {}
-% \def\everbatimxposthook {}
 
 \def\everbatimtop {\MacroFont\small }
 \let\everbatimbottom\relax
@@ -2042,7 +2056,6 @@ pdfpagemode=UseOutlines}
        \lineskip  \z@skip
      \let\do\@makeother \dospecials
      \let\do\do@noligs  \verbatim@nolig@list 
-     \makequotesstraight  % belatedly added for 1.1a release
      \makestarlowast
      \everbatimhook
      \trivlist\item\relax
@@ -2077,6 +2090,8 @@ pdfpagemode=UseOutlines}
      \everbatimbottom
      % No group here: this allows executed code to make macro
      % definitions which may reused in later uses of everbatim.
+     % But the problem is with colors... j'ai visiblement un problème
+     % avec le color stack pour dvipdfmx avec les \colorlet/\color
      \newlinechar 13
      % Indentation of next paragraph produced from execution of #3 is
      % suppressed, if #3 by itself or \everbatimbottom does no \par, 
@@ -2088,6 +2103,9 @@ pdfpagemode=UseOutlines}
      \newlinechar #1\relax % restores \newlinechar to previous value.
      \everbatimxposthook
 }%
+
+\def\everbatimxprehook  {\colorlet{everbsavedcolor}{.}\color[named]{OrangeRed}}
+\def\everbatimxposthook {\color{everbsavedcolor}}
 
 
 % L'espace venant du endofline final mis par \scantokens sera inhibé si #3 se
@@ -2159,7 +2177,24 @@ pdfpagemode=UseOutlines}
 \newcommand\csbh[1]
     {\texorpdfstring{\csbnolk{#1}}{\textbackslash\detokenize{#1}}}
 
-%--- \xintname, \xintnameimp etc...
+% --- \xintname, \xintnameimp etc... 
+
+% 7 mars 2015, je résous (non!) un problème de color stack overflow avec
+% dvipdfmx qui venait au final des page headers, et à cause d'un brace
+% stripping qui enlevait la protection de mes \color ci-dessous. Il a suffi de
+% rajouter un \empty pour me débarrasser finalement du problème.
+%
+% Bon c'est bizarre, en fait le problème n'est pas résolu. Après avoir
+% supprimé fichiers auxiliaires et recompilé, il revient.
+
+% J'ai dû remettre
+%\def\everbatimxprehook  {}
+%\def\everbatimxposthook {}
+% avant la section Command of xintseries
+
+% et aussi j'ai dû supprimer la couleur dans \digitstt là-bas.
+% C'est très étrange que j'ai cru le problème réglé un temps.
+
 \xintForpair #1#2 in
 {(xintkernel,kernel),
  (xinttools,tools),
@@ -2170,13 +2205,13 @@ pdfpagemode=UseOutlines}
  \expandafter\def\csname #1name\endcsname
    {\texorpdfstring
                   {\hyperref[sec:#2]%
-                     {{\color{joli}\ttzfamily #1}}}
+                     {\relax{\color{joli}\ttzfamily #1}}}
                   {#1}%
     \xspace }%
  \expandafter\def\csname #1nameimp\endcsname
    {\texorpdfstring
                   {\hyperref[sec:#2imp]%
-                    {{\color[named]{RoyalPurple}\ttzfamily #1}}}
+                    {\relax{\color[named]{RoyalPurple}\ttzfamily #1}}}
                   {#1}%
     \xspace }%
 }%
@@ -2608,8 +2643,12 @@ Further modules:
 
 \subsection {Changes}
 
-See file |CHANGES.pdf| for the cumulative change log since the initial
-release.
+See file
+\href{http://mirrors.ctan.org/macros/generic/xint/CHANGES.html}{CHANGES.html}
+for the cumulative change log since the initial release.
+
+Release of |2015/03/07| only improves a few things in the documentation. The
+version number is kept unchanged at |1.1a|.
 
 \subsubsection{\unexpanded{\unexpanded{Changes from |1.1| to |1.1a|}}}
 
@@ -3014,7 +3053,7 @@ $\U\times(7^{200}-3^{200})+\xintiOpp\V\times(2^{200}-1)=\D$
 \item $\sum_{n=1}^{500} (4n^2 - 9)^{-2}$ with each term rounded to twelve digits,
 and the sum to nine digits:
 \begin{everbatim*}
-\def\coeff #1{\xintiRound {12}{1/\xintiSqr{\the\numexpr 4*#1*#1-9\relax }[0]}}
+\def\coeff #1{\xintiRound {12}{1/\xintiiSqr{\the\numexpr 4*#1*#1-9\relax }[0]}}
 \xintRound {9}{\xintiSeries {1}{500}{\coeff}[-12]}
 \end{everbatim*}
 
@@ -3040,8 +3079,8 @@ coefficient macro must be redefined to avoid a |\numexpr| overflow, as
 was:
 \everb|@
 \def\coeff #1%
-{\xintiRound {22}{1/\xintiSqr{\xintiMul{\the\numexpr 2*#1-3\relax}
-                                       {\the\numexpr 2*#1+3\relax}}[0]}}
+{\xintiRound {22}{1/\xintiiSqr{\xintiiMul{\the\numexpr 2*#1-3\relax}
+                                         {\the\numexpr 2*#1+3\relax}}[0]}}
 |
 
 \restoreMacroFont
@@ -3140,12 +3179,12 @@ digits. This is not so many, let us print them here:
   examples in \autoref{sec:expr11}.
 \end{itemize}
 Almost all of the computational results interspersed throughout the
-documentation are not hard-coded in the source of the document. They are the
-result of evaluation of the package macros, and were selected to not impact
-too much the compilation time of this documentation. Nevertheless, there are so
-many computations done that compilation time is nevertheless significantly
-increased compared to a \LaTeX\ run on a typical document of about the same
-size.
+documentation are not hard-coded in the source of the document. They are
+the result of evaluation of the package macros, and were selected to not
+impact too much the compilation time of this documentation.
+Nevertheless, there are so many computations done that compilation time
+is significantly increased compared to a \LaTeX\ run on a typical
+document of about the same size.
 
 \section{The \xintname bundle}
 
@@ -3358,15 +3397,16 @@ systematically fed to a |\numexpr..\relax| hence the expansion is then a
 means not only complete expansion, but also that spaces are ignored, infix
 algebra is possible, count registers are allowed, etc\dots
 
-The \csbxint{ApplyInline} and \csbxint{For*}\ntype{{\lowast f}} macros from
-\xinttoolsname apply a special iterated \fexpan sion, which gobbles spaces, to
-all those items which are found \emph{unbraced} from left to right in the list
-argument; this is denoted specially as here in the margin. Some other macros
-such as \csbxint{Sum}\ntype{f{$\to$}{\lowast\Ff}} from \xintfracname first do an
-\fexpan sion, then treat each found (braced or not) item (skipping spaces
-between such items) via the general fraction input parsing, this is signaled as
-here in the margin where the signification of the \lowast{} is thus a bit
-different from the previous case.
+The \csbxint{ApplyInline} and \csbxint{For*} macros from \xinttoolsname
+apply a special iterated \fexpan sion, which gobbles spaces, to all
+those items which are found \emph{unbraced} from left to right in the
+list argument; this is denoted specially as here\ntype{{\lowast f}} in
+the margin. Some other macros such as \csbxint{Sum} from \xintfracname
+first do an \fexpan sion, then treat each found (braced or not) item
+(skipping spaces between such items) via the general fraction input
+parsing, this is signaled as here\ntype{f{$\to$}{\lowast\Ff}} in the
+margin where the signification of the \lowast{} is thus a bit different
+from the previous case.
 
 A few macros from \xinttoolsname do not expand, or expand only once their
 argument\ntype{n{{\color{black}\upshape, resp.}} o}. This is also
@@ -3571,7 +3611,7 @@ achieved though is exact rounding for the basic operations. The only
 non-algebraic operation currently implemented is square root extraction.
 The power functions (there are three of them: \csbxint{Pow} to which |^|
 is mapped in |\xintexpr..\relax|, \csbxint{FloatPower} for |^| in
-|\xintfloatexpr..relax|, and \csbxint{FloatPow} which is slighty faster
+|\xintfloatexpr..\relax|, and \csbxint{FloatPow} which is slighty faster
 but limits the exponent to the \TeX{} bound) allow only integral
 exponents.
 
@@ -3885,7 +3925,7 @@ $\xintIrr{273.3734e5/3395.7200e-2}$
 %\subsection{Multiple outputs}\label{sec:multout}
 
 Some macros return a token list of two or more numbers or fractions; they are
-then each enclosed in braces. Examples are \csbxint{iDivision} which gives
+then each enclosed in braces. Examples are \csbxint{iiDivision} which gives
 first the quotient and then the remainder of euclidean division,
 \csbxint{Bezout} from the \xintgcdname package which outputs five numbers,
 \csbxint{FtoCv} from the \xintcfracname package which returns the list of the
@@ -4111,7 +4151,7 @@ This fits very well with the possible values of the Didot point as listed in
 the
 \href{http://en.wikipedia.org/wiki/Point_%28typography%29#Didot}{Wikipedia Article}.
 %
-The value $0.376065$\,|mm| is said to be the \emph{the traditional value in
+The value $0.376065$\,|mm| is said to be \emph{the traditional value in
   European printers' offices}. So the $1157$\,|dd|=$1238$\,|pt| rule refers to
 this Didot point, or more precisely to the \emph{conversion factor} to be used
 between this Didot and \TeX{} points.
@@ -4185,7 +4225,8 @@ expandable macro of one's own, one needs some \TeX nical expertise (see also
 \autoref{fn:expansions} on page~\pageref{fn:expansions}).
 
 It is thus much to be recommended to opt rather for already existing expandable
-branching macros, such as the ones which are provided by \xintname:
+branching macros, such as the ones which are provided by
+\xintname/\xintfracname: among them
 \csbxint{SgnFork}, \csbxint{ifSgn}, \csbxint{ifZero}, \csbxint{ifOne},
 \csbxint{ifNotZero}, \csbxint{ifTrueAelseB}, \csbxint{ifCmp}, \csbxint{ifGt},
 \csbxint{ifLt}, \csbxint{ifEq}, \csbxint{ifOdd}, and \csbxint{ifInt}. See their
@@ -4374,14 +4415,14 @@ The \xintname bundle packages presuppose that the \csa{space}, \csa{empty} and
 |\m@ne| control sequences are pre-defined with meanings as in Plain
 \TeX{} or \LaTeX2e.
 
-Private macros of \xinttoolsname, \xintname, \xintfracname, \xintexprname,
-\xintbinhexname, \xintgcdname, \xintseriesname, and \xintcfracname{} use one
-or more underscores |_| as private letter, to reduce the risk of getting
-overwritten. They almost all begin either with |\XINT_| or with |\xint_|, a
-handful of these private macros  such as \csa{XINTsetupcatcodes},
-\csa{XINTdigits} and those with names such as |\XINTinFloat...| or
-|\XINTinfloat...| do not have any underscore in their names (for obscure legacy
-reasons).
+Private macros of \xintkernelname, \xintcorename, \xinttoolsname,
+\xintname, \xintfracname, \xintexprname, \xintbinhexname, \xintgcdname,
+\xintseriesname, and \xintcfracname{} use one or more underscores |_| as
+private letter, to reduce the risk of getting overwritten. They almost
+all begin either with |\XINT_| or with |\xint_|, a handful of these
+private macros such as \csa{XINTsetupcatcodes}, \csa{XINTdigits} and
+those with names such as |\XINTinFloat...| or |\XINTinfloat...| do not
+have any underscore in their names (for obscure legacy reasons).
 
 \xinttoolsname provides \hyperref[odef]{|\odef|}, \hyperref[oodef]{|\oodef|},
 \hyperref[fdef]{|\fdef|} (if macros with these names already exist
@@ -4423,13 +4464,11 @@ using the \csbxint{iDivision} macro which computes both quotient and remainder
 at 
 the same time:
 %
-\leftedline{\csbxint{Assign}|\xintiDivision{100}{3}|\csbnolk{to}|\A\B|}
-%
 \leftedline{\csbxint{Assign}
-  |\xintiDivision{\xintiPow {2}{1000}}{\xintFac{100}}|\csbnolk{to}|\A\B|} 
+  |\xintiiDivision{\xintiiPow {2}{1000}}{\xintFac{100}}|\csbnolk{to}|\A\B|} 
 %
 give:
-\xintAssign\xintiDivision{\xintiPow {2}{1000}}{\xintFac{100}}\to\A\B
+\xintAssign\xintiiDivision{\xintiPow {2}{1000}}{\xintFac{100}}\to\A\B
 |\meaning\A|\dtt{: \printnumber{\meaning\A}\relax} and
 |\meaning\B|\dtt{: \printnumber{\meaning\B}\relax}.
 %
@@ -4590,6 +4629,10 @@ First, there are some breaking changes:
     use of |&&| and \verb+||+ is strongly recommended. The single
     letter operators might be assigned some other meaning in later releases
     (bitwise operations, perhaps). Do not use them.
+  \item place holders for |\xintNewExpr|
+    could be denoted |#1|, |#2|, ... or also, for special purposes |$1|, |$2|,
+    ... Only the first form is now accepted and the special cases previously
+    treated via the second form are now managed via a |protect(...)| function.
 \end{itemize}
 
 The novelties are numerous.
@@ -4984,7 +5027,90 @@ the page for examination with about correct line-breaks.
 \etocdepthtag.toc {commands}
 \indescriptionfalse
 \addtocontents{toc}{\gdef\string\sectioncouleur{{joli}}}
+
 \renewcommand{\etocaftertochook}{\addvspace{\bigskipamount}}
+
+
+\section{Commands of the \xintkernelname package}
+\label{sec:kernel}
+
+\localtableofcontents
+
+The \xintkernelname package contains mainly the common code base for handling
+the load-order of the bundle packages, the management of catcodes at loading
+time, definition of common constants and macro utilities which are used
+throughout the code etc ... it is automatically loaded by all packages of the
+bundle.
+
+It provides a few macros possibly useful in other contexts.
+
+\subsection{\csbh{odef}, \csbh{oodef}, \csbh{fdef}}
+\label{odef}
+\label{oodef}
+\label{fdef}
+
+\csa{oodef}|\controlsequence {<stuff>}| does
+\everb|@
+    \expandafter\expandafter\expandafter\def
+    \expandafter\expandafter\expandafter\controlsequence
+    \expandafter\expandafter\expandafter{<stuff>}
+|
+
+This works only for a single
+|\controlsequence|, with no parameter text, even without parameters. An
+alternative would be:
+\everb|@
+\def\oodef #1#{\def\oodefparametertext{#1}%
+               \expandafter\expandafter\expandafter\expandafter
+               \expandafter\expandafter\expandafter\def
+               \expandafter\expandafter\expandafter\oodefparametertext
+               \expandafter\expandafter\expandafter }
+|
+
+\noindent
+but it does not allow |\global| as prefix, and, besides, would have anyhow its
+use (almost) limited to parameter texts without macro parameter tokens
+(except if the expanded thing does not see them, or is designed to deal with
+them).
+
+There is a similar macro |\odef| with only one expansion of the replacement text
+|<stuff>|, and |\fdef| which expands fully |<stuff>| using |\romannumeral-`0|.
+
+These tools are provided as it is sometimes wasteful (from the point of view
+of running time) to do an |\edef| when one knows that the contents expand in
+only two steps for example, as is the case with all (except \csbxint{loop} and
+\csbxint{iloop}) the expandable macros of the \xintname packages. Each will be
+defined only if \xintkernelname finds them currently undefined. They can be
+prefixed with |\global|.
+
+
+\subsection{\csbh{xintReverseOrder}}\label{xintReverseOrder}
+
+\csa{xintReverseOrder}\marg{list}\etype{n} does not do any expansion of its
+argument and just reverses the order of the tokens in the \meta{list}. Braces
+are removed once and the enclosed material, now unbraced, does not get
+reversed. Unprotected spaces (of any character code) are gobbled.
+%
+\leftedline{|\xintReverseOrder{\xintDigitsOf\xintiPow {2}{100}\to\Stuff}|}
+%
+\leftedline{gives:
+  \ttfamily{\string\Stuff\string\to1002\string\xintiPow\string\xintDigitsOf}}
+
+\subsection{\csbh{xintLength}}\label{xintLength}
+
+\csa{xintLength}\marg{list}\etype{n} does not do \emph{any} expansion of its
+argument and just counts how many tokens there are (possibly none). So to use
+it to count things in the replacement text of a macro one should do
+|\expandafter\xintLength\expandafter{\x}|. One may also use it inside macros
+as |\xintLength{#1}|. Things enclosed in braces count as one. Blanks between
+tokens are not counted. See \csbxint{NthElt}|{0}| (from \xinttoolsname) for a
+variant which first \fexpan ds its argument.
+%
+\leftedline{|\xintLength {\xintiPow {2}{100}}|\dtt{=\xintLength
+    {\xintiPow{2}{100}}}}
+%
+\leftedline{${}\neq{}$|\xintLen {\xintiPow {2}{100}}|\dtt{=\xintLen
+    {\xintiPow{2}{100}}}}
 
 \section{Commands of the \xinttoolsname package}
 \label{sec:tools}
@@ -5008,19 +5134,8 @@ This section contains various concrete examples and ends with a
 \hyperref[ssec:quicksort]{completely expandable implementation of the Quick Sort
   algorithm} together with a graphical illustration of its action.
 
-% \clearpage % attention à ce clearpage
-
-\subsection{\csbh{xintReverseOrder}}\label{xintReverseOrder}
-
-\csa{xintReverseOrder}\marg{list}\etype{n} does not do any expansion of its
-argument and just reverses the order of the tokens in the \meta{list}. Braces
-are removed once and the enclosed material, now unbraced, does not get
-reversed. Unprotected spaces (of any character code) are gobbled.
-%
-\leftedline{|\xintReverseOrder{\xintDigitsOf\xintiPow {2}{100}\to\Stuff}|}
-%
-\leftedline{gives:
-  \ttfamily{\string\Stuff\string\to1002\string\xintiPow\string\xintDigitsOf}}
+See also \ref{xintReverseOrder} and \ref{xintLength} which come with package
+\xintkernelname, automatically loaded by \xinttoolsname.
 
 \subsection{\csbh{xintRevWithBraces}}\label{xintRevWithBraces}
 
@@ -5061,21 +5176,6 @@ did not contain macros. Alternatively:
 The macro \csa{xintReverseWithBracesNoExpand}\etype{n} does the same job
 without the initial expansion of its argument.
 
-\subsection{\csbh{xintLength}}\label{xintLength}
-
-\csa{xintLength}\marg{list}\etype{n} does not do \emph{any} expansion of its
-argument and just counts how many tokens there are (possibly none). So to use it
-to count things in the replacement text of a macro one should do
-|\expandafter\xintLength\expandafter{\x}|. One may also use it inside macros as
-|\xintLength{#1}|. Things enclosed in braces count as one. Blanks between tokens
-are not counted. See \csbxint{NthElt}|{0}| for a variant which first \fexpan ds
-its argument. 
-%
-\leftedline{|\xintLength {\xintiPow {2}{100}}|\dtt{=\xintLength
-    {\xintiPow{2}{100}}}}
-%
-\leftedline{${}\neq{}$|\xintLen {\xintiPow {2}{100}}|\dtt{=\xintLen
-    {\xintiPow{2}{100}}}}
 
 \subsection{\csbh{xintZapFirstSpaces}, \csbh{xintZapLastSpaces}, \csbh{xintZapSpaces}, \csbh{xintZapSpacesB}}
 \label{xintZapFirstSpaces}
@@ -5306,6 +5406,8 @@ may have direct use: %
 \leftedline{|\xintCSVtoListNoExpand
  {\if,\ifnum,\ifx,\ifdim,\ifcat,\ifmmode}|}
 %
+% ATTENTION 18 novembre TEST DE newtxtt 1.05 PAS POSSIBLE \textsc DANS \dtt
+% mais on peut avec \scshape. Finalement je n'utilise pas les old style figures.
 \leftedline{|->|\dtt{\expandafter\detokenize\expandafter
     {\romannumeral0\xintcsvtolistnoexpand
       {\if,\ifnum,\ifx,\ifdim,\ifcat,\ifmmode}}}}
@@ -6251,7 +6353,7 @@ This tabular provides an example:\par
 \begin{everbatim*}
 \centerline{\normalcolor\begin{tabular}{ccc}
      $N$ & $N^2$ & $N^3$ \\ \hline
-     \def\Row #1{ #1 & \xintiSqr {#1} & \xintiPow {#1}{3} \\ \hline }%
+     \def\Row #1{ #1 & \xintiiSqr {#1} & \xintiiPow {#1}{3} \\ \hline }%
      \xintApplyInline \Row {\xintCSVtoList{17,28,39,50,61}}
 \end{tabular}}\medskip
 \end{everbatim*}
@@ -6661,9 +6763,10 @@ The\xintNewIExpr \FA [2] {protect(\DimToNum {#2})^3/protect(\DimToNum{#1})^2}
   and not only functions from the \csbxint{expr} syntax. The \csa{FA} turns
   out to have meaning \texttt{\meaning\FA}. The \csa{romannumeral} part is
   only to ensure it expands in only two steps, and could be removed. The
-  mysterious \expandafter|\string\xintiRound::csv| is what \csbxint{iexpr}
-  uses to round its result (or comma separated results) to an integer. See
-  also the next footnote.},
+  \expandafter|\string\xintRound::csv| and
+  \expandafter|\string\xintSPRaw::csv| commands are used internally by
+  \csbxint{iexpr} to round and pretty print its result (or comma separated
+  results). See also the next footnote.},
 %
 is for illustration only, not
 only because of pdf rendering artefacts when displaying adjacent rules (which do
@@ -6991,17 +7094,7 @@ exactly analogous to well-known expandable techniques made possible by
   successive digits was not avoided, as it occurs already in the
   locking-up of the result, what is avoided is to spend time un-locking,
   and then have the macros shuffle around possibly hundreds of digit
-  tokens rather than a few control words.\par
-  Technical note: I decided (somewhat hesitantly) for reasons of
-  optimization purposes to skip in the private \csa{xintexpr} format a
-  \csa{protect}-ion for the |.=digits/digits[digits]| control
-  sequences used internally. Thus in the improbable case that some macro
-  package (such control sequence names are unavailable to the casual
-  user) has given a meaning to one such control sequence, there is a
-  possibility of a crash when embedding an \csa{xintexpr} without
-  \csa{xintthe} prefix in an \csa{edef} (the computations by themselves
-  do proceed perfectly correctly even if these control sequences have
-  acquired some non \csa{relax} meaning).}
+  tokens rather than a few control words.}
 
 Our |\Fibonacci| expands completely under \fexpan sion,
 so we can use \hyperref[fdef]{\ttfamily\char92fdef} rather than |\edef| in a
@@ -7174,8 +7267,8 @@ found one after the otehr on the on the left of \csa{to}. It is not expandable.
 A `full' expansion is first applied to the material in front of
 \csa{xintAssign}, which may thus be a macro expanding to a list of braced items.
 
-\xintAssign \xintiPow {7}{13}\to\SevenToThePowerThirteen
-\xintAssign \xintiDivision{1000000000000}{133333333}\to\Q\R
+\xintAssign \xintiiPow {7}{13}\to\SevenToThePowerThirteen
+\xintAssign \xintiiDivision{1000000000000}{133333333}\to\Q\R
 
 Special case: if after this initial expansion no brace is found immediately
 after \csa{xintAssign}, it is assumed that there is only one control sequence
@@ -7184,12 +7277,12 @@ following |\to|, and this control sequence is then defined via
 \csa{xintAssign} and \csa{to}. Other types of expansions are specified through
 an optional parameter to \csa{xintAssign}, see \emph{infra}.
 %
-\leftedline{|\xintAssign \xintiDivision{1000000000000}{133333333}\to\Q\R|}
+\leftedline{|\xintAssign \xintiiDivision{1000000000000}{133333333}\to\Q\R|}
 %
 \leftedline{|\meaning\Q: |\dtt{\meaning\Q}, |\meaning\R:|
   \dtt{\meaning\R}} %
 %
-\leftedline{|\xintAssign \xintiPow
+\leftedline{|\xintAssign \xintiiPow
   {7}{13}\to\SevenToThePowerThirteen|}
 %
 \leftedline{|\SevenToThePowerThirteen|\dtt{=\SevenToThePowerThirteen}}
@@ -7268,44 +7361,6 @@ submitted to an |\edef|, but the default is now to use |\def|.
 (globally) sets to \csa{relax} all macros which were defined by the previous
 \csa{xintAssignArray} with \csa{myArray} as array macro.
 
-\subsection{\csbh{odef}, \csbh{oodef}, \csbh{fdef}}
-\label{odef}
-\label{oodef}
-\label{fdef}
-
-\csa{oodef}|\controlsequence {<stuff>}| does
-\everb|@
-    \expandafter\expandafter\expandafter\def
-    \expandafter\expandafter\expandafter\controlsequence
-    \expandafter\expandafter\expandafter{<stuff>}
-|
-
-This works only for a single
-|\controlsequence|, with no parameter text, even without parameters. An
-alternative would be:
-\everb|@
-\def\oodef #1#{\def\oodefparametertext{#1}%
-               \expandafter\expandafter\expandafter\expandafter
-               \expandafter\expandafter\expandafter\def
-               \expandafter\expandafter\expandafter\oodefparametertext
-               \expandafter\expandafter\expandafter }
-|
-
-\noindent
-but it does not allow |\global| as prefix, and, besides, would have anyhow its
-use (almost) limited to parameter texts without macro parameter tokens
-(except if the expanded thing does not see them, or is designed to deal with
-them).
-
-There is a similar macro |\odef| with only one expansion of the replacement text
-|<stuff>|, and |\fdef| which expands fully |<stuff>| using |\romannumeral-`0|.
-
-These tools are provided as it is sometimes wasteful (from the point of view of
-running time) to do an |\edef| when one knows that the contents expand in only
-two steps for example, as is the case with all (except \csbxint{loop} and
-\csbxint{iloop}) the expandable macros of the \xintname packages.
-Each will be defined only if \xinttoolsname finds them currently undefined. They
-can be prefixed with |\global|.
 
 \subsection{The Quick Sort algorithm illustrated}\label{ssec:quicksort}
 
@@ -7868,14 +7923,14 @@ Extended by \xintfracname to fractions.
 
 \subsection{\csbh{xintLtorEq}, \csbh{xintiiLtorEq}}
 
-|\xintLtorEq|\n\m\etype{\Numf\Numf} returns 1 if |N|$\leq$|M|, 0 otherwise.
+|\xintLtorEq|\n\m\etype{\Numf\Numf} returns 1 if |N|$\leqslant$|M|, 0 otherwise.
 Extended by \xintfracname to fractions.
 
 \csa{xintiiLtorEq} skips the \csbxint{Num} overhead.\etype{ff}
 
 \subsection{\csbh{xintGtorEq}, \csbh{xintiiGtorEq}}
 
-|\xintGtorEq|\n\m\etype{\Numf\Numf} returns 1 if |N|$\geq$|M|, 0 otherwise.
+|\xintGtorEq|\n\m\etype{\Numf\Numf} returns 1 if |N|$\geqslant$|M|, 0 otherwise.
 Extended by \xintfracname to fractions.
 
 \csa{xintiiGtorEq} skips the \csbxint{Num} overhead.\etype{ff}
@@ -8916,7 +8971,7 @@ zeroes.)
 %{\small New with release |1.09a|.\par}
 
 |\xintFloor {f}|\etype{\Ff} returns the largest relative integer |N| with
-|N|${}\leq{}$|f|. %
+|N|${}\leqslant{}$|f|. %
 %
 \leftedline{|\xintFloor {-2.13}|\dtt{=\xintFloor
     {-2.13}}, |\xintFloor {-2}|\dtt{=\xintFloor {-2}}, |\xintFloor
@@ -9033,6 +9088,37 @@ The argument to \csa{xintFloat} may be an |\xinttheexpr|-ession, like the
 other macros; only its final evaluation is submitted to \csa{xintFloat}: the
 inner evaluations of chained arguments are not at all done in `floating'
 mode. For this one must use |\xintthefloatexpr|.
+
+\subsection{\csbh{xintPFloat}}\label{xintPFloat}
+
+The macro |\xintPFloat [P]{f}|\etype{{\upshape[\numx]}\Ff} is like
+\csbxint{Float} but ``pretty-prints'' the output, in the sense of dropping the
+scientific notation if possible. Here are the rules:
+\begin{enumerate}
+\item if it is possible to drop the scientific part and express the number as
+  a decimal number with the same number of digits as in the significand and a
+  decimal mark, it is done so,
+\item if the number is less than one and at most four zeros need be inserted
+  after the decimal mark to express it without scientific part, it is done
+  so,
+\item if the number is zero it is printed as \dtt{\xintPFloat{0}}. All other
+  cases have either a decimal mark or a scientific part or both.
+\item trailing zeros are not trimmed.
+\end{enumerate}
+\begin{everbatim*}
+\begin{itemize}[noitemsep]
+\item \xintPFloat {0}
+\item \xintPFloat {123}
+\item \xintPFloat {0.00004567}
+\item \xintPFloat {0.000004567}
+\item \xintPFloat {12345678e-12}
+\item \xintPFloat {12345678e-13}
+\item \xintPFloat {12345678.12345678}
+\item \xintPFloat {123456789.123456789}
+\item \xintPFloat {123456789123456789}
+\item \xintPFloat {1234567891234567}
+\end{itemize}
+\end{everbatim*}
 
 \subsection{\csbh{xintAdd}}\label{xintAdd}
 
@@ -9627,7 +9713,7 @@ spaces but nothing else in-between their constituent characters.
   automatically unpacked using |\number|, discarding the stretch and shrink
   components and giving the dimension value in |sp| units ($1/65536$th of a
   \TeX{} point). Furthermore, tacit multiplication is implied, when the
-  register, variable, or expression if immediately prefixed by a (decimal)
+  register, variable, or expression is immediately prefixed by a (decimal)
   number.
 
 \item tacit multiplication (the parser inserts a |*|) applies when the parser is
@@ -9670,8 +9756,8 @@ spaces but nothing else in-between their constituent characters.
                       % caractère actif... avant j'utilisais ici \everb
                       % avec délimiteur !
 \begin{everbatim*}
-\xintNewBoolExpr \AssertionA[3]{ #1 & (#2|#3) }
-\xintNewBoolExpr \AssertionB[3]{ #1 | (#2&#3) }
+\xintNewBoolExpr \AssertionA[3]{ #1 && (#2|#3) }
+\xintNewBoolExpr \AssertionB[3]{ #1 || (#2&#3) }
 \xintNewBoolExpr \AssertionC[3]{ xor(#1,#2,#3) }
 {\centering\normalcolor\xintFor #1 in {0,1} \do {%
   \xintFor #2 in {0,1} \do {%
@@ -10079,12 +10165,11 @@ Refer to \autoref{sec:expr11} for more examples.
     digits may follow.
 
   \item[{\color[named]{DarkOrchid}??}] is used as |(cond)??{<0}{=0}{>0}|.
-    |cond| is anything, its sign is evaluated (it is not necessary to
-    use |sgn(cond)??{<}{=}{>}|) and depending on the sign the correct
-    branch is un-braced, the two others are swallowed. The un-braced
-    branch will then be parsed as usual. Differs from the |ifsgn|
-    conditional as the two false branches are not evaluated and
-    furthermore the number scanner is still active on exit.
+    |cond| is anything, its sign is evaluated and depending on the sign the
+    correct branch is un-braced, the two others are swallowed. The un-braced
+    branch will then be parsed as usual. Differs from the |ifsgn| conditional
+    as the two false branches are not evaluated and furthermore the number
+    scanner is still active on exit.
     %
     \leftedline{|\def\x{0.33}\def\y{1/3}|}
     %
@@ -10129,7 +10214,7 @@ Refer to \autoref{sec:expr11} for more examples.
 \item The power operator |^|, or |**|. It is left associative:
   {\restoreMicroFont|\xinttheiexpr 2^2^3\relax|} evaluates to \xinttheiexpr
     2^2^3\relax, not \xinttheiexpr 2^(2^3)\relax. Note that if the float
-    precision is too low, iterated powers withing |\xintfloatexpr..\relax| may
+    precision is too low, iterated powers within |\xintfloatexpr..\relax| may
     fail: for example with the default setting |(1+1e-8)^(12^16)| will be
     computed with |12^16| approximated from its $16$ most significant digits
     but it has $18$ digits (\dtt{={\xintiiPow{12}{16}}}), hence the result is
@@ -10208,7 +10293,7 @@ one obtains as output \xinttheexpr 2^3,3^4,5^6\relax{}.
 \item The parentheses.
 \end{itemize}
 
-See \autoref{ssec:countinexpr} for count and dimen registers and variables.
+% See \autoref{ssec:countinexpr} for count and dimen registers and variables.
 
 \subsection{\texorpdfstring{\texttt{\protect\string\numexpr}}{\textbackslash
     numexpr} or \texorpdfstring{\texttt{\protect\string\dimexpr}}{\textbackslash
@@ -10420,11 +10505,10 @@ Macros created by |\xintNewExpr| can thus be nested.
 \end{everbatim*}
 
 \begin{framed}
-  The whole point of using \csbxint{NewExpr} is to produce a macro which does
-  not do any of the \csbxint{expr} for expandable manipulations, manipulations
-  which may have an impact on some regions of \TeX{}'s memory (this impact gets
-  noticeable only if many of thousands of \csbxint{expr}-essions
-  are evaluated).
+  The whole point of using \csbxint{NewExpr} is to produce a macro whose
+  execution will not populate the hash table contrarily to what |\xintexpr|
+  does to some extent (this impact on some of \TeX{}'s memory gets noticeable
+  only if many of thousands of \csbxint{expr}-essions are evaluated).
 
   A ``formula'' created by |\xintNewExpr| is thus a macro whose parameters are
   given to a possibly very complicated combination of the various macros of
@@ -10510,11 +10594,11 @@ is something non-empty as it found the place holders |#4| and |#5|.
 
 \subsubsection {Conditional operators and \csbh{NewExpr}}
 
-The |1.09a| conditional operators |?| and |??| cannot be parsed by |\xintNewExpr|
-when they contain macro parameters |#1|,\dots, |#9| within their scope. However
+The |?| and |??| conditional operators cannot be parsed by |\xintNewExpr| when
+they contain macro parameters |#1|,\dots, |#9| within their scope. However
 replacing them with the functions |if| and, respectively |ifsgn|, the parsing
-should succeed. And the created macro will \emph{not evaluate the branches
-  to be skipped}, thus behaving exactly like |?| and |??| would have in the
+should succeed. And the created macro will \emph{not evaluate the branches to
+  be skipped}, thus behaving exactly like |?| and |??| would have in the
 |\xintexpr|.
 
 \begin{everbatim*}
@@ -10591,7 +10675,7 @@ complicated situations with list operations:
 \end{everbatim*}
 
 Some things are definitely expected not to work therein: particularly the
-|add|, |mul|, |subs|, |seq|, |rseq|, |rrseq|, |iter| with |omit|, |abort|,
+|seq|, |rseq|, |rrseq|, |iter| with |omit|, |abort|,
 |break|. Also, but this is quite anecdotical, |first| and |last| should not
 work (I did not try; actually I did not try the functions with dummy letters
 either, because each time I think about compatibility with \csbxint{NewExpr},
@@ -10678,8 +10762,9 @@ as is necessary, thus one does not want to do |num(1e100000)| for example!
 %
 
 The |reduce| function is not available and will raise un error. The |frac|
-function also. The |sqrt| function is mapped to \csbxint{iSqrt} (this gives
-the truncated not the rounded square root).
+function also. The |sqrt| function is mapped to \csbxint{iiSqrt} which gives
+a truncated square root. The |sqrtr| function is mapped to \csbxint{iiSqrtR}
+which gives a rounded square root.
 
 One can use the Float macros if one is careful to use |num|, or |round| on
 their output,
@@ -10891,7 +10976,7 @@ page \pageref{sec:expr11coords}.
 
 As already mentioned \csa{xintNewExpr}|\myformula[n]| does not check the prior
 existence of a macro |\myformula|. And the number of parameters |n| given as
-mandatory argument withing square brackets should be (at least) equal
+mandatory argument within square brackets should be (at least) equal
 to the number of parameters in the expression.
 
 Obviously I should mention that \csa{xintNewExpr} itself can not be used in an
@@ -11149,8 +11234,7 @@ and keeps a copy of all quotients and remainders. %
 %
 \leftedline{|\xintAssign {{\xintEuclideAlgorithm {10000}{1113}}}\to\X|}
 
-|\meaning\X: |\dtt{\expandafter\allowlistsplit
-               \meaning\X\relax .}
+|\meaning\X: |\dtt{\expandafter\allowlistsplit\meaning\X\relax .}
 
 The first token is the number of steps, the second is |N|, the
 third is the GCD, the fourth is |M| then the first quotient and
@@ -11199,11 +11283,16 @@ macro and modify it to what is needed.
 \leftedline{|\xintTypesetBezoutAlgorithm {10000}{1113}|}
 \xintTypesetBezoutAlgorithm {10000}{1113}
 
-% 28 octobre, le problème de color stack overflow avec dvipdfmx vu le 14
-% octobre dans xintcfrac apparaît dans xintseries. Pas envie d'investiguer.
+
+% problème de color stack overflow avec dvipdfmx
+% 14 octobre puis 28 octobre 2014
+% 7 mars 2015
+
 \def\everbatimxprehook  {}
 \def\everbatimxposthook {}
 
+\def\digitstt #1{\begingroup #1\endgroup}
+\let\dtt\digitstt
 
 \section{Commands of the \xintseriesname package}
 \label{sec:series}
@@ -11373,14 +11462,20 @@ expand to its value after iterated full expansion of its first token. |A| and
 expressions built with such; they must obey the \TeX{} bound. The initial term
 |f| may be a macro |\f|, it will be expanded to its value representing |F(A)|.
 
+
+% 7 mars 2015, problème de color stack overflow, je dois supprimer textcolor
+% j'essaie en supprimant \normalcolor aussi
+% et aussi dans le multicols plus bas après
+% «Here is a slightly more complicated evaluation»
+
 \begin{everbatim*}
 \def\ratio #1{2/#1[0]}% 2/n, to compute exp(2)
 \cnta 0 % previously declared count
-\begin{quote}\normalcolor
+\begin{quote}
 \loop \oodef\z {\xintRationalSeries {0}{\cnta}{1}{\ratio }}%
 \noindent$\sum_{n=0}^{\the\cnta} \frac{2^n}{n!}=
            \xintTrunc{12}\z\dots=
-           \xintFrac\z={}$\textcolor[named]{OrangeRed}{$\xintFrac{\xintIrr\z}$}\vtop to 5pt{}\par
+           \xintFrac\z=\xintFrac{\xintIrr\z}$\vtop to 5pt{}\par
 \ifnum\cnta<20 \advance\cnta 1 \repeat 
 \end{quote}
 \end{everbatim*}
@@ -11388,11 +11483,11 @@ expressions built with such; they must obey the \TeX{} bound. The initial term
 \begin{everbatim*}
 \def\ratio #1{-1/#1[0]}% -1/n, comes from the series of exp(-1)
 \cnta 0 % previously declared count
-\begin{quote}\normalcolor
+\begin{quote}
 \loop
 \oodef\z {\xintRationalSeries {0}{\cnta}{1}{\ratio }}%
 \noindent$\sum_{n=0}^{\the\cnta} \frac{(-1)^n}{n!}=
-  \xintTrunc{20}\z\dots=\xintFrac{\z}={}$\textcolor[named]{OrangeRed}{$\xintFrac{\xintIrr\z}$}
+  \xintTrunc{20}\z\dots=\xintFrac{\z}=\xintFrac{\xintIrr\z}$%
          \vtop to 5pt{}\par
 \ifnum\cnta<20 \advance\cnta 1 \repeat
 \end{quote}
@@ -11436,7 +11531,7 @@ documented next.
 Here is a slightly more complicated evaluation:
 \begin{everbatim*}
 \cnta 1
-\begin{multicols}{2}\normalcolor
+\begin{multicols}{2}
 \loop \oodef\z {\xintRationalSeries
                    {\cnta}
                    {2*\cnta-1}
@@ -11445,8 +11540,8 @@ Here is a slightly more complicated evaluation:
 \oodef\w {\xintRationalSeries {0}{2*\cnta-1}{1}{\ratioexp{\the\cnta}}}%
 \noindent
 $\sum_{n=\the\cnta}^{\the\numexpr 2*\cnta-1\relax} \frac{\the\cnta^n}{n!}/%
-          \sum_{n=0}^{\the\numexpr 2*\cnta-1\relax} \frac{\the\cnta^n}{n!} = {}$%
-          \textcolor[named]{OrangeRed}{$\xintTrunc{8}{\xintDiv\z\w}\dots$} \vtop to 5pt{}\endgraf
+          \sum_{n=0}^{\the\numexpr 2*\cnta-1\relax} \frac{\the\cnta^n}{n!} =
+          \xintTrunc{8}{\xintDiv\z\w}\dots$ \vtop to 5pt{}\endgraf
 \ifnum\cnta<20 \advance\cnta 1 \repeat
 \end{multicols}
 \end{everbatim*}
@@ -12142,11 +12237,6 @@ always do it on a value computed with |D+1| truncation.
 
 \localtableofcontents
 
-% 14 octobre, problème de color stack overflow avec dvipdfmx que je n'ai
-% pas le temps d'essayer de comprendre.  
-\def\everbatimxprehook  {}
-\def\everbatimxposthook {}
-
 This package was first included in release |1.04| (|2013/04/25|) of the
 \xintname bundle. It was kept almost unchanged until |1.09m| of |2014/02/26|
 which brings some new macros: \csbxint{FtoC}, \csbxint{CtoF}, \csbxint{CtoCv},
@@ -12809,7 +12899,7 @@ internal use by the package.
 
 \csa{xintGCtoGC}|{a+b/c+d/e+f/g+......+v/w+x/y}|\etype{f} expands (with the
 usual meaning) each one of the coefficients and returns an inline continued
-fraction of the same type, each expanded coefficient being enclosed withing
+fraction of the same type, each expanded coefficient being enclosed within
 braces.
 %
 \begin{everbatim*}
@@ -12966,10 +13056,11 @@ $1$ or $-1$.
 % \bigskip
 % This is \expandafter|\xintbndlversion| of \expandafter|\xintbndldate|.
 %
-% The main changes with release |1.1| of |2014/10/28|, apart from the new
-% packages \xintkernelnameimp and \xintcorenameimp which were extracted from
-% \xinttoolsnameimp and \xintnameimp, and the fact that |\xintAdd| does not
-% multiply denominators blindly, are located in \xintexprnameimp.
+% Extensive changes in release |1.1| of |2014/10/28| were located in
+% \xintexprnameimp. Also with that release,
+% packages \xintkernelnameimp and \xintcorenameimp were extracted from
+% \xinttoolsnameimp and \xintnameimp, and |\xintAdd| was modified to not
+% multiply denominators blindly.
 % 
 % \smallskip
 % \noindent\fbox{\xinttoolsnameimp is not loaded anymore by
@@ -12980,11 +13071,11 @@ $1$ or $-1$.
 %
 % \localtableofcontents
 %
-% Release |1.1| of |2014/10/28| splits off |xintcore.sty| and also
-% |xintkernel.sty| from |xint.sty|, the latter being the common minimal code
-% base for loading management and catcode control with also a few programming
-% utilities. Loaded by both |xintcore.sty| and |xinttools.sty| hence by all
-% other packages.
+% This package provides the common minimal code base for loading management
+% and catcode control and also a few programming utilities. It is loaded by both
+% |xintcore.sty| and |xinttools.sty| hence by all other packages.
+% 
+% First appeared as a separate package with release |1.1|.
 %
 % \subsection{Catcodes, \protect\eTeX{} and reload detection}
 %
@@ -19185,7 +19276,7 @@ $1$ or $-1$.
 %
 % Some overhead was added inadvertently in 1.09a to inner routines when
 % \xintiquo and \xintidivision were also promoted to use \xintnum; release 1.09f
-% thus uses \xintiiquo and \xintiidivision xhich avoid this \xintnum overhead.
+% thus uses \xintiiquo and \xintiidivision which avoid this \xintnum overhead.
 %
 % 1.09j replaced the previous long \ifcase from \XINT_sqrt_c by some nested
 % \ifnum's.
@@ -19204,9 +19295,11 @@ $1$ or $-1$.
 \def\xintiisqrt  {\expandafter\XINT_sqrt_post\romannumeral0\xintiisquareroot  }%
 \def\xintiisqrtr {\expandafter\XINT_sqrtr_post\romannumeral0\xintiisquareroot }%
 \def\XINT_sqrt_post #1#2{\XINT_dec_pos #1\R\R\R\R\R\R\R\R\Z \W\W\W\W\W\W\W\W }%
-% N = (#1)^2 - #2 avec #1 le plus petit possible et #2>0 (hence #2<2*#1).
+%    \end{macrocode}
+% \lverb|N = (#1)^2 - #2 avec #1 le plus petit possible et #2>0 (hence #2<2*#1).
 % (#1-.5)^2=#1^2-#1+.25=N+#2-#1+.25. Si 0<#2<#1, <= N-0.75<N, donc rounded->#1
-% si #2>=#1, (#1-.5)^2>=N+.25>N, donc rounded->#1-1. 
+% si #2>=#1, (#1-.5)^2>=N+.25>N, donc rounded->#1-1.|
+%    \begin{macrocode}
 \def\XINT_sqrtr_post #1#2{\xintiiifLt {#2}{#1}% Lt <-> a<b
                           { #1}{\XINT_dec_pos #1\R\R\R\R\R\R\R\R\Z \W\W\W\W\W\W\W\W }}%
 \def\xintisquareroot  #1{\expandafter\XINT_sqrt_checkin\romannumeral0\xintnum{#1}\Z }%
@@ -21455,7 +21548,7 @@ $1$ or $-1$.
 %
 % 1.09i also adds \xintFloatE and modifies \XINTinFloatfE, although currently
 % the latter is only used from \xintfloatexpr hence always with \XINTdigits, it
-% comes equipped with its first argument withing brackets as the other
+% comes equipped with its first argument within brackets as the other
 % \XINTinFloat... macros.
 %
 % 1.09m ceases here and elsewhere, also in \xintcfracname, to use \Z as
@@ -25501,6 +25594,15 @@ $1$ or $-1$.
 %     number scanner, |a/b[N]| notation can be used without use of braces (the
 %     |N| will end up as is in a |\numexpr|, it is not parsed by the
 %     |\xintexpr|-ession scanner).
+%   \item although |&| and \verb+|+ are still available as Boolean
+%     operators the use of |&&| and \verb+||+ is strongly recommended.
+%     The single letter operators might be assigned some other meaning
+%     in later releases (bitwise operations, perhaps). Do not use them.
+%   \item place holders for |\xintNewExpr| could be denoted |#1|, |#2|,
+%     ... or also, for special purposes |$1|,
+%     |$2|, ... Only the first form is now accepted and the special cases
+%     previously treated via the second form are now managed via a
+%     |protect(...)| function.
 % \end{itemize}
 % \item[novelties] They are quite a few. \begin{itemize}
 %    \item |\xintiexpr|, |\xinttheiexpr| admit an optional argument within brackets
@@ -25745,6 +25847,8 @@ $1$ or $-1$.
   [2014/11/07 v1.1a Expandable expression parser (jfB)]%
 %    \end{macrocode}
 % \subsection{Locking and unlocking}
+% je dois réfléchir si je dois bloquer expansion après |unlock_a|, à
+% cause de nil.
 %    \begin{macrocode}
 \def\xint_gob_til_! #1!{}% this ! has catcode 11
 \edef\XINT_expr_lockscan#1!{\noexpand\expandafter\space\noexpand\csname .=#1\endcsname }%
@@ -25752,7 +25856,6 @@ $1$ or $-1$.
 \def\XINT_expr_inintpart  #1!{\XINT_num{#1}}%
 \def\XINT_expr_infracpart #1e#2!{#1![\the\numexpr#2-\xintLength{#1}]!}%
 \def\XINT_expr_inexppart  e#1!{![\the\numexpr #1]!}%
-% je dois réfléchir si je dois bloquer expansion après unlock_a, à cause de nil.
 \def\XINT_expr_unlock  {\expandafter\XINT_expr_unlock_a\string }%
 \def\XINT_expr_unlock_a #1.={}%
 \def\XINT_expr_unexpectedtoken {\xintError:ignored }%
@@ -27568,7 +27671,7 @@ $1$ or $-1$.
 \def\XINT_expr_rseq:_end ^,~#1#2{}% no nil for rseq
 %    \end{macrocode}
 % \subsubsection{\csh{XINT_expr_rseq:_A} etc\dots}
-% \lverb |n++ for rseq|.
+% \lverb |n++ for rseq|
 %    \begin{macrocode}
 \def\XINT_expr_rseq:_A +#1!#2#3,^,{\XINT_expr_rseq:_D {#1}#3{#2}}%
 \def\XINT_expr_rseq:_D #1#2#3{\expandafter\XINT_expr_rseq:_E
@@ -27651,7 +27754,7 @@ $1$ or $-1$.
 }%
 %    \end{macrocode}
 % \subsubsection{\csh{XINT_expr_rrseq:_A} etc\dots}
-% \lverb |n++ for rrseq|.
+% \lverb |n++ for rrseq|
 %    \begin{macrocode}
 \catcode`? 3
 \def\XINT_expr_rrseq:_A +#1!#2#3,^,{\XINT_expr_rrseq:_D {#1}{#3}{#2}}%
@@ -27741,7 +27844,7 @@ $1$ or $-1$.
 \def\XINT_expr:_unlock #1{\XINT_expr_unlock #1}%
 %    \end{macrocode}
 % \subsubsection{\csh{XINT_expr_iter:_A} etc\dots}
-% \lverb |n++ for iter|.
+% \lverb |n++ for iter|
 %    \begin{macrocode}
 \catcode`? 3
 \def\XINT_expr_iter:_A +#1!#2#3,^,{\XINT_expr_iter:_D {#1}{#3}{#2}}%
@@ -27767,9 +27870,9 @@ $1$ or $-1$.
 % \subsection{Macros handling csv lists for functions with multiple comma
 % separated arguments in expressions}
 % \lverb|These 17 macros are used inside \csname...\endcsname. These things
-% are not initiated by a romannumeral in general, but in some cases they are,
+% are not initiated by a \romannumeral in general, but in some cases they are,
 % especially when involved in an \xintNewExpr. They will then be protected
-% against expansion will expand only later in in contexts governed by an
+% against expansion and expand only later in contexts governed by an
 % initial \romannumeral-`0. There each new item may need to be expanded, which
 % would not be the case in the use for the _func_ things.|
 %    \begin{macrocode}
