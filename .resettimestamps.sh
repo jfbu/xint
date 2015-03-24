@@ -9,4 +9,4 @@ touch -t 201503072108.52 sourcexint.pdf
 touch -t 201503072019.14 xint.dtx
 touch -t 201503072108.12 xint.ins
 touch -t 201503072108.44 xint.pdf
-touch -t 201503072100.31 xinttdszip-lsR
+touch -t 201503241959.14 xinttdszip-lsR
