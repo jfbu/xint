@@ -1,23 +1,23 @@
 % -*- coding: iso-latin-1; time-stamp-format: "%02d-%02m-%:y at %02H:%02M:%02S %Z" -*-
 %<*dtx>
-\def\xintdtxtimestamp  {Time-stamp: <07-03-2015 at 20:06:50 CET>}
+\def\xintdtxtimestamp  {Time-stamp: <31-08-2015 at 11:53:55 CEST>}
 %</dtx>
 %<*drv>
 %% ---------------------------------------------------------------
-\def\xintdocdate {2015/03/07}
-\def\xintbndldate{2014/11/07}
-\def\xintbndlversion {1.1a}
+\def\xintdocdate {2015/08/31}
+\def\xintbndldate{2015/08/31}
+\def\xintbndlversion {1.1b}
 %</drv>
 %<*dtx>
 \iffalse
 %</dtx>
 %<readme>% README
 %<changes>% CHANGE LOG
-%<readme|changes>% xint v1.1a
-%<readme|changes>% 2014/11/07 (doc 2015/03/07)
+%<readme|changes>% xint v1.1b
+%<readme|changes>% 2015/08/31 (doc 2015/08/31)
 %<*readme|changes>
 
-    Source:  xint.dtx (v1.1a 2014/11/07, doc of 2015/03/07)
+    Source:  xint.dtx (v1.1b 2015/08/31, doc of 2015/08/31)
     Author:  Jean-Francois B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c or later
@@ -25,7 +25,7 @@
 %</readme|changes>
 %<*!readme&!changes&!dohtmlsh&!dopdfsh&!makefile>
 %% ---------------------------------------------------------------
-%% The xint bundle v1.1a (2014/11/07; doc: 2015/03/07)
+%% The xint bundle v1.1b (2015/08/31; doc: 2015/08/31)
 %% Copyright (C) 2013-2015 by Jean-Francois B.
 %<xintkernel>%% xintkernel: Paraphernalia for the xint packages
 %<xinttools>%% xinttools: Expandable and non-expandable utilities
@@ -204,6 +204,18 @@ pandoctpl.latex, doHTMLs.sh, doPDFs.sh, xint.dvi, xint.pdf,
 Makefile.mk.</div>
 %</readme>--------------------------------------------------------
 %<*changes>-------------------------------------------------------
+`1.1b (2015/08/31)`
+----
+
+ - bugfix: some macros needed by the integer division routine from 
+   **xintcore** had been left in **xint.sty** since release `1.1`. This
+   for example broke the `\xintGCD` from **xintgcd** if package **xint**
+   was not loaded.
+
+ - Slight enhancements to the documentation, particularly in the 
+   `Read this first` section.
+
+
 `1.1a (2014/11/07)`
 ----
 
@@ -276,13 +288,12 @@ breaking changes
     letter operators might be assigned some other meaning in later releases
     (bitwise operations, perhaps). Do not use them.
 
-    - [this missing item added 2015/03/07] place holders for `\xintNewExpr`
-    could be denoted `#1`, `#2`, ... or also, for special purposes `$1`, `$2`,
-    ... Only the first form is now accepted and the special cases previously
+    - in earlier releases, place holders for `\xintNewExpr` could either
+    be denoted `#1`, `#2`, ... or also `$1`, `$2`, ... 
+    Only the usual `#` form is now accepted and the special cases previously
     treated via the second form are now managed via a `protect(...)` function.
 
-There are many novelties, most to be found in package **xintexpr**.
-But first the other changes.
+**novelties :**
 
   * new package **xintcore** has been split off **xint**. It contains the
       core arithmetic macros. It is loaded by package **bnumexpr**,
@@ -294,15 +305,16 @@ But first the other changes.
       the `\xint_dothis` and `\xint_orthat` pair of macros for expandably
       branching,
 
-  * these tiny helpful macros, and a few others are in package **xintkernel**
-    which contains also the catcode and loading order management code,
-    initially inspired by code found in Heiko Oberdiek's packages,
+  * these tiny helpful macros, and a few others are in package
+      **xintkernel** which contains also the catcode and loading order
+      management code, initially inspired by code found in Heiko Oberdiek's
+      packages,
 
-  * the source code, which was suppressed from `xint.pdf` in release `1.09n`, is
-    now compiled into a separate file `sourcexint.pdf`,
+  * the source code, which was suppressed from `xint.pdf` in release
+      `1.09n`, is now compiled into a separate file `sourcexint.pdf`,
 
   * faster handling by `\xintAdd`, `\xintSub`, `\xintMul`, ... of the case
-    where one of the arguments is zero,
+      where one of the arguments is zero,
 
   * the `\xintAdd` and `\xintSub` macros from package **xintfrac** check if
       one of the denominators is a multiple of the other, and only if this is
@@ -323,33 +335,33 @@ But first the other changes.
       fractional numbers,
 
   * `\xintiexpr`, `\xinttheiexpr` admit an optional argument within brackets
-    `[d]`, they round the computation result (or results, if comma separated)
-    to `d` digits after decimal mark, (the whole computation is done exactly,
-    as in `xintexpr`),
+      `[d]`, they round the computation result (or results, if comma separated)
+      to `d` digits after decimal mark, (the whole computation is done exactly,
+      as in `xintexpr`),
 
   * `\xintfloatexpr`, `\xintthefloatexpr` similarly admit an optional
-    argument which serves to keep only `d` digits of precision, getting rid
-    of cumulated uncertainties in the last digits (the whole computation is
-    done according to the precision set via `\xintDigits`),
+      argument which serves to keep only `d` digits of precision, getting rid
+      of cumulated uncertainties in the last digits (the whole computation is
+      done according to the precision set via `\xintDigits`),
 
-  * `\xinttheexpr` and `\xintthefloatexpr` _pretty-print_ if possible,
-    the former removing unit denominator or `[0]` brackets, the latter
-    avoiding scientific notation if decimal notation is practical,
+  * `\xinttheexpr` and `\xintthefloatexpr` _pretty-print_ if possible, the
+      former removing unit denominator or `[0]` brackets, the latter avoiding
+      scientific notation if decimal notation is practical,
 
   * the `//` does truncated division and `/:` is the associated modulo,
 
   * multi-character operators `&&`, `||`, `==`, `<=`, `>=`, `!=`,
-    `**`,
+      `**`,
 
   * multi-letter infix binary words `'and'`, `'or'`, `'xor'`, `'mod'`
-    (straight quotes mandatory),
+      (straight quotes mandatory),
 
   * functions `even`, `odd`, 
 
   * `\xintdefvar A3:=3.1415;` for variable definitions (non expandable,
     naturally), usable in subsequent expressions; variable names may contain
-    letters, digits, underscores. They should not start with a digit, the
-    `@` is reserved, and single lowercase and uppercase Latin letters are
+    letters, digits, underscores. They should not start with a digit, the `@`
+    is reserved, and single lowercase and uppercase Latin letters are
     predefined to work as dummy variables (see next),
 
   * generation of comma separated lists `a..b`, `a..[d]..b`,
@@ -366,9 +378,11 @@ But first the other changes.
 
   * `add` and `mul` must use a dummy variable: `add(x(x+1)(x-1), x=-10..10)`,
 
-  * variable substitutions with `subs`: `subs(subs(add(x^2+y^2,x=1..y),y=t),t=20)`,
+  * variable substitutions with `subs`:
+    `subs(subs(add(x^2+y^2,x=1..y),y=t),t=20)`,
 
-  * sequence generation using `seq` with a dummy variable: `seq(x^3, x=-10..10)`,
+  * sequence generation using `seq` with a dummy variable: `seq(x^3,
+    x=-10..10)`,
 
   * simple recursive lists with `rseq`, with `@` given the last value,
      `rseq(1;2@+1,i=1..10)`,
@@ -392,7 +406,7 @@ But first the other changes.
   * `\xintthecoords` converts a comma separated list of an even number
      of items to the format expected by the `TikZ` `coordinates` syntax,
 
-     * completely new version `\xintNewExpr`, `protect` function to handle
+  * completely new version `\xintNewExpr`, `protect` function to handle
      external macros. The dollar sign
      `$` for place holders is not accepted anymore, only the standard macro
      parameter `#`. Not all constructs are compatible with `\xintNewExpr`.
@@ -402,7 +416,8 @@ But first the other changes.
 
   * the user manual does not include by default the source code
     anymore: the `\NoSourceCode` toggle in file `xint.tex` has to
-    be set to 0 before compilation to get source code inclusion.
+    be set to 0 before compilation to get source code inclusion
+    (later release `1.1` made source code available as `sourcexint.pdf`).
 
   * bug fix (**xinttools**) in `\XINT_nthelt_finish` (this bug was
     introduced in `1.09i` of `2013/12/18` and showed up when the index
@@ -1017,7 +1032,7 @@ helpless:
 	@printf '$(subst $(newline),\n,$(helptext))' | less
 
 # RM         = rm -f
-JF_tmpdir   = jfbu_tmp
+JF_tmpdir  := $(shell mktemp -d jfbu_XXX)
 TEXMF_local = $(shell kpsewhich -var-value TEXMFLOCAL)
 TEXMF_home  = $(shell kpsewhich -var-value TEXMFHOME)
 packages = xintkernel.sty xintcore.sty xint.sty xintfrac.sty xintexpr.sty\
@@ -2516,50 +2531,7 @@ This section provides recommended reading on first discovering the package.
 {\etocdefaultlines\etocsettocstyle{}{}\localtableofcontents}
 \fi
 
-\subsection{Installation instructions}
-\label{ssec:install}
-
-\xintname is made available under the
-\href{http://www.latex-project.org/lppl/lppl-1-3c.txt}{LaTeX Project Public
-  License 1.3c} (or any later version). It is included in the major \TeX\
-distributions, thus there is probably no need for a custom install: just use
-the package manager to update if necessary \xintname to the latest version
-available.
-
-After installation, issuing in terminal |texdoc --list xint|, on installations
-with a |"texdoc"| or similar utility, will offer the choice to display one of
-the documentation files: |xint.pdf| (this file), |sourcexint.pdf| (source
-code), |README|, |README.pdf|, |README.html|, |CHANGES.pdf|, and
-|CHANGES.html|.
-
-For manual installation, follow the instructions from the |README| file which
-is to be found on \href{http://www.ctan.org/pkg/xint}{CTAN}; it is also
-available there in PDF and HTML formats. The simplest method proposed is to
-use the archive file \href{http://www.ctan.org/pkg/xint}{xint.tds.zip},
-downloadable from the same location.
-
-The next simplest one is to make use of the |Makefile|, which is also
-downloadable from \href{http://www.ctan.org/pkg/xint}{CTAN}. This is
-for GNU/Linux systems and Mac OS X, and necessitates use of the command
-line. If for some reason you have |xint.dtx| but no internet access,
-you can recreate |Makefile| as a file with this name and the following
-contents:
-
-{\def\everbatimindent {0pt }%
-\begin{everbatim}
-include Makefile.mk
-Makefile.mk: xint.dtx ; etex xint.dtx
-\end{everbatim}}
-
-Then run |make| in a working repertory where there is |xint.dtx| and the file
-named |Makefile| and having only the two lines above. The |make| will extract
-the package files from |xint.dtx| and display some further instructions.
-
-If you have |xint.dtx|, no internet access and can not use the Makefile method
-: |etex xint.dtx| extracts all files and among them the |README| as a file
-with name |README.md|. Further help and options will be found therein.
-
-\subsection{Presentation of the packages}
+\subsection{The packages of the \xintname bundle}
 
 The components of the \xintname bundle provide macros dedicated to
 \emph{expandable} computations on numbers exceeding the \TeX{} (and \eTeX{})
@@ -2581,8 +2553,10 @@ options.
 %     \csa{@ne}, and \csa{m@ne} should have the same meaning as in Plain and
 %     \LaTeX.}}
 %
-Each package automatically loads those not already loaded
-it depends on.\smallskip
+Each package automatically loads those not already loaded it depends on (but
+in a few rare cases there are some extra dependencies, for example the |gcd|
+function in \xintexprname expressions requires explicit loading of package
+\xintgcdname for its activation).\smallskip
 
 %% \pdfbookmark[1]{Abstract}{ABSTRACT}
 
@@ -2641,50 +2615,296 @@ Further modules:
 \end{description}
 \end{addmargin}
 
+\subsection{About this manual and a quick first overview}
+
+This documentation was build via successive layers; a complete re-write
+would be needed for a more user-friendly access. I will try to add here a
+quick expos\'e of the package abilities, starting from the arithmetic
+expressions handled by package \xintexprname.
+
+Here is an example of a computation:
+\begin{everbatim*}
+\xinttheexpr (31.567^2 - 21.56*52)^3/13.52^5\relax 
+\end{everbatim*}
+
+The result is a bit frightening but illustrates that |\xinttheexpr..\relax|
+does its computations \emph{exactly}. There is a variant which emulates
+floating point computations:
+\begin{everbatim*}
+\xintthefloatexpr (31.567^2 - 21.56*52)^3/13.52^5\relax 
+\end{everbatim*}
+
+Such ``floating-point'' computations are done by default with 16 digits of
+precision (this can be increased via a prior assignment such as
+|\xintDigits:=24;|). \xintname has very few typesetting macros. \LaTeX{} users
+can do:
+\begin{everbatim*}
+\[\xintFrac{\xintthefloatexpr (31.567^2 - 21.56*52)^3/13.52^5\relax }\]
+\end{everbatim*}
+but it probably is better to use packages dedicated to the typesetting of
+numbers in scientific format (but the output of |\xinttheexpr| will
+typically be in |A/B[N]| format which is unlikely to be understood by your
+favorite number formatting package).
+ 
+The computations are done expandably: you can put them in an |\edef| or a
+|\write| or even force complete expansion via |\romannumeral-`0| (if you don't
+understand the latter sentence, this doesn't matter; this manual should
+contain a description of expandability in \TeX, but this is yet to arise.)
+Let's just say that such expandable macros are maximally usable in almost all
+locations of \TeX{} code (but \TeX{} will choke on fractions |A/B| or integers
+with more than ten digits). However, the implementation is also maximally
+complicated as many functionalities of the \TeX{} macro language can not be
+used in the source code of \xintname by the poor author of the package.
+Besides, there is a speed impact, and although algebraic computations with
+numbers of up to one hundred digits are fine, my current implementation of
+multiplication needs of the order of the second for inputs with thousand
+digits. Macro \csbxint{XTrunc} is however able to compute and ouput tens of
+thousands of digits of a decimal expansion in reasonable time, still
+expandably, but it does not expand completely via |\romannumeral-`0|. As the
+|\xinttheexpr..\relax| mechanism only needs this weaker expandability of the
+underlying macros, perhaps some speed gains could be achieved via a complete
+rewrite of all basic macros of the package (but nesting of the macros would
+not be possible; only the |\xintexpr...\relax| and variants interface would be
+functional).
+
+This brings me to my second point here: the underlying macros are provided by
+packages \xintcorename, \xintname for integers and \xintfracname for
+fractions. For example to do |21+32*43|, the syntax would be (only
+\xintcorename needed):
+\begin{everbatim*}
+\xintiiAdd{21}{\xintiiMul{32}{43}}
+\end{everbatim*}
+
+Needless to say this quickly becomes a bit painful. One more example (needs \xintfracname):
+\begin{everbatim*}
+\xintIrr {\xintiiPrd{{128}{81}{125}}/\xintiiPrd{{32}{729}{100}}}
+\end{everbatim*}
+
+This shows that package \xintfracname knows natively how to handle fractions
+|A/B|, and has a command to reduce to smallest terms (in an
+|\xintexpr..\relax| this would be the |reduce| function).
+
+Again, all computations done by |\xintexpr..\relax| are completely exact.
+Thus, very quickly very big numbers are created (and computation times
+explode). To compute something like |1.23456789^10000| you will have to opt
+for the floating point version:
+\begin{everbatim*}
+{\xintDigits:=24; \xintthefloatexpr 1.23456789123456789^123456789\relax }
+\end{everbatim*}
+(notice the size of the power of ten: this surely largely exceeds your pocket
+calculator abilities).
+
+Braces limit the scope of the assignment to |\xintDigits|. It is also possible
+to do some computer algebra like evaluations (only numerically though):
+\begin{everbatim*}
+\xinttheiiexpr add(i^5, i=100..150)\relax
+\end{everbatim*}
+
+Further examples are to be found in \autoref{sec:expr11} and \autoref{sec:expr}.
+Make sure to read \autoref{ssec:userinterface}.
+
+
 \subsection {Changes}
 
-See file
-\href{http://mirrors.ctan.org/macros/generic/xint/CHANGES.html}{CHANGES.html}
-for the cumulative change log since the initial release.
+On |TeXLive| (and presumably |MikTeX|), type |texdoc --list xint| to get
+access to the
+various included documentation files, among them |CHANGES.html| provides
+the cumulative change log since the initial release.
 
-Release of |2015/03/07| only improves a few things in the documentation. The
-version number is kept unchanged at |1.1a|.
+It is also available on internet via
+\href{http://mirrors.ctan.org/macros/generic/xint/CHANGES.html}{this link}.
 
-\subsubsection{\unexpanded{\unexpanded{Changes from |1.1| to |1.1a|}}}
+Here is a brief review of recent changes:
 
-Bug fix in \csbxint{NewExpr} which should have accepted comma separated
-replacement text. 
+\subsubsection{\unexpanded{\unexpanded{Changes from |1.1a 2014/11/07| to 
+|1.1b 2015/08/31|}}}
 
-New \csbxint{iiSqrtR} for rounded integer square root, the
-already provided \csbxint{iiSqrt} computing truncated integral square root.
+This is a bug-fix release to move from |xint.sty| to |xintcore.sty| some
+macros which are used by the division routines included in \xintcorename (as
+package \xintgcdname loads only \xintcorename, this dependency on macros which
+had been left in |xint.sty| broke \csbxint{GCD} for example).
+
+Slight enhancements to the |Read this first| section of the documentation. 
+
+\subsubsection{\unexpanded{\unexpanded{Changes from |1.1 2014/10/28| to 
+|1.1a 2014/11/07|}}}
 
 Numerous small fixes to the documentation.
 
-\subsubsection{\unexpanded{\unexpanded{Changes from |1.09n| to |1.1|}}}
+Bug fix in \csbxint{NewExpr} to get it to correctly accept comma separated
+inputs. A new macro \csbxint{iiSqrtR} computes rounded integer square roots,
+the earlier \csbxint{iiSqrt} computing truncated integer square roots.
 
-|1.1| brings many extensions, particularly to \xintexprname, among them the
-evaluation of expressions with dummy variables, possibly iteratively, in a
-nestable way. See \autoref{sec:expr11} for these changes.
+Later release of |2015/03/07| only improved a few things in the documentation
+and the package version number was kept unchanged at |1.1a|.
 
-Apart from that, the two main other changes are that |\xintiiexpr...\relax|
-now maps |/| to the \emph{rounded} division (the |//| operator does
-\emph{truncated} division) to be in synchrony with the habits of |\numexpr|,
-and that the \xintfracname macro \csbxint{Add} (corresponding naturally to |+|
-in expressions) does not anymore blindly multiply denominators but at least
-checks if one is a multiple of the other. However doing systematic reduction
-to smallest terms, or only computing always the |LCM| of the denominators
-would be too costly.
+\subsubsection{\unexpanded{\unexpanded{Changes from |1.09n 2014/04/01| to 
+|1.1 2014/10/28|}}}
 
-Also worth mentioning is the fact that \xintname does not load \xinttoolsname
+|1.1| brought many additions, most of them to package \xintexprname, for example
+the evaluation of expressions with dummy variables, possibly iteratively,
+and with allowed nesting. See \autoref{sec:expr11} for a description of these
+changes.
+
+Apart from that, the two main other changes were:
+\begin{enumerate}
+\item |\xintiiexpr...\relax| now associates |/| with the \emph{rounded}
+  division (the |//| operator being provided for the \emph{truncated}
+  division) to be in synchrony with the habits of |\numexpr|, 
+\item the \xintfracname macro \csbxint{Add} (corresponding to |+| in
+  expressions) does not anymore blindly multiply denominators but first checks
+  if one is a multiple of the other. However doing systematic reduction to
+  smallest terms, or systematically computing the |LCM| of the denominators
+  would be too costly (I think).
+\end{enumerate}
+Also worth mentioning is that \xintname does not load \xinttoolsname
 anymore (only \xintexprname does) and that the core arithmetic macros have
 been moved to a new package \xintcorename which is loaded automatically by
 \xintname.
 
-The further package by the author
-\href{http://www.ctan.org/pkg/bnumexpr}{bnumexpr} (\LaTeX{} only) now loads
-only \xintcorename.
+Package \href{http://www.ctan.org/pkg/bnumexpr}{bnumexpr} (which is \LaTeX{}
+only) now also loads only \xintcorename.
+
+\subsection{Installation instructions}
+\label{ssec:install}
+
+\xintname is made available under the
+\href{http://www.latex-project.org/lppl/lppl-1-3c.txt}{LaTeX Project Public
+  License 1.3c} (or any later version). It is included in the major \TeX\
+distributions, thus there is probably no need for a custom install: just use
+the package manager to update if necessary \xintname to the latest version
+available.
+
+After installation, issuing in terminal |texdoc --list xint|, on installations
+with a |"texdoc"| or similar utility, will offer the choice to display one of
+the documentation files: |xint.pdf| (this file), |sourcexint.pdf| (source
+code), |README|, |README.pdf|, |README.html|, |CHANGES.pdf|, and
+|CHANGES.html|.
+
+For manual installation, follow the instructions from the |README| file which
+is to be found on \href{http://www.ctan.org/pkg/xint}{CTAN}; it is also
+available there in PDF and HTML formats. The simplest method proposed is to
+use the archive file \href{http://www.ctan.org/pkg/xint}{xint.tds.zip},
+downloadable from the same location.
+
+The next simplest one is to make use of the |Makefile|, which is also
+downloadable from \href{http://www.ctan.org/pkg/xint}{CTAN}. This is
+for GNU/Linux systems and Mac OS X, and necessitates use of the command
+line. If for some reason you have |xint.dtx| but no internet access,
+you can recreate |Makefile| as a file with this name and the following
+contents:
+
+{\def\everbatimindent {0pt }%
+\begin{everbatim}
+include Makefile.mk
+Makefile.mk: xint.dtx ; etex xint.dtx
+\end{everbatim}}
+
+Then run |make| in a working repertory where there is |xint.dtx| and the file
+named |Makefile| and having only the two lines above. The |make| will extract
+the package files from |xint.dtx| and display some further instructions.
+
+If you have |xint.dtx|, no internet access and can not use the Makefile method
+: |etex xint.dtx| extracts all files and among them the |README| as a file
+with name |README.md|. Further help and options will be found therein.
+
+\subsection{FAQ}
+
+We are honoured to present here this interview with the author, dating back to
+late March 2014.
+\begin{description}
+\item[Will \xintexprname implement \texttt{exp}, \texttt{log},
+  \texttt{cos}, \texttt{sin} \dots at some point?]
+I guess so.
+
+\item[\xintseriesname already provides generic tools.] Right, although the
+  casual user of the \xintname bundle will not quite know how to do variable
+  reduction expandably in order to use some series or Pad\'e approximants.
+  Besides I wrote the code at the beginning of the project and perhaps I could
+  do it better now (I have not looked at it for a while). Anyhow, generic things
+  do not help much if one wants to optimize.
+
+\item[Optimizing? isn't \TeX's macro expansion mechanism intrinsically slow?]
+  Intensive use of \csa{numexpr} and some token manipulation algorithms
+  exploiting to the best I could \TeX{} macros with parameters grant \xintname a
+  significant speed up in expandable arithmetic on big integers compared to
+  previously available implementations. You can do some comparisons with
+  multiplication on numbers with $100$ digits or division of one of $100$ digits
+  by another of $50$ digits, for example. However expandability is antagonist of
+  speed, and I agree it is not very exciting to optimize slow things. And I was
+  disappointed last year to realize the slowness of \TeX's mouth when it has to
+  keep hundreds of tokens in cheek to mix them later with new aliments. Believe
+  me, I try not to think too much about the fact that the whole enterprise is
+  made irrelevant by Lua\LaTeX's ability to access external libraries.
+
+\item[Well, why isn't this \texttt{log} etc\dots thing done yet?]
+I have to decide on the maximal precision to achieve: $24$, $32$, $48$,
+$64$,\dots ; to settle that I would need to implement some initial versions and
+benchmark them.
+
+\item[Fair enough. That's the common lot. So why not yet?] I am a bit
+  overworked. It is also an opportunity to think over
+  the basic underlying mathematics, and will need devoted thinking for some not
+  insignificant amount of time. So far I didn't find the time, or rather I found
+  out good means to waste it sillily. I also anticipate that originality could
+  very
+  well not pay off at all, so small is the window for the precision.
+
+\item[Any chance this could be done in time for TL2014?] No,
+  sorry.\newline Release |1.09m| of |[2014/02/26]| was the end of a cycle, and
+  this |1.09n| of |[2014/04/01]| is only for a bug fix and inclusion of this
+  |FAQ| in the documentation.
+
+\footnotesize
+
+\item[and in time for TL2015?] ... (indistinct mumbles, something like
+  \emph{too tired}, \emph{I need a life}, \emph{get yourself a calculator},
+  \emph{we'll see}\dots)
+\end{description}
+
+\section{Introduction via examples}
+
+The main goal is to allow expandable computations with integers and
+fractions of arbitrary sizes.
+
+\subsection{Printing big numbers on the page}\label{ssec:printnumber}
+
+When producing very long numbers there is the question of printing them on
+  the page, without going beyond the page limits. In this document, I have most
+  of the time made use of these macros (not provided by the package:)
+
+%
+\everb|@
+\def\allowsplits #1{\ifx #1\relax \else #1\hskip 0pt plus 1pt\relax
+                    \expandafter\allowsplits\fi}%
+\def\printnumber #1{\expandafter\allowsplits \romannumeral-`0#1\relax }%
+% \printnumber thus first ``fully'' expands its argument.
+|
+
+It may be used like this:
+%
+\leftedline{|\printnumber {\xintiiQuo{\xintiiPow {2}{1000}}{\xintiFac{100}}}|}
+%
+or as |\printnumber\mybiginteger| or |\printnumber{\mybiginteger}| if
+|\mybiginteger| was previously defined via a |\newcommand|, a |\def| or
+an |\edef|.
+
+An alternative is to suitably configure the thousand
+separator with the \href{http://ctan.org/pkg/numprint}{numprint} package
+(see \autoref{fn:np}. This will not allow linebreaks when used in math
+mode; I also tried \href{http://ctan.org/pkg/siunitx}{siunitx} but even
+in text mode could not get it to break numbers accross lines). Recently
+I became aware of the \href{http://ctan.org/pkg/seqsplit}{seqsplit}
+package%
+%
+\footnote{\url{http://ctan.org/pkg/seqsplit}} 
+%
+which can be used to achieve this splitting accross lines, and does work
+in inline math mode (however it doesn't allow to separate digits by
+groups of three, for example).\par
 
 \subsection{User interface}
+\label{ssec:userinterface}
 
 The user interface for executing operations on numbers is via macros such as
 \csbxint{Add} or \csbxint{Mul} which have two arguments, or via expressions
@@ -2863,101 +3083,6 @@ via the \csbxint{Irr} macro or the |reduce| function within
 |\xintexpr..\relax|. Elementary operations on fractions do very little of the
 simplifications which could be obvious to (some) human beings.
 
-
-\subsection{FAQ}
-
-We are honoured to present here this interview with the author, dating back to
-late March 2014.
-\begin{description}
-\item[Will \xintexprname implement \texttt{exp}, \texttt{log},
-  \texttt{cos}, \texttt{sin} \dots at some point?]
-I guess so.
-
-\item[\xintseriesname already provides generic tools.] Right, although the
-  casual user of the \xintname bundle will not quite know how to do variable
-  reduction expandably in order to use some series or Pad\'e approximants.
-  Besides I wrote the code at the beginning of the project and perhaps I could
-  do it better now (I have not looked at it for a while). Anyhow, generic things
-  do not help much if one wants to optimize.
-
-\item[Optimizing? isn't \TeX's macro expansion mechanism intrinsically slow?]
-  Intensive use of \csa{numexpr} and some token manipulation algorithms
-  exploiting to the best I could \TeX{} macros with parameters grant \xintname a
-  significant speed up in expandable arithmetic on big integers compared to
-  previously available implementations. You can do some comparisons with
-  multiplication on numbers with $100$ digits or division of one of $100$ digits
-  by another of $50$ digits, for example. However expandability is antagonist of
-  speed, and I agree it is not very exciting to optimize slow things. And I was
-  disappointed last year to realize the slowness of \TeX's mouth when it has to
-  keep hundreds of tokens in cheek to mix them later with new aliments. Believe
-  me, I try not to think too much about the fact that the whole enterprise is
-  made irrelevant by Lua\LaTeX's ability to access external libraries.
-
-\item[Well, why isn't this \texttt{log} etc\dots thing done yet?]
-I have to decide on the maximal precision to achieve: $24$, $32$, $48$,
-$64$,\dots ; to settle that I would need to implement some initial versions and
-benchmark them.
-
-\item[Fair enough. That's the common lot. So why not yet?] I am a bit
-  overworked. It is also an opportunity to think over
-  the basic underlying mathematics, and will need devoted thinking for some not
-  insignificant amount of time. So far I didn't find the time, or rather I found
-  out good means to waste it sillily. I also anticipate that originality could
-  very
-  well not pay off at all, so small is the window for the precision.
-
-\item[Any chance this could be done in time for TL2014?] No,
-  sorry.\newline Release |1.09m| of |[2014/02/26]| was the end of a cycle, and
-  this |1.09n| of |[2014/04/01]| is only for a bug fix and inclusion of this
-  |FAQ| in the documentation.
-
-\footnotesize
-
-\item[and in time for TL2015?] ... (indistinct mumbles, something like
-  \emph{too tired}, \emph{I need a life}, \emph{get yourself a calculator},
-  \emph{we'll see}\dots)
-\end{description}
-
-\section{Introduction via examples}
-
-The main goal is to allow expandable computations with integers and
-fractions of arbitrary sizes.
-
-\subsection{Printing big numbers on the page}\label{ssec:printnumber}
-
-When producing very long numbers there is the question of printing them on
-  the page, without going beyond the page limits. In this document, I have most
-  of the time made use of these macros (not provided by the package:)
-
-%
-\everb|@
-\def\allowsplits #1{\ifx #1\relax \else #1\hskip 0pt plus 1pt\relax
-                    \expandafter\allowsplits\fi}%
-\def\printnumber #1{\expandafter\allowsplits \romannumeral-`0#1\relax }%
-% \printnumber thus first ``fully'' expands its argument.
-|
-
-It may be used like this:
-%
-\leftedline{|\printnumber {\xintiiQuo{\xintiiPow {2}{1000}}{\xintiFac{100}}}|}
-%
-or as |\printnumber\mybiginteger| or |\printnumber{\mybiginteger}| if
-|\mybiginteger| was previously defined via a |\newcommand|, a |\def| or
-an |\edef|.
-
-An alternative is to suitably configure the thousand
-separator with the \href{http://ctan.org/pkg/numprint}{numprint} package
-(see \autoref{fn:np}. This will not allow linebreaks when used in math
-mode; I also tried \href{http://ctan.org/pkg/siunitx}{siunitx} but even
-in text mode could not get it to break numbers accross lines). Recently
-I became aware of the \href{http://ctan.org/pkg/seqsplit}{seqsplit}
-package%
-%
-\footnote{\url{http://ctan.org/pkg/seqsplit}} 
-%
-which can be used to achieve this splitting accross lines, and does work
-in inline math mode (however it doesn't allow to separate digits by
-groups of three, for example).\par
 
 \subsection{Randomly chosen examples}
 
@@ -4603,13 +4728,12 @@ expandability. Check it out (\autoref{xintiloop}).
 \section{New features of the \xintexprname package}
 \label{sec:expr11}
 
-Release |1.1| has brought many changes to \xintexprname. This chapter is
+Release |1.1| brought many changes to \xintexprname. This chapter is
 for people already familiar with earlier versions. A more systematic
-item per item syntax description is provided in \autoref{sec:expr}.
+item per item syntax description is provided in \autoref{sec:expr}. But be
+sure to come back here as the latter chapter has not been compeletely updated.
 
-\subsection{\texorpdfstring{\unexpanded{\unexpanded{|1.1|}}}{1.1} brought some breaking changes and quite a few novelties}
-
-First, there are some breaking changes:
+First, there were some breaking changes:
 \begin{itemize}
   \item in |\xintiiexpr|, |/| does \emph{rounded} division, rather than as
     in earlier releases the
@@ -4635,7 +4759,7 @@ First, there are some breaking changes:
     treated via the second form are now managed via a |protect(...)| function.
 \end{itemize}
 
-The novelties are numerous.
+Let's now describle some of the numerous additional functionalities.
 
 \begin{itemize}[parsep=0pt]
   \item |\xintiexpr|, |\xinttheiexpr| admit an optional argument within
@@ -4700,7 +4824,9 @@ The novelties are numerous.
      |\xintNewExpr|.
 \end{itemize}
 
-\subsection{Examples with the \texorpdfstring{\unexpanded{\unexpanded{|v1.1|}}}{v1.1} \csh{xintexpr}}
+% \subsection{Examples with the \texorpdfstring{\unexpanded{\unexpanded{|v1.1|}}}{v1.1} \csh{xintexpr}}
+
+And now some examples:
 
 \begin{itemize}[parsep=0pt, listparindent=.5\leftmargini]
 \item One can define variables (the definition itself is a non expandable
@@ -7654,6 +7780,37 @@ the \csbxint{Num} overhead.\etype{f}
 \csbxint{Abs} is a synonym but gets modified by \xintfracname. \csa{xintiiAbs}
 skips the \csbxint{Num} overhead.\etype{f}
 
+\subsection{\csbh{xintiiFDg}}\label{xintFDg}\label{xintiiFDg}
+
+|\xintiiFDg|\n\etype{f} returns the first digit (most significant) of the
+decimal expansion. It skips the overhead of parsing via \csbxint{Num}. The
+variant \csa{xintFDg}\etype{\Numf} uses |\xintNum| and gets extended by
+\xintfracname. 
+
+\subsection{\csbh{xintiiLDg}}\label{xintLDg}\label{xintiiLDg}
+
+|\xintiiLDg|\n\etype{f} returns the least significant digit. When the number
+is positive, this is the same as the remainder in the euclidean division by
+ten. It skips the overhead of parsing via \csbxint{Num}. The variant
+\csa{xintLDg}\etype{\Numf} uses |\xintNum| and gets extended by \xintfracname.
+
+\subsection{\csbh{xintDouble}, \csbh{xintHalf}}
+\label{xintDouble}
+\label{xintHalf}
+%{\small New with |1.08|.\par}
+
+|\xintDouble|\n\etype{f} returns |2N| and |\xintHalf|\n is |N/2| rounded
+towards zero. These macros remain integer-only, even with \xintfracname loaded.
+
+\subsection{\csbh{xintInc}, \csbh{xintDec}}
+\label{xintInc}
+\label{xintDec}
+%{\small New with |1.08|.\par}
+
+|\xintInc|\n\etype{f} is |N+1| and |\xintDec|\n{} is |N-1|. These macros
+remain integer-only, even with \xintfracname loaded. They skip the overhead
+of parsing via \csbxint{Num}.
+
 \subsection{\csbh{xintiAdd}, \csbh{xintiiAdd}}\label{xintiAdd}\label{xintiiAdd}
 
 |\xintiAdd|\n\m\etype{\Numf\Numf} returns the sum of the two numbers.
@@ -7804,16 +7961,6 @@ $\xintiiRem {1000}{-57}, \xintiiMod {1000}{-57},
 \end{everbatim*}
 
 |\xintiMod|\etype{\Numf\Numf} submits first its arguments to \csbxint{Num}.
-
-\subsection{\csbh{xintInc}, \csbh{xintDec}}
-\label{xintInc}
-\label{xintDec}
-%{\small New with |1.08|.\par}
-
-|\xintInc|\n\etype{f} is |N+1| and |\xintDec|\n{} is |N-1|. These macros
-remain integer-only, even with \xintfracname loaded. They skip the overhead
-of parsing via \csbxint{Num}.
-
 
 \section{Commands of the \xintname package}
 \label{sec:xint}
@@ -8262,20 +8409,6 @@ loaded, accepting a fraction on input (but it truncates it first).
 % digits). Not to mention $100000!$ which, from the Stirling formula,
 % should have 456574 digits.
 
-\subsection{\csbh{xintiiFDg}}\label{xintFDg}\label{xintiiFDg}
-
-|\xintiiFDg|\n\etype{f} returns the first digit (most significant) of the
-decimal expansion. It skips the overhead of parsing via \csbxint{Num}. The
-variant \csa{xintFDg}\etype{\Numf} uses |\xintNum| and gets extended by
-\xintfracname. 
-
-\subsection{\csbh{xintiiLDg}}\label{xintLDg}\label{xintiiLDg}
-
-|\xintiiLDg|\n\etype{f} returns the least significant digit. When the number
-is positive, this is the same as the remainder in the euclidean division by
-ten. It skips the overhead of parsing via \csbxint{Num}. The variant
-\csa{xintLDg}\etype{\Numf} uses |\xintNum| and gets extended by \xintfracname.
-
 \subsection{\csbh{xintiiMON}, \csbh{xintiiMMON}}
 \label{xintMON}\label{xintMMON}\label{xintiiMON}\label{xintiiMMON}
 %{\small New in version |1.03|.\par}
@@ -8342,14 +8475,6 @@ roots of floating point numbers.
   arguments are \emph{not} filtered via \csbxint{Num}. The macros are not
   usable with fractions, even with \xintfracname loaded.
 \end{framed}
-
-\subsection{\csbh{xintDouble}, \csbh{xintHalf}}
-\label{xintDouble}
-\label{xintHalf}
-%{\small New with |1.08|.\par}
-
-|\xintDouble|\n\etype{f} returns |2N| and |\xintHalf|\n is |N/2| rounded
-towards zero. These macros remain integer-only, even with \xintfracname loaded.
 
 \subsection{\csbh{xintDSL}}\label{xintDSL}
 
@@ -10477,8 +10602,9 @@ The command is used as:
 \footnote{there is some use for \csa{xintNewExpr}|[0]| compared to an
     \csa{edef} as \csa{xintNewExpr} has some built-in catcode protection.})
 %
-\item the placeholders |#1|, |#2|, ..., |#n| are used inside \meta{stuff}
-  in their usual r\^ole.
+\item the placeholders |#1|, |#2|, ..., |#n| are used inside \meta{stuff} in
+  their usual r\^ole.\footnote{such \#'s may be of category code other or have
+    their usual catcode.}
 \end{itemize}
 
 The macro |\myformula| is defined without checking if it
@@ -13241,7 +13367,7 @@ $1$ or $-1$.
 \fi
 \XINT_providespackage
 \ProvidesPackage {xintkernel}%
-  [2014/11/07 v1.1a Paraphernalia for the xint packages (jfB)]%
+  [2015/08/31 v1.1b Paraphernalia for the xint packages (jfB)]%
 %    \end{macrocode}
 % \subsection{Token management utilities}
 %    \begin{macrocode}
@@ -13471,7 +13597,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xinttools}%
-  [2014/11/07 v1.1a Expandable and non-expandable utilities (jfB)]%
+  [2015/08/31 v1.1b Expandable and non-expandable utilities (jfB)]%
 %    \end{macrocode}
 % \lverb|\XINT_toks is used in macros such as \xintFor. It is not used
 % elsewhere in the xint bundle.|
@@ -13519,14 +13645,14 @@ $1$ or $-1$.
 \def\XINT_revwbr_finish_b #1#2#3#4#5#6#7#8\Z
 {%
     \xint_gob_til_R
-            #1\XINT_revwbr_finish_c 8%
-            #2\XINT_revwbr_finish_c 7%
-            #3\XINT_revwbr_finish_c 6%
-            #4\XINT_revwbr_finish_c 5%
-            #5\XINT_revwbr_finish_c 4%
-            #6\XINT_revwbr_finish_c 3%
-            #7\XINT_revwbr_finish_c 2%
-            \R\XINT_revwbr_finish_c 1\Z
+            #1\XINT_revwbr_finish_c \xint_c_viii
+            #2\XINT_revwbr_finish_c \xint_c_vii
+            #3\XINT_revwbr_finish_c \xint_c_vi
+            #4\XINT_revwbr_finish_c \xint_c_v
+            #5\XINT_revwbr_finish_c \xint_c_iv
+            #6\XINT_revwbr_finish_c \xint_c_iii
+            #7\XINT_revwbr_finish_c \xint_c_ii
+            \R\XINT_revwbr_finish_c \xint_c_i\Z
 }%
 \def\XINT_revwbr_finish_c #1#2\Z
 {%
@@ -13692,14 +13818,14 @@ $1$ or $-1$.
 \def\XINT_csvtol_finish_b #1,#2,#3,#4,#5,#6,#7,#8\Z
 {%
     \xint_gob_til_R
-            #1\XINT_csvtol_finish_c 8%
-            #2\XINT_csvtol_finish_c 7%
-            #3\XINT_csvtol_finish_c 6%
-            #4\XINT_csvtol_finish_c 5%
-            #5\XINT_csvtol_finish_c 4%
-            #6\XINT_csvtol_finish_c 3%
-            #7\XINT_csvtol_finish_c 2%
-            \R\XINT_csvtol_finish_c 1\Z
+            #1\XINT_csvtol_finish_c \xint_c_viii
+            #2\XINT_csvtol_finish_c \xint_c_vii
+            #3\XINT_csvtol_finish_c \xint_c_vi
+            #4\XINT_csvtol_finish_c \xint_c_v
+            #5\XINT_csvtol_finish_c \xint_c_iv
+            #6\XINT_csvtol_finish_c \xint_c_iii
+            #7\XINT_csvtol_finish_c \xint_c_ii
+            \R\XINT_csvtol_finish_c \xint_c_i\Z
 }%
 \def\XINT_csvtol_finish_c #1#2\Z
 {%
@@ -14735,14 +14861,17 @@ $1$ or $-1$.
 %
 % \localtableofcontents
 %
-% Got split off from \xintnameimp with release |1.1|. Adds
-% |\xintiiDivRound|. Does not load \xinttoolsnameimp.
+% Got split off from \xintnameimp with release |1.1| (macros |\XINT_SQ|,
+% |\xintLDg|, |\xintHalf| which are dependencies of |\XINT_div_prepare| were
+% forgotten and they were added to the package only later with |1.1b|).
+% Release |1.1| also added the new macro |\xintiiDivRound|. The package does
+% not load \xinttoolsnameimp.
 %
-% Since release |xint 1.09a| these macros doing arithmetic operations
+% Since release |xint 1.09a| the macros doing arithmetic operations
 % apply systematically |\xintnum| to their arguments; this adds a little
 % overhead but this is more convenient for using count registers even
 % with infix notation; also this is what |xintfrac.sty| did all along.
-% Simplifies the discussion in the documentation too.
+% It simplifies the discussion in the documentation too.
 %
 % \subsection{Catcodes, \protect\eTeX{} and reload detection}
 %
@@ -14801,7 +14930,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcore}%
-  [2014/11/07 v1.1a Expandable arithmetic on big integers (jfB)]%
+  [2015/08/31 v1.1b Expandable arithmetic on big integers (jfB)]%
 %    \end{macrocode}
 % \subsection{More token management, constants}
 %    \begin{macrocode}
@@ -14897,6 +15026,36 @@ $1$ or $-1$.
 \def\XINT_OQ_end_iii  #1\Z #2#3#4#5#6#7#8#9\Z { #4#5#6#7#8#9000}%
 \def\XINT_OQ_end_ii   #1\Z #2#3#4#5#6#7#8#9\Z { #3#4#5#6#7#8#900}%
 \def\XINT_OQ_end_i      \Z #1#2#3#4#5#6#7#8\Z { #1#2#3#4#5#6#7#80}%
+%    \end{macrocode}
+% \subsection{\csh{XINT_SQ}}
+%    \begin{macrocode}
+\def\XINT_SQ #1#2#3#4#5#6#7#8%
+{%
+    \xint_gob_til_R #8\XINT_SQ_end_a\R\XINT_SQ {#8#7#6#5#4#3#2#1}%
+}%
+\def\XINT_SQ_end_a\R\XINT_SQ #1#2\Z
+{%
+    \XINT_SQ_end_b #1\Z
+}%
+\def\XINT_SQ_end_b #1#2#3#4#5#6#7%
+{%
+    \xint_gob_til_R
+            #7\XINT_SQ_end_vii
+            #6\XINT_SQ_end_vi
+            #5\XINT_SQ_end_v
+            #4\XINT_SQ_end_iv
+            #3\XINT_SQ_end_iii
+            #2\XINT_SQ_end_ii
+            \R\XINT_SQ_end_i
+            \Z #2#3#4#5#6#7%
+}%
+\def\XINT_SQ_end_vii  #1\Z #2#3#4#5#6#7#8\Z { #8}%
+\def\XINT_SQ_end_vi   #1\Z #2#3#4#5#6#7#8\Z { #7#8000000}%
+\def\XINT_SQ_end_v    #1\Z #2#3#4#5#6#7#8\Z { #6#7#800000}%
+\def\XINT_SQ_end_iv   #1\Z #2#3#4#5#6#7#8\Z { #5#6#7#80000}%
+\def\XINT_SQ_end_iii  #1\Z #2#3#4#5#6#7#8\Z { #4#5#6#7#8000}%
+\def\XINT_SQ_end_ii   #1\Z #2#3#4#5#6#7#8\Z { #3#4#5#6#7#800}%
+\def\XINT_SQ_end_i      \Z #1#2#3#4#5#6#7\Z { #1#2#3#4#5#6#70}%
 %    \end{macrocode}
 % \subsection{\csh{XINT_cuz}}
 %    \begin{macrocode}
@@ -15107,6 +15266,250 @@ $1$ or $-1$.
        -{ #1}%
     \krof
 }%
+%    \end{macrocode}
+% \subsection{\csh{xintFDg}, \csh{xintiiFDg}}
+% \lverb|&
+% FIRST DIGIT. Code simplified in 1.05.
+% And prepared for redefinition by xintfrac to parse through \xintNum. Version
+% 1.09a inserts the \xintnum already here.|
+%    \begin{macrocode}
+\def\xintiiFDg {\romannumeral0\xintiifdg }%
+\def\xintiifdg #1%
+{%
+    \expandafter\XINT_fdg \romannumeral-`0#1\W\Z
+}%
+\def\xintFDg {\romannumeral0\xintfdg }%
+\def\xintfdg #1%
+{%
+    \expandafter\XINT_fdg \romannumeral0\xintnum{#1}\W\Z
+}%
+\def\XINT_FDg #1{\romannumeral0\XINT_fdg #1\W\Z }%
+\def\XINT_fdg #1#2#3\Z
+{%
+    \xint_UDzerominusfork
+      #1-{ 0}%   zero
+      0#1{ #2}%  negative
+       0-{ #1}%  positive
+    \krof
+}%
+%    \end{macrocode}
+% \subsection{\csh{xintLDg}, \csh{xintiiLDg}}
+% \lverb|&
+% LAST DIGIT. Simplified in 1.05. And prepared for extension by xintfrac
+%    to parse through \xintNum. Release 1.09a adds the \xintnum already here,
+%    and this propagates to \xintOdd, etc... 1.09e The \xintiiLDg is for
+%    defining \xintiiOdd which is used once (currently) elsewhere .
+%
+%    bug fix (1.1b): \xintiiLDg is needed by the division macros next, thus
+%    it needs to be in the xintcore.sty|
+%    \begin{macrocode}
+\def\xintiiLDg {\romannumeral0\xintiildg }%
+\def\xintiildg #1%
+{%
+    \expandafter\XINT_ldg\expandafter {\romannumeral-`0#1}%
+}%
+\def\xintLDg {\romannumeral0\xintldg }%
+\def\xintldg #1%
+{%
+    \expandafter\XINT_ldg\expandafter {\romannumeral0\xintnum{#1}}%
+}%
+\def\XINT_LDg #1{\romannumeral0\XINT_ldg {#1}}%
+\def\XINT_ldg #1%
+{%
+    \expandafter\XINT_ldg_\romannumeral0\xintreverseorder {#1}\Z
+}%
+\def\XINT_ldg_ #1#2\Z{ #1}%
+%    \end{macrocode}
+% \subsection{\csh{xintDouble}}
+% \lverb|v1.08|
+%    \begin{macrocode}
+\def\xintDouble {\romannumeral0\xintdouble }%
+\def\xintdouble #1%
+{%
+     \expandafter\XINT_dbl\romannumeral-`0#1%
+     \R\R\R\R\R\R\R\Z \W\W\W\W\W\W\W
+}%
+\def\XINT_dbl #1%
+{%
+    \xint_UDzerominusfork
+      #1-\XINT_dbl_zero
+      0#1\XINT_dbl_neg
+       0-{\XINT_dbl_pos #1}%
+    \krof
+}%
+\def\XINT_dbl_zero #1\Z \W\W\W\W\W\W\W { 0}%
+\def\XINT_dbl_neg
+   {\expandafter\xint_minus_thenstop\romannumeral0\XINT_dbl_pos }%
+\def\XINT_dbl_pos
+{%
+    \expandafter\XINT_dbl_a \expandafter{\expandafter}\expandafter 0%
+    \romannumeral0\XINT_SQ {}%
+}%
+\def\XINT_dbl_a #1#2#3#4#5#6#7#8#9%
+{%
+    \xint_gob_til_W #9\XINT_dbl_end_a\W
+    \expandafter\XINT_dbl_b
+    \the\numexpr \xint_c_x^viii+#2+\xint_c_ii*#9#8#7#6#5#4#3\relax {#1}%
+}%
+\def\XINT_dbl_b 1#1#2#3#4#5#6#7#8#9%
+{%
+    \XINT_dbl_a {#2#3#4#5#6#7#8#9}{#1}%
+}%
+\def\XINT_dbl_end_a #1+#2+#3\relax #4%
+{%
+    \expandafter\XINT_dbl_end_b #2#4%
+}%
+\edef\XINT_dbl_end_b #1#2#3#4#5#6#7#8%
+{%
+    \noexpand\expandafter\space\noexpand\the\numexpr #1#2#3#4#5#6#7#8\relax
+}%
+%    \end{macrocode}
+% \subsection{\csh{xintHalf}}
+% \lverb|v1.08. Relase 1.1 left it in xint.sty, but it is needed by the 
+% division routines included in xintcore.sty. Thus moved here for bugfix
+% release 1.1b.
+% Also \XINT_SQ which it uses. Moved here \xintDouble as well by sympathy.|
+%    \begin{macrocode}
+\def\xintHalf {\romannumeral0\xinthalf }%
+\def\xinthalf #1%
+{%
+     \expandafter\XINT_half\romannumeral-`0#1%
+     \R\R\R\R\R\R\R\Z \W\W\W\W\W\W\W
+}%
+\def\XINT_half #1%
+{%
+    \xint_UDzerominusfork
+      #1-\XINT_half_zero
+      0#1\XINT_half_neg
+       0-{\XINT_half_pos #1}%
+    \krof
+}%
+\def\XINT_half_zero #1\Z \W\W\W\W\W\W\W { 0}%
+\def\XINT_half_neg {\expandafter\XINT_opp\romannumeral0\XINT_half_pos }%
+\def\XINT_half_pos {\expandafter\XINT_half_a\romannumeral0\XINT_SQ {}}%
+\def\XINT_half_a #1#2#3#4#5#6#7#8%
+{%
+    \xint_gob_til_W #8\XINT_half_dont\W
+    \expandafter\XINT_half_b
+    \the\numexpr \xint_c_x^viii+\xint_c_v*#7#6#5#4#3#2#1\relax #8%
+}%
+\edef\XINT_half_dont\W\expandafter\XINT_half_b
+    \the\numexpr \xint_c_x^viii+\xint_c_v*#1#2#3#4#5#6#7\relax \W\W\W\W\W\W\W
+{%
+    \noexpand\expandafter\space
+    \noexpand\the\numexpr (#1#2#3#4#5#6#7+\xint_c_i)/\xint_c_ii-\xint_c_i \relax
+}%
+\def\XINT_half_b 1#1#2#3#4#5#6#7#8%
+{%
+    \XINT_half_c {#2#3#4#5#6#7}{#1}%
+}%
+\def\XINT_half_c #1#2#3#4#5#6#7#8#9%
+{%
+    \xint_gob_til_W #3\XINT_half_end_a #2\W
+    \expandafter\XINT_half_d
+    \the\numexpr \xint_c_x^viii+\xint_c_v*#9#8#7#6#5#4#3+#2\relax {#1}%
+}%
+\def\XINT_half_d 1#1#2#3#4#5#6#7#8#9%
+{%
+    \XINT_half_c {#2#3#4#5#6#7#8#9}{#1}%
+}%
+\def\XINT_half_end_a #1\W #2\relax #3%
+{%
+    \xint_gob_til_zero #1\XINT_half_end_b 0\space #1#3%
+}%
+\edef\XINT_half_end_b 0\space 0#1#2#3#4#5#6#7%
+{%
+    \noexpand\expandafter\space\noexpand\the\numexpr #1#2#3#4#5#6#7\relax
+}%
+%    \end{macrocode}
+% \subsection{\csh{xintDec}}
+% \lverb!v1.08!
+%    \begin{macrocode}
+\def\xintDec {\romannumeral0\xintdec }%
+\def\xintdec #1%
+{%
+     \expandafter\XINT_dec\romannumeral-`0#1%
+     \R\R\R\R\R\R\R\R\Z \W\W\W\W\W\W\W\W
+}%
+\def\XINT_dec #1%
+{%
+    \xint_UDzerominusfork
+      #1-\XINT_dec_zero
+      0#1\XINT_dec_neg
+       0-{\XINT_dec_pos #1}%
+    \krof
+}%
+\def\XINT_dec_zero #1\W\W\W\W\W\W\W\W { -1}%
+\def\XINT_dec_neg
+   {\expandafter\xint_minus_thenstop\romannumeral0\XINT_inc_pos }%
+\def\XINT_dec_pos
+{%
+    \expandafter\XINT_dec_a \expandafter{\expandafter}%
+    \romannumeral0\XINT_OQ {}%
+}%
+\def\XINT_dec_a #1#2#3#4#5#6#7#8#9%
+{%
+    \expandafter\XINT_dec_b
+    \the\numexpr 11#9#8#7#6#5#4#3#2-\xint_c_i\relax {#1}%
+}%
+\def\XINT_dec_b 1#1%
+{%
+    \xint_gob_til_one #1\XINT_dec_A 1\XINT_dec_c
+}%
+\def\XINT_dec_c #1#2#3#4#5#6#7#8#9{\XINT_dec_a {#1#2#3#4#5#6#7#8#9}}%
+\def\XINT_dec_A 1\XINT_dec_c #1#2#3#4#5#6#7#8#9%
+   {\XINT_dec_B {#1#2#3#4#5#6#7#8#9}}%
+\def\XINT_dec_B #1#2\W\W\W\W\W\W\W\W
+{%
+    \expandafter\XINT_dec_cleanup
+    \romannumeral0\XINT_rord_main {}#2%
+      \xint_relax
+        \xint_bye\xint_bye\xint_bye\xint_bye
+        \xint_bye\xint_bye\xint_bye\xint_bye
+      \xint_relax
+    #1%
+}%
+\edef\XINT_dec_cleanup #1#2#3#4#5#6#7#8%
+    {\noexpand\expandafter\space\noexpand\the\numexpr #1#2#3#4#5#6#7#8\relax }%
+%    \end{macrocode}
+% \subsection{\csh{xintInc}}
+% \lverb!v1.08!
+%    \begin{macrocode}
+\def\xintInc {\romannumeral0\xintinc }%
+\def\xintinc #1%
+{%
+     \expandafter\XINT_inc\romannumeral-`0#1%
+     \R\R\R\R\R\R\R\R\Z \W\W\W\W\W\W\W\W
+}%
+\def\XINT_inc #1%
+{%
+    \xint_UDzerominusfork
+      #1-\XINT_inc_zero
+      0#1\XINT_inc_neg
+       0-{\XINT_inc_pos #1}%
+    \krof
+}%
+\def\XINT_inc_zero #1\W\W\W\W\W\W\W\W { 1}%
+\def\XINT_inc_neg {\expandafter\XINT_opp\romannumeral0\XINT_dec_pos }%
+\def\XINT_inc_pos
+{%
+    \expandafter\XINT_inc_a \expandafter{\expandafter}%
+    \romannumeral0\XINT_OQ {}%
+}%
+\def\XINT_inc_a #1#2#3#4#5#6#7#8#9%
+{%
+    \xint_gob_til_W #9\XINT_inc_end\W
+    \expandafter\XINT_inc_b
+    \the\numexpr 10#9#8#7#6#5#4#3#2+\xint_c_i\relax {#1}%
+}%
+\def\XINT_inc_b 1#1%
+{%
+    \xint_gob_til_zero #1\XINT_inc_A 0\XINT_inc_c
+}%
+\def\XINT_inc_c #1#2#3#4#5#6#7#8#9{\XINT_inc_a {#1#2#3#4#5#6#7#8#9}}%
+\def\XINT_inc_A 0\XINT_inc_c #1#2#3#4#5#6#7#8#9%
+               {\XINT_dec_B {#1#2#3#4#5#6#7#8#9}}%
+\def\XINT_inc_end\W #1\relax #2{ 1#2}%
 %    \end{macrocode}
 % \lverb|&
 % -----------------------------------------------------------------$\ 
@@ -17378,95 +17781,6 @@ $1$ or $-1$.
 }%
 \def\XINT_iimod_pos #1#2\Z #3\Z%
     {\expandafter\xint_secondoftwo_thenstop\romannumeral0\XINT_div_prepare {#2}{#1#3}}%
-%    \end{macrocode}
-% \subsection{\csh{xintDec}}
-% \lverb!v1.08!
-%    \begin{macrocode}
-\def\xintDec {\romannumeral0\xintdec }%
-\def\xintdec #1%
-{%
-     \expandafter\XINT_dec\romannumeral-`0#1%
-     \R\R\R\R\R\R\R\R\Z \W\W\W\W\W\W\W\W
-}%
-\def\XINT_dec #1%
-{%
-    \xint_UDzerominusfork
-      #1-\XINT_dec_zero
-      0#1\XINT_dec_neg
-       0-{\XINT_dec_pos #1}%
-    \krof
-}%
-\def\XINT_dec_zero #1\W\W\W\W\W\W\W\W { -1}%
-\def\XINT_dec_neg
-   {\expandafter\xint_minus_thenstop\romannumeral0\XINT_inc_pos }%
-\def\XINT_dec_pos
-{%
-    \expandafter\XINT_dec_a \expandafter{\expandafter}%
-    \romannumeral0\XINT_OQ {}%
-}%
-\def\XINT_dec_a #1#2#3#4#5#6#7#8#9%
-{%
-    \expandafter\XINT_dec_b
-    \the\numexpr 11#9#8#7#6#5#4#3#2-\xint_c_i\relax {#1}%
-}%
-\def\XINT_dec_b 1#1%
-{%
-    \xint_gob_til_one #1\XINT_dec_A 1\XINT_dec_c
-}%
-\def\XINT_dec_c #1#2#3#4#5#6#7#8#9{\XINT_dec_a {#1#2#3#4#5#6#7#8#9}}%
-\def\XINT_dec_A 1\XINT_dec_c #1#2#3#4#5#6#7#8#9%
-   {\XINT_dec_B {#1#2#3#4#5#6#7#8#9}}%
-\def\XINT_dec_B #1#2\W\W\W\W\W\W\W\W
-{%
-    \expandafter\XINT_dec_cleanup
-    \romannumeral0\XINT_rord_main {}#2%
-      \xint_relax
-        \xint_bye\xint_bye\xint_bye\xint_bye
-        \xint_bye\xint_bye\xint_bye\xint_bye
-      \xint_relax
-    #1%
-}%
-\edef\XINT_dec_cleanup #1#2#3#4#5#6#7#8%
-    {\noexpand\expandafter\space\noexpand\the\numexpr #1#2#3#4#5#6#7#8\relax }%
-%    \end{macrocode}
-% \subsection{\csh{xintInc}}
-% \lverb!v1.08!
-%    \begin{macrocode}
-\def\xintInc {\romannumeral0\xintinc }%
-\def\xintinc #1%
-{%
-     \expandafter\XINT_inc\romannumeral-`0#1%
-     \R\R\R\R\R\R\R\R\Z \W\W\W\W\W\W\W\W
-}%
-\def\XINT_inc #1%
-{%
-    \xint_UDzerominusfork
-      #1-\XINT_inc_zero
-      0#1\XINT_inc_neg
-       0-{\XINT_inc_pos #1}%
-    \krof
-}%
-\def\XINT_inc_zero #1\W\W\W\W\W\W\W\W { 1}%
-\def\XINT_inc_neg {\expandafter\XINT_opp\romannumeral0\XINT_dec_pos }%
-\def\XINT_inc_pos
-{%
-    \expandafter\XINT_inc_a \expandafter{\expandafter}%
-    \romannumeral0\XINT_OQ {}%
-}%
-\def\XINT_inc_a #1#2#3#4#5#6#7#8#9%
-{%
-    \xint_gob_til_W #9\XINT_inc_end\W
-    \expandafter\XINT_inc_b
-    \the\numexpr 10#9#8#7#6#5#4#3#2+\xint_c_i\relax {#1}%
-}%
-\def\XINT_inc_b 1#1%
-{%
-    \xint_gob_til_zero #1\XINT_inc_A 0\XINT_inc_c
-}%
-\def\XINT_inc_c #1#2#3#4#5#6#7#8#9{\XINT_inc_a {#1#2#3#4#5#6#7#8#9}}%
-\def\XINT_inc_A 0\XINT_inc_c #1#2#3#4#5#6#7#8#9%
-               {\XINT_dec_B {#1#2#3#4#5#6#7#8#9}}%
-\def\XINT_inc_end\W #1\relax #2{ 1#2}%
 \XINT_restorecatcodes_endinput%
 %    \end{macrocode}
 %\catcode`\<=0 \catcode`\>=11 \catcode`\*=11 \catcode`\/=11
@@ -17533,7 +17847,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xint}%
-  [2014/11/07 v1.1a Expandable operations on big integers (jfB)]%
+  [2015/08/31 v1.1b Expandable operations on big integers (jfB)]%
 %    \end{macrocode}
 % \subsection{More token management}
 %    \begin{macrocode}
@@ -17576,36 +17890,6 @@ $1$ or $-1$.
     \expandafter\space\expandafter 0\xint_gob_til_Z
 }%
 \def\XINT_isone_yes #1\Z { 1}%
-%    \end{macrocode}
-% \subsection{\csh{XINT_SQ}}
-%    \begin{macrocode}
-\def\XINT_SQ #1#2#3#4#5#6#7#8%
-{%
-    \xint_gob_til_R #8\XINT_SQ_end_a\R\XINT_SQ {#8#7#6#5#4#3#2#1}%
-}%
-\def\XINT_SQ_end_a\R\XINT_SQ #1#2\Z
-{%
-    \XINT_SQ_end_b #1\Z
-}%
-\def\XINT_SQ_end_b #1#2#3#4#5#6#7%
-{%
-    \xint_gob_til_R
-            #7\XINT_SQ_end_vii
-            #6\XINT_SQ_end_vi
-            #5\XINT_SQ_end_v
-            #4\XINT_SQ_end_iv
-            #3\XINT_SQ_end_iii
-            #2\XINT_SQ_end_ii
-            \R\XINT_SQ_end_i
-            \Z #2#3#4#5#6#7%
-}%
-\def\XINT_SQ_end_vii  #1\Z #2#3#4#5#6#7#8\Z { #8}%
-\def\XINT_SQ_end_vi   #1\Z #2#3#4#5#6#7#8\Z { #7#8000000}%
-\def\XINT_SQ_end_v    #1\Z #2#3#4#5#6#7#8\Z { #6#7#800000}%
-\def\XINT_SQ_end_iv   #1\Z #2#3#4#5#6#7#8\Z { #5#6#7#80000}%
-\def\XINT_SQ_end_iii  #1\Z #2#3#4#5#6#7#8\Z { #4#5#6#7#8000}%
-\def\XINT_SQ_end_ii   #1\Z #2#3#4#5#6#7#8\Z { #3#4#5#6#7#800}%
-\def\XINT_SQ_end_i      \Z #1#2#3#4#5#6#7\Z { #1#2#3#4#5#6#70}%
 %    \end{macrocode}
 % \subsection{\csh{xintRev}}
 % \lverb|&
@@ -18607,59 +18891,11 @@ $1$ or $-1$.
 % &
 % -----------------------------------------------------------------$\ 
 % -----------------------------------------------------------------$\ 
-% DECIMAL OPERATIONS: FIRST DIGIT, LASTDIGIT, ODDNESS,
+% DECIMAL OPERATIONS: FIRST DIGIT, LASTDIGIT, (<- moved to xintcore 
+% because xintiiLDg need by division macros)
+% ODDNESS,
 % MULTIPLICATION BY TEN, QUOTIENT BY TEN, QUOTIENT OR
 % MULTIPLICATION BY POWER OF TEN, SPLIT OPERATION.|
-% \subsection{\csh{xintFDg}, \csh{xintiiFDg}}
-% \lverb|&
-% FIRST DIGIT. Code simplified in 1.05.
-% And prepared for redefinition by xintfrac to parse through \xintNum. Version
-% 1.09a inserts the \xintnum already here.|
-%    \begin{macrocode}
-\def\xintiiFDg {\romannumeral0\xintiifdg }%
-\def\xintiifdg #1%
-{%
-    \expandafter\XINT_fdg \romannumeral-`0#1\W\Z
-}%
-\def\xintFDg {\romannumeral0\xintfdg }%
-\def\xintfdg #1%
-{%
-    \expandafter\XINT_fdg \romannumeral0\xintnum{#1}\W\Z
-}%
-\def\XINT_FDg #1{\romannumeral0\XINT_fdg #1\W\Z }%
-\def\XINT_fdg #1#2#3\Z
-{%
-    \xint_UDzerominusfork
-      #1-{ 0}%   zero
-      0#1{ #2}%  negative
-       0-{ #1}%  positive
-    \krof
-}%
-%    \end{macrocode}
-% \subsection{\csh{xintLDg}, \csh{xintiiLDg}}
-% \lverb|&
-% LAST DIGIT. Simplified in 1.05. And prepared for extension by xintfrac
-%    to parse through \xintNum. Release 1.09a adds the \xintnum already here,
-%    and this propagates to \xintOdd, etc... 1.09e The \xintiiLDg is for
-%    defining \xintiiOdd which is used once (currently) elsewhere .|
-%    \begin{macrocode}
-\def\xintiiLDg {\romannumeral0\xintiildg }%
-\def\xintiildg #1%
-{%
-    \expandafter\XINT_ldg\expandafter {\romannumeral-`0#1}%
-}%
-\def\xintLDg {\romannumeral0\xintldg }%
-\def\xintldg #1%
-{%
-    \expandafter\XINT_ldg\expandafter {\romannumeral0\xintnum{#1}}%
-}%
-\def\XINT_LDg #1{\romannumeral0\XINT_ldg {#1}}%
-\def\XINT_ldg #1%
-{%
-    \expandafter\XINT_ldg_\romannumeral0\xintreverseorder {#1}\Z
-}%
-\def\XINT_ldg_ #1#2\Z{ #1}%
-%    \end{macrocode}
 % \subsection{\csh{xintMON}, \csh{xintMMON}, \csh{xintiiMON}, \csh{xintiiMMON}}
 % \lverb|&
 % MINUS ONE TO THE POWER N and (-1)^{N-1}|
@@ -19172,105 +19408,6 @@ $1$ or $-1$.
 \def\XINT_split_fromright_wenttoofar\W\XINT_split_fromright_endsplit_ #1\Z #2%
     { {}{#2}}%
 %    \end{macrocode}
-% \subsection{\csh{xintDouble}}
-% \lverb|v1.08|
-%    \begin{macrocode}
-\def\xintDouble {\romannumeral0\xintdouble }%
-\def\xintdouble #1%
-{%
-     \expandafter\XINT_dbl\romannumeral-`0#1%
-     \R\R\R\R\R\R\R\Z \W\W\W\W\W\W\W
-}%
-\def\XINT_dbl #1%
-{%
-    \xint_UDzerominusfork
-      #1-\XINT_dbl_zero
-      0#1\XINT_dbl_neg
-       0-{\XINT_dbl_pos #1}%
-    \krof
-}%
-\def\XINT_dbl_zero #1\Z \W\W\W\W\W\W\W { 0}%
-\def\XINT_dbl_neg
-   {\expandafter\xint_minus_thenstop\romannumeral0\XINT_dbl_pos }%
-\def\XINT_dbl_pos
-{%
-    \expandafter\XINT_dbl_a \expandafter{\expandafter}\expandafter 0%
-    \romannumeral0\XINT_SQ {}%
-}%
-\def\XINT_dbl_a #1#2#3#4#5#6#7#8#9%
-{%
-    \xint_gob_til_W #9\XINT_dbl_end_a\W
-    \expandafter\XINT_dbl_b
-    \the\numexpr \xint_c_x^viii+#2+\xint_c_ii*#9#8#7#6#5#4#3\relax {#1}%
-}%
-\def\XINT_dbl_b 1#1#2#3#4#5#6#7#8#9%
-{%
-    \XINT_dbl_a {#2#3#4#5#6#7#8#9}{#1}%
-}%
-\def\XINT_dbl_end_a #1+#2+#3\relax #4%
-{%
-    \expandafter\XINT_dbl_end_b #2#4%
-}%
-\edef\XINT_dbl_end_b #1#2#3#4#5#6#7#8%
-{%
-    \noexpand\expandafter\space\noexpand\the\numexpr #1#2#3#4#5#6#7#8\relax
-}%
-%    \end{macrocode}
-% \subsection{\csh{xintHalf}}
-% \lverb!v1.08!
-%    \begin{macrocode}
-\def\xintHalf {\romannumeral0\xinthalf }%
-\def\xinthalf #1%
-{%
-     \expandafter\XINT_half\romannumeral-`0#1%
-     \R\R\R\R\R\R\R\Z \W\W\W\W\W\W\W
-}%
-\def\XINT_half #1%
-{%
-    \xint_UDzerominusfork
-      #1-\XINT_half_zero
-      0#1\XINT_half_neg
-       0-{\XINT_half_pos #1}%
-    \krof
-}%
-\def\XINT_half_zero #1\Z \W\W\W\W\W\W\W { 0}%
-\def\XINT_half_neg {\expandafter\XINT_opp\romannumeral0\XINT_half_pos }%
-\def\XINT_half_pos {\expandafter\XINT_half_a\romannumeral0\XINT_SQ {}}%
-\def\XINT_half_a #1#2#3#4#5#6#7#8%
-{%
-    \xint_gob_til_W #8\XINT_half_dont\W
-    \expandafter\XINT_half_b
-    \the\numexpr \xint_c_x^viii+\xint_c_v*#7#6#5#4#3#2#1\relax #8%
-}%
-\edef\XINT_half_dont\W\expandafter\XINT_half_b
-    \the\numexpr \xint_c_x^viii+\xint_c_v*#1#2#3#4#5#6#7\relax \W\W\W\W\W\W\W
-{%
-    \noexpand\expandafter\space
-    \noexpand\the\numexpr (#1#2#3#4#5#6#7+\xint_c_i)/\xint_c_ii-\xint_c_i \relax
-}%
-\def\XINT_half_b 1#1#2#3#4#5#6#7#8%
-{%
-    \XINT_half_c {#2#3#4#5#6#7}{#1}%
-}%
-\def\XINT_half_c #1#2#3#4#5#6#7#8#9%
-{%
-    \xint_gob_til_W #3\XINT_half_end_a #2\W
-    \expandafter\XINT_half_d
-    \the\numexpr \xint_c_x^viii+\xint_c_v*#9#8#7#6#5#4#3+#2\relax {#1}%
-}%
-\def\XINT_half_d 1#1#2#3#4#5#6#7#8#9%
-{%
-    \XINT_half_c {#2#3#4#5#6#7#8#9}{#1}%
-}%
-\def\XINT_half_end_a #1\W #2\relax #3%
-{%
-    \xint_gob_til_zero #1\XINT_half_end_b 0\space #1#3%
-}%
-\edef\XINT_half_end_b 0\space 0#1#2#3#4#5#6#7%
-{%
-    \noexpand\expandafter\space\noexpand\the\numexpr #1#2#3#4#5#6#7\relax
-}%
-%    \end{macrocode}
 % \subsection{\csh{xintiiSqrt}, \csh{xintiiSqrtR}, \csh{xintiiSquareRoot}}
 % \lverb|v1.08. 1.09a uses \xintnum.
 %
@@ -19553,7 +19690,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintbinhex}%
-  [2014/11/07 v1.1a Expandable binary and hexadecimal conversions (jfB)]%
+  [2015/08/31 v1.1b Expandable binary and hexadecimal conversions (jfB)]%
 %    \end{macrocode}
 % \subsection{Constants, etc...}
 % \lverb!v1.08!
@@ -20165,6 +20302,11 @@ $1$ or $-1$.
 % particular. And they use the \xinttoolsnameimp |\xintloop| rather than the
 % Plain \TeX{} or \LaTeX{}'s |\loop|.
 %
+% Since |1.1| the package only loads \xintcorenameimp, not \xintnameimp. And
+% for the |\xintTypesetEuclideAlgorithm| and |\xintTypesetBezoutAlgorithm|
+% macros to be functional the package \xinttoolsnameimp needs to be loaded
+% explicitely by the user.
+%
 % \subsection{Catcodes, \protect\eTeX{} and reload detection}
 %
 % The code for reload detection was initially copied from \textsc{Heiko
@@ -20222,7 +20364,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintgcd}%
-  [2014/11/07 v1.1a Euclide algorithm with xint package (jfB)]%
+  [2015/08/31 v1.1b Euclide algorithm with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintGCD}, \csh{xintiiGCD}}
 % \lverb|The macros of 1.09a benefits from the \xintnum which has been inserted
@@ -20924,7 +21066,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintfrac}%
-  [2014/11/07 v1.1a Expandable operations on fractions (jfB)]%
+  [2015/08/31 v1.1b Expandable operations on fractions (jfB)]%
 \chardef\xint_c_xviii 18
 %    \end{macrocode}
 % \subsection{\csh{XINT_cntSgnFork}}
@@ -23940,7 +24082,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintseries}%
-  [2014/11/07 v1.1a Expandable partial sums with xint package (jfB)]%
+  [2015/08/31 v1.1b Expandable partial sums with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintSeries}}
 % \lverb|&
@@ -24445,7 +24587,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcfrac}%
-  [2014/11/07 v1.1a Expandable continued fractions with xint package (jfB)]%
+  [2015/08/31 v1.1b Expandable continued fractions with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintCFrac}}
 %    \begin{macrocode}
@@ -25844,7 +25986,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintexpr}%
-  [2014/11/07 v1.1a Expandable expression parser (jfB)]%
+  [2015/08/31 v1.1b Expandable expression parser (jfB)]%
 %    \end{macrocode}
 % \subsection{Locking and unlocking}
 % je dois réfléchir si je dois bloquer expansion après |unlock_a|, à
@@ -28726,7 +28868,7 @@ $1$ or $-1$.
   Right bracket \]     Circumflex    \^     Underscore    \_
   Grave accent  \`     Left brace    \{     Vertical bar  \|
   Right brace   \}     Tilde         \~}
-\CheckSum {25558}
+\CheckSum {25574}
 \makeatletter\check@checksum\makeatother
 \Finale
 %% End of file xint.dtx

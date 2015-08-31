@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <meta name="author" content="xint v1.1a" />
+  <meta name="author" content="xint v1.1b" />
   <title>CHANGE LOG</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -17,11 +17,12 @@
 <body>
 <div id="header">
 <h1 class="title">CHANGE LOG</h1>
-<h2 class="author">xint v1.1a</h2>
-<h3 class="date">2014/11/07 (doc 2015/03/07)</h3>
+<h2 class="author">xint v1.1b</h2>
+<h3 class="date">2015/08/31 (doc 2015/08/31)</h3>
 </div>
 <div id="TOC">
 <ul>
+<li><a href="#b-20150831"><code>1.1b (2015/08/31)</code></a></li>
 <li><a href="#a-20141107"><code>1.1a (2014/11/07)</code></a></li>
 <li><a href="#section"><code>1.1 (2014/10/28)</code></a></li>
 <li><a href="#n-20140401"><code>1.09n (2014/04/01)</code></a></li>
@@ -50,10 +51,15 @@
 <li><a href="#section-7"><code>1.0 (2013/03/28)</code></a></li>
 </ul>
 </div>
-<pre><code>Source:  xint.dtx (v1.1a 2014/11/07, doc of 2015/03/07)
+<pre><code>Source:  xint.dtx (v1.1b 2015/08/31, doc of 2015/08/31)
 Author:  Jean-Francois B.
 Info:    Expandable operations on big integers, decimals, fractions
 License: LPPL 1.3c or later</code></pre>
+<h2 id="b-20150831"><code>1.1b (2015/08/31)</code></h2>
+<ul>
+<li><p>bugfix: some macros needed by the integer division routine from <strong>xintcore</strong> had been left in <strong>xint.sty</strong> since release <code>1.1</code>. This for example broke the <code>\xintGCD</code> from <strong>xintgcd</strong> if package <strong>xint</strong> was not loaded.</p></li>
+<li><p>Slight enhancements to the documentation, particularly in the <code>Read this first</code> section.</p></li>
+</ul>
 <h2 id="a-20141107"><code>1.1a (2014/11/07)</code></h2>
 <ul>
 <li><p>fixed a bug which prevented <code>\xintNewExpr</code> from producing correctly working macros from a comma separated replacement text.</p></li>
@@ -83,11 +89,11 @@ License: LPPL 1.3c or later</code></pre>
 <li><p>the <code>add</code> and <code>mul</code> have a new syntax, old syntax is with <code>`+`</code> and <code>`*`</code> (left quotes mandatory), <code>sum</code> and <code>prd</code> are gone,</p></li>
 <li><p>no more special treatment for encountered brace pairs <code>{..}</code> by the number scanner, <code>a/b[N]</code> notation can be used without use of braces (the <code>N</code> will end up as is in a <code>\numexpr</code>, it is not parsed by the <code>\xintexpr</code>-ession scanner),</p></li>
 <li><p>although <code>&amp;</code> and <code>|</code> are still available as Boolean operators the use of <code>&amp;&amp;</code> and <code>||</code> is strongly recommended. The single letter operators might be assigned some other meaning in later releases (bitwise operations, perhaps). Do not use them.</p></li>
-<li><p>[this missing item added 2015/03/07] place holders for <code>\xintNewExpr</code> could be denoted <code>#1</code>, <code>#2</code>, ... or also, for special purposes <code>$1</code>, <code>$2</code>, ... Only the first form is now accepted and the special cases previously treated via the second form are now managed via a <code>protect(...)</code> function.</p></li>
+<li><p>in earlier releases, place holders for <code>\xintNewExpr</code> could either be denoted <code>#1</code>, <code>#2</code>, ... or also <code>$1</code>, <code>$2</code>, ... Only the usual <code>#</code> form is now accepted and the special cases previously treated via the second form are now managed via a <code>protect(...)</code> function.</p></li>
 </ul>
 </dd>
 </dl>
-<p>There are many novelties, most to be found in package <strong>xintexpr</strong>. But first the other changes.</p>
+<p><strong>novelties :</strong></p>
 <ul>
 <li><p>new package <strong>xintcore</strong> has been split off <strong>xint</strong>. It contains the core arithmetic macros. It is loaded by package <strong>bnumexpr</strong>,</p></li>
 <li><p>neither <strong>xint</strong> nor <strong>xintfrac</strong> load <strong>xinttools</strong>. Only <strong>xintexpr</strong> does,</p></li>
@@ -121,14 +127,12 @@ License: LPPL 1.3c or later</code></pre>
 <li><p>inside <code>seq</code>, <code>rseq</code>, <code>rrseq</code>, <code>iter</code>, possibility to use <code>omit</code>, <code>abort</code> and <code>break</code> to control termination,</p></li>
 <li><p><code>n++</code> potentially infinite index generation for <code>seq</code>, <code>rseq</code>, <code>rrseq</code>, and <code>iter</code>, it is advised to use <code>abort</code> or <code>break(..)</code> at some point,</p></li>
 <li><p>the <code>add</code>, <code>mul</code>, <code>seq</code>, ... are nestable,</p></li>
-<li><p><code>\xintthecoords</code> converts a comma separated list of an even number of items to the format expected by the <code>TikZ</code> <code>coordinates</code> syntax,</p>
-<ul>
-<li>completely new version <code>\xintNewExpr</code>, <code>protect</code> function to handle external macros. The dollar sign <code>$</code> for place holders is not accepted anymore, only the standard macro parameter <code>#</code>. Not all constructs are compatible with <code>\xintNewExpr</code>.</li>
-</ul></li>
+<li><p><code>\xintthecoords</code> converts a comma separated list of an even number of items to the format expected by the <code>TikZ</code> <code>coordinates</code> syntax,</p></li>
+<li><p>completely new version <code>\xintNewExpr</code>, <code>protect</code> function to handle external macros. The dollar sign <code>$</code> for place holders is not accepted anymore, only the standard macro parameter <code>#</code>. Not all constructs are compatible with <code>\xintNewExpr</code>.</p></li>
 </ul>
 <h2 id="n-20140401"><code>1.09n (2014/04/01)</code></h2>
 <ul>
-<li><p>the user manual does not include by default the source code anymore: the <code>\NoSourceCode</code> toggle in file <code>xint.tex</code> has to be set to 0 before compilation to get source code inclusion.</p></li>
+<li><p>the user manual does not include by default the source code anymore: the <code>\NoSourceCode</code> toggle in file <code>xint.tex</code> has to be set to 0 before compilation to get source code inclusion (later release <code>1.1</code> made source code available as <code>sourcexint.pdf</code>).</p></li>
 <li><p>bug fix (<strong>xinttools</strong>) in <code>\XINT_nthelt_finish</code> (this bug was introduced in <code>1.09i</code> of <code>2013/12/18</code> and showed up when the index <code>N</code> was larger than the number of elements of the list).</p></li>
 </ul>
 <h2 id="m-20140226"><code>1.09m (2014/02/26)</code></h2>
