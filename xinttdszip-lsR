@@ -1,2 +1,34 @@
-
-zip error: Nothing to do! (xint.tds.zip)
+Archive:  xint.tds.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  08-31-2015 11:55   doc/
+        0  08-31-2015 11:55   doc/generic/
+        0  08-31-2015 11:55   doc/generic/xint/
+    39054  08-31-2015 11:55   doc/generic/xint/CHANGES.html
+    59434  08-31-2015 11:55   doc/generic/xint/CHANGES.pdf
+     5488  08-31-2015 11:55   doc/generic/xint/README
+     9618  08-31-2015 11:55   doc/generic/xint/README.html
+    28744  08-31-2015 11:55   doc/generic/xint/README.pdf
+   522619  08-31-2015 11:55   doc/generic/xint/sourcexint.pdf
+   672011  08-31-2015 11:55   doc/generic/xint/xint.pdf
+        0  08-31-2015 11:55   source/
+        0  08-31-2015 11:55   source/generic/
+        0  08-31-2015 11:55   source/generic/xint/
+      460  10-21-2014 23:03   source/generic/xint/Makefile
+  1103229  08-31-2015 11:53   source/generic/xint/xint.dtx
+     3047  08-31-2015 11:55   source/generic/xint/xint.ins
+        0  08-31-2015 11:55   tex/
+        0  08-31-2015 11:55   tex/generic/
+        0  08-31-2015 11:55   tex/generic/xint/
+    44212  08-31-2015 11:55   tex/generic/xint/xint.sty
+    22670  08-31-2015 11:55   tex/generic/xint/xintbinhex.sty
+    29773  08-31-2015 11:55   tex/generic/xint/xintcfrac.sty
+    64010  08-31-2015 11:55   tex/generic/xint/xintcore.sty
+   103841  08-31-2015 11:55   tex/generic/xint/xintexpr.sty
+    73666  08-31-2015 11:55   tex/generic/xint/xintfrac.sty
+    13909  08-31-2015 11:55   tex/generic/xint/xintgcd.sty
+     8746  08-31-2015 11:55   tex/generic/xint/xintkernel.sty
+    12333  08-31-2015 11:55   tex/generic/xint/xintseries.sty
+    36750  08-31-2015 11:55   tex/generic/xint/xinttools.sty
+---------                     -------
+  2853614                     29 files
