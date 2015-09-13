@@ -1,6 +1,6 @@
 # Makefile for compilation of the complete xint
 # documentation, packages, and installation.
-# (C) 2014 Jean-Francois B.
+# (C) 2014-2015 Jean-Francois B.
 # distributed under LPPL 1.3c or later at your convenience.
 
 # with this file Makefile and xint.dtx in a working

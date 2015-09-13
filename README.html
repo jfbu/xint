@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <meta name="author" content="xint v1.1b" />
+  <meta name="author" content="xint v1.1c" />
   <title>README</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -17,8 +17,8 @@
 <body>
 <div id="header">
 <h1 class="title">README</h1>
-<h2 class="author">xint v1.1b</h2>
-<h3 class="date">2015/08/31 (doc 2015/08/31)</h3>
+<h2 class="author">xint v1.1c</h2>
+<h3 class="date">2015/09/12</h3>
 </div>
 <div id="TOC">
 <ul>
@@ -35,10 +35,10 @@
 <li><a href="#license">License</a></li>
 </ul>
 </div>
-<pre><code>Source:  xint.dtx (v1.1b 2015/08/31, doc of 2015/08/31)
+<pre><code>Source:  xint.dtx v1.1c 2015/09/12
 Author:  Jean-Francois B.
 Info:    Expandable operations on big integers, decimals, fractions
-License: LPPL 1.3c or later</code></pre>
+License: LPPL 1.3c</code></pre>
 <p>This README is also available as README.pdf and README.html.</p>
 <p>Change log is in CHANGES.pdf and CHANGES.html.</p>
 <h1 id="usage">Usage</h1>
@@ -49,7 +49,7 @@ License: LPPL 1.3c or later</code></pre>
 <p>Further packages: <code>xintbinhex</code>, <code>xintgcd</code>, <code>xintseries</code> and <code>xintcfrac</code>. All dependencies are handled automatically. For example <code>xintexpr</code> automatically loads <code>xintfrac</code> which itself loads <code>xint</code>. Package <code>xintcore</code> is the subset of <code>xint</code> providing only the five operations on big integers: <code>\xintiiAdd</code>, <code>\xintiiMul</code>, ... There is also <code>xinttools</code> which is a separate package providing, among others, expandable and non-expandable loops such as <code>\xintFor</code>.</p>
 <h2 id="with-tex">With TeX</h2>
 <p>One does for example:</p>
-<pre><code>\input xintexpr.sty\relax</code></pre>
+<pre><code>\input xintexpr.sty</code></pre>
 <p>Again, all dependencies are handled automatically. The packages may be loaded in any catcode context such that letters, digits, <code>\</code> and <code>%</code> have their standard catcodes.</p>
 <p><code>xintcore.sty</code> and <code>xinttools.sty</code> both import <code>xintkernel.sty</code> which has the catcode handler and package identifier and defines a few utilities such as <code>\oodef</code> or <code>\xint_dothis/\xint_orthat</code>.</p>
 <h1 id="installation">Installation</h1>
@@ -74,7 +74,7 @@ sudo texhash /usr/local/texlive/texmf-local</code></pre></li>
 <h2 id="method-c-manual-installation-using-makefile-and-xint.dtx">Method C: manual installation using <code>Makefile</code> and <code>xint.dtx</code></h2>
 <p>The Makefile automatizes rebuilding from <code>xint.dtx</code> all documentation files as well as <code>xint.tds.zip</code>. It is for GNU/Linux-like (inc. Mac OS X) systems, with a teTeX like installation such as TeXLive. Furthermore the <a href="http://johnmacfarlane.net/pandoc/">Pandoc</a> software is required.</p>
 <ol style="list-style-type: decimal">
-<li><p>obtain <code>xint.dtx</code> and <code>Makefile</code> from <a href="http://www.ctan.org/pkg/xint" class="uri">http://www.ctan.org/pkg/xint</a>.</p></li>
+<li><p>obtain <code>xint.dtx</code> and <code>Makefile</code> from <a href="http://www.ctan.org/tex-archive/macros/generic/xint" class="uri">http://www.ctan.org/tex-archive/macros/generic/xint</a>.</p></li>
 <li><p>put them in an otherwise empty working repertory, run <code>make</code> or equivalently <code>make help</code> for further instructions.</p></li>
 </ol>
 <h2 id="method-d-installation-starting-with-only-xint.dtx">Method D: installation starting with only <code>xint.dtx</code></h2>
@@ -111,13 +111,9 @@ sudo texhash /usr/local/texlive/texmf-local</code></pre></li>
 <h1 id="license">License</h1>
 <div class="mono">
 <p>Copyright (C) 2013-2015 by Jean-Francois B.</p>
-<p>This Work may be distributed and/or modified under the conditions of the LaTeX Project Public License, either version 1.3c of this license or (at your option) any later version. This version of this license is in</p>
+<p>This Work may be distributed and/or modified under the conditions of the LaTeX Project Public License version 1.3c. This version of this license is in</p>
 <blockquote>
 <p><a href="http://www.latex-project.org/lppl/lppl-1-3c.txt" class="uri">http://www.latex-project.org/lppl/lppl-1-3c.txt</a></p>
-</blockquote>
-<p>and the latest version of this license is in</p>
-<blockquote>
-<p><a href="http://www.latex-project.org/lppl.txt" class="uri">http://www.latex-project.org/lppl.txt</a></p>
 </blockquote>
 <p>and version 1.3 or later is part of all distributions of LaTeX version 2005/12/01 or later.</p>
 <p>This Work has the LPPL maintenance status <code>author-maintained</code>.</p>

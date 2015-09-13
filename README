@@ -1,7 +1,7 @@
-    Source:  xint.dtx (v1.1b 2015/08/31, doc of 2015/08/31)
+    Source:  xint.dtx v1.1c 2015/09/12
     Author:  Jean-Francois B.
     Info:    Expandable operations on big integers, decimals, fractions
-    License: LPPL 1.3c or later
+    License: LPPL 1.3c
 
 This README is also available as README.pdf and README.html.
 
@@ -31,7 +31,7 @@ With TeX
 
 One does for example:
 
-    \input xintexpr.sty\relax
+    \input xintexpr.sty
 
 Again, all dependencies are handled automatically. The packages may be
 loaded in any catcode context such that letters, digits, \ and % have
@@ -88,7 +88,8 @@ files as well as xint.tds.zip. It is for GNU/Linux-like (inc. Mac OS X)
 systems, with a teTeX like installation such as TeXLive. Furthermore the
 Pandoc software is required.
 
-1.  obtain xint.dtx and Makefile from http://www.ctan.org/pkg/xint.
+1.  obtain xint.dtx and Makefile from
+    http://www.ctan.org/tex-archive/macros/generic/xint.
 
 2.  put them in an otherwise empty working repertory, run make or
     equivalently make help for further instructions.
@@ -150,14 +151,10 @@ LICENSE
 Copyright (C) 2013-2015 by Jean-Francois B.
 
 This Work may be distributed and/or modified under the conditions of the
-LaTeX Project Public License, either version 1.3c of this license or (at
-your option) any later version. This version of this license is in
+LaTeX Project Public License version 1.3c. This version of this license
+is in
 
   http://www.latex-project.org/lppl/lppl-1-3c.txt
-
-and the latest version of this license is in
-
-  http://www.latex-project.org/lppl.txt
 
 and version 1.3 or later is part of all distributions of LaTeX version
 2005/12/01 or later.
