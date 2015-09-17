@@ -1,11 +1,14 @@
-    Source:  xint.dtx v1.1c 2015/09/12
+    Source:  xint.dtx v1.1c 2015/09/12 (doc 2015/09/17)
     Author:  Jean-Francois B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
 
 This README is also available as README.pdf and README.html.
 
-Change log is in CHANGES.pdf and CHANGES.html.
+Change log is to be found in CHANGES.pdf or CHANGES.html.
+
+The user manual is xint.pdf, and the commented source code is available
+as sourcexint.pdf.
 
 
 
@@ -89,7 +92,7 @@ systems, with a teTeX like installation such as TeXLive. Furthermore the
 Pandoc software is required.
 
 1.  obtain xint.dtx and Makefile from
-    http://www.ctan.org/tex-archive/macros/generic/xint.
+    http://mirror.ctan.org/macros/generic/xint.
 
 2.  put them in an otherwise empty working repertory, run make or
     equivalently make help for further instructions.
@@ -107,16 +110,18 @@ CHANGES.md
     the changes across successive releases.
 
 xint.tex
-
     used to generate xint.pdf via "latex xint.tex" (thrice) then
-    "dvipdfmx xint.dvi". For successful compilation, packages newtxtt,
-    newtxmath, etoc, mathastext are needed. Inclusion of the source code
-    is off by default, but the toggle can be set in xint.tex.
+    "dvipdfmx xint.dvi". It is also possible to compile xint.tex with
+    xelatex, or with pdflatex (this latter option produces a bigger
+    pdf).
+    For successful compilation, packages newtxtt, newtxmath, etoc,
+    mathastext are needed. Inclusion of the source code is off by
+    default, but the toggle can be set in xint.tex.
 
-    It is also possible to compile xint.tex with pdflatex.
-
-    A third option is to generate xint.pdf via pdflatex xint.dtx. Source
-    code is then included by default.
+    A third option is to generate xint.pdf via xelatex xint.dtx or
+    pdflatex xint.dtx. Source code is then included by default (but some
+    code comments in French use 8bit characters, hence for xelatex an a
+    priori conversion of xint.dtx into utf-8 will give a better result).
 
 Makefile.mk
     this is for UNIX-like systems. Note: this file is only produced with

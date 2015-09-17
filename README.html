@@ -35,12 +35,13 @@
 <li><a href="#license">License</a></li>
 </ul>
 </div>
-<pre><code>Source:  xint.dtx v1.1c 2015/09/12
+<pre><code>Source:  xint.dtx v1.1c 2015/09/12 (doc 2015/09/17)
 Author:  Jean-Francois B.
 Info:    Expandable operations on big integers, decimals, fractions
 License: LPPL 1.3c</code></pre>
-<p>This README is also available as README.pdf and README.html.</p>
-<p>Change log is in CHANGES.pdf and CHANGES.html.</p>
+<p>This <code>README</code> is also available as <code>README.pdf</code> and <code>README.html</code>.</p>
+<p>Change log is to be found in <code>CHANGES.pdf</code> or <code>CHANGES.html</code>.</p>
+<p>The user manual is <code>xint.pdf</code>, and the commented source code is available as <code>sourcexint.pdf</code>.</p>
 <h1 id="usage">Usage</h1>
 <h2 id="with-latex">With LaTeX</h2>
 <pre><code>\usepackage{xint}       % expandable arithmetic with big integers
@@ -74,7 +75,7 @@ sudo texhash /usr/local/texlive/texmf-local</code></pre></li>
 <h2 id="method-c-manual-installation-using-makefile-and-xint.dtx">Method C: manual installation using <code>Makefile</code> and <code>xint.dtx</code></h2>
 <p>The Makefile automatizes rebuilding from <code>xint.dtx</code> all documentation files as well as <code>xint.tds.zip</code>. It is for GNU/Linux-like (inc. Mac OS X) systems, with a teTeX like installation such as TeXLive. Furthermore the <a href="http://johnmacfarlane.net/pandoc/">Pandoc</a> software is required.</p>
 <ol style="list-style-type: decimal">
-<li><p>obtain <code>xint.dtx</code> and <code>Makefile</code> from <a href="http://www.ctan.org/tex-archive/macros/generic/xint" class="uri">http://www.ctan.org/tex-archive/macros/generic/xint</a>.</p></li>
+<li><p>obtain <code>xint.dtx</code> and <code>Makefile</code> from <a href="http://mirror.ctan.org/macros/generic/xint" class="uri">http://mirror.ctan.org/macros/generic/xint</a>.</p></li>
 <li><p>put them in an otherwise empty working repertory, run <code>make</code> or equivalently <code>make help</code> for further instructions.</p></li>
 </ol>
 <h2 id="method-d-installation-starting-with-only-xint.dtx">Method D: installation starting with only <code>xint.dtx</code></h2>
@@ -87,9 +88,11 @@ sudo texhash /usr/local/texlive/texmf-local</code></pre></li>
 <dd>the changes across successive releases.
 </dd>
 <dt><code>xint.tex</code></dt>
-<dd><p>used to generate <code>xint.pdf</code> via <code>&quot;latex xint.tex&quot;</code> (thrice) then <code>&quot;dvipdfmx xint.dvi&quot;</code>. For successful compilation, packages <code>newtxtt</code>, <code>newtxmath</code>, <code>etoc</code>, <code>mathastext</code> are needed. Inclusion of the source code is off by default, but the toggle can be set in <code>xint.tex</code>.</p>
-<p>It is also possible to compile <code>xint.tex</code> with <code>pdflatex</code>.</p>
-<p>A third option is to generate <code>xint.pdf</code> via <code>pdflatex xint.dtx</code>. Source code is then included by default.</p>
+<dd>used to generate <code>xint.pdf</code> via <code>&quot;latex xint.tex&quot;</code> (thrice) then <code>&quot;dvipdfmx xint.dvi&quot;</code>. It is also possible to compile <code>xint.tex</code> with <code>xelatex</code>, or with <code>pdflatex</code> (this latter option produces a bigger pdf).
+</dd>
+<dd><p>For successful compilation, packages <code>newtxtt</code>, <code>newtxmath</code>, <code>etoc</code>, <code>mathastext</code> are needed. Inclusion of the source code is off by default, but the toggle can be set in <code>xint.tex</code>.</p>
+</dd>
+<dd><p>A third option is to generate <code>xint.pdf</code> via <code>xelatex xint.dtx</code> or <code>pdflatex xint.dtx</code>. Source code is then included by default (but some code comments in French use 8bit characters, hence for <code>xelatex</code> an a priori conversion of xint.dtx into utf-8 will give a better result).</p>
 </dd>
 <dt><code>Makefile.mk</code></dt>
 <dd>this is for UNIX-like systems. Note: this file is only produced with <code>&quot;etex xint.dtx&quot;</code>, not with <code>&quot;tex xint.dtx&quot;</code>. Rename it to <code>Makefile</code> and run <code>make</code> on the command line for further help.

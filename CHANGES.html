@@ -52,7 +52,7 @@
 <li><a href="#section-7"><code>1.0 (2013/03/28)</code></a></li>
 </ul>
 </div>
-<pre><code>Source:  xint.dtx v1.1c 2015/09/12
+<pre><code>Source:  xint.dtx v1.1c 2015/09/12 (doc 2015/09/17)
 Author:  Jean-Francois B.
 Info:    Expandable operations on big integers, decimals, fractions
 License: LPPL 1.3c</code></pre>
@@ -165,7 +165,7 @@ License: LPPL 1.3c</code></pre>
 <li><p>some various other small improvements, particularly in the power routines.</p></li>
 <li><p>(<strong>xintfrac</strong>) a new macro <code>\xintXTrunc</code> is designed to produce thousands or even tens of thousands of digits of the decimal expansion of a fraction. Although completely expandable it has its use limited to inside an <code>\edef</code>, <code>\write</code>, <code>\message</code>, . It can thus not be nested as argument to another package macro.</p></li>
 <li><p>(<strong>xintexpr</strong>) the tacit multiplication done in <code>\xintexpr..\relax</code> on encountering a count register or variable, or a <code>\numexpr</code>, while scanning a (decimal) number, is extended to the case of a sub <code>\xintexpr</code>-ession.</p></li>
-<li><p><code>\xintexpr</code> can now be used in an <code>\edef</code> with no <code>\xintthe</code> prefix; it will execute completely the computation, and the error message about a missing <code>\xintthe</code> will be inhibited. Previously, in the absence of <code>\xintthe</code>, expansion could only be a full one (with <code>\romannumeral-`0</code>), not a complete one (with <code>\edef</code>). Note that this differs from the behavior of the non-expandable <code>\numexpr</code>: <code>\the</code> or <code>\number</code> are needed not only to print but also to trigger the computation, whereas <code>\xintthe</code> is mandatory only for the printing step.</p></li>
+<li><p><code>\xintexpr</code> can now be used in an <code>\edef</code> with no <code>\xintthe</code> prefix; it will execute completely the computation, and the error message about a missing <code>\xintthe</code> will be inhibited. Previously, in the absence of <code>\xintthe</code>, expansion could only be a full one (with <code>\romannumeral-`0</code>), not a complete one (with <code>\edef</code>). Note that this differs from the behavior of the non-expandable <code>\numexpr</code>: <code>\the</code> or <code>\number</code> (or <code>\romannumeral</code>) are needed not only to print but also to trigger the computation, whereas <code>\xintthe</code> is mandatory only for the printing step.</p></li>
 <li><p>the default behavior of <code>\xintAssign</code> is changed, it now does not do any further expansion beyond the initial full-expansion which provided the list of items to be assigned to macros.</p></li>
 <li><p>bug fix (<strong>xintfrac</strong>): <code>1.09i</code> did an unexplainable change to <code>\XINT_infloat_zero</code> which broke the floating point routines for vanishing operands =:(((</p></li>
 <li><p>bug fix: the <code>1.09i</code> <code>xint.ins</code> file produced a buggy <code>xint.tex</code> file.</p></li>
