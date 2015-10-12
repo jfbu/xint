@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <meta name="author" content="xint v1.1c" />
+  <meta name="author" content="xint v1.2" />
   <title>CHANGE LOG</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -17,15 +17,16 @@
 <body>
 <div id="header">
 <h1 class="title">CHANGE LOG</h1>
-<h2 class="author">xint v1.1c</h2>
-<h3 class="date">2015/09/12</h3>
+<h2 class="author">xint v1.2</h2>
+<h3 class="date">2015/10/10</h3>
 </div>
 <div id="TOC">
 <ul>
+<li><a href="#section"><code>1.2 (2015/10/10)</code></a></li>
 <li><a href="#c-20150912"><code>1.1c (2015/09/12)</code></a></li>
 <li><a href="#b-20150831"><code>1.1b (2015/08/31)</code></a></li>
 <li><a href="#a-20141107"><code>1.1a (2014/11/07)</code></a></li>
-<li><a href="#section"><code>1.1 (2014/10/28)</code></a></li>
+<li><a href="#section-1"><code>1.1 (2014/10/28)</code></a></li>
 <li><a href="#n-20140401"><code>1.09n (2014/04/01)</code></a></li>
 <li><a href="#m-20140226"><code>1.09m (2014/02/26)</code></a></li>
 <li><a href="#kb-20140213"><code>1.09kb (2014/02/13)</code></a></li>
@@ -42,20 +43,34 @@
 <li><a href="#a-20130924"><code>1.09a (2013/09/24)</code></a></li>
 <li><a href="#b-20130614"><code>1.08b (2013/06/14)</code></a></li>
 <li><a href="#a-20130611"><code>1.08a (2013/06/11)</code></a></li>
-<li><a href="#section-1"><code>1.08 (2013/06/07)</code></a></li>
-<li><a href="#section-2"><code>1.07 (2013/05/25)</code></a></li>
+<li><a href="#section-2"><code>1.08 (2013/06/07)</code></a></li>
+<li><a href="#section-3"><code>1.07 (2013/05/25)</code></a></li>
 <li><a href="#b-20130514"><code>1.06b (2013/05/14)</code></a></li>
-<li><a href="#section-3"><code>1.06 (2013/05/07)</code></a></li>
-<li><a href="#section-4"><code>1.05 (2013/05/01)</code></a></li>
-<li><a href="#section-5"><code>1.04 (2013/04/25)</code></a></li>
-<li><a href="#section-6"><code>1.03 (2013/04/14)</code></a></li>
-<li><a href="#section-7"><code>1.0 (2013/03/28)</code></a></li>
+<li><a href="#section-4"><code>1.06 (2013/05/07)</code></a></li>
+<li><a href="#section-5"><code>1.05 (2013/05/01)</code></a></li>
+<li><a href="#section-6"><code>1.04 (2013/04/25)</code></a></li>
+<li><a href="#section-7"><code>1.03 (2013/04/14)</code></a></li>
+<li><a href="#section-8"><code>1.0 (2013/03/28)</code></a></li>
 </ul>
 </div>
-<pre><code>Source:  xint.dtx v1.1c 2015/09/12 (doc 2015/09/17)
+<pre><code>Source:  xint.dtx v1.2 2015/10/10 (doc 2015/10/10)
 Author:  Jean-Francois B.
 Info:    Expandable operations on big integers, decimals, fractions
 License: LPPL 1.3c</code></pre>
+<h2 id="section"><code>1.2 (2015/10/10)</code></h2>
+<ul>
+<li><p>the basic arithmetic implemented in <strong>xintcore</strong> has been entirely rewritten. The mathematics remains the elementary school one, but the <code>TeX</code> implementation achieves higher speed (except, regarding addition/subtraction, for numbers up to about thirty digits), the gains becoming quite significant for numbers with hundreds of digits.</p></li>
+<li><p>the inputs must have less than 19959 digits. But computations with thousands of digits take time.</p></li>
+<li><p>a previously standing limitation of <code>\xintexpr</code>, <code>\xintiiexpr</code>, and of <code>\xintfloatexpr</code> to numbers of less than 5000 digits has been lifted.</p></li>
+<li><p>a <em>qint</em> function is provided to help the parser gather huge integers in one-go, as an exception to its normal mode of operation which expands token by token.</p></li>
+<li><p>new <code>\xintFloatFac</code> macro for computing the factorials of integers as floating point numbers to a given precision. The <code>!</code> postfix operator inside <code>\xintfloatexpr</code> maps to this new macro rather than to the exact factorial as used by <code>\xintexpr</code> and <code>xintiiexpr</code>.</p></li>
+<li><p>the macros <code>\xintAdd</code>, <code>\xintSub</code>, ..., now require package <strong>xintfrac</strong>. With only <strong>xintcore</strong> or <strong>xint</strong> loaded, one <em>must</em> use <code>\xintiiAdd</code>, <code>\xintiiSub</code>, ..., or <code>\xintiAdd</code>, <code>\xintiSub</code>, etc...</p></li>
+<li><p>there is more flexibility in the parsing done by the macros from <strong>xintfrac</strong> on fractional input: the decimal parts of both the numerator and the denominator may arise from a separate expansion via <code>\romannumeral-`0</code>. Also the strict <code>A/B[N]</code> format is a bit relaxed: <code>N</code> may be empty or anything understood by <code>\numexpr</code>.</p></li>
+<li><p>on the other hand an isolated dot <code>.</code> is not legal syntax anymore inside the expression parsers: there must be digits either before or after. It remains legal input for the macros of <strong>xintfrac</strong>.</p></li>
+<li><p>added <code>\ht</code>, <code>\dp</code>, <code>\wd</code>, <code>\fontcharht</code>, etc... to the tokens recognized by the parsers and expanded by <code>\number</code>.</p></li>
+<li><p>an obscure bug in package <strong>xintkernel</strong> has been fixed, regarding the sanitization of catcodes: under certain circumstances (which could not occur in a normal <code>LaTeX</code> context), unusual catcodes could end up being propagated to the external world.</p></li>
+<li><p>an effort at randomly shuffling around various pieces of the documentation has been done.</p></li>
+</ul>
 <h2 id="c-20150912"><code>1.1c (2015/09/12)</code></h2>
 <ul>
 <li><p>bugfix regarding macro <code>\xintAssign</code> from <strong>xinttools</strong> which did not behave correctly in some circumstances (if there was a space before <code>\to</code>, in particular).</p></li>
@@ -76,7 +91,7 @@ License: LPPL 1.3c</code></pre>
 <li><p>added the previously mentioned <code>ii</code> macros, and some others from <code>v1.1</code>, to the user manual. But their main usage is internal to <code>\xintiiexpr</code>, to skip unnecessary overheads.</p></li>
 <li><p>various typographical fixes throughout the documentation, and a bit of clean up of the code comments. Improved <code>\Factors</code> example of nested <code>subs</code>, <code>rseq</code>, <code>iter</code> in <code>\xintiiexpr</code>.</p></li>
 </ul>
-<h2 id="section"><code>1.1 (2014/10/28)</code></h2>
+<h2 id="section-1"><code>1.1 (2014/10/28)</code></h2>
 <dl>
 <dt>bug fixes</dt>
 <dd><ul>
@@ -177,7 +192,7 @@ License: LPPL 1.3c</code></pre>
 <li><p>it is now possible within <code>\xintexpr...\relax</code> and its variants to use count, dimen, and skip registers or variables without explicit <code>\the/\number</code>: the parser inserts automatically <code>\number</code> and a tacit multiplication is implied when a register or variable immediately follows a number or fraction. Regarding dimensions and <code>\number</code>, see the further discussion in <em>Dimensions</em>.</p></li>
 <li><p>(<strong>xintfrac</strong>) new conditional <code>\xintifOne</code>; <code>\xintifTrueFalse</code> renamed to <code>\xintifTrueAelseB</code>; new macros <code>\xintTFrac</code> (<code>fractional part</code>, mapped to function <code>frac</code> in <code>\xintexpr</code>-essions), <code>\xintFloatE</code>.</p></li>
 <li><p>(<strong>xinttools</strong>) <code>\xintAssign</code> admits an optional argument to specify the expansion type to be used: <code>[]</code> (none, default), <code>[o]</code> (once), <code>[oo]</code> (twice), <code>[f]</code> (full), <code>[e]</code> (<code>\edef</code>),... to define the macros</p></li>
-<li><p><strong>xinttools</strong> defines <code>\odef</code>, <code>\oodef</code>, <code>\fdef</code> (if the names have already been assigned, it uses <code>\xintoodef</code> etc...). These tools are provided for the case one uses the package macros in a non-expandable context, particularly <code>\oodef</code> which expands twice the macro replacement text and is thus a faster alternative to <code>\edef</code> taking into account that the <strong>xint</strong> bundle macros expand already completely in only two steps. This can be significant when repeatedly making <code>\def</code>-initions expanding to hundreds of digits.</p></li>
+<li><p><strong>xinttools</strong> defines <code>\odef</code>, <code>\oodef</code>, <code>\fdef</code> (if the names have already been assigned, it uses <code>\xintoodef</code> etc...). These tools are provided for the case one uses the package macros in a non-expandable context. <code>\oodef</code> expands twice the macro replacement text, and <code>\fdef</code> applies full expansion. They are useful in situations where one does not want a full <code>\edef</code>. <code>\fdef</code> appears to be faster than <code>\oodef</code> in almost all cases (with less than thousand digits in the result), and even faster than <code>\edef</code> for expanding the package macros when the result has a few dozens of digits. <code>\oodef</code> needs that expansion ends up in thousands of digits to become competitive with the other two.</p></li>
 <li><p>some across the board slight efficiency improvement as a result of modifications of various types to <em>fork macros</em> and <em>branching conditionals</em> which are used internally.</p></li>
 <li><p>bug fix (<strong>xint</strong>): <code>\xintAND</code> and <code>\xintOR</code> inserted a space token in some cases and did not expand as promised in two steps <code>:-((</code> (bug dating back to <code>1.09a</code> I think; this bug was without consequences when using <code>&amp;</code> and <code>|</code> in <code>\xintexpr-essions</code>, it affected only the macro form).</p></li>
 <li><p>bug fix (<strong>xintcfrac</strong>): <code>\xintFtoCCv</code> still ended fractions with the <code>[0]</code>'s which were supposed to have been removed since release <code>1.09b</code>.</p></li>
@@ -270,12 +285,12 @@ License: LPPL 1.3c</code></pre>
 <li><p>Better management by <code>\xintCmp</code>, <code>\xintMax</code>, <code>\xintMin</code> and <code>\xintGeq</code> of inputs having big powers of ten in them.</p></li>
 <li><p>Macros for floating point numbers added to the <strong>xintseries</strong> package.</p></li>
 </ul>
-<h2 id="section-1"><code>1.08 (2013/06/07)</code></h2>
+<h2 id="section-2"><code>1.08 (2013/06/07)</code></h2>
 <ul>
 <li><p>(<strong>xint</strong> and <strong>xintfrac</strong>) Macros for extraction of square roots, for floating point numbers (<code>\xintFloatSqrt</code>), and integers (<code>\xintiSqrt</code>).</p></li>
 <li><p>New package <strong>xintbinhex</strong> providing <em>conversion routines</em> to and from binary and hexadecimal bases.</p></li>
 </ul>
-<h2 id="section-2"><code>1.07 (2013/05/25)</code></h2>
+<h2 id="section-3"><code>1.07 (2013/05/25)</code></h2>
 <ul>
 <li><p>The <strong>xintexpr</strong> package is a new core constituent (which loads automatically <strong>xintfrac</strong> and <strong>xint</strong>) and implements the expandable expanding parser</p>
 <pre><code>\xintexpr . . . \relax,</code></pre>
@@ -290,16 +305,16 @@ License: LPPL 1.3c</code></pre>
 <ul>
 <li>Minor code and documentation improvements. Everywhere in the source code, a more modern underscore has replaced the @ sign.</li>
 </ul>
-<h2 id="section-3"><code>1.06 (2013/05/07)</code></h2>
+<h2 id="section-4"><code>1.06 (2013/05/07)</code></h2>
 <ul>
 <li><p>Some code improvements, particularly for macros of <strong>xint</strong> doing loops.</p></li>
 <li><p>New utilities in <strong>xint</strong> for expandable manipulations of lists:</p>
 <pre><code>\xintNthElt, \xintCSVtoList, \xintRevWithBraces</code></pre></li>
 <li><p>The macros did only a double expansion of their arguments. They now fully expand them (using <code>\romannumeral-`0</code>). Furthermore, in the case of arguments constrained to obey the TeX bounds they will be inserted inside a <code>\numexpr..\relax</code>, hence completely expanded, one may use count registers, even infix arithmetic operations, etc...</p></li>
 </ul>
-<h2 id="section-4"><code>1.05 (2013/05/01)</code></h2>
+<h2 id="section-5"><code>1.05 (2013/05/01)</code></h2>
 <p>Minor changes and additions to <strong>xintfrac</strong> and <strong>xintcfrac</strong>.</p>
-<h2 id="section-5"><code>1.04 (2013/04/25)</code></h2>
+<h2 id="section-6"><code>1.04 (2013/04/25)</code></h2>
 <ul>
 <li><p>New component <strong>xintcfrac</strong> devoted to continued fractions.</p></li>
 <li><p>bug fix (<strong>xintfrac</strong>): <code>\xintIrr {0}</code> crashed.</p></li>
@@ -308,13 +323,13 @@ License: LPPL 1.3c</code></pre>
 <li><p><strong>xintseries</strong> has a new implementation of <code>\xintPowerSeries</code> based on a Horner scheme, and new macro <code>\xintRationalSeries</code>. Both to help deal with the <em>denominator buildup</em> plague.</p></li>
 <li><p><code>tex xint.dtx</code> extracts style files (no need for a <code>xint.ins</code>).</p></li>
 </ul>
-<h2 id="section-6"><code>1.03 (2013/04/14)</code></h2>
+<h2 id="section-7"><code>1.03 (2013/04/14)</code></h2>
 <ul>
 <li><p>new modules <strong>xintfrac</strong> (expandable operations on fractions) and <strong>xintseries</strong> (expandable partial sums with xint package).</p></li>
 <li><p>slightly improved division and faster multiplication (the best ordering of the arguments is chosen automatically).</p></li>
 <li><p>added illustration of Machin algorithm to the documentation.</p></li>
 </ul>
-<h2 id="section-7"><code>1.0 (2013/03/28)</code></h2>
+<h2 id="section-8"><code>1.0 (2013/03/28)</code></h2>
 <p>Initial announcement:</p>
 <blockquote>
 <p>The <strong>xint</strong> package implements with expandable TeX macros the basic arithmetic operations of addition, subtraction, multiplication and division, as applied to arbitrarily long numbers represented as chains of digits with an optional minus sign.</p>

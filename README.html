@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <meta name="author" content="xint v1.1c" />
+  <meta name="author" content="xint v1.2" />
   <title>README</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -17,11 +17,12 @@
 <body>
 <div id="header">
 <h1 class="title">README</h1>
-<h2 class="author">xint v1.1c</h2>
-<h3 class="date">2015/09/12</h3>
+<h2 class="author">xint v1.2</h2>
+<h3 class="date">2015/10/10</h3>
 </div>
 <div id="TOC">
 <ul>
+<li><a href="#aim">Aim</a></li>
 <li><a href="#usage">Usage</a><ul>
 <li><a href="#with-latex">With LaTeX</a></li>
 <li><a href="#with-tex">With TeX</a></li>
@@ -35,13 +36,21 @@
 <li><a href="#license">License</a></li>
 </ul>
 </div>
-<pre><code>Source:  xint.dtx v1.1c 2015/09/12 (doc 2015/09/17)
+<pre><code>Source:  xint.dtx v1.2 2015/10/10 (doc 2015/10/10)
 Author:  Jean-Francois B.
 Info:    Expandable operations on big integers, decimals, fractions
 License: LPPL 1.3c</code></pre>
 <p>This <code>README</code> is also available as <code>README.pdf</code> and <code>README.html</code>.</p>
 <p>Change log is to be found in <code>CHANGES.pdf</code> or <code>CHANGES.html</code>.</p>
 <p>The user manual is <code>xint.pdf</code>, and the commented source code is available as <code>sourcexint.pdf</code>.</p>
+<h1 id="aim">Aim</h1>
+<p>The basic aim is provide <em>expandable</em> computations on big integers, and also big fractions. For example</p>
+<pre><code>\xinttheexpr reduce(37189719/183618963+11390170/17310720)^17\relax</code></pre>
+<p>will evaluate exactly the fraction (the result has 462 characters including the fraction slash). One can also work with dummy variables. For example</p>
+<pre><code>\xinttheexpr mul(add(x(x+1)(x+2), x=y..y+15), y=171286,98762,9296)\relax</code></pre>
+<p>evaluates to <code>15979066346135829902328007959448563667099190784</code>.</p>
+<p>It is possible to use the package with Plain as well as with LaTeX.</p>
+<p>Sub-units <code>xintcore</code>, <code>xint</code> and <code>xintfrac</code> provide the underlying macros, and <code>xintexpr</code> loads all of them and provides expandable parsers allowing computations such as the above (and more). A more light-weight package <a href="http://www.ctan.org/pkg/bnumexpr">bnumexpr</a> (LaTeX only) loads only <code>xintcore</code> and provides a parser which handles only big integers, the four operations, the power operation and the factorial (v1.2).</p>
 <h1 id="usage">Usage</h1>
 <h2 id="with-latex">With LaTeX</h2>
 <pre><code>\usepackage{xint}       % expandable arithmetic with big integers
@@ -52,7 +61,7 @@ License: LPPL 1.3c</code></pre>
 <p>One does for example:</p>
 <pre><code>\input xintexpr.sty</code></pre>
 <p>Again, all dependencies are handled automatically. The packages may be loaded in any catcode context such that letters, digits, <code>\</code> and <code>%</code> have their standard catcodes.</p>
-<p><code>xintcore.sty</code> and <code>xinttools.sty</code> both import <code>xintkernel.sty</code> which has the catcode handler and package identifier and defines a few utilities such as <code>\oodef</code> or <code>\xint_dothis/\xint_orthat</code>.</p>
+<p><code>xintcore.sty</code> and <code>xinttools.sty</code> both import <code>xintkernel.sty</code> which has the catcode handler and package identifier and defines a few utilities such as <code>\oodef</code>, <code>\fdef</code>, or <code>\xint_dothis/\xint_orthat</code>.</p>
 <h1 id="installation">Installation</h1>
 <h2 id="method-a-using-the-package-manager-of-your-tex-distribution">Method A: using the package manager of your TeX distribution</h2>
 <p><code>xint</code> is included in <a href="http://tug.org/texlive/">TeXLive</a> (hence also <a href="http://tug.org/mactex/">MacTeX</a>) and <a href="http://www.miktex.org/">MikTeX</a>.</p>

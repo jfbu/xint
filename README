@@ -1,4 +1,4 @@
-    Source:  xint.dtx v1.1c 2015/09/12 (doc 2015/09/17)
+    Source:  xint.dtx v1.2 2015/10/10 (doc 2015/10/10)
     Author:  Jean-Francois B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
@@ -9,6 +9,33 @@ Change log is to be found in CHANGES.pdf or CHANGES.html.
 
 The user manual is xint.pdf, and the commented source code is available
 as sourcexint.pdf.
+
+
+
+AIM
+
+
+The basic aim is provide _expandable_ computations on big integers, and
+also big fractions. For example
+
+    \xinttheexpr reduce(37189719/183618963+11390170/17310720)^17\relax
+
+will evaluate exactly the fraction (the result has 462 characters
+including the fraction slash). One can also work with dummy variables.
+For example
+
+    \xinttheexpr mul(add(x(x+1)(x+2), x=y..y+15), y=171286,98762,9296)\relax
+
+evaluates to 15979066346135829902328007959448563667099190784.
+
+It is possible to use the package with Plain as well as with LaTeX.
+
+Sub-units xintcore, xint and xintfrac provide the underlying macros, and
+xintexpr loads all of them and provides expandable parsers allowing
+computations such as the above (and more). A more light-weight package
+bnumexpr (LaTeX only) loads only xintcore and provides a parser which
+handles only big integers, the four operations, the power operation and
+the factorial (v1.2).
 
 
 
@@ -42,7 +69,7 @@ their standard catcodes.
 
 xintcore.sty and xinttools.sty both import xintkernel.sty which has the
 catcode handler and package identifier and defines a few utilities such
-as \oodef or \xint_dothis/\xint_orthat.
+as \oodef, \fdef, or \xint_dothis/\xint_orthat.
 
 
 

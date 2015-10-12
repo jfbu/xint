@@ -1,32 +1,34 @@
 Archive:  xint.tds.zip
-Zip file size: 1646947 bytes, number of entries: 29
-drwxrwxrwx  3.0 unx        0 bx        0 stor 15-Sep-17 11:17 doc/
-drwxrwxrwx  3.0 unx        0 bx        0 stor 15-Sep-17 11:17 doc/generic/
-drwxrwxrwx  3.0 unx        0 bx        0 stor 15-Sep-17 11:17 doc/generic/xint/
--rw-r--r--  3.0 unx    39592 tx    11579 defN 15-Sep-17 11:17 doc/generic/xint/CHANGES.html
--rw-r--r--  3.0 unx    59971 bx    58464 defN 15-Sep-17 11:17 doc/generic/xint/CHANGES.pdf
--rw-r--r--  3.0 unx     5681 tx     2461 defN 15-Sep-17 11:17 doc/generic/xint/README
--rw-r--r--  3.0 unx     9838 tx     3333 defN 15-Sep-17 11:17 doc/generic/xint/README.html
--rw-r--r--  3.0 unx    29051 bx    28301 defN 15-Sep-17 11:17 doc/generic/xint/README.pdf
--rw-r--r--  3.0 unx   529252 bx   507200 defN 15-Sep-17 11:17 doc/generic/xint/sourcexint.pdf
--rw-r--r--  3.0 unx   683923 bx   669755 defN 15-Sep-17 11:16 doc/generic/xint/xint.pdf
-drwxrwxrwx  3.0 unx        0 bx        0 stor 15-Sep-17 11:17 source/
-drwxrwxrwx  3.0 unx        0 bx        0 stor 15-Sep-17 11:17 source/generic/
-drwxrwxrwx  3.0 unx        0 bx        0 stor 15-Sep-17 11:17 source/generic/xint/
--rw-r--r--  3.0 unx      655 tx      402 defN 15-Sep-16 22:56 source/generic/xint/Makefile
--rw-r--r--  3.0 unx  1119334 tx   289400 defN 15-Sep-17 11:09 source/generic/xint/xint.dtx
--rw-r--r--  3.0 unx     3017 tx     1072 defN 15-Sep-17 11:16 source/generic/xint/xint.ins
-drwxrwxrwx  3.0 unx        0 bx        0 stor 15-Sep-17 11:17 tex/
-drwxrwxrwx  3.0 unx        0 bx        0 stor 15-Sep-17 11:17 tex/generic/
-drwxrwxrwx  3.0 unx        0 bx        0 stor 15-Sep-17 11:17 tex/generic/xint/
--rw-r--r--  3.0 unx    44193 tx     7586 defN 15-Sep-17 11:16 tex/generic/xint/xint.sty
--rw-r--r--  3.0 unx    22651 tx     4048 defN 15-Sep-17 11:16 tex/generic/xint/xintbinhex.sty
--rw-r--r--  3.0 unx    29754 tx     4718 defN 15-Sep-17 11:16 tex/generic/xint/xintcfrac.sty
--rw-r--r--  3.0 unx    63991 tx    10474 defN 15-Sep-17 11:16 tex/generic/xint/xintcore.sty
--rw-r--r--  3.0 unx   102360 tx    16243 defN 15-Sep-17 11:16 tex/generic/xint/xintexpr.sty
--rw-r--r--  3.0 unx    73647 tx    12669 defN 15-Sep-17 11:16 tex/generic/xint/xintfrac.sty
--rw-r--r--  3.0 unx    13890 tx     3125 defN 15-Sep-17 11:16 tex/generic/xint/xintgcd.sty
--rw-r--r--  3.0 unx     8727 tx     2290 defN 15-Sep-17 11:16 tex/generic/xint/xintkernel.sty
--rw-r--r--  3.0 unx    12314 tx     2273 defN 15-Sep-17 11:16 tex/generic/xint/xintseries.sty
--rw-r--r--  3.0 unx    36818 tx     6468 defN 15-Sep-17 11:16 tex/generic/xint/xinttools.sty
-29 files, 2888659 bytes uncompressed, 1641861 bytes compressed:  43.2%
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  10-10-2015 23:43   doc/
+        0  10-10-2015 23:43   doc/generic/
+        0  10-10-2015 23:43   doc/generic/xint/
+    42659  10-10-2015 23:43   doc/generic/xint/CHANGES.html
+    62543  10-10-2015 23:43   doc/generic/xint/CHANGES.pdf
+     6610  10-10-2015 23:43   doc/generic/xint/README
+    11024  10-10-2015 23:43   doc/generic/xint/README.html
+    32596  10-10-2015 23:43   doc/generic/xint/README.pdf
+   533334  10-10-2015 23:43   doc/generic/xint/sourcexint.pdf
+   680447  10-10-2015 23:43   doc/generic/xint/xint.pdf
+        0  10-10-2015 23:43   source/
+        0  10-10-2015 23:43   source/generic/
+        0  10-10-2015 23:43   source/generic/xint/
+      655  09-16-2015 22:56   source/generic/xint/Makefile
+  1144160  10-10-2015 23:42   source/generic/xint/xint.dtx
+     3016  10-10-2015 23:42   source/generic/xint/xint.ins
+        0  10-10-2015 23:43   tex/
+        0  10-10-2015 23:43   tex/generic/
+        0  10-10-2015 23:43   tex/generic/xint/
+    44312  10-10-2015 23:42   tex/generic/xint/xint.sty
+    23487  10-10-2015 23:42   tex/generic/xint/xintbinhex.sty
+    29896  10-10-2015 23:42   tex/generic/xint/xintcfrac.sty
+    65855  10-10-2015 23:42   tex/generic/xint/xintcore.sty
+   105322  10-10-2015 23:42   tex/generic/xint/xintexpr.sty
+    82779  10-10-2015 23:42   tex/generic/xint/xintfrac.sty
+    13902  10-10-2015 23:42   tex/generic/xint/xintgcd.sty
+    10714  10-10-2015 23:42   tex/generic/xint/xintkernel.sty
+    12312  10-10-2015 23:42   tex/generic/xint/xintseries.sty
+    36816  10-10-2015 23:42   tex/generic/xint/xinttools.sty
+---------                     -------
+  2942439                     29 files
