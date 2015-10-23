@@ -2,24 +2,24 @@
 % N.B.: this dtx file does NOT use \DocInput, only docstrip. The user manual
 % latex source is NOT prefixed with percent characters.
 %<*dtx>
-\def\xintdtxtimestamp  {Time-stamp: <10-10-2015 at 23:42:39 CEST>}
+\def\xintdtxtimestamp  {Time-stamp: <20-10-2015 00:44:07 CEST>}
 %</dtx>
 %<*drv>
 %% ---------------------------------------------------------------
-\def\xintdocdate {2015/10/10}
-\def\xintbndldate{2015/10/10}
-\def\xintbndlversion {1.2}
+\def\xintdocdate {2015/10/19}
+\def\xintbndldate{2015/10/19}
+\def\xintbndlversion {1.2a}
 %</drv>
 %<*dtx>
 \iffalse % meta-comment
 %</dtx>
 %<readme>% README
 %<changes>% CHANGE LOG
-%<readme|changes>% xint v1.2
-%<readme|changes>% 2015/10/10
+%<readme|changes>% xint v1.2a
+%<readme|changes>% 2015/10/19
 %<*readme|changes>
 
-    Source:  xint.dtx v1.2 2015/10/10 (doc 2015/10/10)
+    Source:  xint.dtx v1.2a 2015/10/19 (doc 2015/10/19)
     Author:  Jean-Francois B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
@@ -27,7 +27,7 @@
 %</readme|changes>
 %<*!readme&!changes&!dohtmlsh&!dopdfsh&!makefile>
 %% ---------------------------------------------------------------
-%% The xint bundle v1.2 2015/10/10
+%% The xint bundle v1.2a 2015/10/19
 %% Copyright (C) 2013-2015 by Jean-Francois B.
 %<xintkernel>%% xintkernel: Paraphernalia for the xint packages
 %<xinttools>%% xinttools: Expandable and non-expandable utilities
@@ -237,6 +237,23 @@ pandoctpl.latex, doHTMLs.sh, doPDFs.sh, xint.dvi, xint.pdf,
 Makefile.mk.</div>
 %</readme>--------------------------------------------------------
 %<*changes>-------------------------------------------------------
+`1.2a (2015/10/19)`
+----
+
+ - bugfix in **xintexpr**: recent release `1.2` introduced a bad bug
+   in the parsing of decimal numbers and as a result `\xinttheexpr
+   0.01\relax` expanded to `0` ! (sigh...)
+
+ - added `\xintKeepUnbraced`, `\xintTrimUnbraced` (**xinttools**) and fixed
+   documentation of `\xintKeep` and `\xintTrim` regarding brace stripping.
+
+ - added `\xintiiMaxof/\xintiiMinof` (**xint**).
+
+ - TeX hackers only: replaced all code uses of ``\romannumeral-`0``
+   by the quicker ``\romannumeral`&&@`` (`^` being used as letter,
+   had to find another character usable with catcode 7).
+
+
 `1.2 (2015/10/10)`
 ----
 
@@ -260,7 +277,7 @@ Makefile.mk.</div>
  - new `\xintFloatFac` macro for computing the factorials of integers as
    floating point numbers to a given precision. The `!` postfix operator
    inside `\xintfloatexpr` maps to this new macro rather than to the
-   exact factorial as used by `\xintexpr` and `xintiiexpr`.
+   exact factorial as used by `\xintexpr` and `\xintiiexpr`.
 
  - the macros `\xintAdd`, `\xintSub`, ..., now require package
    **xintfrac**. With only **xintcore** or **xint** loaded, one _must_
@@ -2868,15 +2885,15 @@ Additional derived parsers:
 
 \begin{framed}
   Here is the (partial) list of recognized symbols: the comma (to separate
-  distinct computations or arguments to a function), the
-  parentheses, infix operators |+|, |-|, |*|, |/|, |^| (or |**|), branching
-  operators |?|, |??|, boolean operators |!|, |&&|, \verb+||+, comparison
-  operators |=| (or |==|), |<|, |>|, |<=|, |>=|, |!=|, factorial post-fix
-  operator |!|, and functions \dtt{num, reduce, abs, sgn, frac, floor, ceil,
-    sqr, sqrt, sqrtr, float, round, trunc, mod, quo, rem, gcd, lcm, max, min,
-    `+`, `*`, not, all, any, xor, if, ifsgn, even, odd, first, last, reversed,
-    bool, togl, add, mul, seq, subs, rseq, rrseq, iter}. And |"| may serve for
-  hexadecimal input (uppercase only; package \xintbinhexname required).
+  distinct computations or arguments to a function), the parentheses, infix
+  operators |+|, |-|, |*|, |/|, |^| (or |**|), branching operators |?|, |??|,
+  boolean operators |!|, |&&|, \verb+||+, comparison operators |=| (or |==|),
+  |<|, |>|, |<=|, |>=|, |!=|, factorial post-fix operator |!|, and functions
+  \dtt{num, reduce, abs, sgn, frac, floor, ceil, sqr, sqrt, sqrtr, float,
+    round, trunc, mod, quo, rem, gcd, lcm, max, min, |`+`|, |`*`|, not, all,
+    any, xor, if, ifsgn, even, odd, first, last, reversed, bool, togl, add,
+    mul, seq, subs, rseq, rrseq, iter}. And |"| may serve for hexadecimal
+  input (uppercase only; package \xintbinhexname required).
 
   |1.2| has added \dtt{qint, qfrac, qfloat} to tell the parser to skip its usual
   token by token expansion when gathering the digits of a number.
@@ -3545,8 +3562,8 @@ available in September 2015, on one hand, and on the other hand
   my laptop) ...
   Karatsuba multiplication brilliantly pays off !
 \item One observes the transition at the powers of two for the \liiibigint{}
-  algorithm, for example I observed \liiibigint{} to be |3.5x| faster at
-  $4000$ digits but only |3.1x| faster at $5000$ digits.
+  algorithm, for example I observed \liiibigint{} to be |3.5x--4x| faster at
+  $4000$ digits but only |3x--3.5x| faster at $5000$ digits.
 \end{itemize}
 
 Once one accepts a small overhead, one can on the basis of the lengths decide
@@ -4212,7 +4229,7 @@ the allowed input formats for `long numbers' and `fractions' are:
     \item |C| and |F| will be given to |\numexpr| and can be anything
       recognized as such and not provoking arithmetic overflow (the lengths of
       |B| and |E| will also intervene to build the final exponent naturally
-      which must obeys the \TeX{} bound).
+      which must obey the \TeX{} bound).
     \item the |/|, |.| (numerator and/or denominator) and |e|
       (numerator and/or denominator) are all optional components.
     \item each of |A|, |B|, |C|, |D|, |E| and |F| may arise from \fexpan sion
@@ -5570,41 +5587,86 @@ then |\xintNthElt| returns nothing.
 
 \subsection{\csbh{xintKeep}}\label{xintKeep}
 
-\csa{xintKeep\x}\marg{list}\etype{\numx f} expands the list argument and returns
-a new list containing only the first |x| elements. If |x<0| the
-macro returns the last \verb+|x|+ elements (in the same order as in the initial
+\csa{xintKeep\x}\marg{list}\etype{\numx f} expands the token list argument and
+returns a new list containing only the first |x| items. If |x<0| the macro
+returns the last \verb+|x|+ elements (in the same order as in the initial
 list). If \verb+|x|+ equals or exceeds the length of the list, the list (as
-arising from expansion of the second argument) is returned. For |x=0| the empty
-list is returned.
+arising from expansion of the second argument) is returned. For |x=0| the
+empty list is returned.
 
-Naked (non space) tokens from the original count each as one item and they end
-up braced in the output (if present there): if one later wants to remove all
-brace pairs (either added to a naked token, or initially present), one may use
-\csbxint {ListWithSep} with an empty separator.
+If |x>0| the (non space) items from the original end up braced in the
+output: if one later wants to remove all brace pairs (either added to a naked
+token, or initially present), one may use \csbxint {ListWithSep} with an empty
+separator.
+
+On the other hand, if |x<0| the macro acts by suppressing items from the head
+of the list, and no brace pairs are added to the kept elements from the tail
+(originally present ones are not removed).\MyMarginNote{\noindent Description
+  corrected in 1.2a doc}
 
 \csa{xintKeepNoExpand} does the same without first \fexpan ding its list
 argument.
 %
 \begin{everbatim*}
-\fdef\test {\xintKeep {17}{\xintKeep {-69}{\xintSeq {1}{100}}}}\meaning\test
+\fdef\test {\xintKeep {17}{\xintKeep {-69}{\xintSeq {1}{100}}}}\meaning\test\par
+\noindent\fdef\test {\xintKeep {7}{{1}{2}{3}{4}{5}{6}{7}{8}{9}}}\meaning\test\par
+\noindent\fdef\test {\xintKeep {-7}{{1}{2}{3}{4}{5}{6}{7}{8}{9}}}\meaning\test\par
+\noindent\fdef\test {\xintKeep {7}{123456789}}\meaning\test\par
+\noindent\fdef\test {\xintKeep {-7}{123456789}}\meaning\test\par
 \end{everbatim*}
 %
+
+\subsection{\csbh{xintKeepUnbraced}}\label{xintKeepUnbraced}
+
+Sames as \csbxint{Keep} but no brace pairs are added around the kept items
+from the head of the list. Each item will lose one level of brace pairs. For
+|x<0| is not different from \csbxint{Keep}.\NewWith{1.2a}
+
+\csa{xintKeepUnbracedNoExpand} does the same without first \fexpan ding its list
+argument.
+%
+\begin{everbatim*}
+\fdef\test {\xintKeepUnbraced {10}{\xintSeq {1}{100}}}\meaning\test\par
+\noindent\fdef\test {\xintKeepUnbraced {7}{{1}{2}{3}{4}{5}{6}{7}{8}{9}}}\meaning\test\par
+\noindent\fdef\test {\xintKeepUnbraced {-7}{{1}{2}{3}{4}{5}{6}{7}{8}{9}}}\meaning\test\par
+\noindent\fdef\test {\xintKeepUnbraced {7}{123456789}}\meaning\test\par
+\noindent\fdef\test {\xintKeepUnbraced {-7}{123456789}}\meaning\test\par
+\end{everbatim*}
 
 \subsection{\csbh{xintTrim}}\label{xintTrim}
 
 \csa{xintTrim\x}\marg{list}\etype{\numx f} expands the list argument and
-gobbles its first |x| elements. If |x<0| the macro gobbles the last
-\verb+|x|+ elements. If \verb+|x|+ equals or exceeds
-the length of the list, the empty list is returned. For |x=0| the full
-list is returned.
-
-Naked (non space) tokens from the original count each as one item and they end
-up braced in the output (if present there).
+gobbles its first |x| elements. The remaining ones are left as they are (no
+brace pairs added). If |x<0| the macro gobbles the last \verb+|x|+
+elements, and the kept elements from the head of the list end up braced in the
+output. If \verb+|x|+ equals or exceeds the length
+of the list, the empty list is returned. For |x=0| the full list is returned.
 
 \csa{xintTrimNoExpand} does the same without first \fexpan ding its list
 argument.
 \begin{everbatim*}
-\fdef\test {\xintTrim {17}{\xintTrim {-69}{\xintSeq {1}{100}}}}\meaning\test
+\fdef\test {\xintTrim {17}{\xintTrim {-69}{\xintSeq {1}{100}}}}\meaning\test\par
+\noindent\fdef\test {\xintTrim {7}{{1}{2}{3}{4}{5}{6}{7}{8}{9}}}\meaning\test\par
+\noindent\fdef\test {\xintTrim {-7}{{1}{2}{3}{4}{5}{6}{7}{8}{9}}}\meaning\test\par
+\noindent\fdef\test {\xintTrim {7}{123456789}}\meaning\test\par
+\noindent\fdef\test {\xintTrim {-7}{123456789}}\meaning\test\par
+\end{everbatim*}
+
+\subsection{\csbh{xintTrimUnbraced}}\label{xintTrimUnbraced}
+
+Same as \csbxint{Trim} but in case of a negative |x| (cutting items from
+the tail), the kept items from the head are not enclosed in brace pairs. They
+will lose one level of braces.\NewWith{1.2a}
+
+\csa{xintTrimUnbracedNoExpand} does the same without first \fexpan ding its list
+argument.
+
+\begin{everbatim*}
+\fdef\test {\xintTrimUnbraced {-90}{\xintSeq {1}{100}}}\meaning\test\par
+\noindent\fdef\test {\xintTrimUnbraced {7}{{1}{2}{3}{4}{5}{6}{7}{8}{9}}}\meaning\test\par
+\noindent\fdef\test {\xintTrimUnbraced {-7}{{1}{2}{3}{4}{5}{6}{7}{8}{9}}}\meaning\test\par
+\noindent\fdef\test {\xintTrimUnbraced {7}{123456789}}\meaning\test\par
+\noindent\fdef\test {\xintTrimUnbraced {-7}{123456789}}\meaning\test\par
 \end{everbatim*}
 
 \subsection{\csbh{xintListWithSep}}\label{xintListWithSep}
@@ -7731,7 +7793,7 @@ the complete expandability, even \fexpan dability of the macros, as discussed
 in \autoref{sec:expansions}.
 
 
-\subsection{\csbh{xintNum}}\label{xintiNum}
+\subsection{\csbh{xintNum}, \csbh{xintiNum}}\label{xintiNum}
 
 |\xintNum|\n\etype{f} removes chains of plus or minus signs, followed by
 zeroes. %
@@ -7743,7 +7805,8 @@ All \xintname macros with a single |i| in their names, such as \csbxint{iAdd},
 \csbxint{iMul} apply \csbxint{Num} to their arguments.
 
 When \xintfracname is loaded, \csbxint{Num} becomes a synonym to
-\csbxint{TTrunc}.
+\csbxint{TTrunc}. And \csbxint{iNum} preserved the original integer only
+meaning.
 
 \subsection{\csbh{xintSgn}, \csbh{xintiiSgn}}\label{xintiiSgn}
 
@@ -7831,7 +7894,7 @@ either the computation time or the settings of some tex memory parameters.
   exceeds the maximal size on input for the \xintcorename multiplication, hence
   any |2^N| with a higher |N| will fail. On the other hand |2^(2^16)| has
   \dtt{19729} digits, thus it can be squared once to obtain |2^(2^17)| or
-  multiplied by anything smaller, thus all exponents up and including |2^17|
+  multiplied by anything smaller, thus all exponents up to and including |2^17|
   are allowed (because the power operation works by squaring things and making
   products).
 \end{framed}
@@ -7878,9 +7941,6 @@ if |N| vanishes) and returns |{0}{0}|. It skips the overhead of parsing via
 is extended by \xintfracname to accept fractions on input, which it truncates
 first, and is not to be confused with the \xintfracname macro \csbxint{Div}
 which divides one fraction by another.
-
-Note: |\xintDivision| was the former name of |\xintiDivision|. Its use is
-deprecated since release |1.1|.
 
 \subsection{\csbh{xintiQuo}, \csbh{xintiiQuo}}\label{xintiQuo}\label{xintiiQuo}
 
@@ -8162,19 +8222,25 @@ number if they are put on a line with positive numbers on the right): |\xintiMin
 The |\xintiiMin| macro skips the overhead of parsing the operands with
 \csbxint{Num}.\etype{ff}
 
-\subsection{\csbh{xintiMaxof}}\label{xintiMaxof}
+\subsection{\csbh{xintiMaxof}, \csbh{xintiiMaxof}}\label{xintiMaxof}\label{xintiiMaxof}
 %{\small New with release |1.09a|.\par}
 
 \csa{xintiMaxof}|{{a}{b}{c}...}|\etype{f{$\to$}\lowast\Numf} returns the
 maximum. The list argument may be a macro, it is \fexpan ded first. Each item
 is submitted to |\xintNum| normalization.
 
-\subsection{\csbh{xintiMinof}}\label{xintiMinof}
+\csa{xintiiMaxof} does the same, skips |\xintNum| normalization of
+items.\NewWith {1.2a}
+
+\subsection{\csbh{xintiMinof}, \csbh{xintiiMinof}}\label{xintiMinof}\label{xintiiMinof}
 %{\small New with release |1.09a|.\par}
 
 \csa{xintiMinof}|{{a}{b}{c}...}|\etype{f{$\to$}\lowast\Numf} returns the
 minimum. The list argument may be a macro, it is \fexpan ded first. Each item
 is submitted to |\xintNum| normalization.
+
+\csa{xintiiMinof} does the same, skips |\xintNum| normalization of
+items.\NewWith {1.2a}
 
 \subsection{\csbh{xintiiSum}}\label{xintiiSum}
 
@@ -8366,7 +8432,7 @@ odd integer and in that case executes the |YES| branch.
 the argument is negative.
 
 \begin{framed}
-  The macro will limits the acceptable inputs to a maximum of $9999$. However
+  The macro will limit the acceptable inputs to a maximum of $9999$. However
   the maximal computation depends on the values of some memory parameters of
   the |tex| executable: with the the current default settings of TeXLive 2015,
   the maximal computable factorial (a.t.t.o.w. 2015/10/06) turns out to be
@@ -9278,15 +9344,6 @@ scientific notation if possible. Here are the rules:
 \end{itemize}
 \end{everbatim*}
 
-There is an important difference between (for example) |\xintFloatPower
-[48]{X}{Y}| and |\xintthefloatexpr [48] X^Y \relax|: in the former case the
-computation is done with |48| digits or precision (but if |X| and |Y| are
-themselves floating point macros of \xintfracname, their respective
-evaluations obey only the precision set optionally in the macros), whereas
-with \csbxint{thefloatexpr} the evaluation of the expression proceeds with
-|\xintDigits| digits of precision, but is rounded to |48| digits (thus this
-example makes sense only if |48<\xintDigits|.)
-
 \subsection{\csbh{xintAdd}}\label{xintAdd}
 
 Computes the addition\etype{\Ff\Ff} of two fractions. To keep for integers the
@@ -9391,7 +9448,7 @@ factorial.
 $1000!\approx{}$\xintFloatFac [30]{1000}
 \end{everbatim*}
 The computation\NewWith{1.2 !} proceeds via doing explicitely the product, as
-the Stirling formula cannot be used for lack so far of |exp/\log|.
+the Stirling formula cannot be used for lack so far of |exp/log|.
 % \footnote{The computation of $100000!$ with $16$ digits of precision takes
 %   about three or four seconds and for $1000000!$ it is about fifty seconds on
 %   my laptop (2015/10/06).}
@@ -9474,6 +9531,15 @@ final result to hopefully have the desired accuracy.%
   postpone that, as the more urgent issue is to improve \csbxint{FloatMul} to
   not compute exactly with all digits the product before keeping only the
   required digits.}
+
+There is an important difference between (for example) |\xintFloatPower
+[48]{X}{Y}| and |\xintthefloatexpr [48] X^Y \relax|: in the former case the
+computation is done with |48| digits or precision (but if |X| and |Y| are
+themselves floating point macros of \xintfracname, their respective
+evaluations obey only the precision set optionally in the macros), whereas
+with \csbxint{thefloatexpr} the evaluation of the expression proceeds with
+|\xintDigits| digits of precision, but is rounded to |48| digits (thus this
+example makes sense only if |48<\xintDigits|.)
 
 \subsection{\csbh{xintFloatSqrt}}\label{xintFloatSqrt}
 %{\small New with |1.08|.\par}
@@ -9680,7 +9746,7 @@ the only arithmetic package from the \xintname bundle which loads
 \end{itemize}
 
 \begin{framed}
-  This documentation has repetitions, is a.t.t.of.w generally speaking not
+  This documentation has repetitions, is a.t.t.o.w generally speaking not
   well structured, and mixes old explanations dating back to the first release
   and some more recent ones.
 \end{framed}
@@ -9782,7 +9848,7 @@ section and the next are in need of being improved.
 
 First, there were some breaking changes:
 \begin{itemize}[parsep=0pt, labelwidth=\leftmarginii,
-  itemindent=0pt, leftmargin=\leftmarginii]
+  itemindent=0pt, listparindent=\leftmarginiii, leftmargin=\leftmarginii]
   \item in |\xintiiexpr|, |/| does \emph{rounded} division, rather than as
     in earlier releases the
     Euclidean division (for positive arguments, this is truncated division).
@@ -9810,7 +9876,7 @@ First, there were some breaking changes:
 Let's now describle some of the numerous additional functionalities.
 
 \begin{itemize}[parsep=0pt, labelwidth=\leftmarginii,
-  itemindent=\leftmarginii, leftmargin=0em]
+  itemindent=\leftmarginii, listparindent=\leftmarginii, leftmargin=0em]
   \item |\xintiexpr|, |\xinttheiexpr| admit an optional argument within
     brackets |[d]|, it then presents the computation result (or results, if
     comma separated) after rounding to |d| digits after decimal mark, (the
@@ -9880,7 +9946,7 @@ Let's now describle some of the numerous additional functionalities.
 And now some examples:
 
 \begin{itemize}[parsep=0pt, labelwidth=\leftmarginii,
-  itemindent=\leftmarginii, leftmargin=0em]
+  itemindent=\leftmarginii, listparindent=\leftmarginii, leftmargin=0em]
 \item One can define variables (the definition itself is a non expandable
   step). The allowed names are composed of letters, digits, and underscores.
   The variable should not start with a digit and single letters |a..z|, |A..Z|
@@ -10227,7 +10293,7 @@ two |t|'s.
 |\xintexpr|-essions and |\xinttheexpr|-essions are completely expandable, in two steps.
 
 \begin{itemize}[parsep=0pt, labelwidth=\leftmarginii,
-  itemindent=0pt, leftmargin=\leftmarginii]
+  itemindent=0pt, listparindent=\leftmarginiii, leftmargin=\leftmarginii]
 \item An expression is built the standard way with opening and closing
   parentheses, infix operators, and (big) numbers, with possibly a fractional
   part, and/or scientific notation (except for \csbxint{iiexpr} which only
@@ -10486,7 +10552,8 @@ operators and functions.
                         #1\endgroup}
 
 \begin{itemize}[parsep=0pt, labelwidth=\leftmarginii,
-  itemindent=0pt, leftmargin=\leftmarginii]
+  itemindent=0pt, listparindent=\leftmarginiii,
+  leftmargin=\leftmarginii]
 \item
   Functions are at the same top level of priority. All functions even
   |?| and |!| (as prefix) require parentheses around their arguments.
@@ -10995,7 +11062,7 @@ and \LaTeX{} counters should be inserted using |\value|.
 
 Release |1.2| of the |\xintexpr| parser also recognizes and prefixes with
 |\number| the |\ht|, |\dp|, and |\wd| \TeX{} primitives as well as the
-|\fontcharht|, |\fontcharwd|, |\fontchardp| and |\fontcharit| \eTeX{}
+|\fontcharht|, |\fontcharwd|, |\fontchardp| and |\fontcharic| \eTeX{}
 primitives.
 
 In the case of numbered registers like |\count255| or |\dimen0| (or |\ht0|),
@@ -13732,6 +13799,13 @@ $1$ or $-1$.
 % This is \expandafter|\xintbndlversion| of \expandafter|\xintbndldate|.
 %
 % \begin{itemize}
+% \item Release |1.2a| of |2015/10/19| fixes a bad bug of |1.2| in
+%   |xintexpr.sty|, the parsers mistook decimals |0.0x...| for zero ! Also I
+%   took this opportunity to replace about 350 uses of |\romannumeral-`0|
+%   throughout the code by a hacky |\romannumeral`&&@| (as |^| is used as
+%   letter in constant names, I preferred |&| which is only to be found in a
+%   few places, all inside |xintexpr.sty|).
+%
 % \item Release |1.2| of |2015/10/10| has entirely rewritten the core
 %   arithmetic routines in \xintcorenameimp. Many macros benefit indirectly
 %   from the faster core routines. The new model is yet to be extended to
@@ -13842,6 +13916,7 @@ $1$ or $-1$.
       \endgroup
       \def\XINT_restorecatcodes
       {% takes care of all, to allow more economical code in modules
+           \catcode0=\the\catcode0 %
            \catcode59=\the\catcode59   % ; xintexpr
            \catcode126=\the\catcode126 % ~ xintexpr
            \catcode39=\the\catcode39   % ' xintexpr
@@ -13903,18 +13978,19 @@ $1$ or $-1$.
         \catcode47=12   % /
         \catcode96=12   % `
         \catcode94=11   % ^ LETTER
-        \catcode36=3   % $
-        \catcode91=12  % [
-        \catcode93=12  % ]
-        \catcode33=12  % !
-        \catcode64=11  % @ LETTER
-        \catcode38=12  % &
-        \catcode124=12 % |
-        \catcode63=11  % ? LETTER
-        \catcode34=12  % "
-        \catcode39=12  % '
-        \catcode126=3  % ~ MATH
-        \catcode59=12  % ;
+        \catcode36=3    % $
+        \catcode91=12   % [
+        \catcode93=12   % ]
+        \catcode33=12   % !
+        \catcode64=11   % @ LETTER
+        \catcode38=7    % & for \romannumeral`&&@ trick.
+        \catcode124=12  % |
+        \catcode63=11   % ? LETTER
+        \catcode34=12   % "
+        \catcode39=12   % '
+        \catcode126=3   % ~ MATH
+        \catcode59=12   % ;
+        \catcode0=12    % for \romannumeral`&&@ trick
       }%
       \XINT_setcatcodes
   }%
@@ -13949,7 +14025,7 @@ $1$ or $-1$.
 \fi
 \XINT_providespackage
 \ProvidesPackage {xintkernel}%
-  [2015/10/10 v1.2 Paraphernalia for the xint packages (jfB)]%
+  [2015/10/19 v1.2a Paraphernalia for the xint packages (jfB)]%
 %    \end{macrocode}
 % \subsection{Constants}
 % |v1.2| decides to move them to \xintkernelnameimp from \xintcorenameimp and
@@ -14105,7 +14181,7 @@ $1$ or $-1$.
                   \expandafter\expandafter\expandafter#1%
                   \expandafter\expandafter\expandafter }%
 \def\xintfdef #1#2{\expandafter\def\expandafter#1\expandafter
-                           {\romannumeral-`0#2}}%
+                           {\romannumeral`&&@#2}}%
 \ifdefined\odef\else\let\odef\xintodef\fi
 \ifdefined\oodef\else\let\oodef\xintoodef\fi
 \ifdefined\fdef\else\let\fdef\xintfdef\fi
@@ -14245,7 +14321,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xinttools}%
-  [2015/10/10 v1.2 Expandable and non-expandable utilities (jfB)]%
+  [2015/10/19 v1.2a Expandable and non-expandable utilities (jfB)]%
 %    \end{macrocode}
 % \lverb|\XINT_toks is used in macros such as \xintFor. It is not used
 % elsewhere in the xint bundle.|
@@ -14272,7 +14348,7 @@ $1$ or $-1$.
 \long\def\xintrevwithbraces #1%
 {%
     \expandafter\XINT_revwbr_loop\expandafter{\expandafter}%
-    \romannumeral-`0#1\xint_relax\xint_relax\xint_relax\xint_relax
+    \romannumeral`&&@#1\xint_relax\xint_relax\xint_relax\xint_relax
                       \xint_relax\xint_relax\xint_relax\xint_relax\xint_bye
 }%
 \long\def\xintrevwithbracesnoexpand #1%
@@ -14441,7 +14517,7 @@ $1$ or $-1$.
 \long\def\xintcsvtolistnonstripped #1%
 {%
     \expandafter\XINT_csvtol_loop_a\expandafter
-    {\expandafter}\romannumeral-`0#1%
+    {\expandafter}\romannumeral`&&@#1%
         ,\xint_bye,\xint_bye,\xint_bye,\xint_bye
         ,\xint_bye,\xint_bye,\xint_bye,\xint_bye,\Z
 }%
@@ -14500,7 +14576,7 @@ $1$ or $-1$.
 \def\xintListWithSep {\romannumeral0\xintlistwithsep }%
 \def\xintListWithSepNoExpand {\romannumeral0\xintlistwithsepnoexpand }%
 \long\def\xintlistwithsep #1#2%
-    {\expandafter\XINT_lws\expandafter {\romannumeral-`0#2}{#1}}%
+    {\expandafter\XINT_lws\expandafter {\romannumeral`&&@#2}{#1}}%
 \long\def\XINT_lws #1#2{\XINT_lws_start {#2}#1\xint_bye }%
 \long\def\xintlistwithsepnoexpand #1#2{\XINT_lws_start {#1}#2\xint_bye }%
 \long\def\XINT_lws_start #1#2%
@@ -14539,7 +14615,7 @@ $1$ or $-1$.
 \def\xintnthelt #1#2%
 {%
     \expandafter\XINT_nthelt_a\the\numexpr #1\expandafter.%
-    \expandafter{\romannumeral-`0#2}%
+    \expandafter{\romannumeral`&&@#2}%
 }%
 \def\xintntheltnoexpand #1%
 {%
@@ -14597,26 +14673,31 @@ $1$ or $-1$.
 % \subsection{\csh{xintKeep}}
 % \lverb+First included in release 1.09m.
 %
-% \xintKeep {i}{stuff f-expanding to {a}{b}...{z}} (or `tokens' abcd...z,
-% but each naked token ends up braced in the output) returns (in two
-% expansion steps) the first i elements from the list, which is first
-% f-expanded. The i is expanded inside \numexpr. The variant
+% \xintKeep {i}{stuff f-expanding to {a}{b}...{z}} (or `tokens' abcd...z, but
+% each naked token ends up braced in the output, if 0<i<length of token list)
+% returns (in two expansion steps) the first i items from the list, which
+% is first f-expanded. The i is expanded inside \numexpr. The variant
 % \xintKeepNoExpand does not expand the list argument.
 %
 % With i = 0, the empty sequence is returned.
 %
-% With i<0, the last |i| elements are returned (in the same order as in
-% the original list).
+% With i<0, the last |i| items are returned (in the same order as in
+% the original list) AND BRACES ARE NOT ADDED IF NOT ORIGINALLY PRESENT.
 %
 % With |i| equal to or bigger than the length of the (f-expanded) list,
-% the full list is returned.+
+% the full list is returned.
+%
+% 1.2a belatedly corrects the description of what this macro does for i<0 !
+%
+% I have this nagging feeling I should read this code which might be much
+% improvable upon, but I just don't have time now (2015/10/19).+
 %    \begin{macrocode}
 \def\xintKeep         {\romannumeral0\xintkeep }%
 \def\xintKeepNoExpand {\romannumeral0\xintkeepnoexpand }%
 \def\xintkeep #1#2%
 {%
     \expandafter\XINT_keep_a\the\numexpr #1\expandafter.%
-    \expandafter{\romannumeral-`0#2}%
+    \expandafter{\romannumeral`&&@#2}%
 }%
 \def\xintkeepnoexpand #1%
 {%
@@ -14693,8 +14774,7 @@ $1$ or $-1$.
 \def\XINT_keep_finish_loop_a #1%
 {%
     \xint_gob_til_zero #1\XINT_keep_finish_z0%
-    \expandafter\XINT_keep_finish_loop_b\expandafter
-       {\the\numexpr #1-\xint_c_i}%
+    \expandafter\XINT_keep_finish_loop_b\expandafter {\the\numexpr #1-\xint_c_i}%
 }%
 \long\def\XINT_keep_finish_z0%
      \expandafter\XINT_keep_finish_loop_b\expandafter #1#2#3\Z #4{ #4#2}%
@@ -14708,18 +14788,110 @@ $1$ or $-1$.
 \long\def\XINT_keep_finish_loop_c #1#2#3%
         {\XINT_keep_finish_loop_a {#1}{#2{#3}}}%
 %    \end{macrocode}
+% \subsection{\csh{xintKeepUnbraced}}
+% \lverb+1.2a. Same as \xintKeep but will not maintain brace pairs around
+% the kept items upfront.+
+%    \begin{macrocode}
+\def\xintKeepUnbraced         {\romannumeral0\xintkeepunbraced }%
+\def\xintKeepUnbracedNoExpand {\romannumeral0\xintkeepunbracednoexpand }%
+\def\xintkeepunbraced #1#2%
+{%
+    \expandafter\XINT_keepunbraced_a\the\numexpr #1\expandafter.%
+    \expandafter{\romannumeral`&&@#2}%
+}%
+\def\xintkeepnoexpand #1%
+{%
+    \expandafter\XINT_keepunbraced_a\the\numexpr #1.%
+}%
+\def\XINT_keepunbraced_a #1#2.%
+{%
+    \xint_UDzerominusfork
+        #1-{\expandafter\space\xint_gobble_i }%
+        0#1{\XINT_keep_bneg_a {#2}}%
+         0-{\XINT_keepunbraced_bpos {#1#2}}%
+    \krof
+}%
+\long\def\XINT_keepunbraced_bpos #1#2%
+{%
+     \XINT_keepunbraced_loop_a {#1}{}#2%
+          \xint_relax\xint_relax\xint_relax\xint_relax
+          \xint_relax\xint_relax\xint_relax\xint_bye
+}%
+\def\XINT_keepunbraced_loop_a #1%
+{%
+    \ifnum #1>\xint_c_vi
+        \expandafter\XINT_keepunbraced_loop_b
+    \else
+        \XINT_keepunbraced_finish
+    \fi
+    {#1}%
+}%
+\long\def\XINT_keepunbraced_loop_b #1#2#3#4#5#6#7#8#9%
+{%
+    \xint_gob_til_xint_relax #9\XINT_keepunbraced_enda\xint_relax
+    \expandafter\XINT_keepunbraced_loop_c\expandafter
+    {\the\numexpr #1-\xint_c_vii}{#3}{#4}{#5}{#6}{#7}{#8}{#9}.{#2}%
+}%
+\long\def\XINT_keepunbraced_loop_c #1#2#3#4#5#6#7#8.#9%
+    {\XINT_keepunbraced_loop_a {#1}{#9#2#3#4#5#6#7#8}}%
+\long\def\XINT_keepunbraced_enda\xint_relax
+     \expandafter\XINT_keepunbraced_loop_c\expandafter #1#2.#3#4\xint_bye
+{%
+     \XINT_keepunbraced_endb #4\W\W\W\W\W\W\Z #2{#3}%
+}%
+\def\XINT_keepunbraced_endb #1#2#3#4#5#6#7\Z
+{%
+    \xint_gob_til_W
+    #1\XINT_keepunbraced_endc_
+    #2\XINT_keepunbraced_endc_i
+    #3\XINT_keepunbraced_endc_ii
+    #4\XINT_keepunbraced_endc_iii
+    #5\XINT_keepunbraced_endc_iv
+    #6\XINT_keepunbraced_endc_v
+    \W\XINT_keepunbraced_endc_vi\Z
+}%
+\long\def\XINT_keepunbraced_endc_    #1\Z #2#3#4#5#6#7#8#9{ #9}%
+\long\def\XINT_keepunbraced_endc_i   #1\Z #2#3#4#5#6#7#8#9{ #9#2}%
+\long\def\XINT_keepunbraced_endc_ii  #1\Z #2#3#4#5#6#7#8#9{ #9#2#3}%
+\long\def\XINT_keepunbraced_endc_iii #1\Z #2#3#4#5#6#7#8#9{ #9#2#3#4}%
+\long\def\XINT_keepunbraced_endc_iv  #1\Z #2#3#4#5#6#7#8#9{ #9#2#3#4#5}%
+\long\def\XINT_keepunbraced_endc_v   #1\Z #2#3#4#5#6#7#8#9{ #9#2#3#4#5#6}%
+\long\def\XINT_keepunbraced_endc_vi\Z #1#2#3#4#5#6#7#8{ #8#1#2#3#4#5#6}%
+\long\def\XINT_keepunbraced_finish\fi #1#2#3#4#5#6#7#8#9\xint_bye
+{%
+    \fi\XINT_keepunbraced_finish_loop_a {#1}{}{#3}{#4}{#5}{#6}{#7}{#8}\Z {#2}%
+}%
+\def\XINT_keepunbraced_finish_loop_a #1%
+{%
+    \xint_gob_til_zero #1\XINT_keepunbraced_finish_z0%
+    \expandafter\XINT_keepunbraced_finish_loop_b\expandafter
+       {\the\numexpr #1-\xint_c_i}%
+}%
+\long\def\XINT_keepunbraced_finish_z0%
+     \expandafter\XINT_keepunbraced_finish_loop_b\expandafter #1#2#3\Z #4{ #4#2}%
+\long\def\XINT_keepunbraced_finish_loop_b #1#2#3%
+{%
+    \xint_gob_til_xint_relax #3\XINT_keepunbraced_finish_exit\xint_relax
+    \XINT_keepunbraced_finish_loop_c {#1}{#2}{#3}%
+}%
+\long\def\XINT_keepunbraced_finish_exit\xint_relax
+         \XINT_keepunbraced_finish_loop_c #1#2#3\Z #4{ #4#2}%
+\long\def\XINT_keepunbraced_finish_loop_c #1#2#3%
+        {\XINT_keepunbraced_finish_loop_a {#1}{#2#3}}%
+%    \end{macrocode}
 % \subsection{\csh{xintTrim}}
 % \lverb+First included in release 1.09m.
 %
-% \xintTrim {i}{stuff f-expanding to {a}{b}...{z}} (or `tokens' abcd...z,
-% but each naked token ends up braced in the output) returns (in two
-% expansion steps) the sequence with the first i elements omitted. The
-% list is first f-expanded. The i is expanded inside \numexpr. Variant
-% \xintTrimNoExpand does not expand the list argument.
+% \xintTrim {i}{stuff f-expanding to {a}{b}...{z}} (or `tokens' abcd...z)
+% returns (in two expansion steps) the sequence with the first i elements
+% omitted. The list is first f-expanded. The i is expanded inside \numexpr.
+% Variant \xintTrimNoExpand does not expand the list argument.
 %
 % With i = 0, the original (expanded) list is returned.
 %
-% With i<0, the last |i| elements from the tail are suppressed.
+% With i<0, the last |i| items are suppressed. In that case the kept elements
+% (coming form the tail) will be braced on output. With i>0, the fist |i|
+% items are suppressed: the remaining ones are left as is.
 %
 % With |i| equal to or bigger than the length of the (f-expanded) list,
 % the empty list is returned.+
@@ -14729,7 +14901,7 @@ $1$ or $-1$.
 \def\xinttrim #1#2%
 {%
     \expandafter\XINT_trim_a\the\numexpr #1\expandafter.%
-    \expandafter{\romannumeral-`0#2}%
+    \expandafter{\romannumeral`&&@#2}%
 }%
 \def\xinttrimnoexpand #1%
 {%
@@ -14783,6 +14955,41 @@ $1$ or $-1$.
 }%
 \long\def\XINT_trim_finish_a #1\xint_relax #2\xint_bye {#1}%
 %    \end{macrocode}
+% \subsection{\csh{xintTrimUnbraced}}
+% \lverb+1.2a+
+%    \begin{macrocode}
+\def\xintTrimUnbraced         {\romannumeral0\xinttrimunbraced }%
+\def\xintTrimUnbracedNoExpand {\romannumeral0\xinttrimunbracednoexpand }%
+\def\xinttrimunbraced #1#2%
+{%
+    \expandafter\XINT_trimunbraced_a\the\numexpr #1\expandafter.%
+    \expandafter{\romannumeral`&&@#2}%
+}%
+\def\xinttrimunbracednoexpand #1%
+{%
+    \expandafter\XINT_trimunbraced_a\the\numexpr #1.%
+}%
+\def\XINT_trimunbraced_a #1#2.%
+{%
+    \xint_UDzerominusfork
+        #1-{\xint_firstofone_thenstop }%
+        0#1{\XINT_trimunbraced_bneg_a {#2}}%
+         0-{\XINT_trim_bpos {#1#2}}%
+    \krof
+}%
+\long\def\XINT_trimunbraced_bneg_a #1#2%
+{%
+    \expandafter\XINT_trimunbraced_bneg_b \the\numexpr \xintLength{#2}-#1.{#2}%
+}%
+\def\XINT_trimunbraced_bneg_b #1#2.%
+{%
+    \xint_UDzerominusfork
+        #1-{\expandafter\space\xint_gobble_i }%
+        0#1{\expandafter\space\xint_gobble_i }%
+         0-{\XINT_keepunbraced_bpos {#1#2}}%
+    \krof
+}%
+%    \end{macrocode}
 % \subsection{\csh{xintApply}}
 % \lverb|\xintApply {\macro}{{a}{b}...{z}} returns {\macro{a}}...{\macro{b}}
 % where each instance of \macro is f-expanded. The list itself is first
@@ -14792,7 +14999,7 @@ $1$ or $-1$.
 \def\xintApplyNoExpand {\romannumeral0\xintapplynoexpand }%
 \long\def\xintapply #1#2%
 {%
-    \expandafter\XINT_apply\expandafter {\romannumeral-`0#2}%
+    \expandafter\XINT_apply\expandafter {\romannumeral`&&@#2}%
     {#1}%
 }%
 \long\def\XINT_apply #1#2{\XINT_apply_loop_a {}{#2}#1\xint_bye }%
@@ -14802,7 +15009,7 @@ $1$ or $-1$.
     \xint_bye #3\XINT_apply_end\xint_bye
     \expandafter
     \XINT_apply_loop_b
-    \expandafter {\romannumeral-`0#2{#3}}{#1}{#2}%
+    \expandafter {\romannumeral`&&@#2{#3}}{#1}{#2}%
 }%
 \long\def\XINT_apply_loop_b #1#2{\XINT_apply_loop_a {#2{#1}}}%
 \long\def\XINT_apply_end\xint_bye\expandafter\XINT_apply_loop_b
@@ -14819,7 +15026,7 @@ $1$ or $-1$.
 \def\xintApplyUnbracedNoExpand {\romannumeral0\xintapplyunbracednoexpand }%
 \long\def\xintapplyunbraced #1#2%
 {%
-    \expandafter\XINT_applyunbr\expandafter {\romannumeral-`0#2}%
+    \expandafter\XINT_applyunbr\expandafter {\romannumeral`&&@#2}%
     {#1}%
 }%
 \long\def\XINT_applyunbr #1#2{\XINT_applyunbr_loop_a {}{#2}#1\xint_bye }%
@@ -14829,7 +15036,7 @@ $1$ or $-1$.
 {%
     \xint_bye #3\XINT_applyunbr_end\xint_bye
     \expandafter\XINT_applyunbr_loop_b
-    \expandafter {\romannumeral-`0#2{#3}}{#1}{#2}%
+    \expandafter {\romannumeral`&&@#2{#3}}{#1}{#2}%
 }%
 \long\def\XINT_applyunbr_loop_b #1#2{\XINT_applyunbr_loop_a {#2#1}}%
 \long\def\XINT_applyunbr_end\xint_bye\expandafter\XINT_applyunbr_loop_b
@@ -15002,7 +15209,7 @@ $1$ or $-1$.
 \def\XINT_xflet_zapsp
 {%
     \expandafter\futurelet\expandafter\XINT_token
-    \expandafter\XINT_xflet_sp?\romannumeral-`0%
+    \expandafter\XINT_xflet_sp?\romannumeral`&&@%
 }%
 \def\XINT_xflet_sp?
 {%
@@ -15014,7 +15221,7 @@ $1$ or $-1$.
 \def\XINT_xflet_zapspB
 {%
     \expandafter\futurelet\expandafter\XINT_tokenB
-    \expandafter\XINT_xflet_spB?\romannumeral-`0%
+    \expandafter\XINT_xflet_spB?\romannumeral`&&@%
 }%
 \def\XINT_xflet_spB?
 {%
@@ -15229,8 +15436,8 @@ $1$ or $-1$.
 \def\XINT_?expr_Va #1#2%
 {%
     \expandafter\XINT_?expr_Vb\expandafter
-          {\romannumeral-`0\xintrawwithzeros{\xintZapSpacesB{#2}}}%
-          {\romannumeral-`0\xintrawwithzeros{\xintZapSpacesB{#1}}}%
+          {\romannumeral`&&@\xintrawwithzeros{\xintZapSpacesB{#2}}}%
+          {\romannumeral`&&@\xintrawwithzeros{\xintZapSpacesB{#1}}}%
 }%
 \catcode`Z 3
 \def\XINT_?expr_Vb #1#2{\expandafter\XINT_?expr_Vc #2.#1.}%
@@ -15277,7 +15484,7 @@ $1$ or $-1$.
 {%
     \expandafter\expandafter\expandafter
     \XINT_forever_opt_c\expandafter\the\expandafter\XINT_toks
-    \romannumeral-`0#1{#4}{#5}#3%
+    \romannumeral`&&@#1{#4}{#5}#3%
 }%
 \long\def\XINT_forever_opt_c #1#2#3#4#5#6{\XINT_forever_d #2{#4}{#5}#6{#3}Z}%
 \long\def\XINT_forever_d #1#2#3#4#5%
@@ -15288,7 +15495,7 @@ $1$ or $-1$.
                      \the\XINT_toks   \csname XINT_for_right#1\endcsname }%
   \XINT_x
   \let\xintifForFirst\xint_secondoftwo
-  \expandafter\XINT_forever_d\expandafter #1\romannumeral-`0#4{#2}{#3}#4{#5}%
+  \expandafter\XINT_forever_d\expandafter #1\romannumeral`&&@#4{#2}{#3}#4{#5}%
 }%
 %    \end{macrocode}
 % \subsection{\csh{xintForpair}, \csh{xintForthree}, \csh{xintForfour}}
@@ -15400,7 +15607,7 @@ $1$ or $-1$.
 \long\def\XINT_assign_a #1\to
 {%
     \def\XINT_flet_macro{\XINT_assign_b}%
-    \expandafter\XINT_flet_zapsp\romannumeral-`0#1\xint_relax\to
+    \expandafter\XINT_flet_zapsp\romannumeral`&&@#1\xint_relax\to
 }%
 \long\def\XINT_assign_b
 {%
@@ -15468,7 +15675,7 @@ $1$ or $-1$.
     \expandafter\def\expandafter\xint_arrayname\expandafter {\string #2}%
     \XINT_restoreescapechar
     \def\xint_itemcount {0}%
-    \expandafter\XINT_assignarray_loop \romannumeral-`0#1\xint_relax
+    \expandafter\XINT_assignarray_loop \romannumeral`&&@#1\xint_relax
     \csname\xint_arrayname 00\expandafter\endcsname
     \csname\xint_arrayname 0\expandafter\endcsname
     \expandafter {\xint_arrayname}#2%
@@ -15602,7 +15809,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcore}%
-  [2015/10/10 v1.2 Expandable arithmetic on big integers (jfB)]%
+  [2015/10/19 v1.2a Expandable arithmetic on big integers (jfB)]%
 %    \end{macrocode}
 % \subsection{Counts for holding needed constants}
 %    \begin{macrocode}
@@ -15634,7 +15841,7 @@ $1$ or $-1$.
 \def\xintinum #1%
 {%
     \expandafter\XINT_num_loop
-    \romannumeral-`0#1\xint_relax\xint_relax\xint_relax\xint_relax
+    \romannumeral`&&@#1\xint_relax\xint_relax\xint_relax\xint_relax
                       \xint_relax\xint_relax\xint_relax\xint_relax\Z
 }%
 \let\xintNum\xintiNum \let\xintnum\xintinum
@@ -15834,7 +16041,7 @@ $1$ or $-1$.
 }%
 \edef\XINT_unrevbyviii_a\R\XINT_unrevbyviii #1#2\W
     {\noexpand\expandafter\space
-     \noexpand\romannumeral-`0\noexpand\xint_gob_til_Z #1}%
+     \noexpand\romannumeral`&&@\noexpand\xint_gob_til_Z #1}%
 \def\XINT_smallunrevbyviii 1#1!1#2!1#3!1#4!1#5!1#6!1#7!1#8!#9\W%
 {%
     \expandafter\XINT_cuz_small\xint_gob_til_Z #8#7#6#5#4#3#2#1%
@@ -15849,7 +16056,7 @@ $1$ or $-1$.
 }%
 \def\XINT_microrevsep_end #1\W #2\expandafter #3\Z{#2!}%
 \def\xintReverseDigits {\romannumeral0\xintreversedigits }%
-\def\xintreversedigits #1{\expandafter\XINT_reversedigits\romannumeral-`0#1\Z}%
+\def\xintreversedigits #1{\expandafter\XINT_reversedigits\romannumeral`&&@#1\Z}%
 \def\XINT_reversedigits #1%
 {%
     \xint_UDsignfork
@@ -15860,7 +16067,7 @@ $1$ or $-1$.
 \def\XINT_reversedigits_a #1\Z 
 {%    
     \expandafter\XINT_revdigits_a\the\numexpr\expandafter\XINT_microrevsep
-    \romannumeral-`0#1{\XINT_microrevsep_end\W}\XINT_microrevsep_end
+    \romannumeral`&&@#1{\XINT_microrevsep_end\W}\XINT_microrevsep_end
       \XINT_microrevsep_end\XINT_microrevsep_end
       \XINT_microrevsep_end\XINT_microrevsep_end
       \XINT_microrevsep_end\XINT_microrevsep_end\Z
@@ -15888,7 +16095,7 @@ $1$ or $-1$.
 \def\xintiiSgn {\romannumeral0\xintiisgn }%
 \def\xintiisgn #1%
 {%
-    \expandafter\XINT_sgn \romannumeral-`0#1\Z%
+    \expandafter\XINT_sgn \romannumeral`&&@#1\Z%
 }%
 \def\xintSgn {\romannumeral0\xintsgn }%
 \def\xintsgn #1%
@@ -15925,7 +16132,7 @@ $1$ or $-1$.
 \def\xintiiOpp {\romannumeral0\xintiiopp }%
 \def\xintiiopp #1%
 {%
-    \expandafter\XINT_opp \romannumeral-`0#1%
+    \expandafter\XINT_opp \romannumeral`&&@#1%
 }%
 \def\xintiOpp {\romannumeral0\xintiopp }%
 \def\xintiopp #1%
@@ -15952,7 +16159,7 @@ $1$ or $-1$.
 \def\xintiiAbs {\romannumeral0\xintiiabs }%
 \def\xintiiabs #1%
 {%
-    \expandafter\XINT_abs \romannumeral-`0#1%
+    \expandafter\XINT_abs \romannumeral`&&@#1%
 }%
 \def\xintiAbs {\romannumeral0\xintiabs }%
 \def\xintiabs #1%
@@ -15977,7 +16184,7 @@ $1$ or $-1$.
 \def\xintiiFDg {\romannumeral0\xintiifdg }%
 \def\xintiifdg #1%
 {%
-    \expandafter\XINT_fdg \romannumeral-`0#1\W\Z
+    \expandafter\XINT_fdg \romannumeral`&&@#1\W\Z
 }%
 \def\xintFDg {\romannumeral0\xintfdg }%
 \def\xintfdg #1%
@@ -16014,7 +16221,7 @@ $1$ or $-1$.
     \expandafter\XINT_ldg_done\romannumeral0%
     \expandafter\XINT_revdigits_a\the\numexpr\expandafter\XINT_microrevsep
     \romannumeral0\expandafter\XINT_abs 
-    \romannumeral-`0#1{\XINT_microrevsep_end\W}\XINT_microrevsep_end
+    \romannumeral`&&@#1{\XINT_microrevsep_end\W}\XINT_microrevsep_end
       \XINT_microrevsep_end\XINT_microrevsep_end
       \XINT_microrevsep_end\XINT_microrevsep_end
       \XINT_microrevsep_end\XINT_microrevsep_end\Z
@@ -16029,7 +16236,7 @@ $1$ or $-1$.
 \def\xintDouble {\romannumeral0\xintdouble }%
 \def\xintdouble #1%
 {%
-     \expandafter\XINT_dbl\romannumeral-`0#1\Z
+     \expandafter\XINT_dbl\romannumeral`&&@#1\Z
 }%
 \def\XINT_dbl #1%
 {%
@@ -16063,7 +16270,7 @@ $1$ or $-1$.
 \def\xintHalf {\romannumeral0\xinthalf }%
 \def\xinthalf #1%
 {%
-     \expandafter\XINT_half\romannumeral-`0#1\Z
+     \expandafter\XINT_half\romannumeral`&&@#1\Z
 }%
 \def\XINT_half #1%
 {%
@@ -16104,7 +16311,7 @@ $1$ or $-1$.
 \def\xintDec {\romannumeral0\xintdec }%
 \def\xintdec #1%
 {%
-     \expandafter\XINT_dec\romannumeral-`0#1\Z 
+     \expandafter\XINT_dec\romannumeral`&&@#1\Z 
 }%
 \def\XINT_dec #1%
 {%
@@ -16135,7 +16342,7 @@ $1$ or $-1$.
 \def\xintInc {\romannumeral0\xintinc }%
 \def\xintinc #1%
 {%
-     \expandafter\XINT_inc\romannumeral-`0#1\Z
+     \expandafter\XINT_inc\romannumeral`&&@#1\Z
 }%
 \def\XINT_inc #1%
 {%
@@ -16180,10 +16387,10 @@ $1$ or $-1$.
 \def\xintiAdd    {\romannumeral0\xintiadd }%
 \def\xintiadd  #1{\expandafter\XINT_iadd\romannumeral0\xintnum{#1}\Z }%
 \def\xintiiAdd   {\romannumeral0\xintiiadd }%
-\def\xintiiadd #1{\expandafter\XINT_iiadd\romannumeral-`0#1\Z  }%
+\def\xintiiadd #1{\expandafter\XINT_iiadd\romannumeral`&&@#1\Z  }%
 \def\XINT_iiadd #1#2\Z #3%
 {%
-    \expandafter\XINT_add_nfork\expandafter #1\romannumeral-`0#3\Z #2\Z
+    \expandafter\XINT_add_nfork\expandafter #1\romannumeral`&&@#3\Z #2\Z
 }%
 \def\XINT_iadd #1#2\Z #3%
 {%
@@ -16358,10 +16565,10 @@ $1$ or $-1$.
 % \lverb|Entirely rewritten for v1.2.|
 %    \begin{macrocode}
 \def\xintiiSub   {\romannumeral0\xintiisub }%
-\def\xintiisub #1{\expandafter\XINT_iisub\romannumeral-`0#1\Z  }%
+\def\xintiisub #1{\expandafter\XINT_iisub\romannumeral`&&@#1\Z  }%
 \def\XINT_iisub #1#2\Z #3%
 {%
-    \expandafter\XINT_sub_nfork\expandafter #1\romannumeral-`0#3\Z #2\Z
+    \expandafter\XINT_sub_nfork\expandafter #1\romannumeral`&&@#3\Z #2\Z
 }%
 \def\xintiSub    {\romannumeral0\xintisub }%
 \def\xintisub #1{\expandafter\XINT_isub\romannumeral0\xintnum{#1}\Z }%
@@ -16576,11 +16783,11 @@ $1$ or $-1$.
 \def\xintiiMul {\romannumeral0\xintiimul }%
 \def\xintiimul #1%
 {%
-    \expandafter\XINT_iimul\romannumeral-`0#1\Z
+    \expandafter\XINT_iimul\romannumeral`&&@#1\Z
 }%
 \def\XINT_iimul #1#2\Z #3%
 {%
-    \expandafter\XINT_mul_nfork\expandafter #1\romannumeral-`0#3\Z #2\Z
+    \expandafter\XINT_mul_nfork\expandafter #1\romannumeral`&&@#3\Z #2\Z
 }%
 %    \end{macrocode}
 % \lverb|I have changed the fork, and it complicates matters elsewhere.|
@@ -16818,7 +17025,7 @@ $1$ or $-1$.
 \def\xintiiPow {\romannumeral0\xintiipow }%
 \def\xintiipow #1%
 {%
-    \expandafter\xint_pow\romannumeral-`0#1\Z%
+    \expandafter\xint_pow\romannumeral`&&@#1\Z%
 }%
 \def\xintiPow {\romannumeral0\xintipow }%
 \def\xintipow #1%
@@ -17007,7 +17214,7 @@ $1$ or $-1$.
 \def\xintiiFac {\romannumeral0\xintiifac }%
 \def\xintiifac #1%
 {%
-    \expandafter\XINT_fac_fork\expandafter {\romannumeral-`0#1}%
+    \expandafter\XINT_fac_fork\expandafter {\romannumeral`&&@#1}%
 }%
 \let\xintFac\xintiFac \let\xintfac\xintifac
 \def\XINT_fac_fork #1%
@@ -17145,9 +17352,9 @@ $1$ or $-1$.
 \def\XINT_idivision #1#2\Z #3{\expandafter\XINT_iidivision_a\expandafter #1%
                              \romannumeral0\xintnum{#3}\Z #2\Z }%
 \def\xintiiDivision   {\romannumeral0\xintiidivision }%
-\def\xintiidivision  #1{\expandafter\XINT_iidivision \romannumeral-`0#1\Z }%
+\def\xintiidivision  #1{\expandafter\XINT_iidivision \romannumeral`&&@#1\Z }%
 \def\XINT_iidivision #1#2\Z #3{\expandafter\XINT_iidivision_a\expandafter #1%
-                             \romannumeral-`0#3\Z #2\Z }%
+                             \romannumeral`&&@#3\Z #2\Z }%
 \def\XINT_iidivision_a #1#2% #1 de A, #2 de B.
 {%
     \if0#2\xint_dothis\XINT_iidivision_divbyzero\fi
@@ -17324,7 +17531,7 @@ $1$ or $-1$.
 }%
 \def\XINT_div_finish
 {%
-    \expandafter\XINT_div_finish_a \romannumeral-`0\XINT_div_unsepQ
+    \expandafter\XINT_div_finish_a \romannumeral`&&@\XINT_div_unsepQ
 }%
 \def\XINT_div_finish_a #1\Z #2.{\XINT_div_finish_b #2.{#1}}%
 %    \end{macrocode}
@@ -17862,12 +18069,12 @@ $1$ or $-1$.
 \def\xintidivround  #1%
    {\expandafter\XINT_idivround\romannumeral0\xintnum{#1}\Z }%
 \def\xintiiDivRound   {\romannumeral0\xintiidivround }%
-\def\xintiidivround #1{\expandafter\XINT_iidivround \romannumeral-`0#1\Z }%
+\def\xintiidivround #1{\expandafter\XINT_iidivround \romannumeral`&&@#1\Z }%
 \def\XINT_idivround #1#2\Z #3%
     {\expandafter\XINT_iidivround_a\expandafter #1%
                  \romannumeral0\xintnum{#3}\Z #2\Z }%
 \def\XINT_iidivround #1#2\Z #3%
-    {\expandafter\XINT_iidivround_a\expandafter #1\romannumeral-`0#3\Z #2\Z }%
+    {\expandafter\XINT_iidivround_a\expandafter #1\romannumeral`&&@#3\Z #2\Z }%
 \def\XINT_iidivround_a #1#2% #1 de A, #2 de B.
 {%
     \if0#2\xint_dothis\XINT_iidivround_divbyzero\fi
@@ -17941,9 +18148,9 @@ $1$ or $-1$.
 \def\xintiDivTrunc    {\romannumeral0\xintidivtrunc }%
 \def\xintidivtrunc  #1{\expandafter\XINT_iidivtrunc\romannumeral0\xintnum{#1}\Z }%
 \def\xintiiDivTrunc   {\romannumeral0\xintiidivtrunc }%
-\def\xintiidivtrunc #1{\expandafter\XINT_iidivtrunc \romannumeral-`0#1\Z }%
+\def\xintiidivtrunc #1{\expandafter\XINT_iidivtrunc \romannumeral`&&@#1\Z }%
 \def\XINT_iidivtrunc #1#2\Z #3{\expandafter\XINT_iidivtrunc_a\expandafter #1%
-                             \romannumeral-`0#3\Z #2\Z }%
+                             \romannumeral`&&@#3\Z #2\Z }%
 \def\XINT_iidivtrunc_a #1#2% #1 de A, #2 de B.
 {%
     \if0#2\xint_dothis\XINT_iidivround_divbyzero\fi
@@ -17974,9 +18181,9 @@ $1$ or $-1$.
 \def\xintiMod    {\romannumeral0\xintimod }%
 \def\xintimod  #1{\expandafter\XINT_iimod\romannumeral0\xintnum{#1}\Z }%
 \def\xintiiMod   {\romannumeral0\xintiimod }%
-\def\xintiimod #1{\expandafter\XINT_iimod \romannumeral-`0#1\Z }%
+\def\xintiimod #1{\expandafter\XINT_iimod \romannumeral`&&@#1\Z }%
 \def\XINT_iimod #1#2\Z #3{\expandafter\XINT_iimod_a\expandafter #1%
-                             \romannumeral-`0#3\Z #2\Z }%
+                             \romannumeral`&&@#3\Z #2\Z }%
 \def\XINT_iimod_a #1#2% #1 de A, #2 de B.
 {%
     \if0#2\xint_dothis\XINT_iidivround_divbyzero\fi
@@ -18080,7 +18287,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xint}%
-  [2015/10/10 v1.2 Expandable operations on big integers (jfB)]%
+  [2015/10/19 v1.2a Expandable operations on big integers (jfB)]%
 %    \end{macrocode}
 % \subsection{More token management}
 %    \begin{macrocode}
@@ -18112,7 +18319,7 @@ $1$ or $-1$.
 % \lverb|Added in 1.03. 1.09a defines \xintIsOne. 1.1a adds \xintiiIsOne.|
 %    \begin{macrocode}
 \def\xintiiIsOne   {\romannumeral0\xintiiisone }%
-\def\xintiiisone #1{\expandafter\XINT_isone\romannumeral-`0#1\W\Z }%
+\def\xintiiisone #1{\expandafter\XINT_isone\romannumeral`&&@#1\W\Z }%
 \def\xintIsOne   {\romannumeral0\xintisone }%
 \def\xintisone #1{\expandafter\XINT_isone\romannumeral0\xintnum{#1}\W\Z }%
 \def\XINT_isOne #1{\romannumeral0\XINT_isone #1\W\Z }%
@@ -18170,9 +18377,9 @@ $1$ or $-1$.
 % \subsection{\csh{xintBool}, \csh{xintToggle}}
 % \lverb|1.09c|
 %    \begin{macrocode}
-\def\xintBool #1{\romannumeral-`0%
+\def\xintBool #1{\romannumeral`&&@%
                  \csname if#1\endcsname\expandafter1\else\expandafter0\fi }%
-\def\xintToggle #1{\romannumeral-`0\iftoggle{#1}{1}{0}}%
+\def\xintToggle #1{\romannumeral`&&@\iftoggle{#1}{1}{0}}%
 %    \end{macrocode}
 % \subsection{\csh{xintifSgn}, \csh{xintiiifSgn}}
 % \lverb|Expandable three-way fork added in 1.09a. Branches expandably
@@ -18389,10 +18596,10 @@ $1$ or $-1$.
 \def\xintCmp    {\romannumeral0\xintcmp }%
 \def\xintcmp   #1{\expandafter\XINT_icmp\romannumeral0\xintnum{#1}\Z }%
 \def\xintiiCmp   {\romannumeral0\xintiicmp }%
-\def\xintiicmp #1{\expandafter\XINT_iicmp\romannumeral-`0#1\Z  }%
+\def\xintiicmp #1{\expandafter\XINT_iicmp\romannumeral`&&@#1\Z  }%
 \def\XINT_iicmp #1#2\Z #3%
 {%
-    \expandafter\XINT_cmp_nfork\expandafter #1\romannumeral-`0#3\Z #2\Z
+    \expandafter\XINT_cmp_nfork\expandafter #1\romannumeral`&&@#3\Z #2\Z
 }%
 %    \end{macrocode}
 % \lverb|New fork of 1.2 makes it less convenient here for \XINT_cmp_pre and
@@ -18633,8 +18840,8 @@ $1$ or $-1$.
 % \lverb|New with 1.09a. \xintANDof works also with an empty list.|
 %    \begin{macrocode}
 \def\xintANDof      {\romannumeral0\xintandof }%
-\def\xintandof    #1{\expandafter\XINT_andof_a\romannumeral-`0#1\relax }%
-\def\XINT_andof_a #1{\expandafter\XINT_andof_b\romannumeral-`0#1\Z }%
+\def\xintandof    #1{\expandafter\XINT_andof_a\romannumeral`&&@#1\relax }%
+\def\XINT_andof_a #1{\expandafter\XINT_andof_b\romannumeral`&&@#1\Z }%
 \def\XINT_andof_b #1%
            {\xint_gob_til_relax #1\XINT_andof_e\relax\XINT_andof_c #1}%
 \def\XINT_andof_c #1\Z
@@ -18646,8 +18853,8 @@ $1$ or $-1$.
 % \lverb|New with 1.09a. Works also with an empty list.|
 %    \begin{macrocode}
 \def\xintORof      {\romannumeral0\xintorof }%
-\def\xintorof    #1{\expandafter\XINT_orof_a\romannumeral-`0#1\relax }%
-\def\XINT_orof_a #1{\expandafter\XINT_orof_b\romannumeral-`0#1\Z }%
+\def\xintorof    #1{\expandafter\XINT_orof_a\romannumeral`&&@#1\relax }%
+\def\XINT_orof_a #1{\expandafter\XINT_orof_b\romannumeral`&&@#1\Z }%
 \def\XINT_orof_b #1%
            {\xint_gob_til_relax #1\XINT_orof_e\relax\XINT_orof_c #1}%
 \def\XINT_orof_c #1\Z
@@ -18661,8 +18868,8 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \def\xintXORof      {\romannumeral0\xintxorof }%
 \def\xintxorof    #1{\expandafter\XINT_xorof_a\expandafter
-                     0\romannumeral-`0#1\relax }%
-\def\XINT_xorof_a #1#2{\expandafter\XINT_xorof_b\romannumeral-`0#2\Z #1}%
+                     0\romannumeral`&&@#1\relax }%
+\def\XINT_xorof_a #1#2{\expandafter\XINT_xorof_b\romannumeral`&&@#2\Z #1}%
 \def\XINT_xorof_b #1%
            {\xint_gob_til_relax #1\XINT_xorof_e\relax\XINT_xorof_c #1}%
 \def\XINT_xorof_c #1\Z #2%
@@ -18680,10 +18887,10 @@ $1$ or $-1$.
 \def\xintGeq    {\romannumeral0\xintgeq }%
 \def\xintgeq   #1{\expandafter\XINT_geq\romannumeral0\xintnum{#1}\Z }%
 \def\xintiiGeq   {\romannumeral0\xintiigeq }%
-\def\xintiigeq #1{\expandafter\XINT_iigeq\romannumeral-`0#1\Z  }%
+\def\xintiigeq #1{\expandafter\XINT_iigeq\romannumeral`&&@#1\Z  }%
 \def\XINT_iigeq #1#2\Z #3%
 {%
-    \expandafter\XINT_geq_fork\expandafter #1\romannumeral-`0#3\Z #2\Z
+    \expandafter\XINT_geq_fork\expandafter #1\romannumeral`&&@#3\Z #2\Z
 }%
 \let\XINT_geq_pre \xintiigeq % TEMPORAIRE
 \let\XINT_Geq \xintGeq       % TEMPORAIRE ATTENTION FAIT xintNum
@@ -18851,11 +19058,11 @@ $1$ or $-1$.
 \def\xintiiMax {\romannumeral0\xintiimax }%
 \def\xintiimax #1%
 {%
-    \expandafter\xint_iimax\expandafter {\romannumeral-`0#1}%
+    \expandafter\xint_iimax\expandafter {\romannumeral`&&@#1}%
 }%
 \def\xint_iimax #1#2%
 {%
-    \expandafter\XINT_max_pre\expandafter {\romannumeral-`0#2}{#1}%
+    \expandafter\XINT_max_pre\expandafter {\romannumeral`&&@#2}{#1}%
 }%
 \def\XINT_max_pre #1#2{\XINT_max_fork #1\Z #2\Z {#2}{#1}}%
 \def\XINT_Max #1#2{\romannumeral0\XINT_max_fork #2\Z #1\Z {#1}{#2}}%
@@ -18908,19 +19115,30 @@ $1$ or $-1$.
     \fi
 }%
 %    \end{macrocode}
-% \subsection{\csh{xintiMaxof}}
-% \lverb|New with 1.09a. 1.2 has NO MORE \xintMaxof, requires \xintfracname.|
+% \subsection{\csh{xintiMaxof}, \csh{xintiiMaxof}}
+% \lverb|New with 1.09a. 1.2 has NO MORE \xintMaxof, requires \xintfracname.
+% 1.2a adds \xintiiMaxof, as \xintiiMaxof:csv is not public.|
 %    \begin{macrocode}
 \def\xintiMaxof      {\romannumeral0\xintimaxof }%
-\def\xintimaxof    #1{\expandafter\XINT_imaxof_a\romannumeral-`0#1\relax }%
+\def\xintimaxof    #1{\expandafter\XINT_imaxof_a\romannumeral`&&@#1\relax }%
 \def\XINT_imaxof_a #1{\expandafter\XINT_imaxof_b\romannumeral0\xintnum{#1}\Z }%
 \def\XINT_imaxof_b #1\Z #2%
-           {\expandafter\XINT_imaxof_c\romannumeral-`0#2\Z {#1}\Z}%
+           {\expandafter\XINT_imaxof_c\romannumeral`&&@#2\Z {#1}\Z}%
 \def\XINT_imaxof_c #1%
            {\xint_gob_til_relax #1\XINT_imaxof_e\relax\XINT_imaxof_d #1}%
 \def\XINT_imaxof_d #1\Z
            {\expandafter\XINT_imaxof_b\romannumeral0\xintimax {#1}}%
 \def\XINT_imaxof_e #1\Z #2\Z { #2}%
+\def\xintiiMaxof      {\romannumeral0\xintiimaxof }%
+\def\xintiimaxof    #1{\expandafter\XINT_iimaxof_a\romannumeral`&&@#1\relax }%
+\def\XINT_iimaxof_a #1{\expandafter\XINT_iimaxof_b\romannumeral`&&@#1\Z }%
+\def\XINT_iimaxof_b #1\Z #2%
+           {\expandafter\XINT_iimaxof_c\romannumeral`&&@#2\Z {#1}\Z}%
+\def\XINT_iimaxof_c #1%
+           {\xint_gob_til_relax #1\XINT_iimaxof_e\relax\XINT_iimaxof_d #1}%
+\def\XINT_iimaxof_d #1\Z
+           {\expandafter\XINT_iimaxof_b\romannumeral0\xintiimax {#1}}%
+\def\XINT_iimaxof_e #1\Z #2\Z { #2}%
 %    \end{macrocode}
 % \subsection{\csh{xintiMin}, \csh{xintiiMin}}
 % \lverb|\xintnum added New with 1.09a. I add \xintiiMin in 1.1 and mark as
@@ -18939,11 +19157,11 @@ $1$ or $-1$.
 \def\xintiiMin {\romannumeral0\xintiimin }%
 \def\xintiimin #1%
 {%
-    \expandafter\xint_iimin\expandafter {\romannumeral-`0#1}%
+    \expandafter\xint_iimin\expandafter {\romannumeral`&&@#1}%
 }%
 \def\xint_iimin #1#2%
 {%
-    \expandafter\XINT_min_pre\expandafter {\romannumeral-`0#2}{#1}%
+    \expandafter\XINT_min_pre\expandafter {\romannumeral`&&@#2}{#1}%
 }%
 \def\XINT_min_pre #1#2{\XINT_min_fork #1\Z #2\Z {#2}{#1}}%
 \def\XINT_Min #1#2{\romannumeral0\XINT_min_fork #2\Z #1\Z {#1}{#2}}%
@@ -18996,19 +19214,29 @@ $1$ or $-1$.
     \fi
 }%
 %    \end{macrocode}
-% \subsection{\csh{xintiMinof}}
-% \lverb|1.09a|
+% \subsection{\csh{xintiMinof}, \csh{xintiiMinof}}
+% \lverb|1.09a. 1.2a adds \xintiiMinof which was lacking.|
 %    \begin{macrocode}
 \def\xintiMinof      {\romannumeral0\xintiminof }%
-\def\xintiminof    #1{\expandafter\XINT_iminof_a\romannumeral-`0#1\relax }%
+\def\xintiminof    #1{\expandafter\XINT_iminof_a\romannumeral`&&@#1\relax }%
 \def\XINT_iminof_a #1{\expandafter\XINT_iminof_b\romannumeral0\xintnum{#1}\Z }%
 \def\XINT_iminof_b #1\Z #2%
-           {\expandafter\XINT_iminof_c\romannumeral-`0#2\Z {#1}\Z}%
+           {\expandafter\XINT_iminof_c\romannumeral`&&@#2\Z {#1}\Z}%
 \def\XINT_iminof_c #1%
            {\xint_gob_til_relax #1\XINT_iminof_e\relax\XINT_iminof_d #1}%
 \def\XINT_iminof_d #1\Z
            {\expandafter\XINT_iminof_b\romannumeral0\xintimin {#1}}%
 \def\XINT_iminof_e #1\Z #2\Z { #2}%
+\def\xintiiMinof      {\romannumeral0\xintiiminof }%
+\def\xintiiminof    #1{\expandafter\XINT_iiminof_a\romannumeral`&&@#1\relax }%
+\def\XINT_iiminof_a #1{\expandafter\XINT_iiminof_b\romannumeral`&&@#1\Z }%
+\def\XINT_iiminof_b #1\Z #2%
+           {\expandafter\XINT_iiminof_c\romannumeral`&&@#2\Z {#1}\Z}%
+\def\XINT_iiminof_c #1%
+           {\xint_gob_til_relax #1\XINT_iiminof_e\relax\XINT_iiminof_d #1}%
+\def\XINT_iiminof_d #1\Z
+           {\expandafter\XINT_iiminof_b\romannumeral0\xintiimin {#1}}%
+\def\XINT_iiminof_e #1\Z #2\Z { #2}%
 %    \end{macrocode}
 % \subsection{\csh{xintiiSum}}
 % \lverb|&
@@ -19037,10 +19265,10 @@ $1$ or $-1$.
 \def\xintiiSum {\romannumeral0\xintiisum }%
 \def\xintiisum #1{\xintiisumexpr #1\relax }%
 \def\xintiiSumExpr {\romannumeral0\xintiisumexpr }%
-\def\xintiisumexpr {\expandafter\XINT_sumexpr\romannumeral-`0}%
+\def\xintiisumexpr {\expandafter\XINT_sumexpr\romannumeral`&&@}%
 \def\XINT_sumexpr {\XINT_sum_loop_a 0\Z }%
 \def\XINT_sum_loop_a #1\Z #2%
-    {\expandafter\XINT_sum_loop_b \romannumeral-`0#2\Z #1\Z \Z}%
+    {\expandafter\XINT_sum_loop_b \romannumeral`&&@#2\Z #1\Z \Z}%
 \def\XINT_sum_loop_b #1%
     {\xint_gob_til_relax #1\XINT_sum_finished\relax\XINT_sum_loop_c #1}%
 \def\XINT_sum_loop_c
@@ -19077,10 +19305,10 @@ $1$ or $-1$.
 \def\xintiiPrd {\romannumeral0\xintiiprd }%
 \def\xintiiprd #1{\xintiiprdexpr #1\relax }%
 \def\xintiiPrdExpr {\romannumeral0\xintiiprdexpr }%
-\def\xintiiprdexpr {\expandafter\XINT_prdexpr\romannumeral-`0}%
+\def\xintiiprdexpr {\expandafter\XINT_prdexpr\romannumeral`&&@}%
 \def\XINT_prdexpr {\XINT_prod_loop_a 1\Z }%
 \def\XINT_prod_loop_a #1\Z #2%
-    {\expandafter\XINT_prod_loop_b  \romannumeral-`0#2\Z #1\Z \Z}%
+    {\expandafter\XINT_prod_loop_b  \romannumeral`&&@#2\Z #1\Z \Z}%
 \def\XINT_prod_loop_b #1%
     {\xint_gob_til_relax #1\XINT_prod_finished\relax\XINT_prod_loop_c #1}%
 \def\XINT_prod_loop_c
@@ -19188,7 +19416,7 @@ $1$ or $-1$.
 \def\xintDSL {\romannumeral0\xintdsl }%
 \def\xintdsl #1%
 {%
-    \expandafter\XINT_dsl \romannumeral-`0#1\Z
+    \expandafter\XINT_dsl \romannumeral`&&@#1\Z
 }%
 \def\XINT_DSL #1{\romannumeral0\XINT_dsl #1\Z }%
 \def\XINT_dsl #1%
@@ -19208,7 +19436,7 @@ $1$ or $-1$.
 \def\xintDSR {\romannumeral0\xintdsr }%
 \def\xintdsr #1%
 {%
-    \expandafter\XINT_dsr_a\expandafter {\romannumeral-`0#1}\W\Z
+    \expandafter\XINT_dsr_a\expandafter {\romannumeral`&&@#1}\W\Z
 }%
 \def\XINT_DSR #1{\romannumeral0\XINT_dsr_a {#1}\W\Z }%
 \def\XINT_dsr_a
@@ -19257,7 +19485,7 @@ $1$ or $-1$.
 \def\xintDSH {\romannumeral0\xintdsh }%
 \def\xintdsh #1#2%
 {%
-    \expandafter\xint_dsh\expandafter {\romannumeral-`0#2}{#1}%
+    \expandafter\xint_dsh\expandafter {\romannumeral`&&@#2}{#1}%
 }%
 \def\xint_dsh #1#2%
 {%
@@ -19315,7 +19543,7 @@ $1$ or $-1$.
 \def\xintDSx {\romannumeral0\xintdsx }%
 \def\xintdsx #1#2%
 {%
-    \expandafter\xint_dsx\expandafter {\romannumeral-`0#2}{#1}%
+    \expandafter\xint_dsx\expandafter {\romannumeral`&&@#2}{#1}%
 }%
 \def\xint_dsx #1#2%
 {%
@@ -19640,7 +19868,7 @@ $1$ or $-1$.
 \def\XINT_sqrtr_post #1#2{\xintiiifLt {#2}{#1}{ #1}{\XINT_dec_pos #1\Z}}%
 \def\xintisquareroot #1%
    {\expandafter\XINT_sqrt_checkin\romannumeral0\xintnum{#1}\Z }%
-\def\xintiisquareroot #1{\expandafter\XINT_sqrt_checkin\romannumeral-`0#1\Z }%
+\def\xintiisquareroot #1{\expandafter\XINT_sqrt_checkin\romannumeral`&&@#1\Z }%
 \def\XINT_sqrt_checkin #1%
 {%
     \xint_UDzerominusfork
@@ -19812,7 +20040,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \def\xintiiE {\romannumeral0\xintiie }% used in \xintMod.
 \def\xintiie #1#2%
-   {\expandafter\XINT_iie\the\numexpr #2\expandafter.\expandafter{\romannumeral-`0#1}}%
+   {\expandafter\XINT_iie\the\numexpr #2\expandafter.\expandafter{\romannumeral`&&@#1}}%
 \def\XINT_iie #1.#2{\ifnum#1>\xint_c_ \xint_dothis{\xint_dsh {#2}{-#1}}\fi
                     \xint_orthat{ #2}}%
 %    \end{macrocode}
@@ -19902,7 +20130,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintbinhex}%
-  [2015/10/10 v1.2 Expandable binary and hexadecimal conversions (jfB)]%
+  [2015/10/19 v1.2a Expandable binary and hexadecimal conversions (jfB)]%
 %    \end{macrocode}
 % \subsection{Constants, etc...}
 % \lverb!v1.08!
@@ -20043,7 +20271,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \def\xintDecToHex {\romannumeral0\xintdectohex }%
 \def\xintdectohex #1%
-        {\expandafter\XINT_dth_checkin\romannumeral-`0#1\W\W\W\W \T}%
+        {\expandafter\XINT_dth_checkin\romannumeral`&&@#1\W\W\W\W \T}%
 \def\XINT_dth_checkin #1%
 {%
     \xint_UDsignfork
@@ -20052,10 +20280,10 @@ $1$ or $-1$.
      \krof
 }%
 \def\XINT_dth_N {\expandafter\xint_minus_thenstop\romannumeral0\XINT_dth_P }%
-\def\XINT_dth_P {\expandafter\XINT_dth_III\romannumeral-`0\XINT_dtbh_I {0.}}%
+\def\XINT_dth_P {\expandafter\XINT_dth_III\romannumeral`&&@\XINT_dtbh_I {0.}}%
 \def\xintDecToBin {\romannumeral0\xintdectobin }%
 \def\xintdectobin #1%
-        {\expandafter\XINT_dtb_checkin\romannumeral-`0#1\W\W\W\W \T }%
+        {\expandafter\XINT_dtb_checkin\romannumeral`&&@#1\W\W\W\W \T }%
 \def\XINT_dtb_checkin #1%
 {%
     \xint_UDsignfork
@@ -20064,7 +20292,7 @@ $1$ or $-1$.
      \krof
 }%
 \def\XINT_dtb_N {\expandafter\xint_minus_thenstop\romannumeral0\XINT_dtb_P }%
-\def\XINT_dtb_P {\expandafter\XINT_dtb_III\romannumeral-`0\XINT_dtbh_I {0.}}%
+\def\XINT_dtb_P {\expandafter\XINT_dtb_III\romannumeral`&&@\XINT_dtbh_I {0.}}%
 \def\XINT_dtbh_I #1#2#3#4#5%
 {%
     \xint_gob_til_W #5\XINT_dtbh_II_a\W\XINT_dtbh_I_a  {}{#2#3#4#5}#1\Z.%
@@ -20137,13 +20365,13 @@ $1$ or $-1$.
 {%
     \xint_gob_til_Z #2\XINT_dth_end\Z
     \expandafter\XINT_dth_III\expandafter
-    {\romannumeral-`0\XINT_dth_small #2.#1}%
+    {\romannumeral`&&@\XINT_dth_small #2.#1}%
 }%
 \def\XINT_dth_small #1.%
 {%
     \expandafter\XINT_smallhex\expandafter
     {\the\numexpr (#1+\xint_c_ii^vii)/\xint_c_ii^viii-\xint_c_i\expandafter}%
-    \romannumeral-`0\expandafter\XINT_smallhex\expandafter
+    \romannumeral`&&@\expandafter\XINT_smallhex\expandafter
     {\the\numexpr
     #1-((#1+\xint_c_ii^vii)/\xint_c_ii^viii-\xint_c_i)*\xint_c_ii^viii}%
 }%
@@ -20166,13 +20394,13 @@ $1$ or $-1$.
 {%
     \xint_gob_til_Z #2\XINT_dtb_end\Z
     \expandafter\XINT_dtb_III\expandafter
-    {\romannumeral-`0\XINT_dtb_small #2.#1}%
+    {\romannumeral`&&@\XINT_dtb_small #2.#1}%
 }%
 \def\XINT_dtb_small #1.%
 {%
     \expandafter\XINT_smallbin\expandafter
     {\the\numexpr (#1+\xint_c_ii^vii)/\xint_c_ii^viii-\xint_c_i\expandafter}%
-    \romannumeral-`0\expandafter\XINT_smallbin\expandafter
+    \romannumeral`&&@\expandafter\XINT_smallbin\expandafter
     {\the\numexpr
     #1-((#1+\xint_c_ii^vii)/\xint_c_ii^viii-\xint_c_i)*\xint_c_ii^viii}%
 }%
@@ -20195,7 +20423,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \def\xintHexToDec {\romannumeral0\xinthextodec }%
 \def\xinthextodec #1%
-        {\expandafter\XINT_htd_checkin\romannumeral-`0#1\W\W\W\W \T }%
+        {\expandafter\XINT_htd_checkin\romannumeral`&&@#1\W\W\W\W \T }%
 \def\XINT_htd_checkin #1%
 {%
     \xint_UDsignfork
@@ -20283,7 +20511,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \def\xintBinToDec {\romannumeral0\xintbintodec }%
 \def\xintbintodec #1{\expandafter\XINT_btd_checkin
-                     \romannumeral-`0#1\W\W\W\W\W\W\W\W \T }%
+                     \romannumeral`&&@#1\W\W\W\W\W\W\W\W \T }%
 \def\XINT_btd_checkin #1%
 {%
     \xint_UDsignfork
@@ -20395,7 +20623,7 @@ $1$ or $-1$.
 {%
     \expandafter\XINT_bth_checkin
                      \romannumeral0\expandafter\XINT_num_loop
-                     \romannumeral-`0#1\xint_relax\xint_relax
+                     \romannumeral`&&@#1\xint_relax\xint_relax
                                        \xint_relax\xint_relax
                      \xint_relax\xint_relax\xint_relax\xint_relax\Z
     \R\R\R\R\R\R\R\R\Z \W\W\W\W\W\W\W\W
@@ -20436,7 +20664,7 @@ $1$ or $-1$.
 \def\xintHexToBin {\romannumeral0\xinthextobin }%
 \def\xinthextobin #1%
 {%
-    \expandafter\XINT_htb_checkin\romannumeral-`0#1GGGGGGGG\T
+    \expandafter\XINT_htb_checkin\romannumeral`&&@#1GGGGGGGG\T
 }%
 \def\XINT_htb_checkin #1%
 {%
@@ -20480,7 +20708,7 @@ $1$ or $-1$.
 \def\xintCHexToBin {\romannumeral0\xintchextobin }%
 \def\xintchextobin #1%
 {%
-    \expandafter\XINT_chtb_checkin\romannumeral-`0#1%
+    \expandafter\XINT_chtb_checkin\romannumeral`&&@#1%
     \R\R\R\R\R\R\R\R\Z \W\W\W\W\W\W\W\W
 }%
 \def\XINT_chtb_checkin #1%
@@ -20603,7 +20831,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintgcd}%
-  [2015/10/10 v1.2 Euclide algorithm with xint package (jfB)]%
+  [2015/10/19 v1.2a Euclide algorithm with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintGCD}, \csh{xintiiGCD}}
 % \lverb|The macros of 1.09a benefits from the \xintnum which has been inserted
@@ -21108,9 +21336,9 @@ $1$ or $-1$.
 % it seemed to be less efficient ...|
 %    \begin{macrocode}
 \def\xintGCDof      {\romannumeral0\xintgcdof }%
-\def\xintgcdof    #1{\expandafter\XINT_gcdof_a\romannumeral-`0#1\relax }%
-\def\XINT_gcdof_a #1{\expandafter\XINT_gcdof_b\romannumeral-`0#1\Z }%
-\def\XINT_gcdof_b #1\Z #2{\expandafter\XINT_gcdof_c\romannumeral-`0#2\Z {#1}\Z}%
+\def\xintgcdof    #1{\expandafter\XINT_gcdof_a\romannumeral`&&@#1\relax }%
+\def\XINT_gcdof_a #1{\expandafter\XINT_gcdof_b\romannumeral`&&@#1\Z }%
+\def\XINT_gcdof_b #1\Z #2{\expandafter\XINT_gcdof_c\romannumeral`&&@#2\Z {#1}\Z}%
 \def\XINT_gcdof_c #1{\xint_gob_til_relax #1\XINT_gcdof_e\relax\XINT_gcdof_d #1}%
 \def\XINT_gcdof_d #1\Z {\expandafter\XINT_gcdof_b\romannumeral0\xintgcd {#1}}%
 \def\XINT_gcdof_e #1\Z #2\Z { #2}%
@@ -21119,9 +21347,9 @@ $1$ or $-1$.
 % \lverb|New with 1.09a|
 %    \begin{macrocode}
 \def\xintLCMof      {\romannumeral0\xintlcmof }%
-\def\xintlcmof    #1{\expandafter\XINT_lcmof_a\romannumeral-`0#1\relax }%
-\def\XINT_lcmof_a #1{\expandafter\XINT_lcmof_b\romannumeral-`0#1\Z }%
-\def\XINT_lcmof_b #1\Z #2{\expandafter\XINT_lcmof_c\romannumeral-`0#2\Z {#1}\Z}%
+\def\xintlcmof    #1{\expandafter\XINT_lcmof_a\romannumeral`&&@#1\relax }%
+\def\XINT_lcmof_a #1{\expandafter\XINT_lcmof_b\romannumeral`&&@#1\Z }%
+\def\XINT_lcmof_b #1\Z #2{\expandafter\XINT_lcmof_c\romannumeral`&&@#2\Z {#1}\Z}%
 \def\XINT_lcmof_c #1{\xint_gob_til_relax #1\XINT_lcmof_e\relax\XINT_lcmof_d #1}%
 \def\XINT_lcmof_d #1\Z {\expandafter\XINT_lcmof_b\romannumeral0\xintlcm {#1}}%
 \def\XINT_lcmof_e #1\Z #2\Z { #2}%
@@ -21305,7 +21533,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintfrac}%
-  [2015/10/10 v1.2 Expandable operations on fractions (jfB)]%
+  [2015/10/19 v1.2a Expandable operations on fractions (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{XINT_cntSgnFork}}
 % \lverb|1.09i. Used internally, #1 must expand to \m@ne, \z@, or \@ne or
@@ -21335,7 +21563,7 @@ $1$ or $-1$.
 % \subsection{\csh{XINT_lenrord_loop}}
 %    \begin{macrocode}
 \def\XINT_lenrord_loop #1#2#3#4#5#6#7#8#9%
-{%  faire \romannumeral-`0\XINT_lenrord_loop 0{}#1\Z\W\W\W\W\W\W\W\Z
+{%  faire \romannumeral`&&@\XINT_lenrord_loop 0{}#1\Z\W\W\W\W\W\W\W\Z
     \xint_gob_til_W #9\XINT_lenrord_W\W
     \expandafter\XINT_lenrord_loop\expandafter
     {\the\numexpr #1+7}{#9#8#7#6#5#4#3#2}%
@@ -21441,7 +21669,7 @@ $1$ or $-1$.
 \def\XINT_inFrac {\romannumeral0\XINT_infrac }%
 \def\XINT_infrac #1%
 {%
-    \expandafter\XINT_infrac_fork\romannumeral-`0#1/\XINT_W[\XINT_W\XINT_T
+    \expandafter\XINT_infrac_fork\romannumeral`&&@#1/\XINT_W[\XINT_W\XINT_T
 }%
 \def\XINT_infrac_fork #1[#2%
 {%
@@ -21467,7 +21695,7 @@ $1$ or $-1$.
 \def\XINT_infrac_res_ca #1[#2]/\XINT_W[\XINT_W\XINT_T     
    {\expandafter{\the\numexpr 0#2}{#1}{1}}%
 \def\XINT_infrac_res_cb #1/#2[%
-   {\expandafter\XINT_infrac_res_cc\romannumeral-`0#2~#1[}%
+   {\expandafter\XINT_infrac_res_cc\romannumeral`&&@#2~#1[}%
 \def\XINT_infrac_res_cc #1~#2[#3]/\XINT_W[\XINT_W\XINT_T 
    {\expandafter{\the\numexpr 0#3}{#2}{#1}}%
 %    \end{macrocode}
@@ -21492,7 +21720,7 @@ $1$ or $-1$.
 \def\XINT_frac_gen_B #1/#2/\XINT_W[%\XINT_W
 {%
     \expandafter\XINT_frac_gen_Ba
-    \romannumeral-`0#2ee.\XINT_W\XINT_Z #1ee.%\XINT_W
+    \romannumeral`&&@#2ee.\XINT_W\XINT_Z #1ee.%\XINT_W
 }%
 \def\XINT_frac_gen_Ba #1.#2%
 {%
@@ -21506,7 +21734,7 @@ $1$ or $-1$.
                 {\expandafter\XINT_frac_gen_C\the\numexpr 0#2~#1!}%
 \def\XINT_frac_gen_Bc #1.#2e%
 {%
-    \expandafter\XINT_frac_gen_Bd\romannumeral-`0#2.#1e%
+    \expandafter\XINT_frac_gen_Bd\romannumeral`&&@#2.#1e%
 }%
 \def\XINT_frac_gen_Bd #1.#2e#3e#4\XINT_Z
 {%
@@ -21532,7 +21760,7 @@ $1$ or $-1$.
 }%
 \def\XINT_frac_gen_Cb #1.#2e%
 {%
-    \expandafter\XINT_frac_gen_Cc\romannumeral-`0#2.#1e%
+    \expandafter\XINT_frac_gen_Cc\romannumeral`&&@#2.#1e%
 }%
 \def\XINT_frac_gen_Cc #1.#2~#3!#4e#5e#6\XINT_T
 {%
@@ -22956,7 +23184,7 @@ $1$ or $-1$.
 {%
     \expandafter\XINT_float_T\expandafter
     {\the\numexpr #4+\xint_c_i\expandafter}%
-    \romannumeral-`0\XINT_lenrord_loop 0{}#2\Z\W\W\W\W\W\W\W\Z #1{#3}{#4}%
+    \romannumeral`&&@\XINT_lenrord_loop 0{}#2\Z\W\W\W\W\W\W\W\Z #1{#3}{#4}%
 }%
 \def\XINT_float_T #1#2#3%
 {%
@@ -23130,7 +23358,7 @@ $1$ or $-1$.
 {%
     \expandafter\XINT_infloat_T\expandafter
     {\the\numexpr #3+\xint_c_i\expandafter}%
-    \romannumeral-`0\XINT_lenrord_loop 0{}#1\Z\W\W\W\W\W\W\W\Z
+    \romannumeral`&&@\XINT_lenrord_loop 0{}#1\Z\W\W\W\W\W\W\W\Z
     {#2}%
 }%
 \def\XINT_infloat_T #1#2#3%
@@ -23291,11 +23519,11 @@ $1$ or $-1$.
 \def\xintSum {\romannumeral0\xintsum }%
 \def\xintsum #1{\xintsumexpr #1\relax }%
 \def\xintSumExpr {\romannumeral0\xintsumexpr }%
-\def\xintsumexpr {\expandafter\XINT_fsumexpr\romannumeral-`0}%
+\def\xintsumexpr {\expandafter\XINT_fsumexpr\romannumeral`&&@}%
 \def\XINT_fsumexpr {\XINT_fsum_loop_a {0/1[0]}}%
 \def\XINT_fsum_loop_a #1#2%
 {%
-    \expandafter\XINT_fsum_loop_b \romannumeral-`0#2\Z {#1}%
+    \expandafter\XINT_fsum_loop_b \romannumeral`&&@#2\Z {#1}%
 }%
 \def\XINT_fsum_loop_b #1%
 {%
@@ -23419,11 +23647,11 @@ $1$ or $-1$.
 \def\xintPrd {\romannumeral0\xintprd }%
 \def\xintprd #1{\xintprdexpr #1\relax }%
 \def\xintPrdExpr {\romannumeral0\xintprdexpr }%
-\def\xintprdexpr {\expandafter\XINT_fprdexpr \romannumeral-`0}%
+\def\xintprdexpr {\expandafter\XINT_fprdexpr \romannumeral`&&@}%
 \def\XINT_fprdexpr {\XINT_fprod_loop_a {1/1[0]}}%
 \def\XINT_fprod_loop_a #1#2%
 {%
-    \expandafter\XINT_fprod_loop_b \romannumeral-`0#2\Z {#1}%
+    \expandafter\XINT_fprod_loop_b \romannumeral`&&@#2\Z {#1}%
 }%
 \def\XINT_fprod_loop_b #1%
 {%
@@ -23576,7 +23804,7 @@ $1$ or $-1$.
 }%
 \def\XINT_fgeq_D #1#2#3%
 {%
-    \expandafter\XINT_cntSgnFork\romannumeral-`0\expandafter\XINT_cntSgn
+    \expandafter\XINT_cntSgnFork\romannumeral`&&@\expandafter\XINT_cntSgn
      \the\numexpr #2+\xintLength{#3}-\xintLength{#1}\relax\Z
     { 0}{\XINT_fgeq_E #2\Z {#3}{#1}}{ 1}%
 }%
@@ -23641,10 +23869,10 @@ $1$ or $-1$.
 % \subsection{\csh{xintMaxof}}
 %    \begin{macrocode}
 \def\xintMaxof      {\romannumeral0\xintmaxof }%
-\def\xintmaxof    #1{\expandafter\XINT_maxof_a\romannumeral-`0#1\relax }%
+\def\xintmaxof    #1{\expandafter\XINT_maxof_a\romannumeral`&&@#1\relax }%
 \def\XINT_maxof_a #1{\expandafter\XINT_maxof_b\romannumeral0\xintraw{#1}\Z }%
 \def\XINT_maxof_b #1\Z #2%
-           {\expandafter\XINT_maxof_c\romannumeral-`0#2\Z {#1}\Z}%
+           {\expandafter\XINT_maxof_c\romannumeral`&&@#2\Z {#1}\Z}%
 \def\XINT_maxof_c #1%
            {\xint_gob_til_relax #1\XINT_maxof_e\relax\XINT_maxof_d #1}%
 \def\XINT_maxof_d #1\Z
@@ -23693,10 +23921,10 @@ $1$ or $-1$.
 % \subsection{\csh{xintMinof}}
 %    \begin{macrocode}
 \def\xintMinof      {\romannumeral0\xintminof }%
-\def\xintminof    #1{\expandafter\XINT_minof_a\romannumeral-`0#1\relax }%
+\def\xintminof    #1{\expandafter\XINT_minof_a\romannumeral`&&@#1\relax }%
 \def\XINT_minof_a #1{\expandafter\XINT_minof_b\romannumeral0\xintraw{#1}\Z }%
 \def\XINT_minof_b #1\Z #2%
-           {\expandafter\XINT_minof_c\romannumeral-`0#2\Z {#1}\Z}%
+           {\expandafter\XINT_minof_c\romannumeral`&&@#2\Z {#1}\Z}%
 \def\XINT_minof_c #1%
            {\xint_gob_til_relax #1\XINT_minof_e\relax\XINT_minof_d #1}%
 \def\XINT_minof_d #1\Z
@@ -23760,7 +23988,7 @@ $1$ or $-1$.
 }%
 \def\XINT_fcmp_D #1#2#3%
 {%
-    \expandafter\XINT_cntSgnFork\romannumeral-`0\expandafter\XINT_cntSgn
+    \expandafter\XINT_cntSgnFork\romannumeral`&&@\expandafter\XINT_cntSgn
     \the\numexpr #2+\xintLength{#3}-\xintLength{#1}\relax\Z
     { -1}{\XINT_fcmp_E #2\Z {#3}{#1}}{ 1}%
 }%
@@ -24694,7 +24922,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintseries}%
-  [2015/10/10 v1.2 Expandable partial sums with xint package (jfB)]%
+  [2015/10/19 v1.2a Expandable partial sums with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintSeries}}
 % \lverb|&
@@ -24829,7 +25057,7 @@ $1$ or $-1$.
    \else
       \xint_afterfi
       {\expandafter\XINT_powseriesx_pre\expandafter
-                  {\romannumeral-`0#4}{#1}{#2}{#3}%
+                  {\romannumeral`&&@#4}{#1}{#2}{#3}%
       }%
    \fi
 }%
@@ -24909,7 +25137,7 @@ $1$ or $-1$.
    \else
       \xint_afterfi
       {\expandafter\XINT_ratseriesx_pre\expandafter
-                   {\romannumeral-`0#5}{#2}{#1}{#4}{#3}%
+                   {\romannumeral`&&@#5}{#2}{#1}{#4}{#3}%
       }%
    \fi
 }%
@@ -24997,7 +25225,7 @@ $1$ or $-1$.
    \else
       \xint_afterfi
         {\expandafter \XINT_fppowseriesx_pre \expandafter
-         {\romannumeral-`0#4}{#1}{#2}{#3}{#5}%
+         {\romannumeral`&&@#4}{#1}{#2}{#3}{#5}%
         }%
    \fi
 }%
@@ -25109,7 +25337,7 @@ $1$ or $-1$.
    \else
       \xint_afterfi
         {\expandafter \XINT_flpowseriesx_pre \expandafter
-         {\romannumeral-`0#5}{#1}{#2}{#4}{#3}%
+         {\romannumeral`&&@#5}{#1}{#2}{#4}{#3}%
         }%
    \fi
 }%
@@ -25199,7 +25427,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcfrac}%
-  [2015/10/10 v1.2 Expandable continued fractions with xint package (jfB)]%
+  [2015/10/19 v1.2a Expandable continued fractions with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintCFrac}}
 %    \begin{macrocode}
@@ -25308,7 +25536,7 @@ $1$ or $-1$.
 }%
 \def\XINT_gcfrac
 {%
-    \expandafter\XINT_gcfrac_enter\romannumeral-`0%
+    \expandafter\XINT_gcfrac_enter\romannumeral`&&@%
 }%
 \def\XINT_gcfrac_enter {\XINT_gcfrac_loop {}}%
 \def\XINT_gcfrac_loop #1#2+#3/%
@@ -25366,7 +25594,7 @@ $1$ or $-1$.
 }%
 \def\XINT_ggcfrac
 {%
-    \expandafter\XINT_ggcfrac_enter\romannumeral-`0%
+    \expandafter\XINT_ggcfrac_enter\romannumeral`&&@%
 }%
 \def\XINT_ggcfrac_enter {\XINT_ggcfrac_loop {}}%
 \def\XINT_ggcfrac_loop #1#2+#3/%
@@ -25395,7 +25623,7 @@ $1$ or $-1$.
 \def\xintGCtoGCx {\romannumeral0\xintgctogcx }%
 \def\xintgctogcx #1#2#3%
 {%
-    \expandafter\XINT_gctgcx_start\expandafter {\romannumeral-`0#3}{#1}{#2}%
+    \expandafter\XINT_gctgcx_start\expandafter {\romannumeral`&&@#3}{#1}{#2}%
 }%
 \def\XINT_gctgcx_start #1#2#3{\XINT_gctgcx_loop_a {}{#2}{#3}#1+\xint_relax/}%
 \def\XINT_gctgcx_loop_a #1#2#3#4+#5/%
@@ -25641,7 +25869,7 @@ $1$ or $-1$.
 \def\xintCtoF {\romannumeral0\xintctof }%
 \def\xintctof #1%
 {%
-    \expandafter\XINT_ctf_prep \romannumeral-`0#1\xint_relax
+    \expandafter\XINT_ctf_prep \romannumeral`&&@#1\xint_relax
 }%
 \def\XINT_ctf_prep
 {%
@@ -25680,7 +25908,7 @@ $1$ or $-1$.
 \def\xintiCstoF {\romannumeral0\xinticstof }%
 \def\xinticstof #1%
 {%
-    \expandafter\XINT_icstf_prep \romannumeral-`0#1,\xint_relax,%
+    \expandafter\XINT_icstf_prep \romannumeral`&&@#1,\xint_relax,%
 }%
 \def\XINT_icstf_prep
 {%
@@ -25690,7 +25918,7 @@ $1$ or $-1$.
 {%
     \xint_gob_til_xint_relax #5\XINT_icstf_end\xint_relax
     \expandafter
-    \XINT_icstf_loop_b \romannumeral-`0#5.{#1}{#2}{#3}{#4}%
+    \XINT_icstf_loop_b \romannumeral`&&@#5.{#1}{#2}{#3}{#4}%
 }%
 \def\XINT_icstf_loop_b #1.#2#3#4#5%
 {%
@@ -25710,7 +25938,7 @@ $1$ or $-1$.
 \def\xintGCtoF {\romannumeral0\xintgctof }%
 \def\xintgctof #1%
 {%
-    \expandafter\XINT_gctf_prep \romannumeral-`0#1+\xint_relax/%
+    \expandafter\XINT_gctf_prep \romannumeral`&&@#1+\xint_relax/%
 }%
 \def\XINT_gctf_prep
 {%
@@ -25774,7 +26002,7 @@ $1$ or $-1$.
 \def\xintiGCtoF {\romannumeral0\xintigctof }%
 \def\xintigctof #1%
 {%
-    \expandafter\XINT_igctf_prep \romannumeral-`0#1+\xint_relax/%
+    \expandafter\XINT_igctf_prep \romannumeral`&&@#1+\xint_relax/%
 }%
 \def\XINT_igctf_prep
 {%
@@ -25783,7 +26011,7 @@ $1$ or $-1$.
 \def\XINT_igctf_loop_a #1#2#3#4#5+%
 {%
     \expandafter\XINT_igctf_loop_b
-    \romannumeral-`0#5.{#1}{#2}{#3}{#4}%
+    \romannumeral`&&@#5.{#1}{#2}{#3}{#4}%
 }%
 \def\XINT_igctf_loop_b #1.#2#3#4#5%
 {%
@@ -25800,7 +26028,7 @@ $1$ or $-1$.
 {%
     \xint_gob_til_xint_relax #4\XINT_igctf_end\xint_relax
     \expandafter\XINT_igctf_loop_g
-    \romannumeral-`0#4.{#2}{#3}#1%
+    \romannumeral`&&@#4.{#2}{#3}#1%
 }%
 \def\XINT_igctf_loop_g #1.#2#3%
 {%
@@ -25832,7 +26060,7 @@ $1$ or $-1$.
 \def\xintCtoCv {\romannumeral0\xintctocv }%
 \def\xintctocv #1%
 {%
-    \expandafter\XINT_ctcv_prep\romannumeral-`0#1\xint_relax
+    \expandafter\XINT_ctcv_prep\romannumeral`&&@#1\xint_relax
 }%
 \def\XINT_ctcv_prep
 {%
@@ -25877,7 +26105,7 @@ $1$ or $-1$.
 \def\xintiCstoCv {\romannumeral0\xinticstocv }%
 \def\xinticstocv #1%
 {%
-    \expandafter\XINT_icstcv_prep \romannumeral-`0#1,\xint_relax,%
+    \expandafter\XINT_icstcv_prep \romannumeral`&&@#1,\xint_relax,%
 }%
 \def\XINT_icstcv_prep
 {%
@@ -25887,7 +26115,7 @@ $1$ or $-1$.
 {%
     \xint_gob_til_xint_relax #6\XINT_icstcv_end\xint_relax
     \expandafter
-    \XINT_icstcv_loop_b \romannumeral-`0#6.{#2}{#3}{#4}{#5}{#1}%
+    \XINT_icstcv_loop_b \romannumeral`&&@#6.{#2}{#3}{#4}{#5}{#1}%
 }%
 \def\XINT_icstcv_loop_b #1.#2#3#4#5%
 {%
@@ -25913,7 +26141,7 @@ $1$ or $-1$.
 \def\xintGCtoCv {\romannumeral0\xintgctocv }%
 \def\xintgctocv #1%
 {%
-    \expandafter\XINT_gctcv_prep \romannumeral-`0#1+\xint_relax/%
+    \expandafter\XINT_gctcv_prep \romannumeral`&&@#1+\xint_relax/%
 }%
 \def\XINT_gctcv_prep
 {%
@@ -25987,7 +26215,7 @@ $1$ or $-1$.
 \def\xintiGCtoCv {\romannumeral0\xintigctocv }%
 \def\xintigctocv #1%
 {%
-    \expandafter\XINT_igctcv_prep \romannumeral-`0#1+\xint_relax/%
+    \expandafter\XINT_igctcv_prep \romannumeral`&&@#1+\xint_relax/%
 }%
 \def\XINT_igctcv_prep
 {%
@@ -25996,7 +26224,7 @@ $1$ or $-1$.
 \def\XINT_igctcv_loop_a #1#2#3#4#5#6+%
 {%
     \expandafter\XINT_igctcv_loop_b
-    \romannumeral-`0#6.{#2}{#3}{#4}{#5}{#1}%
+    \romannumeral`&&@#6.{#2}{#3}{#4}{#5}{#1}%
 }%
 \def\XINT_igctcv_loop_b #1.#2#3#4#5%
 {%
@@ -26013,7 +26241,7 @@ $1$ or $-1$.
 {%
     \xint_gob_til_xint_relax #4\XINT_igctcv_end_a\xint_relax
     \expandafter\XINT_igctcv_loop_g
-    \romannumeral-`0#4.#1#2{#3}%
+    \romannumeral`&&@#4.#1#2{#3}%
 }%
 \def\XINT_igctcv_loop_g #1.#2#3#4#5%
 {%
@@ -26072,11 +26300,11 @@ $1$ or $-1$.
    \ifnum #1>\xint_c_
       \xint_afterfi {\expandafter\XINT_cntf_loop\expandafter
                      {\the\numexpr #1-1\expandafter}\expandafter
-                     {\romannumeral-`0#2{#1}}{#2}}%
+                     {\romannumeral`&&@#2{#1}}{#2}}%
    \else
       \xint_afterfi
          {\ifnum #1=\xint_c_
-              \xint_afterfi {\expandafter\space \romannumeral-`0#2{0}}%
+              \xint_afterfi {\expandafter\space \romannumeral`&&@#2{0}}%
           \else \xint_afterfi { }% 1.09m now returns nothing.
           \fi}%
    \fi
@@ -26111,11 +26339,11 @@ $1$ or $-1$.
    \ifnum #1>\xint_c_
       \xint_afterfi {\expandafter\XINT_gcntf_loop\expandafter
                      {\the\numexpr #1-1\expandafter}\expandafter
-                     {\romannumeral-`0#2{#1}}{#2}{#3}}%
+                     {\romannumeral`&&@#2{#1}}{#2}{#3}}%
    \else
       \xint_afterfi
          {\ifnum #1=\xint_c_
-              \xint_afterfi {\expandafter\space\romannumeral-`0#2{0}}%
+              \xint_afterfi {\expandafter\space\romannumeral`&&@#2{0}}%
           \else \xint_afterfi { }% 1.09m now returns nothing rather than 0/1[0]
           \fi}%
    \fi
@@ -26154,7 +26382,7 @@ $1$ or $-1$.
    \else
       \xint_afterfi {\expandafter\XINT_cntcs_loop\expandafter
                      {\the\numexpr #1-\xint_c_i\expandafter}\expandafter
-                     {\romannumeral-`0#2{#1}}{#2}}% produced coeff not braced
+                     {\romannumeral`&&@#2{#1}}{#2}}% produced coeff not braced
    \fi
 }%
 \def\XINT_cntcs_loop #1#2#3%
@@ -26162,7 +26390,7 @@ $1$ or $-1$.
     \ifnum #1>-\xint_c_i \else \XINT_cntcs_exit \fi
     \expandafter\XINT_cntcs_loop\expandafter
     {\the\numexpr #1-\xint_c_i\expandafter}\expandafter
-    {\romannumeral-`0#3{#1}, #2}{#3}% space added, 1.09m
+    {\romannumeral`&&@#3{#1}, #2}{#3}% space added, 1.09m
 }%
 \def\XINT_cntcs_exit \fi
     \expandafter\XINT_cntcs_loop\expandafter
@@ -26194,7 +26422,7 @@ $1$ or $-1$.
    \else
       \xint_afterfi {\expandafter\XINT_cntgc_loop\expandafter
                      {\the\numexpr #1-\xint_c_i\expandafter}\expandafter
-                     {\expandafter{\romannumeral-`0#2{#1}}}{#2}}%
+                     {\expandafter{\romannumeral`&&@#2{#1}}}{#2}}%
    \fi
 }%
 \def\XINT_cntgc_loop #1#2#3%
@@ -26202,7 +26430,7 @@ $1$ or $-1$.
     \ifnum #1>-\xint_c_i \else \XINT_cntgc_exit \fi
     \expandafter\XINT_cntgc_loop\expandafter
     {\the\numexpr #1-\xint_c_i\expandafter }\expandafter
-    {\expandafter{\romannumeral-`0#3{#1}}+1/#2}{#3}%
+    {\expandafter{\romannumeral`&&@#3{#1}}+1/#2}{#3}%
 }%
 \def\XINT_cntgc_exit \fi
     \expandafter\XINT_cntgc_loop\expandafter
@@ -26229,20 +26457,20 @@ $1$ or $-1$.
    \else
       \xint_afterfi {\expandafter\XINT_gcntgc_loop\expandafter
                      {\the\numexpr #1-\xint_c_i\expandafter}\expandafter
-                     {\expandafter{\romannumeral-`0#2{#1}}}{#2}{#3}}%
+                     {\expandafter{\romannumeral`&&@#2{#1}}}{#2}{#3}}%
    \fi
 }%
 \def\XINT_gcntgc_loop #1#2#3#4%
 {%
     \ifnum #1>-\xint_c_i \else \XINT_gcntgc_exit \fi
     \expandafter\XINT_gcntgc_loop_b\expandafter
-    {\expandafter{\romannumeral-`0#4{#1}}/#2}{#3{#1}}{#1}{#3}{#4}%
+    {\expandafter{\romannumeral`&&@#4{#1}}/#2}{#3{#1}}{#1}{#3}{#4}%
 }%
 \def\XINT_gcntgc_loop_b #1#2#3%
 {%
     \expandafter\XINT_gcntgc_loop\expandafter
     {\the\numexpr #3-\xint_c_i \expandafter}\expandafter
-    {\expandafter{\romannumeral-`0#2}+#1}%
+    {\expandafter{\romannumeral`&&@#2}+#1}%
 }%
 \def\XINT_gcntgc_exit \fi
     \expandafter\XINT_gcntgc_loop_b\expandafter #1#2#3#4#5%
@@ -26256,7 +26484,7 @@ $1$ or $-1$.
 \def\xintCstoGC {\romannumeral0\xintcstogc }%
 \def\xintcstogc #1%
 {%
-    \expandafter\XINT_cstc_prep \romannumeral-`0#1,\xint_relax,%
+    \expandafter\XINT_cstc_prep \romannumeral`&&@#1,\xint_relax,%
 }%
 \def\XINT_cstc_prep #1,{\XINT_cstc_loop_a {{#1}}}%
 \def\XINT_cstc_loop_a #1#2,%
@@ -26272,19 +26500,19 @@ $1$ or $-1$.
 \def\xintGCtoGC {\romannumeral0\xintgctogc }%
 \def\xintgctogc #1%
 {%
-    \expandafter\XINT_gctgc_start \romannumeral-`0#1+\xint_relax/%
+    \expandafter\XINT_gctgc_start \romannumeral`&&@#1+\xint_relax/%
 }%
 \def\XINT_gctgc_start {\XINT_gctgc_loop_a {}}%
 \def\XINT_gctgc_loop_a #1#2+#3/%
 {%
     \xint_gob_til_xint_relax #3\XINT_gctgc_end\xint_relax
     \expandafter\XINT_gctgc_loop_b\expandafter
-    {\romannumeral-`0#2}{#3}{#1}%
+    {\romannumeral`&&@#2}{#3}{#1}%
 }%
 \def\XINT_gctgc_loop_b #1#2%
 {%
     \expandafter\XINT_gctgc_loop_c\expandafter
-    {\romannumeral-`0#2}{#1}%
+    {\romannumeral`&&@#2}{#1}%
 }%
 \def\XINT_gctgc_loop_c #1#2#3%
 {%
@@ -26328,11 +26556,11 @@ $1$ or $-1$.
 % Release |1.2| |[2015/10/10]| has the following changes:
 % \begin{description}
 % \item[not anymore limited to 5000
-%   digits:] |1.2| replaces chains of |\romannumeral-`0| used earlier to
+%   digits:] |1.2| replaces chains of |\romannumeral`&&@| used earlier to
 %   gather digits by |\csname| governed expansions. The use of
 %   |\csname.=A/B[N]\endcsname| storage has been part of the design from the
 %   start, hence it was very natural and not too hard to gather the number
-%   directly inside |\csname|. With the chains of |\romannumeral-`0| gone,
+%   directly inside |\csname|. With the chains of |\romannumeral`&&@| gone,
 %   there is no more a limit at about 5000 (with the standard settings of the
 %   maximal expansion depth at 10000) on the maximal number of digits for each
 %   gathered number.
@@ -26498,7 +26726,7 @@ $1$ or $-1$.
 % \item[{|1.08b [2013/06/14]|}] corrected a problem originating in the attempt
 % to attribute a special rôle to braces: expansion could be stopped by space
 % tokens, as various macros tried to expand without grabbing what came next.
-% They now have a doubled |\romannumeral-`0|.
+% They now have a doubled |\romannumeral`&&@|.
 %
 % \item[{|1.09a| |[2013/09/24]|}] has a better mechanism regarding |\xintthe|,
 % more commenting and better organization of the code, and most importantly it
@@ -26624,7 +26852,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintexpr}%
-  [2015/10/10 v1.2 Expandable expression parser (jfB)]%
+  [2015/10/19 v1.2a Expandable expression parser (jfB)]%
 \catcode`! 11
 %    \end{macrocode}
 % \subsection{Locking and unlocking}
@@ -26660,7 +26888,7 @@ $1$ or $-1$.
 \edef\XINT_expr_lockit   
      #1{\noexpand\expandafter\space\noexpand\csname .=#1\endcsname }%
 \def\XINT_expr_unlock_hex_in #1%  expanded inside \csname..\endcsname
-   {\expandafter\XINT_expr_inhex\romannumeral-`0\XINT_expr_unlock#1;}%
+   {\expandafter\XINT_expr_inhex\romannumeral`&&@\XINT_expr_unlock#1;}%
 \def\XINT_expr_inhex #1.#2#3;%    expanded inside \csname..\endcsname
 {%
     \if#2>\xintHexToDec{#1}%
@@ -26700,15 +26928,15 @@ $1$ or $-1$.
 \def\xintfloatexpr  {\romannumeral0\xintfloateval }%
 \def\xintiiexpr     {\romannumeral0\xintiieval    }%
 \def\xinttheexpr    
-   {\romannumeral-`0\expandafter\XINT_expr_print\romannumeral0\xintbareeval  }%
-\def\xinttheiexpr     {\romannumeral-`0\xintthe\xintiexpr }%
-\def\xintthefloatexpr {\romannumeral-`0\xintthe\xintfloatexpr }%
+   {\romannumeral`&&@\expandafter\XINT_expr_print\romannumeral0\xintbareeval  }%
+\def\xinttheiexpr     {\romannumeral`&&@\xintthe\xintiexpr }%
+\def\xintthefloatexpr {\romannumeral`&&@\xintthe\xintfloatexpr }%
 \def\xinttheiiexpr 
-   {\romannumeral-`0\expandafter\XINT_iiexpr_print\romannumeral0\xintbareiieval }%
+   {\romannumeral`&&@\expandafter\XINT_iiexpr_print\romannumeral0\xintbareiieval }%
 %    \end{macrocode}
 % \subsection{\csh{xintthe}}
 %    \begin{macrocode}
-\def\xintthe #1{\romannumeral-`0\expandafter\xint_gobble_iii\romannumeral-`0#1}%
+\def\xintthe #1{\romannumeral`&&@\expandafter\xint_gobble_iii\romannumeral`&&@#1}%
 %    \end{macrocode}
 % \subsection{\csh{xintthecoords}}
 % \lverb|1.1 Wraps up an even number of comma separated items into pairs of
@@ -26726,12 +26954,12 @@ $1$ or $-1$.
 % could make an extra check, but one should not accustome users to too loose
 % requirements!|
 %    \begin{macrocode}
-\def\xintthecoords  #1{\romannumeral-`0\expandafter\expandafter\expandafter
+\def\xintthecoords  #1{\romannumeral`&&@\expandafter\expandafter\expandafter
                      \XINT_thecoords_a
                      \expandafter\xint_gobble_iii\romannumeral0#1}%
 \def\XINT_thecoords_a #1#2% #1=print macro, indispensible for scientific notation
    {\expandafter\XINT_expr_unlock\csname.=\expandafter\XINT_thecoords_b
-                         \romannumeral-`0#1#2,!,!,^\endcsname }%
+                         \romannumeral`&&@#1#2,!,!,^\endcsname }%
 \def\XINT_thecoords_b #1#2,#3#4,%
    {\xint_gob_til_! #3\XINT_thecoords_c ! (#1#2, #3#4)\XINT_thecoords_b }%
 \def\XINT_thecoords_c #1^{}%
@@ -26739,11 +26967,11 @@ $1$ or $-1$.
 % \subsection{\csh{xintbareeval}, \csh{xintbarefloateval}, \csh{xintbareiieval}}
 %    \begin{macrocode}
 \def\xintbareeval      
-   {\expandafter\XINT_expr_until_end_a\romannumeral-`0\XINT_expr_getnext }%
+   {\expandafter\XINT_expr_until_end_a\romannumeral`&&@\XINT_expr_getnext }%
 \def\xintbarefloateval 
-   {\expandafter\XINT_flexpr_until_end_a\romannumeral-`0\XINT_expr_getnext }%
+   {\expandafter\XINT_flexpr_until_end_a\romannumeral`&&@\XINT_expr_getnext }%
 \def\xintbareiieval    
-   {\expandafter\XINT_iiexpr_until_end_a\romannumeral-`0\XINT_expr_getnext }%
+   {\expandafter\XINT_iiexpr_until_end_a\romannumeral`&&@\XINT_expr_getnext }%
 %    \end{macrocode}
 % \subsection{\csh{xinteval}, \csh{xintiieval}}
 %    \begin{macrocode}
@@ -26797,7 +27025,7 @@ $1$ or $-1$.
 \def\XINT_flexpr_print #1%
 {%
     \expandafter\xintPFloat::csv
-    \romannumeral-`0\expandafter\XINT_expr_unlock_sp\string #1!%
+    \romannumeral`&&@\expandafter\XINT_expr_unlock_sp\string #1!%
 }%
 \catcode`: 12
     \def\XINT_expr_unlock_sp #1.;#2.=#3!{{#2}{#3}}%
@@ -26807,7 +27035,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \def\xintboolexpr      {\romannumeral0\expandafter\expandafter\expandafter
     \XINT_boolexpr_done \expandafter\xint_gobble_iv\romannumeral0\xinteval }%
-\def\xinttheboolexpr   {\romannumeral-`0\expandafter\expandafter\expandafter
+\def\xinttheboolexpr   {\romannumeral`&&@\expandafter\expandafter\expandafter
     \XINT_boolexpr_print\expandafter\xint_gobble_iv\romannumeral0\xinteval }%
 \def\XINT_boolexpr_done { !\XINT_expr_usethe\XINT_protectii\XINT_boolexpr_print }%
 %    \end{macrocode}
@@ -26835,9 +27063,9 @@ $1$ or $-1$.
 % to be able to handle comma separated inputs. I am not sure but I think I had
 % them just prior to releasing 1.1 but removed them foolishsly.|
 %    \begin{macrocode}
-\def\xintCSV::csv #1{\expandafter\XINT_csv::_a\romannumeral-`0#1,^,}%
+\def\xintCSV::csv #1{\expandafter\XINT_csv::_a\romannumeral`&&@#1,^,}%
 \def\XINT_csv::_a {\XINT_csv::_b {}}%
-\def\XINT_csv::_b #1#2,{\expandafter\XINT_csv::_c \romannumeral-`0#2,{#1}}%
+\def\XINT_csv::_b #1#2,{\expandafter\XINT_csv::_c \romannumeral`&&@#2,{#1}}%
 \def\XINT_csv::_c #1{\if ^#1\expandafter\XINT_::_end\fi\XINT_csv::_d #1}%
 \def\XINT_csv::_d #1,#2{\XINT_csv::_b {#2, #1}}% possibly, item #1 is empty.
 %    \end{macrocode}
@@ -26851,13 +27079,13 @@ $1$ or $-1$.
 % Same added \romannumeral-`0 in 1.1a for \xintNewExpr purposes.|
 %    \begin{macrocode}
 \def\xintSPRaw    {\romannumeral0\xintspraw }%
-\def\xintspraw  #1{\expandafter\XINT_spraw\romannumeral-`0#1[\W]}%
+\def\xintspraw  #1{\expandafter\XINT_spraw\romannumeral`&&@#1[\W]}%
 \def\XINT_spraw #1[#2#3]{\xint_gob_til_W #2\XINT_spraw_a\W\XINT_spraw_p #1[#2#3]}%
 \def\XINT_spraw_a\W\XINT_spraw_p #1[\W]{ #1}%
 \def\XINT_spraw_p #1[\W]{\xintpraw {#1}}%
-\def\xintSPRaw::csv #1{\romannumeral0\expandafter\XINT_spraw::_a\romannumeral-`0#1,^,}%
+\def\xintSPRaw::csv #1{\romannumeral0\expandafter\XINT_spraw::_a\romannumeral`&&@#1,^,}%
 \def\XINT_spraw::_a {\XINT_spraw::_b {}}%
-\def\XINT_spraw::_b #1#2,{\expandafter\XINT_spraw::_c \romannumeral-`0#2,{#1}}%
+\def\XINT_spraw::_b #1#2,{\expandafter\XINT_spraw::_c \romannumeral`&&@#2,{#1}}%
 \def\XINT_spraw::_c #1{\if ,#1\xint_dothis\XINT_spraw::_e\fi
                        \if ^#1\xint_dothis\XINT_::_end\fi
                        \xint_orthat\XINT_spraw::_d #1}%
@@ -26866,9 +27094,9 @@ $1$ or $-1$.
 %    \end{macrocode}
 % \subsubsection{\csh{xintIsTrue::csv}}
 %    \begin{macrocode}
-\def\xintIsTrue::csv #1{\romannumeral0\expandafter\XINT_istrue::_a\romannumeral-`0#1,^,}%
+\def\xintIsTrue::csv #1{\romannumeral0\expandafter\XINT_istrue::_a\romannumeral`&&@#1,^,}%
 \def\XINT_istrue::_a {\XINT_istrue::_b {}}%
-\def\XINT_istrue::_b #1#2,{\expandafter\XINT_istrue::_c \romannumeral-`0#2,{#1}}%
+\def\XINT_istrue::_b #1#2,{\expandafter\XINT_istrue::_c \romannumeral`&&@#2,{#1}}%
 \def\XINT_istrue::_c #1{\if ,#1\xint_dothis\XINT_istrue::_e\fi
                         \if ^#1\xint_dothis\XINT_::_end\fi
                         \xint_orthat\XINT_istrue::_d #1}%
@@ -26883,8 +27111,8 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \def\XINT_:::_end #1,#2#3{\xint_gobble_i #3}%
 \def\xintRound::csv #1#2{\romannumeral0\expandafter\XINT_round::_b\expandafter
-    {\the\numexpr#1\expandafter}\expandafter{\expandafter}\romannumeral-`0#2,^,}%
-\def\XINT_round::_b #1#2#3,{\expandafter\XINT_round::_c \romannumeral-`0#3,{#1}{#2}}%
+    {\the\numexpr#1\expandafter}\expandafter{\expandafter}\romannumeral`&&@#2,^,}%
+\def\XINT_round::_b #1#2#3,{\expandafter\XINT_round::_c \romannumeral`&&@#3,{#1}{#2}}%
 \def\XINT_round::_c #1{\if ,#1\xint_dothis\XINT_round::_e\fi
                        \if ^#1\xint_dothis\XINT_:::_end\fi
                        \xint_orthat\XINT_round::_d #1}%
@@ -26905,7 +27133,7 @@ $1$ or $-1$.
 %|
 %    \begin{macrocode}
 \def\XINTinFloat::csv #1#2{\romannumeral0\expandafter\XINT_infloat::_b\expandafter
-   {\the\numexpr #1\expandafter}\expandafter{\expandafter}\romannumeral-`0#2,^,}%
+   {\the\numexpr #1\expandafter}\expandafter{\expandafter}\romannumeral`&&@#2,^,}%
 \def\XINT_infloat::_b #1#2#3,{\XINT_infloat::_c #3,{#1}{#2}}%
 \def\XINT_infloat::_c #1{\if ,#1\xint_dothis\XINT_infloat::_e\fi
                        \if ^#1\xint_dothis\XINT_:::_end\fi
@@ -26919,8 +27147,8 @@ $1$ or $-1$.
 % \XINTinFloat::csv. Donc c'est cette routine qui imprime. Utilise \XINT_:::_end|
 %    \begin{macrocode}
 \def\xintPFloat::csv #1#2{\romannumeral0\expandafter\XINT_pfloat::_b\expandafter
-   {\the\numexpr #1\expandafter}\expandafter{\expandafter}\romannumeral-`0#2,^,}%
-\def\XINT_pfloat::_b #1#2#3,{\expandafter\XINT_pfloat::_c \romannumeral-`0#3,{#1}{#2}}%
+   {\the\numexpr #1\expandafter}\expandafter{\expandafter}\romannumeral`&&@#2,^,}%
+\def\XINT_pfloat::_b #1#2#3,{\expandafter\XINT_pfloat::_c \romannumeral`&&@#3,{#1}{#2}}%
 \def\XINT_pfloat::_c #1{\if ,#1\xint_dothis\XINT_pfloat::_e\fi
                        \if ^#1\xint_dothis\XINT_:::_end\fi
                        \xint_orthat\XINT_pfloat::_d #1}%
@@ -26935,7 +27163,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \def\XINT_expr_getnext #1%
 {%
-    \expandafter\XINT_expr_getnext_a\romannumeral-`0#1%
+    \expandafter\XINT_expr_getnext_a\romannumeral`&&@#1%
 }%
 \def\XINT_expr_getnext_a #1%
 {% screens out sub-expressions and \count or \dimen registers/variables
@@ -27028,13 +27256,13 @@ $1$ or $-1$.
 }%
 \def\XINT_expr_scanint_a #1#2%
     {\expandafter\XINT_expr_getop\csname.=#1%
-     \expandafter\XINT_expr_scanint_b\romannumeral-`0#2}%
+     \expandafter\XINT_expr_scanint_b\romannumeral`&&@#2}%
 \def\XINT_expr_gobz_a #1%
     {\expandafter\XINT_expr_getop\csname.=%
-     \expandafter\XINT_expr_gobz_scanint_b\romannumeral-`0#1}%
+     \expandafter\XINT_expr_gobz_scanint_b\romannumeral`&&@#1}%
 \def\XINT_expr_startdec #1%
     {\expandafter\XINT_expr_getop\csname.=%
-     \expandafter\XINT_expr_scandec_a\romannumeral-`0#1}%
+     \expandafter\XINT_expr_scandec_a\romannumeral`&&@#1}%
 %    \end{macrocode}
 % \subsubsection{Integral part (skipping zeroes)}
 % \lverb|Sub-expressions are recognized as startaing with catcode 11
@@ -27053,7 +27281,7 @@ $1$ or $-1$.
 }%
 \def\XINT_expr_scanint_d #1%
 {%
-    \expandafter\XINT_expr_scanint_b\romannumeral-`0#1%
+    \expandafter\XINT_expr_scanint_b\romannumeral`&&@#1%
 }%
 \def\XINT_expr_scanint_endbycs#1#2\XINT_expr_scanint_d{\endcsname #1}%
 \def\XINT_expr_scanint_c\string #1\XINT_expr_scanint_d
@@ -27066,7 +27294,7 @@ $1$ or $-1$.
 }%
 \def\XINT_expr_startdec_a .#1%
 {%
-    \expandafter\XINT_expr_scandec_a\romannumeral-`0#1%
+    \expandafter\XINT_expr_scandec_a\romannumeral`&&@#1%
 }%
 \def\XINT_expr_scandec_a #1%
 {%
@@ -27091,11 +27319,11 @@ $1$ or $-1$.
 }%
 \def\XINT_expr_gobz_scanint_d #1%
 {%
-    \expandafter\XINT_expr_gobz_scanint_b\romannumeral-`0#1%
+    \expandafter\XINT_expr_gobz_scanint_b\romannumeral`&&@#1%
 }%
 \def\XINT_expr_gobz_startdec_a .#1%
 {%
-    \expandafter\XINT_expr_gobz_scandec_a\romannumeral-`0#1%
+    \expandafter\XINT_expr_gobz_scandec_a\romannumeral`&&@#1%
 }%
 \def\XINT_expr_gobz_scandec_a #1%
 {%
@@ -27104,7 +27332,13 @@ $1$ or $-1$.
 }%
 %    \end{macrocode}
 % \subsubsection{Fractional part}
-% \lverb|Annoying duplication of code to allow 0. as input.|
+% \lverb|Annoying duplication of code to allow 0. as input.
+%
+% 1.2a corrects a very bad bug in 1.2 \XINT_expr_gobz_scandec_b which should
+% have stripped leading zeroes in the fractional part but didn't; as a result
+% \xinttheexpr 0.01\relax returned 0 =:-((( Thanks to Kroum Tzanev who
+% reported the issue. Does it improve things if I say the bug was introduced
+% in 1.2, it wasn't present before ?|
 %    \begin{macrocode}
 \def\XINT_expr_scandec_b #1.#2%
 {%
@@ -27117,7 +27351,7 @@ $1$ or $-1$.
 \def\XINT_expr_scandec_d #1.#2%
 {%
     \expandafter\XINT_expr_scandec_b
-    \the\numexpr #1\expandafter.\romannumeral-`0#2%
+    \the\numexpr #1\expandafter.\romannumeral`&&@#2%
 }%
 \def\XINT_expr_scandec_c\string #1#2\the\numexpr#3-\xint_c_i.%
 {%
@@ -27126,14 +27360,25 @@ $1$ or $-1$.
     \ifcat a#1\xint_dothis{[#3]\endcsname *#1}\fi 
     \xint_orthat {[#3]\expandafter\endcsname \string#1}%
 }%
-\def\XINT_expr_gobz_scandec_b 0.#1%
+%    \end{macrocode}
+% \lverb|For bugfix release 1.2a, I only need code that works, I will think
+% another day about making it perhaps more elegant/efficient.|
+%    \begin{macrocode}
+\def\XINT_expr_gobz_scandec_b #1.#2%
 {%
-    \ifcat \relax #1\expandafter\XINT_expr_gobz_scandec_endbycs\expandafter#1\fi
-    \ifnum\xint_c_ix<1\string#1 \else\expandafter\XINT_expr_gobz_scandec_c\fi
-    \string#1\expandafter\XINT_expr_scandec_d\the\numexpr\xint_c_mone.%
+    \ifcat \relax #2\expandafter\XINT_expr_gobz_scandec_endbycs\expandafter#2\fi
+    \ifnum\xint_c_ix<1\string#2 \else\expandafter\XINT_expr_gobz_scandec_c\fi
+    \if0#2\expandafter\xint_firstoftwo\else\expandafter\xint_secondoftwo\fi
+    {\expandafter\XINT_expr_gobz_scandec_b}%
+    {\string#2\expandafter\XINT_expr_scandec_d}\the\numexpr#1-\xint_c_i.%
 }%
-\def\XINT_expr_gobz_scandec_endbycs #1#2\xint_c_mone.{0[0]\endcsname #1}%
-\def\XINT_expr_gobz_scandec_c\string #1#2\xint_c_mone.%
+%    \end{macrocode}
+% \lverb|Even if number is zero leave a trace in [..] of its formation ? for
+% code tracing purposes ? Finally no. But in case of exponential part, yes as
+% I don't want to write extra code just to handle that case.|
+%    \begin{macrocode}
+\def\XINT_expr_gobz_scandec_endbycs #1#2\xint_c_i.{0[0]\endcsname #1}%
+\def\XINT_expr_gobz_scandec_c\if0#1#2\fi #3\xint_c_i.%
 {%
     \if    e#1\xint_dothis{0[\the\numexpr0\XINT_expr_scanexp_a +}\fi
     \if    E#1\xint_dothis{0[\the\numexpr0\XINT_expr_scanexp_a +}\fi
@@ -27147,7 +27392,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \def\XINT_expr_scanexp_a #1#2%
 {%
-    #1\expandafter\XINT_expr_scanexp_b\romannumeral-`0#2%
+    #1\expandafter\XINT_expr_scanexp_b\romannumeral`&&@#2%
 }%
 \def\XINT_expr_scanexp_b #1%
 {%
@@ -27158,7 +27403,7 @@ $1$ or $-1$.
 \def\XINT_expr_scanexpr_endbycs#1#2\XINT_expr_scanexp_d {]\endcsname #1}%
 \def\XINT_expr_scanexp_d #1%
 {%
-    \expandafter\XINT_expr_scanexp_bb\romannumeral-`0#1%
+    \expandafter\XINT_expr_scanexp_bb\romannumeral`&&@#1%
 }%
 \def\XINT_expr_scanexp_c\string #1\XINT_expr_scanexp_d
 {%
@@ -27176,7 +27421,7 @@ $1$ or $-1$.
 \def\XINT_expr_scanexp_endbycs_b#1#2\XINT_expr_scanexp_db {]\endcsname #1}%
 \def\XINT_expr_scanexp_db #1%
 {%
-    \expandafter\XINT_expr_scanexp_bb\romannumeral-`0#1%
+    \expandafter\XINT_expr_scanexp_bb\romannumeral`&&@#1%
 }%
 \def\XINT_expr_scanexp_cb\string #1\XINT_expr_scanexp_db
 {%
@@ -27218,12 +27463,12 @@ $1$ or $-1$.
 }%
 \def\XINT_expr_scanhexI_b #1#2%
 {%
-    #1\expandafter\XINT_expr_scanhexI_a\romannumeral-`0#2%
+    #1\expandafter\XINT_expr_scanhexI_a\romannumeral`&&@#2%
 }%
 \def\XINT_expr_scanhex_transition .#1%
 {%
     \expandafter.\expandafter.\expandafter
-    \XINT_expr_scanhexII_a\romannumeral-`0#1%
+    \XINT_expr_scanhexII_a\romannumeral`&&@#1%
 }%
 \def\XINT_expr_scanhexII_a #1%
 {%
@@ -27246,18 +27491,18 @@ $1$ or $-1$.
 }%
 \def\XINT_expr_scanhexII_b #1#2%
 {%
-    #1\expandafter\XINT_expr_scanhexII_a\romannumeral-`0#2%
+    #1\expandafter\XINT_expr_scanhexII_a\romannumeral`&&@#2%
 }%
 %    \end{macrocode}
 % \subsubsection{Function and variable names}
 %    \begin{macrocode}
 \def\XINT_expr_scanfunc
 {%
-    \expandafter\XINT_expr_func\romannumeral-`0\XINT_expr_scanfunc_a
+    \expandafter\XINT_expr_func\romannumeral`&&@\XINT_expr_scanfunc_a
 }%
 \def\XINT_expr_scanfunc_a #1#2%
 {%
-    \expandafter #1\romannumeral-`0\expandafter\XINT_expr_scanfunc_b\romannumeral-`0#2%
+    \expandafter #1\romannumeral`&&@\expandafter\XINT_expr_scanfunc_b\romannumeral`&&@#2%
 }%
 \def\XINT_expr_scanfunc_b #1%
 {%
@@ -27285,7 +27530,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \def\XINT_expr_getop #1#2% this #1 is the current locked computed value
 {%
-    \expandafter\XINT_expr_getop_a\expandafter #1\romannumeral-`0#2%
+    \expandafter\XINT_expr_getop_a\expandafter #1\romannumeral`&&@#2%
 }%
 \catcode`* 11
 \def\XINT_expr_getop_a #1#2%
@@ -27318,7 +27563,7 @@ $1$ or $-1$.
 \def\XINT_expr_binopwrd #1#2'{\expandafter\XINT_expr_foundop_a
     \csname XINT_expr_itself_\xint_zapspaces #2 \xint_gobble_i\endcsname #1}%
 \def\XINT_expr_scanop_a #1#2#3%
-    {\expandafter\XINT_expr_scanop_b\expandafter #1\expandafter #2\romannumeral-`0#3}%
+    {\expandafter\XINT_expr_scanop_b\expandafter #1\expandafter #2\romannumeral`&&@#3}%
 \def\XINT_expr_scanop_b #1#2#3%
 {%
   \ifcat#3\relax\xint_dothis{\XINT_expr_foundop_a #1#2#3}\fi
@@ -27329,7 +27574,7 @@ $1$ or $-1$.
 }%
 \def\XINT_expr_scanop_c #1#2#3%
 {%
-  \expandafter\XINT_expr_scanop_d\expandafter #1\expandafter #2\romannumeral-`0#3%
+  \expandafter\XINT_expr_scanop_d\expandafter #1\expandafter #2\romannumeral`&&@#3%
 }%
 \def\XINT_expr_scanop_d #1#2#3%
 {%
@@ -27360,7 +27605,7 @@ $1$ or $-1$.
     \def#1##1%
     {%
         \xint_UDsignfork
-                     ##1{\expandafter#1\romannumeral-`0#3}%
+                     ##1{\expandafter#1\romannumeral`&&@#3}%
                        -{#2##1}%
         \krof
     }%
@@ -27368,12 +27613,12 @@ $1$ or $-1$.
     {%
         \ifcase ##1\xint_afterfi
         {\ifx\XINT_expr_itself_^C ##2\xint_dothis
-        {\expandafter#1\romannumeral-`0\expandafter\XINT_expr_getnext\xint_gobble_i}\fi
+        {\expandafter#1\romannumeral`&&@\expandafter\XINT_expr_getnext\xint_gobble_i}\fi
          \xint_orthat \XINT_expr_done }%
         \or\xint_afterfi{\XINT_expr_extra_)
-                          \expandafter #1\romannumeral-`0\XINT_expr_getop }%
+                          \expandafter #1\romannumeral`&&@\XINT_expr_getop }%
         \else
-        \xint_afterfi{\expandafter#1\romannumeral-`0\csname XINT_#4_op_##2\endcsname }%
+        \xint_afterfi{\expandafter#1\romannumeral`&&@\csname XINT_#4_op_##2\endcsname }%
         \fi
     }%
 }%
@@ -27387,10 +27632,10 @@ $1$ or $-1$.
 }%
 \def\XINT_tmpa #1#2#3#4#5#6%
 {%
-    \def #1##1{\expandafter #3\romannumeral-`0\XINT_expr_getnext }%
-    \def #2{\expandafter #3\romannumeral-`0\XINT_expr_getnext }%
+    \def #1##1{\expandafter #3\romannumeral`&&@\XINT_expr_getnext }%
+    \def #2{\expandafter #3\romannumeral`&&@\XINT_expr_getnext }%
     \def #3##1{\xint_UDsignfork
-                ##1{\expandafter #3\romannumeral-`0#5}%
+                ##1{\expandafter #3\romannumeral`&&@#5}%
                   -{#4##1}%
                \krof }%
     \def #4##1##2{\ifcase ##1%
@@ -27398,7 +27643,7 @@ $1$ or $-1$.
                     \xint_orthat\XINT_expr_missing_) }%
       \or   \csname XINT_#6_op_##2\expandafter\endcsname
       \else 
-      \xint_afterfi{\expandafter #3\romannumeral-`0\csname XINT_#6_op_##2\endcsname }%
+      \xint_afterfi{\expandafter #3\romannumeral`&&@\csname XINT_#6_op_##2\endcsname }%
       \fi
     }%
 }%
@@ -27434,10 +27679,12 @@ $1$ or $-1$.
 % \subsection{\textbar, \textbar\textbar, \&,
 % \&\&, <, >, =, ==, <=, >=, !=, +, \textendash, \texorpdfstring{\protect\lowast}{*}, /, \textasciicircum, \texorpdfstring{\protect\lowast\protect\lowast}{**}, //, /:, .., ..[, ].., ][, ][:, :], \textasciicircum C, and ++ operators}
 %    \begin{macrocode}
+\catcode`& 12
 \xintFor* #1 in {{==}{<=}{>=}{!=}{&&}{||}{**}{//}{/:}{..}{..[}{].}{]..}%
                  {+[}{-[}{*[}{/[}{**[}{^[}{a+}{a-}{a*}{a/}{a**}{a^}%
                  {][}{][:}{:]}{^C}{++}{++)}}
     \do {\expandafter\def\csname XINT_expr_itself_#1\endcsname {#1}}%
+\catcode`& 7
 %    \end{macrocode}
 % \subsubsection{The \textbar,
 % \&, xor, <, >, =, <=, >=, !=, //, /:, .., ..[, and ].. operators}
@@ -27447,15 +27694,15 @@ $1$ or $-1$.
   \def #1##1% \XINT_expr_op_<op> ou flexpr ou iiexpr
   {% keep value, get next number and operator, then do until
     \expandafter #2\expandafter ##1%
-    \romannumeral-`0\expandafter\XINT_expr_getnext }%
+    \romannumeral`&&@\expandafter\XINT_expr_getnext }%
   \def #2##1##2% \XINT_expr_until_<op>_a ou flexpr ou iiexpr
-  {\xint_UDsignfork ##2{\expandafter #2\expandafter ##1\romannumeral-`0#4}%
+  {\xint_UDsignfork ##2{\expandafter #2\expandafter ##1\romannumeral`&&@#4}%
     -{#3##1##2}%
     \krof }%
   \def #3##1##2##3##4% \XINT_expr_until_<op>_b ou flexpr ou iiexpr
   {% either execute next operation now, or first do next (possibly unary)
     \ifnum ##2>#5%
-    \xint_afterfi {\expandafter #2\expandafter ##1\romannumeral-`0%
+    \xint_afterfi {\expandafter #2\expandafter ##1\romannumeral`&&@%
       \csname XINT_#8_op_##3\endcsname {##4}}%
     \else \xint_afterfi {\expandafter ##2\expandafter ##3%
       \csname .=#6{\XINT_expr_unlock ##1}{\XINT_expr_unlock ##4}\endcsname }%
@@ -27473,6 +27720,7 @@ $1$ or $-1$.
   \csname #2#6\expandafter\endcsname
   \csname XINT_expr_precedence_#3\endcsname {#1}%
 }%
+\catcode`& 12
 \xintFor #1 in {expr, flexpr} \do {%
   \def\XINT_tmpa ##1{\XINT_tmpb {#1}{xint}##1}%
   \xintApplyInline {\XINT_tmpa }{%
@@ -27490,6 +27738,7 @@ $1$ or $-1$.
     {{/:}{vii}{vii}{Mod}}%
   }%
 }%
+\catcode`& 7
 \def\XINT_tmpa #1{\XINT_tmpb {expr}{xint}#1}%
 \xintApplyInline {\XINT_tmpa }{%
   {+{vi}{vi}{Add}}%
@@ -27511,6 +27760,7 @@ $1$ or $-1$.
   {{]..}{iii}{vi}{SeqB::csv}}%
 }%
 \def\XINT_tmpa #1{\XINT_tmpb {iiexpr}{xint}#1}%
+\catcode`& 12
 \xintApplyInline {\XINT_tmpa }{%
     {|{iii}{vi}{OR}}%
     {&{iv}{vi}{AND}}%
@@ -27532,13 +27782,14 @@ $1$ or $-1$.
   {{//}{vii}{vii}{iiDivTrunc}}%
   {{/:}{vii}{vii}{iiMod}}%
 }%
+\catcode`& 7
 %    \end{macrocode}
 % \subsubsection{The ]+, ]\textendash, ]\texorpdfstring{\protect\lowast}{*}, ]/, ]\textasciicircum, +[, \textendash[, \texorpdfstring{\protect\lowast}{*}[, /[, and \textasciicircum[ list
 % operators}
 % \paragraph{\csh{XINT_expr_binop_inline_b}}\par
 %    \begin{macrocode}
 \def\XINT_expr_binop_inline_a
-   {\expandafter\xint_gobble_i\romannumeral-`0\XINT_expr_binop_inline_b }%
+   {\expandafter\xint_gobble_i\romannumeral`&&@\XINT_expr_binop_inline_b }%
 \def\XINT_expr_binop_inline_b #1#2,{\XINT_expr_binop_inline_c #2,{#1}}%
 \def\XINT_expr_binop_inline_c #1{%
    \if ,#1\xint_dothis\XINT_expr_binop_inline_e\fi
@@ -27552,22 +27803,22 @@ $1$ or $-1$.
   \def #1##1% \XINT_expr_op_<op> ou flexpr ou iiexpr
   {% keep value, get next number and operator, then do until
     \expandafter #2\expandafter ##1%
-    \romannumeral-`0\expandafter\XINT_expr_getnext }%
+    \romannumeral`&&@\expandafter\XINT_expr_getnext }%
   \def #2##1##2% \XINT_expr_until_<op>_a ou flexpr ou iiexpr
-  {\xint_UDsignfork ##2{\expandafter #2\expandafter ##1\romannumeral-`0#4}%
+  {\xint_UDsignfork ##2{\expandafter #2\expandafter ##1\romannumeral`&&@#4}%
     -{#3##1##2}%
     \krof }%
   \def #3##1##2##3##4% \XINT_expr_until_<op>_b ou flexpr ou iiexpr
   {% either execute next operation now, or first do next (possibly unary)
     \ifnum ##2>#5%
-    \xint_afterfi {\expandafter #2\expandafter ##1\romannumeral-`0%
+    \xint_afterfi {\expandafter #2\expandafter ##1\romannumeral`&&@%
       \csname XINT_#8_op_##3\endcsname {##4}}%
     \else \xint_afterfi {\expandafter ##2\expandafter ##3%
       \csname .=\expandafter\XINT_expr_binop_inline_a\expandafter
       {\expandafter\expandafter\expandafter#6\expandafter
        \xint_exchangetwo_keepbraces\expandafter
       {\expandafter\XINT_expr_unlock\expandafter ##4\expandafter}\expandafter}%
-         \romannumeral-`0\XINT_expr_unlock ##1,^,\endcsname }%
+         \romannumeral`&&@\XINT_expr_unlock ##1,^,\endcsname }%
     \fi }%
   \let #7#5%
 }%
@@ -27601,18 +27852,18 @@ $1$ or $-1$.
 }%
 \def\XINT_tmpc #1#2#3#4#5#6#7%
 {%
-  \def #1##1{\expandafter#2\expandafter##1\romannumeral-`0%
-             \expandafter #3\romannumeral-`0\XINT_expr_getnext }%
+  \def #1##1{\expandafter#2\expandafter##1\romannumeral`&&@%
+             \expandafter #3\romannumeral`&&@\XINT_expr_getnext }%
   \def #2##1##2##3##4%
   {% either execute next operation now, or first do next (possibly unary)
     \ifnum ##2>#4%
-    \xint_afterfi {\expandafter #2\expandafter ##1\romannumeral-`0%
+    \xint_afterfi {\expandafter #2\expandafter ##1\romannumeral`&&@%
       \csname XINT_#7_op_##3\endcsname {##4}}%
     \else \xint_afterfi {\expandafter ##2\expandafter ##3%
       \csname .=\expandafter\XINT_expr_binop_inline_a\expandafter
       {\expandafter#5\expandafter
       {\expandafter\XINT_expr_unlock\expandafter ##1\expandafter}\expandafter}%
-         \romannumeral-`0\XINT_expr_unlock ##4,^,\endcsname }%
+         \romannumeral`&&@\XINT_expr_unlock ##4,^,\endcsname }%
     \fi }%
   \let #6#4%
 }%
@@ -27651,14 +27902,14 @@ $1$ or $-1$.
 \xintFor #1 in {and,or,xor,mod} \do {%
    \expandafter\def\csname XINT_expr_itself_#1\endcsname {#1}}%
 \expandafter\let\csname XINT_expr_precedence_and\expandafter\endcsname
-                \csname XINT_expr_precedence_&\endcsname
+                \csname XINT_expr_precedence_\string&\endcsname
 \expandafter\let\csname XINT_expr_precedence_or\expandafter\endcsname
                 \csname XINT_expr_precedence_|\endcsname
 \expandafter\let\csname XINT_expr_precedence_mod\expandafter\endcsname
                 \csname XINT_expr_precedence_/:\endcsname
 \xintFor #1 in {expr, flexpr, iiexpr} \do {%
    \expandafter\let\csname XINT_#1_op_and\expandafter\endcsname
-                   \csname XINT_#1_op_&\endcsname
+                   \csname XINT_#1_op_\string&\endcsname
    \expandafter\let\csname XINT_#1_op_or\expandafter\endcsname
                    \csname XINT_#1_op_|\endcsname
    \expandafter\let\csname XINT_#1_op_mod\expandafter\endcsname
@@ -27671,8 +27922,8 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \expandafter\let\csname XINT_expr_precedence_==\expandafter\endcsname
                 \csname XINT_expr_precedence_=\endcsname
-\expandafter\let\csname XINT_expr_precedence_&&\expandafter\endcsname
-                \csname XINT_expr_precedence_&\endcsname
+\expandafter\let\csname XINT_expr_precedence_\string&\string&\expandafter\endcsname
+                \csname XINT_expr_precedence_\string&\endcsname
 \expandafter\let\csname XINT_expr_precedence_||\expandafter\endcsname
                 \csname XINT_expr_precedence_|\endcsname
 \expandafter\let\csname XINT_expr_precedence_**\expandafter\endcsname
@@ -27684,8 +27935,8 @@ $1$ or $-1$.
 \xintFor #1 in {expr, flexpr, iiexpr} \do {%
    \expandafter\let\csname XINT_#1_op_==\expandafter\endcsname
                    \csname XINT_#1_op_=\endcsname
-   \expandafter\let\csname XINT_#1_op_&&\expandafter\endcsname
-                   \csname XINT_#1_op_&\endcsname
+   \expandafter\let\csname XINT_#1_op_\string&\string&\expandafter\endcsname
+                   \csname XINT_#1_op_\string&\endcsname
    \expandafter\let\csname XINT_#1_op_||\expandafter\endcsname
                    \csname XINT_#1_op_|\endcsname
    \expandafter\let\csname XINT_#1_op_**\expandafter\endcsname
@@ -27711,22 +27962,22 @@ $1$ or $-1$.
 {%
     \def #1##1% \XINT_expr_op_][
     {%
-        \expandafter #2\expandafter ##1\romannumeral-`0\XINT_expr_getnext
+        \expandafter #2\expandafter ##1\romannumeral`&&@\XINT_expr_getnext
     }%
     \def #2##1##2% \XINT_expr_until_][_a
     {\xint_UDsignfork
-        ##2{\expandafter #2\expandafter ##1\romannumeral-`0#4}%
+        ##2{\expandafter #2\expandafter ##1\romannumeral`&&@#4}%
           -{#3##1##2}%
      \krof }%
     \def #3##1##2##3##4% \XINT_expr_until_][_b
     {%
       \ifnum ##2>\xint_c_ii
-        \xint_afterfi {\expandafter #2\expandafter ##1\romannumeral-`0%
+        \xint_afterfi {\expandafter #2\expandafter ##1\romannumeral`&&@%
                        \csname XINT_#6_op_##3\endcsname {##4}}%
       \else
         \xint_afterfi
         {\expandafter ##2\expandafter ##3\csname 
-              .=\expandafter\xintListSel:csv \romannumeral-`0\XINT_expr_unlock ##4;%
+              .=\expandafter\xintListSel:csv \romannumeral`&&@\XINT_expr_unlock ##4;%
                 \XINT_expr_unlock ##1;\endcsname % unlock for \xintNewExpr
         }%
       \fi
@@ -27745,17 +27996,17 @@ $1$ or $-1$.
 {%
     \def #1##1% \XINT_expr_op_:
     {%
-        \expandafter #2\expandafter ##1\romannumeral-`0\XINT_expr_getnext
+        \expandafter #2\expandafter ##1\romannumeral`&&@\XINT_expr_getnext
     }%
     \def #2##1##2% \XINT_expr_until_:_a
     {\xint_UDsignfork
-        ##2{\expandafter #2\expandafter ##1\romannumeral-`0#4}%
+        ##2{\expandafter #2\expandafter ##1\romannumeral`&&@#4}%
           -{#3##1##2}%
      \krof }%
     \def #3##1##2##3##4% \XINT_expr_until_:_b
     {%
       \ifnum ##2>\xint_c_iii
-        \xint_afterfi {\expandafter #2\expandafter ##1\romannumeral-`0%
+        \xint_afterfi {\expandafter #2\expandafter ##1\romannumeral`&&@%
                        \csname XINT_#6_op_##3\endcsname {##4}}%
       \else
         \xint_afterfi
@@ -27794,7 +28045,7 @@ $1$ or $-1$.
 \let\XINT_iiexpr_op_][: \XINT_expr_op_][:
 \catcode`[ 12 \catcode`] 12
 \def\xintListSel:csv #1{%
-    \if ]\noexpand#1\xint_dothis{\expandafter\XINT_listsel:_s\romannumeral-`0}\fi
+    \if ]\noexpand#1\xint_dothis{\expandafter\XINT_listsel:_s\romannumeral`&&@}\fi
     \if :\noexpand#1\xint_dothis{\XINT_listsel:_:}\fi
     \xint_orthat {\XINT_listsel:_nth #1}%
 }%
@@ -27933,8 +28184,8 @@ $1$ or $-1$.
 \def\XINT_seqa::csv #1#2{\expandafter\XINT_seqa::csv_a \romannumeral0\xintraw {#2};#1;}%
 \def\xintiiSeqA::csv #1#2{\XINT_iiseqa::csv #1#2}%
 \def\XINT_iiseqa::csv #1#2#3#4{\expandafter\XINT_seqa::csv_a
-    \romannumeral-`0\expandafter \XINT_expr_unlock\expandafter#4%
-    \expandafter;\romannumeral-`0\XINT_expr_unlock #2;}%
+    \romannumeral`&&@\expandafter \XINT_expr_unlock\expandafter#4%
+    \expandafter;\romannumeral`&&@\XINT_expr_unlock #2;}%
 \def\XINTinFloatSeqA::csv #1{\expandafter\XINT_flseqa::csv\expandafter
    {\romannumeral0\XINTinfloat [\XINTdigits]{#1}}}%
 \def\XINT_flseqa::csv #1#2%
@@ -27949,7 +28200,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \def\xintSeqB::csv #1#2%
    {\expandafter\XINT_seqb::csv \expandafter{\romannumeral0\xintraw{#2}}{#1}}%
-\def\XINT_seqb::csv #1#2{\expandafter\XINT_seqb::csv_a\romannumeral-`0#2#1!}%
+\def\XINT_seqb::csv #1#2{\expandafter\XINT_seqb::csv_a\romannumeral`&&@#2#1!}%
 \def\XINT_seqb::csv_a #1#2;#3;#4!{\expandafter\XINT_expr_seq_empty?
       \romannumeral0\csname XINT_seqb::csv_#1\endcsname {#3}{#4}{#2}}%
 \def\XINT_seqb::csv_p #1#2#3%
@@ -27975,10 +28226,10 @@ $1$ or $-1$.
 \def\xintiiSeqB::csv #1#2{\XINT_iiseqb::csv #1#2}%
 \def\XINT_iiseqb::csv #1#2#3#4%
    {\expandafter\XINT_iiseqb::csv_a
-    \romannumeral-`0\expandafter \XINT_expr_unlock\expandafter#2%
-    \romannumeral-`0\XINT_expr_unlock #4!}%
+    \romannumeral`&&@\expandafter \XINT_expr_unlock\expandafter#2%
+    \romannumeral`&&@\XINT_expr_unlock #4!}%
 \def\XINT_iiseqb::csv_a #1#2;#3;#4!{\expandafter\XINT_expr_seq_empty?
-      \romannumeral-`0\csname XINT_iiseqb::csv_#1\endcsname {#3}{#4}{#2}}%
+      \romannumeral`&&@\csname XINT_iiseqb::csv_#1\endcsname {#3}{#4}{#2}}%
 \def\XINT_iiseqb::csv_p #1#2#3%
 {%
   \xintSgnFork{\XINT_Cmp {#1}{#2}}{,#1\expandafter\XINT_iiseqb::csv_p\expandafter}%
@@ -27997,9 +28248,9 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \def\XINTinFloatSeqB::csv #1#2{\expandafter\XINT_flseqb::csv \expandafter
     {\romannumeral0\XINTinfloat [\XINTdigits]{#2}}{#1}}%
-\def\XINT_flseqb::csv #1#2{\expandafter\XINT_flseqb::csv_a\romannumeral-`0#2#1!}%
+\def\XINT_flseqb::csv #1#2{\expandafter\XINT_flseqb::csv_a\romannumeral`&&@#2#1!}%
 \def\XINT_flseqb::csv_a #1#2;#3;#4!{\expandafter\XINT_expr_seq_empty?
-      \romannumeral-`0\csname XINT_flseqb::csv_#1\endcsname {#3}{#4}{#2}}%
+      \romannumeral`&&@\csname XINT_flseqb::csv_#1\endcsname {#3}{#4}{#2}}%
 \def\XINT_flseqb::csv_p #1#2#3%
 {%
   \xintifCmp {#1}{#2}{,#1\expandafter\XINT_flseqb::csv_p\expandafter}%
@@ -28021,17 +28272,17 @@ $1$ or $-1$.
 {%
     \def #1##1% \XINT_expr_op_,
     {%
-        \expandafter #2\expandafter ##1\romannumeral-`0\XINT_expr_getnext
+        \expandafter #2\expandafter ##1\romannumeral`&&@\XINT_expr_getnext
     }%
     \def #2##1##2% \XINT_expr_until_,_a
     {\xint_UDsignfork
-        ##2{\expandafter #2\expandafter ##1\romannumeral-`0#4}%
+        ##2{\expandafter #2\expandafter ##1\romannumeral`&&@#4}%
           -{#3##1##2}%
      \krof }%
     \def #3##1##2##3##4% \XINT_expr_until_,_b
     {%
       \ifnum ##2>\xint_c_ii
-        \xint_afterfi {\expandafter #2\expandafter ##1\romannumeral-`0%
+        \xint_afterfi {\expandafter #2\expandafter ##1\romannumeral`&&@%
                        \csname XINT_#6_op_##3\endcsname {##4}}%
       \else
         \xint_afterfi
@@ -28064,17 +28315,17 @@ $1$ or $-1$.
 {%
     \def #1% \XINT_expr_op_-<level>
     {%  get next number+operator then switch to _until macro
-        \expandafter #2\romannumeral-`0\XINT_expr_getnext
+        \expandafter #2\romannumeral`&&@\XINT_expr_getnext
     }%
     \def #2##1% \XINT_expr_until_-<l>_a
     {\xint_UDsignfork
-        ##1{\expandafter #2\romannumeral-`0#1}%
+        ##1{\expandafter #2\romannumeral`&&@#1}%
           -{#3##1}%
      \krof }%
     \def #3##1##2##3% \XINT_expr_until_-<l>_b
     {%  _until tests precedence level with next op, executes now or postpones
         \ifnum ##1>#4%
-         \xint_afterfi {\expandafter #2\romannumeral-`0%
+         \xint_afterfi {\expandafter #2\romannumeral`&&@%
                         \csname XINT_#5_op_##2\endcsname {##3}}%
         \else
          \xint_afterfi {\expandafter ##1\expandafter ##2%
@@ -28260,9 +28511,9 @@ $1$ or $-1$.
           \xint_dothis{\csname XINT_expr_onlitteral_##1\endcsname}\fi
         \ifcsname XINT_#3_func_##1\endcsname
           \xint_dothis{\expandafter\expandafter
-                     \csname XINT_#3_func_##1\endcsname\romannumeral-`0#2}\fi
+                     \csname XINT_#3_func_##1\endcsname\romannumeral`&&@#2}\fi
         \xint_orthat{\XINT_expr_unknown_function {##1}%
-           \expandafter\XINT_expr_func_unknown\romannumeral-`0#2}%
+           \expandafter\XINT_expr_func_unknown\romannumeral`&&@#2}%
    }%
 }%
 \def\XINT_expr_unknown_function #1{\xintError:removed \xint_gobble_i {#1}}%
@@ -28288,7 +28539,7 @@ $1$ or $-1$.
 \def\XINT_expr_func_unknown #1#2#3%
     {\expandafter #1\expandafter #2\csname .=0\endcsname }%
 \def\XINT_expr_func_break #1#2#3%
-    {\expandafter #1\expandafter #2\csname.=?\romannumeral-`0\XINT_expr_unlock #3\endcsname }%
+    {\expandafter #1\expandafter #2\csname.=?\romannumeral`&&@\XINT_expr_unlock #3\endcsname }%
 \let\XINT_flexpr_func_break \XINT_expr_func_break
 \let\XINT_iiexpr_func_break \XINT_expr_func_break
 %    \end{macrocode}
@@ -28330,7 +28581,7 @@ $1$ or $-1$.
 % \subsubsection{\csh{XINT_expr_onlitteral_seq}}
 %    \begin{macrocode}
 \def\XINT_expr_onlitteral_seq 
- {\expandafter\XINT_expr_onlitteral_seq_f\romannumeral-`0\XINT_expr_onlitteral_seq_a {}}%
+ {\expandafter\XINT_expr_onlitteral_seq_f\romannumeral`&&@\XINT_expr_onlitteral_seq_a {}}%
 \def\XINT_expr_onlitteral_seq_f #1#2{\xint_c_xviii `{seqx}#2)\relax #1}%
 %    \end{macrocode}
 % \subsubsection{\csh{XINT_expr_onlitteral_seq_a}}
@@ -28400,7 +28651,7 @@ $1$ or $-1$.
 {% #3 is the Latin letter serving as dummy variable, #4 is the expression to evaluate
     \expandafter \XINT_expr_getop
     \csname .=\expandafter\XINT_expr_seq:_aa
-           \romannumeral-`0\XINT_expr_unlock #2!{#1#4\relax !#3},^,\endcsname
+           \romannumeral`&&@\XINT_expr_unlock #2!{#1#4\relax !#3},^,\endcsname
 }%
 \def\XINT_expr_seq:_aa #1{\if +#1\expandafter\XINT_expr_seq:_A\else
                                  \expandafter\XINT_expr_seq:_a\fi #1}%
@@ -28419,7 +28670,7 @@ $1$ or $-1$.
                          \if ^#1\xint_dothis\XINT_expr_seq:_end\fi
                          \xint_orthat\XINT_expr_seq:_d #1}%
 \def\XINT_expr_seq:_d #1,#2{\expandafter\XINT_expr_seq:_e 
-    \romannumeral-`0\expandafter\XINT_expr_unlock\romannumeral0#2{#1}{#2}}%
+    \romannumeral`&&@\expandafter\XINT_expr_unlock\romannumeral0#2{#1}{#2}}%
 \def\XINT_expr_seq:_e #1{\if #1^\xint_dothis\XINT_expr_seq:_abort\fi
                          \if #1?\xint_dothis\XINT_expr_seq:_break\fi
                          \if #1!\xint_dothis\XINT_expr_seq:_omit\fi
@@ -28442,7 +28693,7 @@ $1$ or $-1$.
 \def\XINT_expr_seq:_A +#1!#2,^,%
    {\expandafter\XINT_expr_seq_empty?\romannumeral0\XINT_expr_seq:_D {#1}{#2}}%
 \def\XINT_expr_seq:_D #1#2{\expandafter\XINT_expr_seq:_E
-    \romannumeral-`0\expandafter\XINT_expr_unlock\romannumeral0#2{#1}{#2}}%
+    \romannumeral`&&@\expandafter\XINT_expr_unlock\romannumeral0#2{#1}{#2}}%
 \def\XINT_expr_seq:_E #1{\if #1^\xint_dothis\XINT_expr_seq:_Abort\fi
                          \if #1?\xint_dothis\XINT_expr_seq:_Break\fi
                          \if #1!\xint_dothis\XINT_expr_seq:_Omit\fi
@@ -28458,10 +28709,10 @@ $1$ or $-1$.
 % \csh{XINT_expr_onlitteral_mul}}
 %    \begin{macrocode}
 \def\XINT_expr_onlitteral_add 
- {\expandafter\XINT_expr_onlitteral_add_f\romannumeral-`0\XINT_expr_onlitteral_seq_a {}}%
+ {\expandafter\XINT_expr_onlitteral_add_f\romannumeral`&&@\XINT_expr_onlitteral_seq_a {}}%
 \def\XINT_expr_onlitteral_add_f #1#2{\xint_c_xviii `{opx}#2)\relax #1+}%
 \def\XINT_expr_onlitteral_mul 
- {\expandafter\XINT_expr_onlitteral_mul_f\romannumeral-`0\XINT_expr_onlitteral_seq_a {}}%
+ {\expandafter\XINT_expr_onlitteral_mul_f\romannumeral`&&@\XINT_expr_onlitteral_seq_a {}}%
 \def\XINT_expr_onlitteral_mul_f #1#2{\xint_c_xviii `{opx}#2)\relax #1*}%
 %    \end{macrocode}
 % \subsubsection{\csh{XINT_expr_func_opx}, \csh{XINT_flexpr_func_opx},
@@ -28482,7 +28733,7 @@ $1$ or $-1$.
 {% 
     \expandafter\XINT_expr_getop\romannumeral0\expandafter\XINT_expr_op:_a
     \csname XINT_expr_op:_#5\expandafter\endcsname
-    \romannumeral-`0\XINT_expr_unlock #2!#5#1#3{#4}%
+    \romannumeral`&&@\XINT_expr_unlock #2!#5#1#3{#4}%
 }%
 %    \end{macrocode}
 % \subsubsection{\csh{XINT_expr_op:_a}, \dots}
@@ -28512,7 +28763,7 @@ $1$ or $-1$.
 % \subsubsection{subs, \csh{XINT_expr_onlitteral_subs}}
 %    \begin{macrocode}
 \def\XINT_expr_onlitteral_subs 
- {\expandafter\XINT_expr_onlitteral_subs_f\romannumeral-`0\XINT_expr_onlitteral_seq_a {}}%
+ {\expandafter\XINT_expr_onlitteral_subs_f\romannumeral`&&@\XINT_expr_onlitteral_seq_a {}}%
 \def\XINT_expr_onlitteral_subs_f #1#2{\xint_c_xviii `{subx}#2)\relax #1}%
 \def\XINT_expr_func_subx   #1#2{\XINT_allexpr_subx \xintbareeval }%
 \def\XINT_flexpr_func_subx #1#2{\XINT_allexpr_subx \xintbarefloateval}%
@@ -28521,7 +28772,7 @@ $1$ or $-1$.
 {% #3 is the dummy variable, #4 is the expression to evaluate
     \expandafter \XINT_expr_getop
     \csname .=\expandafter\XINT_expr_subx:_a
-           \romannumeral-`0\XINT_expr_unlock #2!{#1#4\relax !#3}\endcsname
+           \romannumeral`&&@\XINT_expr_unlock #2!{#1#4\relax !#3}\endcsname
 }%
 \def\XINT_expr_subx:_a #1!#2%
    {\expandafter\XINT_expr_subx:_end \romannumeral0#2{#1}}%
@@ -28541,7 +28792,7 @@ $1$ or $-1$.
 \def\XINT_allexpr_rseq #1#2%
 {%
     \expandafter\XINT_expr_rseqx\expandafter #1\expandafter
-    #2\romannumeral-`0\XINT_expr_onlitteral_seq_a {}%
+    #2\romannumeral`&&@\XINT_expr_onlitteral_seq_a {}%
 }%
 %    \end{macrocode}
 % \subsubsection{\csh{XINT_expr_rseqx}}
@@ -28564,7 +28815,7 @@ $1$ or $-1$.
     \expandafter \XINT_expr_getop
     \csname .=\XINT_expr_unlock #2%
     \expandafter\XINT_expr_rseq:_aa
-                \romannumeral-`0\XINT_expr_unlock #1!{#5#4\relax !#3}#2,^,\endcsname
+                \romannumeral`&&@\XINT_expr_unlock #1!{#5#4\relax !#3}#2,^,\endcsname
 }%
 \def\XINT_expr_rseq:_aa #1{\if +#1\expandafter\XINT_expr_rseq:_A\else
                                   \expandafter\XINT_expr_rseq:_a\fi #1}%
@@ -28577,7 +28828,7 @@ $1$ or $-1$.
                           \if ^#1\xint_dothis\XINT_expr_rseq:_end\fi
                           \xint_orthat\XINT_expr_rseq:_d #1}%
 \def\XINT_expr_rseq:_d #1,~#2#3{\expandafter\XINT_expr_rseq:_e
-       \romannumeral-`0\expandafter\XINT_expr_unlock\romannumeral0#3{#1}~#2{#3}}%
+       \romannumeral`&&@\expandafter\XINT_expr_unlock\romannumeral0#3{#1}~#2{#3}}%
 \def\XINT_expr_rseq:_e #1{%
     \if ^#1\xint_dothis\XINT_expr_rseq:_abort\fi
     \if ?#1\xint_dothis\XINT_expr_rseq:_break\fi
@@ -28596,7 +28847,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \def\XINT_expr_rseq:_A +#1!#2#3,^,{\XINT_expr_rseq:_D {#1}#3{#2}}%
 \def\XINT_expr_rseq:_D #1#2#3{\expandafter\XINT_expr_rseq:_E
-    \romannumeral-`0\expandafter\XINT_expr_unlock\romannumeral0#3{#1}~#2{#3}}%
+    \romannumeral`&&@\expandafter\XINT_expr_unlock\romannumeral0#3{#1}~#2{#3}}%
 \def\XINT_expr_rseq:_E #1{\if #1^\xint_dothis\XINT_expr_rseq:_Abort\fi
                          \if #1?\xint_dothis\XINT_expr_rseq:_Break\fi
                          \if #1!\xint_dothis\XINT_expr_rseq:_Omit\fi
@@ -28619,7 +28870,7 @@ $1$ or $-1$.
 \def\XINT_allexpr_rrseq #1#2%
 {%
     \expandafter\XINT_expr_rrseqx\expandafter #1\expandafter
-    #2\romannumeral-`0\XINT_expr_onlitteral_seq_a {}%
+    #2\romannumeral`&&@\XINT_expr_onlitteral_seq_a {}%
 }%
 %    \end{macrocode}
 % \subsubsection{\csh{XINT_expr_rrseqx}}
@@ -28645,7 +28896,7 @@ $1$ or $-1$.
     \expandafter \XINT_expr_getop
     \csname .=\XINT_expr_unlock #3%
     \expandafter\XINT_expr_rrseq:_aa
-                \romannumeral-`0\XINT_expr_unlock #1!{#6#5\relax !#4}{#2},^,\endcsname
+                \romannumeral`&&@\XINT_expr_unlock #1!{#6#5\relax !#4}{#2},^,\endcsname
 }%
 \def\XINT_expr_rrseq:_aa #1{\if +#1\expandafter\XINT_expr_rrseq:_A\else
                                   \expandafter\XINT_expr_rrseq:_a\fi #1}%
@@ -28659,7 +28910,7 @@ $1$ or $-1$.
                           \if ^#1\xint_dothis\XINT_expr_rrseq:_end\fi
                           \xint_orthat\XINT_expr_rrseq:_d #1}%
 \def\XINT_expr_rrseq:_d #1,~#2?#3{\expandafter\XINT_expr_rrseq:_e
-       \romannumeral-`0\expandafter\XINT_expr_unlock\romannumeral0#3{#1}~#2?{#3}}%
+       \romannumeral`&&@\expandafter\XINT_expr_unlock\romannumeral0#3{#1}~#2?{#3}}%
 \def\XINT_expr_rrseq:_goon  #1!#2#3~#4?#5{,#1\expandafter\XINT_expr_rrseq:_b\expandafter
         {\romannumeral0\xinttrim{-1}{\XINT_expr_lockit{#1}#4}}{#5}}%
 \def\XINT_expr_rrseq:_omit  #1!#2#3~{\XINT_expr_rrseq:_b }%
@@ -28681,7 +28932,7 @@ $1$ or $-1$.
 \catcode`? 3
 \def\XINT_expr_rrseq:_A +#1!#2#3,^,{\XINT_expr_rrseq:_D {#1}{#3}{#2}}%
 \def\XINT_expr_rrseq:_D #1#2#3{\expandafter\XINT_expr_rrseq:_E
-    \romannumeral-`0\expandafter\XINT_expr_unlock\romannumeral0#3{#1}~#2?{#3}}%
+    \romannumeral`&&@\expandafter\XINT_expr_unlock\romannumeral0#3{#1}~#2?{#3}}%
 \def\XINT_expr_rrseq:_Goon  #1!#2#3~#4?#5%
    {,#1\expandafter\XINT_expr_rrseq:_D\expandafter{\the\numexpr #3+\xint_c_i\expandafter}%
     \expandafter{\romannumeral0\xinttrim{-1}{\XINT_expr_lockit{#1}#4}}{#5}}%
@@ -28703,7 +28954,7 @@ $1$ or $-1$.
 \def\XINT_allexpr_iter #1#2%
 {%
     \expandafter\XINT_expr_iterx\expandafter #1\expandafter
-    #2\romannumeral-`0\XINT_expr_onlitteral_seq_a {}%
+    #2\romannumeral`&&@\XINT_expr_onlitteral_seq_a {}%
 }%
 %    \end{macrocode}
 % \subsubsection{\csh{XINT_expr_iterx}}
@@ -28729,7 +28980,7 @@ $1$ or $-1$.
     \expandafter \XINT_expr_getop
     \csname .=%
     \expandafter\XINT_expr_iter:_aa
-                \romannumeral-`0\XINT_expr_unlock #1!{#6#5\relax !#4}{#2},^,\endcsname
+                \romannumeral`&&@\XINT_expr_unlock #1!{#6#5\relax !#4}{#2},^,\endcsname
 }%
 \def\XINT_expr_iter:_aa #1{\if +#1\expandafter\XINT_expr_iter:_A\else
                                   \expandafter\XINT_expr_iter:_a\fi #1}%
@@ -28743,7 +28994,7 @@ $1$ or $-1$.
                           \if ^#1\xint_dothis\XINT_expr_iter:_end\fi
                           \xint_orthat\XINT_expr_iter:_d #1}%
 \def\XINT_expr_iter:_d #1,~#2?#3{\expandafter\XINT_expr_iter:_e
-       \romannumeral-`0\expandafter\XINT_expr_unlock\romannumeral0#3{#1}~#2?{#3}}%
+       \romannumeral`&&@\expandafter\XINT_expr_unlock\romannumeral0#3{#1}~#2?{#3}}%
 \def\XINT_expr_iter:_goon  #1!#2#3~#4?#5{\expandafter\XINT_expr_iter:_b\expandafter
         {\romannumeral0\xinttrim{-1}{\XINT_expr_lockit{#1}#4}}{#5}}%
 \def\XINT_expr_iter:_omit  #1!#2#3~{\XINT_expr_iter:_b }%
@@ -28772,7 +29023,7 @@ $1$ or $-1$.
 \catcode`? 3
 \def\XINT_expr_iter:_A +#1!#2#3,^,{\XINT_expr_iter:_D {#1}{#3}{#2}}%
 \def\XINT_expr_iter:_D #1#2#3{\expandafter\XINT_expr_iter:_E
-    \romannumeral-`0\expandafter\XINT_expr_unlock\romannumeral0#3{#1}~#2?{#3}}%
+    \romannumeral`&&@\expandafter\XINT_expr_unlock\romannumeral0#3{#1}~#2?{#3}}%
 \def\XINT_expr_iter:_Goon  #1!#2#3~#4?#5%
    {\expandafter\XINT_expr_iter:_D\expandafter{\the\numexpr #3+\xint_c_i\expandafter}%
     \expandafter{\romannumeral0\xinttrim{-1}{\XINT_expr_lockit{#1}#4}}{#5}}%
@@ -28804,7 +29055,7 @@ $1$ or $-1$.
 % \lverb|1.09a. For use by \xintexpr inside \csname. 1.1, je remplace
 % ifTrueAelseB par iiNotZero pour des raisons d'optimisations.|
 %    \begin{macrocode}
-\def\xintANDof:csv #1{\expandafter\XINT_andof:_a\romannumeral-`0#1,,^}%
+\def\xintANDof:csv #1{\expandafter\XINT_andof:_a\romannumeral`&&@#1,,^}%
 \def\XINT_andof:_a #1{\if ,#1\expandafter\XINT_andof:_e
                       \else\expandafter\XINT_andof:_c\fi #1}%
 \def\XINT_andof:_c #1,{\xintiiifNotZero {#1}{\XINT_andof:_a}{\XINT_andof:_no}}%
@@ -28814,7 +29065,7 @@ $1$ or $-1$.
 % \subsubsection{\csh{xintORof:csv}}
 % \lverb|1.09a. For use by \xintexpr.|
 %    \begin{macrocode}
-\def\xintORof:csv #1{\expandafter\XINT_orof:_a\romannumeral-`0#1,,^}%
+\def\xintORof:csv #1{\expandafter\XINT_orof:_a\romannumeral`&&@#1,,^}%
 \def\XINT_orof:_a #1{\if ,#1\expandafter\XINT_orof:_e
                       \else\expandafter\XINT_orof:_c\fi #1}%
 \def\XINT_orof:_c #1,{\xintiiifNotZero{#1}{\XINT_orof:_yes}{\XINT_orof:_a}}%
@@ -28824,7 +29075,7 @@ $1$ or $-1$.
 % \subsubsection{\csh{xintXORof:csv}}
 % \lverb|1.09a. For use by \xintexpr (inside a \csname..\endcsname).|
 %    \begin{macrocode}
-\def\xintXORof:csv #1{\expandafter\XINT_xorof:_a\expandafter 0\romannumeral-`0#1,,^}%
+\def\xintXORof:csv #1{\expandafter\XINT_xorof:_a\expandafter 0\romannumeral`&&@#1,,^}%
 \def\XINT_xorof:_a #1#2,{\XINT_xorof:_b #2,#1}%
 \def\XINT_xorof:_b #1{\if ,#1\expandafter\XINT_xorof:_e
                       \else\expandafter\XINT_xorof:_c\fi #1}%
@@ -28845,12 +29096,12 @@ $1$ or $-1$.
 \def\XINT_oncsv:_a #1#2#3%
    {\if ,#3\expandafter\XINT_oncsv:_empty\else\expandafter\XINT_oncsv:_b\fi #1#2#3}%
 \def\XINT_oncsv:_b #1#2#3,%
-   {\expandafter\XINT_oncsv:_c \expandafter{\romannumeral-`0#2{#3}}#1#2}%
-\def\XINT_oncsv:_c #1#2#3#4,{\expandafter\XINT_oncsv:_d \romannumeral-`0#4,{#1}#2#3}%
+   {\expandafter\XINT_oncsv:_c \expandafter{\romannumeral`&&@#2{#3}}#1#2}%
+\def\XINT_oncsv:_c #1#2#3#4,{\expandafter\XINT_oncsv:_d \romannumeral`&&@#4,{#1}#2#3}%
 \def\XINT_oncsv:_d #1%
    {\if ^#1\expandafter\XINT_oncsv:_end\else\expandafter\XINT_oncsv:_e\fi #1}%
 \def\XINT_oncsv:_e #1,#2#3#4%
-   {\expandafter\XINT_oncsv:_c\expandafter {\romannumeral-`0#3{#4{#1}}{#2}}#3#4}%
+   {\expandafter\XINT_oncsv:_c\expandafter {\romannumeral`&&@#3{#4{#1}}{#2}}#3#4}%
 %    \end{macrocode}
 % \subsubsection{\csh{xintMaxof:csv}, \csh{xintiiMaxof:csv}}
 % \lverb|1.09i. Rewritten for 1.1. Compatible avec liste vide donnant valeur par
@@ -28860,50 +29111,50 @@ $1$ or $-1$.
 % dans il faut bien sûr ne pas faire de xintNum, donc il faut un iimax.|
 %    \begin{macrocode}
 \def\xintMaxof:csv #1{\expandafter\XINT_oncsv:_a\expandafter\xintmax
-                      \expandafter\xint_firstofone\romannumeral-`0#1,^,{0/1[0]}}%
+                      \expandafter\xint_firstofone\romannumeral`&&@#1,^,{0/1[0]}}%
 \def\xintiiMaxof:csv #1{\expandafter\XINT_oncsv:_a\expandafter\xintiimax
-                       \expandafter\xint_firstofone\romannumeral-`0#1,^,0}%
+                       \expandafter\xint_firstofone\romannumeral`&&@#1,^,0}%
 %    \end{macrocode}
 % \subsubsection{\csh{xintMinof:csv}, \csh{xintiiMinof:csv}}
 % \lverb|1.09i. Rewritten for 1.1. For use by \xintiiexpr.|
 %    \begin{macrocode}
 \def\xintMinof:csv #1{\expandafter\XINT_oncsv:_a\expandafter\xintmin
-                       \expandafter\xint_firstofone\romannumeral-`0#1,^,{0/1[0]}}%
+                       \expandafter\xint_firstofone\romannumeral`&&@#1,^,{0/1[0]}}%
 \def\xintiiMinof:csv #1{\expandafter\XINT_oncsv:_a\expandafter\xintiimin
-                       \expandafter\xint_firstofone\romannumeral-`0#1,^,0}%
+                       \expandafter\xint_firstofone\romannumeral`&&@#1,^,0}%
 %    \end{macrocode}
 % \subsubsection{\csh{xintSum:csv}, \csh{xintiiSum:csv}}
 % \lverb|1.09a. Rewritten for 1.1. For use by \xintexpr.|
 %    \begin{macrocode}
 \def\xintSum:csv #1{\expandafter\XINT_oncsv:_a\expandafter\xintadd
-                    \expandafter\xint_firstofone\romannumeral-`0#1,^,{0/1[0]}}%
+                    \expandafter\xint_firstofone\romannumeral`&&@#1,^,{0/1[0]}}%
 \def\xintiiSum:csv #1{\expandafter\XINT_oncsv:_a\expandafter\xintiiadd
-                      \expandafter\xint_firstofone\romannumeral-`0#1,^,0}%
+                      \expandafter\xint_firstofone\romannumeral`&&@#1,^,0}%
 %    \end{macrocode}
 % \subsubsection{\csh{xintPrd:csv}, \csh{xintiiPrd:csv}}
 % \lverb|1.09a. Rewritten for 1.1. For use by \xintexpr.|
 %    \begin{macrocode}
 \def\xintPrd:csv #1{\expandafter\XINT_oncsv:_a\expandafter\xintmul
-                    \expandafter\xint_firstofone\romannumeral-`0#1,^,{1/1[0]}}%
+                    \expandafter\xint_firstofone\romannumeral`&&@#1,^,{1/1[0]}}%
 \def\xintiiPrd:csv #1{\expandafter\XINT_oncsv:_a\expandafter\xintiimul
-                      \expandafter\xint_firstofone\romannumeral-`0#1,^,1}%
+                      \expandafter\xint_firstofone\romannumeral`&&@#1,^,1}%
 %    \end{macrocode}
 % \subsubsection{\csh{xintGCDof:csv}, \csh{xintLCMof:csv}}
 % \lverb|1.09a. Rewritten for 1.1. For use by \xintexpr. Expansion réinstaurée
 % pour besoins de xintNewExpr de version 1.1|
 %    \begin{macrocode}
 \def\xintGCDof:csv #1{\expandafter\XINT_oncsv:_a\expandafter\xintgcd
-                      \expandafter\xint_firstofone\romannumeral-`0#1,^,1}%
+                      \expandafter\xint_firstofone\romannumeral`&&@#1,^,1}%
 \def\xintLCMof:csv #1{\expandafter\XINT_oncsv:_a\expandafter\xintlcm
-                      \expandafter\xint_firstofone\romannumeral-`0#1,^,0}%
+                      \expandafter\xint_firstofone\romannumeral`&&@#1,^,0}%
 %    \end{macrocode}
 % \subsubsection{\csh{xintiiGCDof:csv}, \csh{xintiiLCMof:csv}}
 % \lverb|1.1a pour \xintiiexpr. Ces histoires de ii sont pénibles à la fin.|
 %    \begin{macrocode}
 \def\xintiiGCDof:csv #1{\expandafter\XINT_oncsv:_a\expandafter\xintiigcd
-                      \expandafter\xint_firstofone\romannumeral-`0#1,^,1}%
+                      \expandafter\xint_firstofone\romannumeral`&&@#1,^,1}%
 \def\xintiiLCMof:csv #1{\expandafter\XINT_oncsv:_a\expandafter\xintiilcm
-                      \expandafter\xint_firstofone\romannumeral-`0#1,^,0}%
+                      \expandafter\xint_firstofone\romannumeral`&&@#1,^,0}%
 %    \end{macrocode}
 % \subsubsection{\csh{XINTinFloatdigits}, \csh{XINTinFloatSqrtdigits}}
 % \lverb|for \xintNewExpr matters, mainly.|
@@ -28915,17 +29166,17 @@ $1$ or $-1$.
 % \lverb|1.09a. Rewritten for 1.1. For use by \xintfloatexpr. Name changed in 1.09h|
 %    \begin{macrocode}
 \def\XINTinFloatMaxof:csv #1{\expandafter\XINT_oncsv:_a\expandafter\xintmax
-                         \expandafter\XINTinFloatdigits\romannumeral-`0#1,^,{0[0]}}%
+                         \expandafter\XINTinFloatdigits\romannumeral`&&@#1,^,{0[0]}}%
 \def\XINTinFloatMinof:csv #1{\expandafter\XINT_oncsv:_a\expandafter\xintmin
-                         \expandafter\XINTinFloatdigits\romannumeral-`0#1,^,{0[0]}}%
+                         \expandafter\XINTinFloatdigits\romannumeral`&&@#1,^,{0[0]}}%
 %    \end{macrocode}
 % \subsubsection{\csh{XINTinFloatSum:csv}, \csh{XINTinFloatPrd:csv}}
 % \lverb|1.09a. Rewritten for 1.1. For use by \xintfloatexpr.|
 %    \begin{macrocode}
 \def\XINTinFloatSum:csv #1{\expandafter\XINT_oncsv:_a\expandafter\XINTinfloatadd
-                        \expandafter\XINTinFloatdigits\romannumeral-`0#1,^,{0[0]}}%
+                        \expandafter\XINTinFloatdigits\romannumeral`&&@#1,^,{0[0]}}%
 \def\XINTinFloatPrd:csv #1{\expandafter\XINT_oncsv:_a\expandafter\XINTinfloatmul
-                        \expandafter\XINTinFloatdigits\romannumeral-`0#1,^,{1[0]}}%
+                        \expandafter\XINTinFloatdigits\romannumeral`&&@#1,^,{1[0]}}%
 %    \end{macrocode}
 % \subsection{The num, reduce, abs, sgn, frac, floor, ceil, sqr, sqrt, sqrtr, float,
 % round, trunc, mod, quo, rem, gcd, lcm, max, min, \textasciigrave
@@ -29001,7 +29252,7 @@ $1$ or $-1$.
 {%
     \expandafter #1\expandafter #2\csname .=%
     \expandafter\XINT_expr_argandopt
-    \romannumeral-`0\XINT_expr_unlock#3,,.\XINTinFloatSqrtdigits\XINTinFloatSqrt
+    \romannumeral`&&@\XINT_expr_unlock#3,,.\XINTinFloatSqrtdigits\XINTinFloatSqrt
     \endcsname
 }%
 \let\XINT_flexpr_func_sqrt\XINT_expr_func_sqrt
@@ -29014,34 +29265,34 @@ $1$ or $-1$.
     \expandafter #1\expandafter #2\csname .=%
     \expandafter\XINT_expr_oneortwo
     \expandafter\xintiRound\expandafter\xintRound
-    \romannumeral-`0\XINT_expr_unlock #3,,.\endcsname
+    \romannumeral`&&@\XINT_expr_unlock #3,,.\endcsname
 }%
 \let\XINT_flexpr_func_round\XINT_expr_func_round
 \def\XINT_iiexpr_func_round #1#2#3%
 {%
     \expandafter #1\expandafter #2\csname .=%
     \expandafter\XINT_iiexpr_oneortwo\expandafter\xintiRound
-    \romannumeral-`0\XINT_expr_unlock #3,,.\endcsname
+    \romannumeral`&&@\XINT_expr_unlock #3,,.\endcsname
 }%
 \def\XINT_expr_func_trunc #1#2#3%
 {%
     \expandafter #1\expandafter #2\csname .=%
     \expandafter\XINT_expr_oneortwo
     \expandafter\xintiTrunc\expandafter\xintTrunc
-    \romannumeral-`0\XINT_expr_unlock #3,,.\endcsname
+    \romannumeral`&&@\XINT_expr_unlock #3,,.\endcsname
 }%
 \let\XINT_flexpr_func_trunc\XINT_expr_func_trunc
 \def\XINT_iiexpr_func_trunc #1#2#3%
 {%
     \expandafter #1\expandafter #2\csname .=%
     \expandafter\XINT_iiexpr_oneortwo\expandafter\xintiTrunc
-    \romannumeral-`0\XINT_expr_unlock #3,,.\endcsname
+    \romannumeral`&&@\XINT_expr_unlock #3,,.\endcsname
 }%
 \def\XINT_expr_func_float #1#2#3%
 {%
     \expandafter #1\expandafter #2\csname .=%
     \expandafter\XINT_expr_argandopt
-    \romannumeral-`0\XINT_expr_unlock #3,,.\XINTinFloatdigits\XINTinFloat
+    \romannumeral`&&@\XINT_expr_unlock #3,,.\XINTinFloatdigits\XINTinFloat
     \endcsname
 }%
 \let\XINT_flexpr_func_float\XINT_expr_func_float
@@ -29051,28 +29302,28 @@ $1$ or $-1$.
     \expandafter #1\expandafter #2\csname .=%
     \expandafter\expandafter\expandafter\xintMod
     \expandafter\XINT_expr_twoargs
-    \romannumeral-`0\XINT_expr_unlock #3,\endcsname
+    \romannumeral`&&@\XINT_expr_unlock #3,\endcsname
 }%
 \def\XINT_flexpr_func_mod #1#2#3%
 {%
     \expandafter #1\expandafter #2\csname .=%
     \expandafter\XINTinFloatMod
-    \romannumeral-`0\expandafter\XINT_expr_twoargs
-    \romannumeral-`0\XINT_expr_unlock #3,\endcsname
+    \romannumeral`&&@\expandafter\XINT_expr_twoargs
+    \romannumeral`&&@\XINT_expr_unlock #3,\endcsname
 }%
 \def\XINT_iiexpr_func_mod #1#2#3%
 {%
     \expandafter #1\expandafter #2\csname .=%
     \expandafter\expandafter\expandafter\xintiiMod
     \expandafter\XINT_expr_twoargs
-    \romannumeral-`0\XINT_expr_unlock #3,\endcsname
+    \romannumeral`&&@\XINT_expr_unlock #3,\endcsname
 }%
 \def\XINT_expr_func_quo #1#2#3%
 {%
     \expandafter #1\expandafter #2\csname .=%
     \expandafter\expandafter\expandafter\xintiQuo
     \expandafter\XINT_expr_twoargs
-    \romannumeral-`0\XINT_expr_unlock #3,\endcsname
+    \romannumeral`&&@\XINT_expr_unlock #3,\endcsname
 }%
 \let\XINT_flexpr_func_quo\XINT_expr_func_quo
 \def\XINT_iiexpr_func_quo #1#2#3%
@@ -29080,14 +29331,14 @@ $1$ or $-1$.
     \expandafter #1\expandafter #2\csname .=%
     \expandafter\expandafter\expandafter\xintiiQuo
     \expandafter\XINT_expr_twoargs
-    \romannumeral-`0\XINT_expr_unlock #3,\endcsname
+    \romannumeral`&&@\XINT_expr_unlock #3,\endcsname
 }%
 \def\XINT_expr_func_rem #1#2#3%
 {%
     \expandafter #1\expandafter #2\csname .=%
     \expandafter\expandafter\expandafter\xintiRem
     \expandafter\XINT_expr_twoargs
-    \romannumeral-`0\XINT_expr_unlock #3,\endcsname
+    \romannumeral`&&@\XINT_expr_unlock #3,\endcsname
 }%
 \let\XINT_flexpr_func_rem\XINT_expr_func_rem
 \def\XINT_iiexpr_func_rem #1#2#3%
@@ -29095,7 +29346,7 @@ $1$ or $-1$.
     \expandafter #1\expandafter #2\csname .=%
     \expandafter\expandafter\expandafter\xintiiRem
     \expandafter\XINT_expr_twoargs
-    \romannumeral-`0\XINT_expr_unlock #3,\endcsname
+    \romannumeral`&&@\XINT_expr_unlock #3,\endcsname
 }%
 \def\XINT_expr_func_gcd #1#2#3%
    {\expandafter #1\expandafter #2\csname
@@ -29178,26 +29429,26 @@ $1$ or $-1$.
 \def\xintifNotZero: #1,#2,#3,{\xintiiifNotZero{#1}{#2}{#3}}%
 \def\XINT_expr_func_if #1#2#3%
     {\expandafter #1\expandafter #2\csname
-         .=\expandafter\xintifNotZero:\romannumeral-`0\XINT_expr_unlock #3,\endcsname }%
+         .=\expandafter\xintifNotZero:\romannumeral`&&@\XINT_expr_unlock #3,\endcsname }%
 \let\XINT_flexpr_func_if\XINT_expr_func_if
 \let\XINT_iiexpr_func_if\XINT_expr_func_if
 \def\xintifSgn: #1,#2,#3,#4,{\xintiiifSgn{#1}{#2}{#3}{#4}}%
 \def\XINT_expr_func_ifsgn #1#2#3%
 {%
     \expandafter #1\expandafter #2\csname
-         .=\expandafter\xintifSgn:\romannumeral-`0\XINT_expr_unlock #3,\endcsname
+         .=\expandafter\xintifSgn:\romannumeral`&&@\XINT_expr_unlock #3,\endcsname
 }%
 \let\XINT_flexpr_func_ifsgn\XINT_expr_func_ifsgn
 \let\XINT_iiexpr_func_ifsgn\XINT_expr_func_ifsgn
 \def\XINT_expr_func_first #1#2#3%
     {\expandafter #1\expandafter #2\csname.=\expandafter\XINT_expr_func_firsta 
-     \romannumeral-`0\XINT_expr_unlock #3,^\endcsname }%
+     \romannumeral`&&@\XINT_expr_unlock #3,^\endcsname }%
 \def\XINT_expr_func_firsta #1,#2^{#1}%
 \let\XINT_flexpr_func_first\XINT_expr_func_first
 \let\XINT_iiexpr_func_first\XINT_expr_func_first
 \def\XINT_expr_func_last #1#2#3% will not work in \xintNewExpr if macro param involved
     {\expandafter #1\expandafter #2\csname.=\expandafter\XINT_expr_func_lasta 
-     \romannumeral-`0\XINT_expr_unlock #3,^\endcsname }%
+     \romannumeral`&&@\XINT_expr_unlock #3,^\endcsname }%
 \def\XINT_expr_func_lasta #1,#2%
    {\if ^#2 #1\expandafter\xint_gobble_ii\fi \XINT_expr_func_lasta #2}%
 \let\XINT_flexpr_func_last\XINT_expr_func_last
@@ -29234,9 +29485,9 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \def\xintSeqB:f:csv #1#2%
    {\expandafter\XINT_seqb:f:csv \expandafter{\romannumeral0\xintraw{#2}}{#1}}%
-\def\XINT_seqb:f:csv #1#2{\expandafter\XINT_seqb:f:csv_a\romannumeral-`0#2#1!}%
+\def\XINT_seqb:f:csv #1#2{\expandafter\XINT_seqb:f:csv_a\romannumeral`&&@#2#1!}%
 \def\XINT_seqb:f:csv_a #1#2;#3;#4!{%
-   \expandafter\xint_gobble_i\romannumeral-`0%
+   \expandafter\xint_gobble_i\romannumeral`&&@%
    \xintifCmp {#3}{#4}\XINT_seqb:f:csv_bl\XINT_seqb:f:csv_be\XINT_seqb:f:csv_bg
    #1{#3}{#4}{}{#2}}%
 \def\XINT_seqb:f:csv_be #1#2#3#4#5{,#2}%
@@ -29268,10 +29519,10 @@ $1$ or $-1$.
 % except if start and end coincide.|
 %    \begin{macrocode}
 \def\xintiiSeqb:f:csv #1#2%
-   {\expandafter\XINT_iiseqb:f:csv \expandafter{\romannumeral-`0#2}{#1}}%
-\def\XINT_iiseqb:f:csv #1#2{\expandafter\XINT_iiseqb:f:csv_a\romannumeral-`0#2#1!}%
+   {\expandafter\XINT_iiseqb:f:csv \expandafter{\romannumeral`&&@#2}{#1}}%
+\def\XINT_iiseqb:f:csv #1#2{\expandafter\XINT_iiseqb:f:csv_a\romannumeral`&&@#2#1!}%
 \def\XINT_iiseqb:f:csv_a #1#2;#3;#4!{%
-   \expandafter\xint_gobble_i\romannumeral-`0%
+   \expandafter\xint_gobble_i\romannumeral`&&@%
    \xintSgnFork{\XINT_Cmp {#3}{#4}}%
                  \XINT_iiseqb:f:csv_bl\XINT_seqb:f:csv_be\XINT_iiseqb:f:csv_bg
    #1{#3}{#4}{}{#2}}%
@@ -29302,9 +29553,9 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \def\XINTinFloatSeqB:f:csv #1#2{\expandafter\XINT_flseqb:f:csv \expandafter
    {\romannumeral0\XINTinfloat [\XINTdigits]{#2}}{#1}}%
-\def\XINT_flseqb:f:csv #1#2{\expandafter\XINT_flseqb:f:csv_a\romannumeral-`0#2#1!}%
+\def\XINT_flseqb:f:csv #1#2{\expandafter\XINT_flseqb:f:csv_a\romannumeral`&&@#2#1!}%
 \def\XINT_flseqb:f:csv_a #1#2;#3;#4!{%
-   \expandafter\xint_gobble_i\romannumeral-`0%
+   \expandafter\xint_gobble_i\romannumeral`&&@%
    \xintifCmp {#3}{#4}\XINT_flseqb:f:csv_bl\XINT_seqb:f:csv_be\XINT_flseqb:f:csv_bg
    #1{#3}{#4}{}{#2}}%
 \def\XINT_flseqb:f:csv_bl #1{\if #1p\expandafter\XINT_flseqb:f:csv_pa\else
@@ -29335,27 +29586,27 @@ $1$ or $-1$.
 % late October.|
 %    \begin{macrocode}
 \def\xintApply::csv #1#2%
-   {\expandafter\XINT_applyon::_a\expandafter {\romannumeral-`0#2}{#1}}%
+   {\expandafter\XINT_applyon::_a\expandafter {\romannumeral`&&@#2}{#1}}%
 \def\XINT_applyon::_a #1#2{\XINT_applyon::_b {#2}{}#1,,}%
-\def\XINT_applyon::_b #1#2#3,{\expandafter\XINT_applyon::_c \romannumeral-`0#3,{#1}{#2}}%
+\def\XINT_applyon::_b #1#2#3,{\expandafter\XINT_applyon::_c \romannumeral`&&@#3,{#1}{#2}}%
 \def\XINT_applyon::_c #1{\if #1,\expandafter\XINT_applyon::_end
                                 \else\expandafter\XINT_applyon::_d\fi #1}%
-\def\XINT_applyon::_d #1,#2{\expandafter\XINT_applyon::_e\romannumeral-`0#2{#1},{#2}}%
+\def\XINT_applyon::_d #1,#2{\expandafter\XINT_applyon::_e\romannumeral`&&@#2{#1},{#2}}%
 \def\XINT_applyon::_e #1,#2#3{\XINT_applyon::_b {#2}{#3, #1}}%
 \def\XINT_applyon::_end #1,#2#3{\xint_secondoftwo #3}%
 %    \end{macrocode}
 % \subsubsection{\csh{xintApply:::csv}}
 %    \begin{macrocode}
 \def\xintApply:::csv #1#2#3%
-   {\expandafter\XINT_applyon:::_a\expandafter{\romannumeral-`0#2}{#1}{#3}}%
+   {\expandafter\XINT_applyon:::_a\expandafter{\romannumeral`&&@#2}{#1}{#3}}%
 \def\XINT_applyon:::_a #1#2#3{\XINT_applyon:::_b {#2}{#3}{}#1,,}%
 \def\XINT_applyon:::_b #1#2#3#4,%
-   {\expandafter\XINT_applyon:::_c \romannumeral-`0#4,{#1}{#2}{#3}}%
+   {\expandafter\XINT_applyon:::_c \romannumeral`&&@#4,{#1}{#2}{#3}}%
 \def\XINT_applyon:::_c #1{\if #1,\expandafter\XINT_applyon:::_end
                      \else\expandafter\XINT_applyon:::_d\fi #1}%
 \def\XINT_applyon:::_d #1,#2#3%
    {\expandafter\XINT_applyon:::_e\expandafter
-    {\romannumeral-`0\xintApply::csv {#2{#1}}{#3}},{#2}{#3}}%
+    {\romannumeral`&&@\xintApply::csv {#2{#1}}{#3}},{#2}{#3}}%
 \def\XINT_applyon:::_e #1,#2#3#4{\XINT_applyon:::_b {#2}{#3}{#4, #1}}%
 \def\XINT_applyon:::_end #1,#2#3#4{\xint_secondoftwo #4}%
 %    \end{macrocode}
@@ -29382,7 +29633,7 @@ $1$ or $-1$.
 \catcode`~ 12 % by the way, catcode is set to 3 in \XINTsetupcatcodes
 \catcode`$ 12 % $
 \def\XINT_xptwo_getab_b #1#2!#3%
-   {\expandafter\XINT_xptwo_getab_c\romannumeral-`0#3!#1{#1#2}}%
+   {\expandafter\XINT_xptwo_getab_c\romannumeral`&&@#3!#1{#1#2}}%
 \def\XINT_xptwo_getab_c #1#2!#3#4#5#6{#1#3{#5}{#6}{#1#2}{#4}}%
 \def\xint_ddfork #1$$#2#3\krof {#2}% $$
 \def\XINT_NEfork #1#2{\xint_ddfork
@@ -29413,8 +29664,8 @@ $1$ or $-1$.
   \expandafter\let\csname xint#1NE\expandafter\endcsname\csname xint#1\expandafter
   \endcsname\expandafter\def\csname xint#1\endcsname ####1####2{%
         \expandafter\XINT_NEfork
-        \romannumeral-`0\expandafter\XINT_xptwo_getab_b
-        \romannumeral-`0####2!{####1}{~xint#1}{xint#1}}%
+        \romannumeral`&&@\expandafter\XINT_xptwo_getab_b
+        \romannumeral`&&@####2!{####1}{~xint#1}{xint#1}}%
   }%
 }% cela aurait-il un sens d'ajouter Raw et iNum (à cause de qint, qfrac,
  % qfloat?). Pas le temps d'y réfléchir. Je ne fais rien.
@@ -29425,7 +29676,7 @@ $1$ or $-1$.
   \expandafter{\the\toks0%
   \expandafter\let\csname xint#1NE\expandafter\endcsname\csname xint#1\expandafter
   \endcsname\expandafter\def\csname xint#1\endcsname ####1{%
-      \expandafter\XINT_NEfork_one\romannumeral-`0####1!{~xint#1}{xint#1}{}{}}%
+      \expandafter\XINT_NEfork_one\romannumeral`&&@####1!{~xint#1}{xint#1}{}{}}%
   }%
 }%
 \toks0
@@ -29433,7 +29684,7 @@ $1$ or $-1$.
   \let\XINTinFloatFacNE\XINTinFloatFac
   \def\XINTinFloatFac ##1{%
         \expandafter\XINT_NEfork_one
-        \romannumeral-`0##1!{~XINTinFloatFac}{XINTinFloatFac}{}{}}%
+        \romannumeral`&&@##1!{~XINTinFloatFac}{XINTinFloatFac}{}{}}%
   }%
 \xintFor #1 in {Add,Sub,Mul,Div,Power,E,Mod,SeqA::csv}\do
 {\toks0
@@ -29442,8 +29693,8 @@ $1$ or $-1$.
                                 \csname XINTinFloat#1\expandafter\endcsname
   \expandafter\def\csname XINTinFloat#1\endcsname ####1####2{%
         \expandafter\XINT_NEfork
-        \romannumeral-`0\expandafter\XINT_xptwo_getab_b
-        \romannumeral-`0####2!{####1}{~XINTinFloat#1}{XINTinFloat#1}}%
+        \romannumeral`&&@\expandafter\XINT_xptwo_getab_b
+        \romannumeral`&&@####2!{####1}{~XINTinFloat#1}{XINTinFloat#1}}%
   }%
 }%
 \xintFor #1 in {XINTinFloatdigits,XINTinFloatFracdigits,XINTinFloatSqrtdigits}\do
@@ -29451,7 +29702,7 @@ $1$ or $-1$.
   \expandafter{\the\toks0%
   \expandafter\let\csname #1NE\expandafter\endcsname\csname #1\expandafter
   \endcsname\expandafter\def\csname #1\endcsname ####1{\expandafter
-       \XINT_NEfork_one\romannumeral-`0####1!{~#1}{#1}{}{}}%
+       \XINT_NEfork_one\romannumeral`&&@####1!{~#1}{#1}{}{}}%
   }%
 }%
 \xintFor #1 in {xintSeq::csv,xintiiSeq::csv,XINTinFloatSeq::csv}\do
@@ -29460,8 +29711,8 @@ $1$ or $-1$.
   \expandafter\let\csname #1NE\expandafter\endcsname\csname #1\expandafter
   \endcsname\expandafter\def\csname #1\endcsname ####1####2{%
         \expandafter\XINT_NEfork
-        \romannumeral-`0\expandafter\XINT_xptwo_getab_b
-        \romannumeral-`0####2!{####1}{$noexpand$#1}{#1}}%
+        \romannumeral`&&@\expandafter\XINT_xptwo_getab_b
+        \romannumeral`&&@####2!{####1}{$noexpand$#1}{#1}}%
   }%
 }%
 \xintFor #1 in {xintSeqB,xintiiSeqB,XINTinFloatSeqB}\do
@@ -29470,8 +29721,8 @@ $1$ or $-1$.
   \expandafter\let\csname #1::csvNE\expandafter\endcsname\csname #1::csv\expandafter
   \endcsname\expandafter\def\csname #1::csv\endcsname ####1####2{%
         \expandafter\XINT_NEfork
-        \romannumeral-`0\expandafter\XINT_xptwo_getab_b
-        \romannumeral-`0####2!{####1}{$noexpand$#1:f:csv}{#1::csv}}%
+        \romannumeral`&&@\expandafter\XINT_xptwo_getab_b
+        \romannumeral`&&@####2!{####1}{$noexpand$#1:f:csv}{#1::csv}}%
   }%
 }%
 \toks0
@@ -29479,11 +29730,11 @@ $1$ or $-1$.
   \let\XINTinFloatNE\XINTinFloat
   \def\XINTinFloat [##1]##2{% not ultimately general, but got tired
         \expandafter\XINT_NEfork_one
-        \romannumeral-`0##2!{~XINTinFloat[##1]}{XINTinFloat}{}{[##1]}}%
+        \romannumeral`&&@##2!{~XINTinFloat[##1]}{XINTinFloat}{}{[##1]}}%
   \let\XINTinFloatSqrtNE\XINTinFloatSqrt
   \def\XINTinFloatSqrt [##1]##2{%
         \expandafter\XINT_NEfork_one
-        \romannumeral-`0##2!{~XINTinFloatSqrt[##1]}{XINTinFloatSqrt}{}{[##1]}}%
+        \romannumeral`&&@##2!{~XINTinFloatSqrt[##1]}{XINTinFloatSqrt}{}{[##1]}}%
 }%
 \xintFor #1 in {ANDof,ORof,XORof,iiMaxof,iiMinof,iiSum,iiPrd,
                 GCDof,LCMof,Sum,Prd,Maxof,Minof}\do
@@ -29503,11 +29754,11 @@ $1$ or $-1$.
    \def\XINT_expr_unlock_sp ##1.;##2##3.=##4!{\if -##2\expandafter\xint_firstoftwo
          \else\expandafter\xint_secondoftwo\fi \XINTdigits{{##2##3}}{##4}}%
    \def\XINT_expr_print     ##1{\expandafter\xintSPRaw::csv\expandafter  
-                             {\romannumeral-`0\XINT_expr_unlock ##1}}%
+                             {\romannumeral`&&@\XINT_expr_unlock ##1}}%
    \def\XINT_iiexpr_print   ##1{\expandafter\xintCSV::csv\expandafter  
-                             {\romannumeral-`0\XINT_expr_unlock ##1}}%
+                             {\romannumeral`&&@\XINT_expr_unlock ##1}}%
    \def\XINT_boolexpr_print ##1{\expandafter\xintIsTrue::csv\expandafter
-                               {\romannumeral-`0\XINT_expr_unlock ##1}}%
+                               {\romannumeral`&&@\XINT_expr_unlock ##1}}%
    \def\xintCSV::csv     {~xintCSV::csv }% spaces to separate from possible catcode 11 
    \def\xintSPRaw::csv   {~xintSPRaw::csv }% stuff after
    \def\xintPFloat::csv  {~xintPFloat::csv }%
@@ -29527,7 +29778,7 @@ $1$ or $-1$.
 \def\xintNewBoolExpr  {\xint_NewExpr\xinttheboolexpr  }%
 %    \end{macrocode}
 %    \begin{macrocode}
-\def\XINT_newexpr_finish #1>{\noexpand\romannumeral-`0}%
+\def\XINT_newexpr_finish #1>{\noexpand\romannumeral`&&@}%
 \def\xint_NewExpr #1#2[#3]%
 {%
  \begingroup
@@ -29557,7 +29808,7 @@ $1$ or $-1$.
     \endlinechar -1 \everyeof {\noexpand }@
     \edef\XINT_tmpb
     {\scantokens\expandafter
-     {\romannumeral-`0\expandafter%1\XINT_tmpa {#1}{#2}{#3}{#4}{#5}{#6}{#7}{#8}{#9}\relax}@
+     {\romannumeral`&&@\expandafter%1\XINT_tmpa {#1}{#2}{#3}{#4}{#5}{#6}{#7}{#8}{#9}\relax}@
     }@
     \escapechar 92 \catcode`# 6 \catcode`$ 0 @ $
     \the\toks0
@@ -29686,7 +29937,7 @@ $1$ or $-1$.
   Right bracket \]     Circumflex    \^     Underscore    \_
   Grave accent  \`     Left brace    \{     Vertical bar  \|
   Right brace   \}     Tilde         \~}
-\CheckSum {26711}%
+\CheckSum {27040}%
 \makeatletter\check@checksum\makeatother
 \Finale
 %% End of file xint.dtx
