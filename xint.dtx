@@ -2,24 +2,24 @@
 % N.B.: this dtx file does NOT use \DocInput, only docstrip. The user manual
 % latex source is NOT prefixed with percent characters.
 %<*dtx>
-\def\xintdtxtimestamp  {Time-stamp: <20-10-2015 00:44:07 CEST>}
+\def\xintdtxtimestamp  {Time-stamp: <29-10-2015 13:19:20 CET>}
 %</dtx>
 %<*drv>
 %% ---------------------------------------------------------------
-\def\xintdocdate {2015/10/19}
-\def\xintbndldate{2015/10/19}
-\def\xintbndlversion {1.2a}
+\def\xintdocdate {2015/10/29}
+\def\xintbndldate{2015/10/29}
+\def\xintbndlversion {1.2b}
 %</drv>
 %<*dtx>
 \iffalse % meta-comment
 %</dtx>
 %<readme>% README
 %<changes>% CHANGE LOG
-%<readme|changes>% xint v1.2a
-%<readme|changes>% 2015/10/19
+%<readme|changes>% xint v1.2b
+%<readme|changes>% 2015/10/29
 %<*readme|changes>
 
-    Source:  xint.dtx v1.2a 2015/10/19 (doc 2015/10/19)
+    Source:  xint.dtx v1.2b 2015/10/29 (doc 2015/10/29)
     Author:  Jean-Francois B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
@@ -27,7 +27,7 @@
 %</readme|changes>
 %<*!readme&!changes&!dohtmlsh&!dopdfsh&!makefile>
 %% ---------------------------------------------------------------
-%% The xint bundle v1.2a 2015/10/19
+%% The xint bundle v1.2b 2015/10/29
 %% Copyright (C) 2013-2015 by Jean-Francois B.
 %<xintkernel>%% xintkernel: Paraphernalia for the xint packages
 %<xinttools>%% xinttools: Expandable and non-expandable utilities
@@ -237,6 +237,15 @@ pandoctpl.latex, doHTMLs.sh, doPDFs.sh, xint.dvi, xint.pdf,
 Makefile.mk.</div>
 %</readme>--------------------------------------------------------
 %<*changes>-------------------------------------------------------
+`1.2b (2015/10/29)`
+----
+
+ - bugfix in **xintcore**: recent release `1.2` introduced a bug in
+   the division macros, causing a crash when the divisor started
+   with 99999999 (it was attempted to use with 1+99999999 a
+   subroutine expecting only 8-digits numbers).
+
+
 `1.2a (2015/10/19)`
 ----
 
@@ -2474,7 +2483,20 @@ pdfpagemode=UseOutlines}
 \frenchspacing
 \renewcommand\familydefault\sfdefault
 
+% Septembre 2015
 \def\liiibigint{\href{http://latex-project.org/svnroot/experimental/trunk/l3trial/l3bigint}{l3bigint}}
+
+% 20 octobre 2015 hier j'ai un peu rapidement remplacé les \romannumeral-`0
+% dans le code par de mystérieux \romannumeral`<character0catcode12>, en T1,
+% newtxtt donne un ` pour le slot 0, les quelques occurrences de \meaning
+% après \xintNewExpr dans la doc donne donc un bien mystérieux `` en output.
+
+\makeatletter
+\def\fixmeaning {\expandafter\fix@meaning\meaning}
+\expandafter\edef\expandafter\fix@meaning
+            \expandafter #\expandafter1\string\romannumeral#2#3%
+            {#1\string\romannumeral`\string^\string^@}
+\makeatother
 
 \begin{document}\thispagestyle{empty}% \ttzfamily already done
 \pdfbookmark[1]{Title page}{TOP}
@@ -2504,7 +2526,7 @@ pdfpagemode=UseOutlines}
 % Mercredi 08 octobre 2014 à 22:03:19
 % Skips safely.
 \ifnum\dosourcexint=1
-\catcode`+ 0
+\catcode`+ 0 \catcode0 9 % n'importe quoi sauf 15 (car ^^@)
 \catcode`\\ 12
 +expandafter+iffalse+fi
 \fi
@@ -6908,7 +6930,7 @@ The\xintNewIExpr \FA [2] {protect(\DimToNum {#2})^3/protect(\DimToNum{#1})^2}
 \footnote{see \autoref{sssec:protect} for the significance of the |protect|'s:
   they are needed because the expression has macro parameters inside macros,
   and not only functions from the \csbxint{expr} syntax. The \csa{FA} turns
-  out to have meaning \texttt{\meaning\FA}. The \csa{romannumeral} part is
+  out to have meaning \texttt{\fixmeaning\FA}. The \csa{romannumeral} part is
   only to ensure it expands in only two steps, and could be removed. The
   \expandafter|\string\xintRound::csv| and
   \expandafter|\string\xintSPRaw::csv| commands are used internally by
@@ -9230,13 +9252,27 @@ zeroes.)
 \subsection{\csbh{xintTFrac}}\label{xintTFrac}
 
 \csa{xintTFrac}|{f}|\etype{\Ff} returns the fractional part,
-|f=trunc(f)+frac(f)|.
-The |T| stands for `Trunc', and there could similar macros associated to
-`Round', `Floor', and `Ceil'. Inside |\xintexpr..\relax|, the function |frac| is
-mapped to \csa{xintTFrac}. Inside |\xint|\-|floatexpr..\relax|, |frac| first
-applies
-\csa{xintTFrac} to its argument (which may be in float format, or
-an exact fraction), and only next makes the float conversion.
+|f=trunc(f)+frac(f)|. Thus if |f<0|, then |-1<frac(f)<=0| and if |f>0| one has
+|0<= frac(f)<1|. The |T| stands for `Trunc', and there should exist also
+similar macros associated respectively with `Round', `Floor', and `Ceil', each
+type of rounding to an integer deserving arguably to be associated with a
+fractional ``modulo''. By sheer laziness, the package currently implements
+only the ``modulo'' associated with `Truncation'. Other types of modulo may be
+obtained more cumbersomely via a combination of the rounding with a subsequent
+subtraction from |f|.
+
+Notice that the result is filtered through \csbxint{REZ}, and will thus be of
+the form |A/B[N]|, where neither |A| nor |B| has trailing zeros. But the
+output fraction is not reduced to smallest terms.\MyMarginNote{\noindent
+  Do\-cu\-men\-ta\-tion updated.}
+
+The function call in expressions (\csbxint{expr}, \csbxint{floatexpr}) is
+|frac|. Inside |\xintexpr..\relax|, the function |frac| is mapped to
+\csa{xintTFrac}. Inside |\xintfloatexpr..\relax|, |frac| first applies
+\csa{xintTFrac} to its argument (which may be an exact fraction with more
+digits than the floating point precision) and only in a second stage makes the
+conversion to a floating point number with the precision as set by |\xintDigits|
+(default is \dtt{16}).
 %
 \leftedline{|\xintTFrac {1235/97}|\dtt{=\xintTFrac {1235/97}}\quad
               |\xintTFrac {-1235/97}|\dtt{=\xintTFrac {-1235/97}}}
@@ -11222,35 +11258,33 @@ necessary to do without the facilities of the \xintexprname package.
 
 \subsection{The \csbh{xintNewExpr} command}\label{xintNewExpr}
 
-% This allows to define a completely expandable macro with parameters, expanding
-% in two steps to its final evaluation, and corresponding to the given
-% \xintname{}expression where the parameters are input using the usual
-% macro-parameter: |#1|, ..., |#9|.
-
 The command is used as:
 %
 \leftedline{|\xintNewExpr{\myformula}[n]|\marg{stuff}, where}
 \begin{itemize}
 \item \meta{stuff} will be inserted inside |\xinttheexpr . . . \relax|,
-\item |n| is an integer between zero and nine, inclusive, and tells how many
-  parameters will |\myformula| have (it is \emph{mandatory} even if
-  |n=0|%
-%
-\footnote{there is some use for \csa{xintNewExpr}|[0]| compared to an
-    \csa{edef} as \csa{xintNewExpr} has some built-in catcode protection.})
-%
+\item |n| is an integer between zero and nine, inclusive, which is the number
+  of parameters of |\myformula|,
 \item the placeholders |#1|, |#2|, ..., |#n| are used inside \meta{stuff} in
-  their usual r\^ole.\footnote{such \#'s may be of category code other or have
-    their usual catcode.}
+  their usual r\^ole,%
+%
+\catcode`# 12
+\footnote{if \csa{xintNewExpr} is used inside a macro,
+    the |#|'s must be doubled as usual.}
+  \footnote{the |#|'s will in pratice have their usual
+    catcode, but  category code other |#|'s are accepted too.}
+\catcode`# 6
+%
+\item the |[n]| is \emph{mandatory}, even for |n=0|.%
+\footnote{there is some use for \csa{xintNewExpr}|[0]| compared to an
+    \csa{edef} as \csa{xintNewExpr} has some built-in catcode protection.}
+\item the macro |\myformula| is defined without checking if it already exists,
+  \LaTeX{} users might prefer to do first |\newcommand*\myformula {}| to get a
+  reasonable error message in case |\myformula| already exists,
+\item the definition of |\myformula| made by |\xintNewExpr| is global (i.e. it
+  does not obey the scope of environments). The protection against active
+  characters is done automatically.
 \end{itemize}
-
-The macro |\myformula| is defined without checking if it
-already exists, \LaTeX{} users might prefer to do first |\newcommand*\myformula
-{}| to get a reasonable error message in case |\myformula| already exists.
-
-The definition of |\myformula| made by |\xintNewExpr| is global (i.e. it does
-not obey the scope of environments). The protection against active characters
-is done automatically.
 
 It will be a completely expandable macro entirely built-up using |\xintAdd|,
 |\xintSub|, |\xintMul|, |\xintDiv|, |\xintPow|, etc\dots as corresponds to the
@@ -11268,43 +11302,70 @@ Macros created by |\xintNewExpr| can thus be nested.
 \end{everbatim*}
 
 \begin{framed}
-  The whole point of using \csbxint{NewExpr} is to produce a macro whose
-  execution will not populate the hash table contrarily to what |\xintexpr|
-  does to some extent (this impact on some of \TeX{}'s memory gets noticeable
-  only if many of thousands of \csbxint{expr}-essions are evaluated).
+  The use of \csbxint{NewExpr} circumvents the impact of the |\xintexpr|
+  parsers on \TeX's memory: it is useful if one has a formula which has to be
+  re-evaluated thousands of times with distinct inputs each with dozens, or
+  hundreds of characters.
 
   A ``formula'' created by |\xintNewExpr| is thus a macro whose parameters are
   given to a possibly very complicated combination of the various macros of
   \xintname and \xintfracname. Consequently, one can not use at all any infix
-  notation there, but only the input format recognized by the \xintfracname
-  macros. 
+  notation in the inputs, but only the formats which are recognized by the
+  \xintfracname macros.
 
-The situation is thus quite distinct from a macro with parameters defined via
-a simple |\def| such as:
+  This is thus quite different from a macro with parameters which one would
+  have defined via a simple |\def| or |\newcommand| as for example:
   %
-  \leftedline{|\def\myformula #1{\xinttheexpr (#1)^3\relax}|}
+  \leftedline{|\newcommand\myformula [1]{\xinttheexpr (#1)^3\relax}|}
+  %
+  Such a macro |\myformula|, if it was used tens of thousands of times with
+  various big inputs would end up populating large parts of \TeX's memory. It
+  would thus be better for such use cases to go for:
+  % 
+  \leftedline{|\xintNewExpr\myformula [1]{#1^3\relax}|}
+  %
+  Here naturally the situation is over-simplified and it would be even simpler
+  to go directly for the use of the macro |\xintPow| or |\xintPower|.
 \end{framed}
 
 |\xintNewExpr| tries to do as many evaluations as are possible at the time the
 macro parameters are still parameters. Let's see a few examples. For this I
-will use |\meaning| which reveals the contents of a macro. We will thus see
-some private macros of the \xintname bundle, which should not be directly
-used. If the things look a bit complicated, it is because they have to cater
-for many possibilities. With |\meaning| we will see what has already been
-evaluated.
+will use |\meaning| which reveals the contents of a macro.
 
-\emph{Remark:} In these examples we sometimes use |\printnumber| to avoid for
-the meaning to go into the right margin, but this zaps all spaces originally
-in the output from |\meaning|.
+\begin{enumerate}
+\item in these examples we sometimes use |\printnumber| to avoid for the
+  meaning to go into the right margin, but this zaps all spaces originally in
+  the output from |\meaning|,
+\item the examples use a mysterious |\fixmeaning| macro, which is there to get
+  in the display |\romannumeral`^^@| rather than the frankly cabalistic
+  |\romannumeral``| which made the admiration of the readers of the
+  documentation dated |2015/10/19| (the second |`| stood for an ascii code
+  zero token as per |T1| encoded |newtxtt| font). Thus the true meaning is
+  ``fixed'' to display something different which is how the macro could be
+  defined in a standard |tex| source file (modulo, as one can see in example,
+  the use of characters such as |:| as letters in control sequence names).
+  Prior to |1.2a|, the meaning would have started with a more mundane
+  |\romannumeral-`0|, but I decided at the time of releasing |1.2a| to imitate
+  the serious guys and switch for the more hacky yet |\romannumeral`^^@|
+  everywhere in the source code (not only in the macros produced by
+  \csbxint{NewExpr}), or to be more precise for an equivalent as the caret has
+  catcode letter in \xintname's source code, and I had to use another
+  character.
+\item the meaning reveals the use of some private macros from the \xintname
+  bundle, which should not be directly used. If the things look a bit
+  complicated, it is because they have to cater for many possibilities.
+\item the point of showing the meaning is also to see what has already been
+  evaluated in the construction of the macros.
+\end{enumerate}
 
 \begin{everbatim*}
-\xintNewIIExpr\FA [1]{13*25*78*#1+2826*292}\meaning\FA
+\xintNewIIExpr\FA [1]{13*25*78*#1+2826*292}\fixmeaning\FA
 \end{everbatim*}
 \smallskip
 
 \begin{everbatim*}
 \xintNewIExpr\FA [2]{(3/5*9/7*13/11*#1-#2)*3^7}
-\printnumber{\meaning\FA}
+\printnumber{\fixmeaning\FA}
 \end{everbatim*}
 
 \smallskip
@@ -11312,28 +11373,28 @@ in the output from |\meaning|.
 \begin{everbatim*}
 % an example with optional parameter
 \xintNewIExpr\FA [3]{[24] (#1+#2)/(#1-#2)^#3}
-\printnumber{\meaning\FA}
+\printnumber{\fixmeaning\FA}
 \end{everbatim*}
 
 \smallskip
 
 \begin{everbatim*}
 \xintNewFloatExpr\FA [2]{[12] 3.1415^3*#1-#2^5}
-\printnumber{\meaning\FA}
+\printnumber{\fixmeaning\FA}
 \end{everbatim*}
 
 \smallskip
 
 \begin{everbatim*}
 \xintNewExpr\DET[9]{ #1*#5*#9+#2*#6*#7+#3*#4*#8-#1*#6*#8-#2*#4*#9-#3*#5*#7 }
-\printnumber{\meaning\DET}
+\printnumber{\fixmeaning\DET}
 \end{everbatim*}
 
 \smallskip
 
 \begin{everbatim*}
 \xintNewExpr\FA[3]{ #1*#1+#2*#2+#3*#3-(#1*#2+#2*#3+#3*#1) }
-\printnumber{\meaning\FA }
+\printnumber{\fixmeaning\FA }
 \end{everbatim*}
 
 
@@ -11366,7 +11427,7 @@ should succeed. And the created macro will \emph{not evaluate the branches to
 
 \begin{everbatim*}
 \xintNewExpr\Formula [3]{ if((#1>#2) && (#2>#3), sqrt(#1-#2)*sqrt(#2-#3),  #1^2+#3/#2) }%
-\printnumber{\meaning\Formula }
+\printnumber{\fixmeaning\Formula }
 \end{everbatim*}
 
 This formula (with its |\xintiiifNotZero|) will gobble the false branch without
@@ -11379,7 +11440,7 @@ Another example
 
 \begin{everbatim*}
 \xintNewExpr\myformula[3]{ ifsgn(#1,#2/#3,#2-#3,#2*#3) }%
-\meaning\myformula
+\fixmeaning\myformula
 \end{everbatim*}
 
 Again,  this macro gobbles the false branches, as would have the operator |??|
@@ -11409,10 +11470,10 @@ applied to them.
 
 \begin{everbatim*}
 \xintNewExpr\myformI[2]{protect(\xintRound{#1}{#2}) - protect(\xintTrunc{#1}{#2})}%
-\meaning\myformI
+\fixmeaning\myformI
 
 \xintNewIIExpr\formula [3]{rem(#1,quo(protect(\the\numexpr #2\relax),#3))}%
-\noindent\meaning\formula
+\noindent\fixmeaning\formula
 \end{everbatim*}
 
 Only macros involving the |#1|, |#2|, etc\dots should be protected in this
@@ -13743,6 +13804,7 @@ $1$ or $-1$.
 \ifnum\dosourcexint=1
 +fi
 +catcode`\ 0
+\catcode0 15 % retour à la normale, peu importe
 \catcode`\+ 12
 \etocignoredepthtags
 \etocsetnexttocdepth{section}
@@ -13799,6 +13861,11 @@ $1$ or $-1$.
 % This is \expandafter|\xintbndlversion| of \expandafter|\xintbndldate|.
 %
 % \begin{itemize}
+% \item |1.2b| of |2015/10/29| corrects a bug introduced in recent release
+%   |1.2| in the division macro of |xintcore.sty| (a sub-routine expecting
+%   only eight digit numbers was called with |1+99999999|; happened with
+%   divisors |99999999xyz...|).
+%
 % \item Release |1.2a| of |2015/10/19| fixes a bad bug of |1.2| in
 %   |xintexpr.sty|, the parsers mistook decimals |0.0x...| for zero ! Also I
 %   took this opportunity to replace about 350 uses of |\romannumeral-`0|
@@ -14025,7 +14092,7 @@ $1$ or $-1$.
 \fi
 \XINT_providespackage
 \ProvidesPackage {xintkernel}%
-  [2015/10/19 v1.2a Paraphernalia for the xint packages (jfB)]%
+  [2015/10/29 v1.2b Paraphernalia for the xint packages (jfB)]%
 %    \end{macrocode}
 % \subsection{Constants}
 % |v1.2| decides to move them to \xintkernelnameimp from \xintcorenameimp and
@@ -14321,7 +14388,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xinttools}%
-  [2015/10/19 v1.2a Expandable and non-expandable utilities (jfB)]%
+  [2015/10/29 v1.2b Expandable and non-expandable utilities (jfB)]%
 %    \end{macrocode}
 % \lverb|\XINT_toks is used in macros such as \xintFor. It is not used
 % elsewhere in the xint bundle.|
@@ -15809,7 +15876,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcore}%
-  [2015/10/19 v1.2a Expandable arithmetic on big integers (jfB)]%
+  [2015/10/29 v1.2b Expandable arithmetic on big integers (jfB)]%
 %    \end{macrocode}
 % \subsection{Counts for holding needed constants}
 %    \begin{macrocode}
@@ -17325,13 +17392,29 @@ $1$ or $-1$.
 % \subsection{\csh{xintiDivision}, \csh{xintiQuo}, \csh{xintiRem},
 % \csh{xintiiDivision}, \csh{xintiiQuo}, \csh{xintiiRem}}
 % \lverb|Completely rewritten for v1.2.
+%
 % WARNING: some comments below try to describe the flow of tokens but they
-% date back from xint 1.09j and I updated them on the fly while doing the 1.2
-% version. As the new works in base 10^8, not 10^4 and "drops" the quotient
-% digits,rather than store them upfront as the earlier code, I may well have
-% not correctly converted all such comments. At the last minute some
+% date back to xint 1.09j and I updated them on the fly while doing the 1.2
+% version. As the routine now works in base 10^8, not 10^4 and "drops" the
+% quotient digits,rather than store them upfront as the earlier code, I may
+% well have not correctly converted all such comments. At the last minute some
 % previously #1 became stuff like #1#2#3#4, then of course the old comments
-% describing what the macro parameters stand for are necessarily wrong.|
+% describing what the macro parameters stand for are necessarily wrong.
+%
+% Side remark: the way tokens are grouped was not essentially modified in
+% v1.2, although the situation has changed. It was fine-tuned in xint
+% v1.0/v1.1 but the context has changed, and perhaps I should revisit this.
+% As a corollary to the fact that quotient digits are now left behind thanks
+% to the chains of \numexpr, some  macros which in v1.0/v1.1 fetched up to 9
+% parameters now need handle less such parameters. Thus, some rationale for
+% the way the code was structured has disappeared.
+%
+% v1.2 2015/10/15 had a bad bug which got corrected in v1.2b of 2015/10/29: a
+% divisor starting with 99999999xyz... would cause a failure, simply because
+% it was attempted to use the \XINT_div_mini routine with a divisor of
+% 1+99999999=100000000 having 9 digits. Fortunately the origin of the bug was
+% easy to find out. Too bad that my obviously very deficient test files
+% did not detect it.|
 %    \begin{macrocode}
 \def\xintiiQuo {\romannumeral0\xintiiquo }%
 \def\xintiiRem {\romannumeral0\xintiirem }%
@@ -17470,6 +17553,14 @@ $1$ or $-1$.
 {%
     \XINT_div_prepare_f #4#3\X {#1}{#3}%
 }%
+%    \end{macrocode}
+% \lverb|attention qu'on calcule ici x'=x+1 (x = huit premiers chiffres du
+% diviseur) et que si x=99999999, x' aura donc 9 chiffres, pas compatible avec
+% div_mini (avant 1.2, x avait 4 chiffres, et on faisait la division avec x'
+% dans un \numexpr). Bon, facile à dire après avoir laissé passer ce bug dans
+% v1.2. C'est le problème lorsqu'au lieu de tout refaire à partir de zéro on
+% recycle d'anciennes routines qui avaient un contexte différent.|
+%    \begin{macrocode}
 \def\XINT_div_prepare_f #1#2#3#4#5#6#7#8#9\X
 {%
     \expandafter\XINT_div_prepare_g
@@ -17704,7 +17795,7 @@ $1$ or $-1$.
     \romannumeral0\XINT_div_unsepR #2#31\R!1\R!1\R!1\R!1\R!1\R!1\R!1\R!\W.%
 }%
 %    \end{macrocode}
-% \lverb|#1={x'y}alpha.#2!#3=reste de A.
+% \lverb|ATTENTION DESCRIPTION OBSOLÈTE. #1={x'y}alpha.#2!#3=reste de A.
 % #4={{x'y},x,K,L},#5=B,«c» devient {x'y},alpha sur K+4 chiffres.B,
 % {{x'y},x,K,L}, #6= nouvel alpha',B,«c»|
 %    \begin{macrocode}
@@ -17730,13 +17821,41 @@ $1$ or $-1$.
     \XINT_div_II_k #7{#4!#5}{#6}{00000000}%
 }%
 %    \end{macrocode}
-% \lverb|x'ya->1qx'yalpha.B, {{x'y},x,K,L}, nouveau alpha',B, «c».|
+% \lverb|x'ya->1qx'yalpha.B, {{x'y},x,K,L}, nouveau alpha',B, «c». En fait,
+% attention, ici #3 et #4 sont les 16 premiers chiffres du numérateur,sous la
+% forme blocs 1<8chiffres>.
+%
+% ATTENTION!
+%
+% 2015/10/29 :j'avais introduit un bug ici dans v1.2 2015/10/15, car
+% \XINT_div_mini veut un diviseur de huit chiffres, or si le dénominateur B
+% débute par x=99999999, on aura x'=100000000, d'où évidemment un bug. Bon il
+% faut intercepter x'=100000000.
+%
+% I need to recognize x'=100000000 in some not too penalizing way. Anyway,
+% will try to optimize some other day.|
 %    \begin{macrocode}
 \def\XINT_div_II_c #1#2#3#4%
 {%
-     \expandafter\XINT_div_II_d\the\numexpr\XINT_div_mini
+     \expandafter\XINT_div_II_d\the\numexpr\XINT_div_xmini
      #1.#2!#3!#4!{#1}{#2}#3!#4!%
 }%
+\def\XINT_div_xmini #1%
+{%  
+    \xint_gob_til_one #1\XINT_div_xmini_a 1\XINT_div_mini #1%
+}%
+\def\XINT_div_xmini_a 1\XINT_div_mini 1#1%
+{%
+    \xint_gob_til_zero #1\XINT_div_xmini_b 0\XINT_div_mini 1#1%
+}%
+\def\XINT_div_xmini_b 0\XINT_div_mini 10#1#2#3#4#5#6#7%
+{%  
+    \xint_gob_til_zero #7\XINT_div_xmini_c 0\XINT_div_mini 10#1#2#3#4#5#6#7%
+}%
+%    \end{macrocode}
+% \lverb|x'=10^8 and we return #1=1<8digits>.|
+%    \begin{macrocode}
+\def\XINT_div_xmini_c 0\XINT_div_mini 100000000.50000000!#1!#2!{#1!}%
 %    \end{macrocode}
 % \lverb|1 suivi de q1 sur huit chiffres! #2=x', #3=y, #4=alpha.#5=B,
 % {{x'y},x,K,L}, alpha', B, «c» --> nouvel alpha.x',y,B,q1,{{x'y},x,K,L},
@@ -17770,7 +17889,10 @@ $1$ or $-1$.
 }%
 %    \end{macrocode}
 % \lverb|1<a1>!1<a2>!, alpha (sur K+1 blocs de 8). x', y, B, q1, {{x'y},x,K,L},
-% alpha', B,«c».|
+% alpha', B,«c».
+%
+% Here also we are dividing with x' which could be 10^8 in the exceptional
+% case x=99999999. Must intercept it before sending to \XINT_div_mini.|
 %    \begin{macrocode}
 \def\XINT_div_II_f #1!#2!#3.%
 {%
@@ -17778,7 +17900,7 @@ $1$ or $-1$.
 }%
 \def\XINT_div_II_fa #1#2#3#4%
 {%
-    \expandafter\XINT_div_II_g \the\numexpr\XINT_div_mini #3.#4!#1{#2}%
+    \expandafter\XINT_div_II_g \the\numexpr\XINT_div_xmini #3.#4!#1{#2}%
 }%
 %    \end{macrocode}
 % \lverb|#1=q, #2=alpha (K+4), #3=B, #4=q1, {{x'y},x,K,L}, alpha', BQ«c»
@@ -18024,7 +18146,17 @@ $1$ or $-1$.
 {%
     \expandafter\XINT_smalldiv_d\the\numexpr #2-#1*#4!#3.#4!%
 }%
-%%%%%%%%%%%%
+%    \end{macrocode}
+% \lverb|Cette routine fait la division euclidienne d'un nombre de seize
+% chiffres par #1 = C = diviseur sur huit chiffres >= 10^7, avec #2 = sa
+% moitié utilisée dans \numexpr pour contrebalancer l'arrondi
+% (ARRRRRRGGGGGHHHH) fait par /. Le nombre divisé XY = X*10^8+Y se présente
+% sous la forme 1<8chiffres>!1<8chiffres>! avec plus significatif en premier.
+%
+% ATTENTION UNIQUEMENT UTILISÉ POUR DES SITUATIONS OÙ IL EST GARANTI QUE X < C
+% !! le quotient euclidien de X*10^8+Y par C sera donc < 10^8. Il sera
+% renvoyé sous la forme 1<8chiffres>.|
+%    \begin{macrocode}
 \def\XINT_div_mini #1.#2!1#3!%
 {%
     \expandafter\XINT_div_mini_a\the\numexpr
@@ -18032,8 +18164,8 @@ $1$ or $-1$.
 }%
 %    \end{macrocode}
 % \lverb|Note (2015/10/08). Attention à la différence dans l'ordre des
-% arguments avec ce que je vois en comparaison avec \XINT_smalldiv_f. Je ne me
-% souviens plus du tout s'il y a une raison quelconque.|
+% arguments avec ce que je vois en dans \XINT_smalldiv_f. Je ne me souviens
+% plus du tout s'il y a une raison quelconque.|
 %    \begin{macrocode}
 \def\XINT_div_mini_a 1#1#2#3#4#5#6!#7.#8!%
 {%
@@ -18287,7 +18419,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xint}%
-  [2015/10/19 v1.2a Expandable operations on big integers (jfB)]%
+  [2015/10/29 v1.2b Expandable operations on big integers (jfB)]%
 %    \end{macrocode}
 % \subsection{More token management}
 %    \begin{macrocode}
@@ -20130,7 +20262,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintbinhex}%
-  [2015/10/19 v1.2a Expandable binary and hexadecimal conversions (jfB)]%
+  [2015/10/29 v1.2b Expandable binary and hexadecimal conversions (jfB)]%
 %    \end{macrocode}
 % \subsection{Constants, etc...}
 % \lverb!v1.08!
@@ -20831,7 +20963,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintgcd}%
-  [2015/10/19 v1.2a Euclide algorithm with xint package (jfB)]%
+  [2015/10/29 v1.2b Euclide algorithm with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintGCD}, \csh{xintiiGCD}}
 % \lverb|The macros of 1.09a benefits from the \xintnum which has been inserted
@@ -21533,7 +21665,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintfrac}%
-  [2015/10/19 v1.2a Expandable operations on fractions (jfB)]%
+  [2015/10/29 v1.2b Expandable operations on fractions (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{XINT_cntSgnFork}}
 % \lverb|1.09i. Used internally, #1 must expand to \m@ne, \z@, or \@ne or
@@ -21646,7 +21778,7 @@ $1$ or $-1$.
 % format {exponent}{Numerator}{Denominator} where Denominator is at least 1.
 %
 % 2015/10/09: this venerable macro from the early days (1.03, 2013/04/14) has
-% gotten a lifting for release 1.2. There were two kinds of issues:$newline
+% gotten a lifting for release 1.2. There were two kinds of issues:
 %
 % 1) use of \W, \Z, \T delimiters was very poor choice as this could clash with
 % user input,
@@ -24922,7 +25054,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintseries}%
-  [2015/10/19 v1.2a Expandable partial sums with xint package (jfB)]%
+  [2015/10/29 v1.2b Expandable partial sums with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintSeries}}
 % \lverb|&
@@ -25427,7 +25559,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcfrac}%
-  [2015/10/19 v1.2a Expandable continued fractions with xint package (jfB)]%
+  [2015/10/29 v1.2b Expandable continued fractions with xint package (jfB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintCFrac}}
 %    \begin{macrocode}
@@ -26556,11 +26688,11 @@ $1$ or $-1$.
 % Release |1.2| |[2015/10/10]| has the following changes:
 % \begin{description}
 % \item[not anymore limited to 5000
-%   digits:] |1.2| replaces chains of |\romannumeral`&&@| used earlier to
+%   digits:] |1.2| replaces chains of |\romannumeral-`0| used earlier to
 %   gather digits by |\csname| governed expansions. The use of
 %   |\csname.=A/B[N]\endcsname| storage has been part of the design from the
 %   start, hence it was very natural and not too hard to gather the number
-%   directly inside |\csname|. With the chains of |\romannumeral`&&@| gone,
+%   directly inside |\csname|. With the chains of |\romannumeral-`0| gone,
 %   there is no more a limit at about 5000 (with the standard settings of the
 %   maximal expansion depth at 10000) on the maximal number of digits for each
 %   gathered number.
@@ -26575,7 +26707,7 @@ $1$ or $-1$.
 % \item[isolated dot now illegal:] the decimal mark must have digits either
 %   before or after it, an isolated |.| is now illegal input.
 % \item[more recognized tokens:] |\ht|, |\dp|, |\wd|, |\fontcharht|,
-%   |\fontcharwd|, |\fontchardp| and |\fontcharit| are recognized and prefixed
+%   |\fontcharwd|, |\fontchardp| and |\fontcharic| are recognized and prefixed
 %   with |\number| automatically.
 % \end{description}
 %
@@ -26726,7 +26858,7 @@ $1$ or $-1$.
 % \item[{|1.08b [2013/06/14]|}] corrected a problem originating in the attempt
 % to attribute a special rôle to braces: expansion could be stopped by space
 % tokens, as various macros tried to expand without grabbing what came next.
-% They now have a doubled |\romannumeral`&&@|.
+% They now have a doubled |\romannumeral-`0|.
 %
 % \item[{|1.09a| |[2013/09/24]|}] has a better mechanism regarding |\xintthe|,
 % more commenting and better organization of the code, and most importantly it
@@ -26852,7 +26984,7 @@ $1$ or $-1$.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintexpr}%
-  [2015/10/19 v1.2a Expandable expression parser (jfB)]%
+  [2015/10/29 v1.2b Expandable expression parser (jfB)]%
 \catcode`! 11
 %    \end{macrocode}
 % \subsection{Locking and unlocking}
@@ -26951,7 +27083,7 @@ $1$ or $-1$.
 %
 % Not to be used as \xintthecoords\xintthefloatexpr, only as
 % \xintthecoords\xintfloatexpr (or \xintiexpr etc...). Perhaps \xintthecoords
-% could make an extra check, but one should not accustome users to too loose
+% could make an extra check, but one should not accustom users to too loose
 % requirements!|
 %    \begin{macrocode}
 \def\xintthecoords  #1{\romannumeral`&&@\expandafter\expandafter\expandafter
@@ -29582,8 +29714,8 @@ $1$ or $-1$.
 % \subsection{\csh{xintNewExpr}, \csh{xintNewIExpr}, \csh{xintNewFloatExpr},
 % \csh{xintNewIIExpr}}
 % \subsubsection{\csh{xintApply::csv}}
-% \lverb|Don't ask me what this if for. I wrote it in June, and we are now
-% late October.|
+% \lverb|Don't ask me what this if for. I wrote it in June 2014, and we are now
+% late October 2014.|
 %    \begin{macrocode}
 \def\xintApply::csv #1#2%
    {\expandafter\XINT_applyon::_a\expandafter {\romannumeral`&&@#2}{#1}}%
@@ -29902,25 +30034,25 @@ $1$ or $-1$.
 % xint.sty:170
 % xintbinhex.sty:69
 % xintcfrac.sty:183
-% xintcore.sty:296
+% xintcore.sty:299
 % xintexpr.sty:133
 % xintfrac.sty:415
 % xintgcd.sty:59
 % xintkernel.sty:7
 % xintseries.sty:48
-% xinttools.sty:112
+% xinttools.sty:128
 %
 % TEMP$ grep -c -e "^}%" *sty
 % xint.sty:170
 % xintbinhex.sty:69
 % xintcfrac.sty:183
-% xintcore.sty:296
+% xintcore.sty:299
 % xintexpr.sty:163
 % xintfrac.sty:415
 % xintgcd.sty:61
 % xintkernel.sty:8
 % xintseries.sty:48
-% xinttools.sty:112
+% xinttools.sty:128
 
 \CharacterTable
  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -29937,7 +30069,7 @@ $1$ or $-1$.
   Right bracket \]     Circumflex    \^     Underscore    \_
   Grave accent  \`     Left brace    \{     Vertical bar  \|
   Right brace   \}     Tilde         \~}
-\CheckSum {27040}%
+\CheckSum {27060}%
 \makeatletter\check@checksum\makeatother
 \Finale
 %% End of file xint.dtx
