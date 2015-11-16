@@ -1,34 +1,34 @@
 Archive:  xint.tds.zip
   Length      Date    Time    Name
 ---------  ---------- -----   ----
-        0  10-29-2015 13:22   doc/
-        0  10-29-2015 13:22   doc/generic/
-        0  10-29-2015 13:22   doc/generic/xint/
-    43966  10-29-2015 13:22   doc/generic/xint/CHANGES.html
-    63949  10-29-2015 13:22   doc/generic/xint/CHANGES.pdf
-     6611  10-29-2015 13:22   doc/generic/xint/README
-    11027  10-29-2015 13:22   doc/generic/xint/README.html
-    32714  10-29-2015 13:22   doc/generic/xint/README.pdf
-   542533  10-29-2015 13:22   doc/generic/xint/sourcexint.pdf
-   686601  10-29-2015 13:22   doc/generic/xint/xint.pdf
-        0  10-29-2015 13:22   source/
-        0  10-29-2015 13:22   source/generic/
-        0  10-29-2015 13:22   source/generic/xint/
+        0  11-16-2015 15:18   doc/
+        0  11-16-2015 15:18   doc/generic/
+        0  11-16-2015 15:18   doc/generic/xint/
+    44592  11-16-2015 15:18   doc/generic/xint/CHANGES.html
+    64321  11-16-2015 15:18   doc/generic/xint/CHANGES.pdf
+     6611  11-16-2015 15:18   doc/generic/xint/README
+    11027  11-16-2015 15:18   doc/generic/xint/README.html
+    32602  11-16-2015 15:18   doc/generic/xint/README.pdf
+   573757  11-16-2015 15:18   doc/generic/xint/sourcexint.pdf
+   698115  11-16-2015 15:18   doc/generic/xint/xint.pdf
+        0  11-16-2015 15:18   source/
+        0  11-16-2015 15:18   source/generic/
+        0  11-16-2015 15:18   source/generic/xint/
       655  09-16-2015 22:56   source/generic/xint/Makefile
-  1162275  10-29-2015 13:19   source/generic/xint/xint.dtx
-     3017  10-29-2015 13:21   source/generic/xint/xint.ins
-        0  10-29-2015 13:22   tex/
-        0  10-29-2015 13:22   tex/generic/
-        0  10-29-2015 13:22   tex/generic/xint/
-    45423  10-29-2015 13:21   tex/generic/xint/xint.sty
-    23502  10-29-2015 13:21   tex/generic/xint/xintbinhex.sty
-    29930  10-29-2015 13:21   tex/generic/xint/xintcfrac.sty
-    66290  10-29-2015 13:21   tex/generic/xint/xintcore.sty
-   105766  10-29-2015 13:21   tex/generic/xint/xintexpr.sty
-    82799  10-29-2015 13:21   tex/generic/xint/xintfrac.sty
-    13910  10-29-2015 13:21   tex/generic/xint/xintgcd.sty
-    10849  10-29-2015 13:21   tex/generic/xint/xintkernel.sty
-    12318  10-29-2015 13:21   tex/generic/xint/xintseries.sty
-    40884  10-29-2015 13:21   tex/generic/xint/xinttools.sty
+  1210147  11-16-2015 14:51   source/generic/xint/xint.dtx
+     3017  11-16-2015 14:51   source/generic/xint/xint.ins
+        0  11-16-2015 15:18   tex/
+        0  11-16-2015 15:18   tex/generic/
+        0  11-16-2015 15:18   tex/generic/xint/
+    45423  11-16-2015 14:51   tex/generic/xint/xint.sty
+    23502  11-16-2015 14:51   tex/generic/xint/xintbinhex.sty
+    29930  11-16-2015 14:51   tex/generic/xint/xintcfrac.sty
+    65859  11-16-2015 14:51   tex/generic/xint/xintcore.sty
+   109004  11-16-2015 14:51   tex/generic/xint/xintexpr.sty
+    82796  11-16-2015 14:51   tex/generic/xint/xintfrac.sty
+    13910  11-16-2015 14:51   tex/generic/xint/xintgcd.sty
+    11025  11-16-2015 14:51   tex/generic/xint/xintkernel.sty
+    12318  11-16-2015 14:51   tex/generic/xint/xintseries.sty
+    40884  11-16-2015 14:51   tex/generic/xint/xinttools.sty
 ---------                     -------
-  2985019                     29 files
+  3079495                     29 files

@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <meta name="author" content="xint v1.2b" />
+  <meta name="author" content="xint v1.2c" />
   <title>CHANGE LOG</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -17,11 +17,12 @@
 <body>
 <div id="header">
 <h1 class="title">CHANGE LOG</h1>
-<h2 class="author">xint v1.2b</h2>
-<h3 class="date">2015/10/29</h3>
+<h2 class="author">xint v1.2c</h2>
+<h3 class="date">2015/11/16</h3>
 </div>
 <div id="TOC">
 <ul>
+<li><a href="#c-20151116"><code>1.2c (2015/11/16)</code></a></li>
 <li><a href="#b-20151029"><code>1.2b (2015/10/29)</code></a></li>
 <li><a href="#a-20151019"><code>1.2a (2015/10/19)</code></a></li>
 <li><a href="#section"><code>1.2 (2015/10/10)</code></a></li>
@@ -55,10 +56,16 @@
 <li><a href="#section-8"><code>1.0 (2013/03/28)</code></a></li>
 </ul>
 </div>
-<pre><code>Source:  xint.dtx v1.2b 2015/10/29 (doc 2015/10/29)
+<pre><code>Source:  xint.dtx v1.2c 2015/11/16 (doc 2015/11/16)
 Author:  Jean-Francois B.
 Info:    Expandable operations on big integers, decimals, fractions
 License: LPPL 1.3c</code></pre>
+<h2 id="c-20151116"><code>1.2c (2015/11/16)</code></h2>
+<ul>
+<li><p>bugfix in <strong>xintcore</strong>: recent release <code>1.2</code> introduced a bug in the subtraction (happened when 00000001 was found under certain circumstances at certain mod 8 locations).</p></li>
+<li><p>new macros <code>\xintdeffunc</code>, <code>\xintdefiifunc</code>, <code>\xintdeffloatfunc</code> and boolean <code>\ifxintverbose</code>.</p></li>
+<li><p>on-going code improvements and documentation enhancements, but stopped in order to issue this bugfix release.</p></li>
+</ul>
 <h2 id="b-20151029"><code>1.2b (2015/10/29)</code></h2>
 <ul>
 <li>bugfix in <strong>xintcore</strong>: recent release <code>1.2</code> introduced a bug in the division macros, causing a crash when the divisor started with 99999999 (it was attempted to use with 1+99999999 a subroutine expecting only 8-digits numbers).</li>
