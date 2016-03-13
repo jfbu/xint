@@ -1,4 +1,4 @@
-    Source:  xint.dtx v1.2e 2015/11/22 (doc 2015/11/22)
+    Source:  xint.dtx 1.2f 2016/03/12 (doc 2016/03/12)
     Author:  Jean-Francois B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
@@ -35,7 +35,7 @@ xintexpr loads all of them and provides expandable parsers allowing
 computations such as the above (and more). A more light-weight package
 bnumexpr (LaTeX only) loads only xintcore and provides a parser which
 handles only big integers, the four operations, the power operation and
-the factorial (v1.2).
+the factorial (1.2).
 
 
 
@@ -180,7 +180,7 @@ filename database.
 LICENSE
 
 
-Copyright (C) 2013-2015 by Jean-Francois B.
+Copyright (C) 2013-2016 by Jean-Francois B.
 
 This Work may be distributed and/or modified under the conditions of the
 LaTeX Project Public License version 1.3c. This version of this license
