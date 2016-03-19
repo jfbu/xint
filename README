@@ -1,4 +1,4 @@
-    Source:  xint.dtx 1.2f 2016/03/12 (doc 2016/03/12)
+    Source:  xint.dtx 1.2g 2016/03/19 (doc 2016/03/19)
     Author:  Jean-Francois B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
@@ -15,18 +15,24 @@ as sourcexint.pdf.
 AIM
 
 
-The basic aim is provide _expandable_ computations on big integers, and
-also big fractions. For example
+The basic aim is provide _expandable_ computations on integers,
+fractions, and floating point numbers. For example
 
     \xinttheexpr reduce(37189719/183618963+11390170/17310720)^17\relax
 
 will evaluate exactly the fraction (the result has 462 characters
-including the fraction slash). One can also work with dummy variables.
-For example
+including the fraction slash). One can also work with dummy variables:
 
     \xinttheexpr mul(add(x(x+1)(x+2), x=y..y+15), y=171286,98762,9296)\relax
 
-evaluates to 15979066346135829902328007959448563667099190784.
+(evaluates to 15979066346135829902328007959448563667099190784.)
+
+Float computations are possible at an adjustable precision (default 16).
+
+    \xintthefloatexpr 123456789^1000.5\relax
+
+Mathematical functions (apart from sqrt which achieves correct rounding
+in arbitrary precision) are yet to be implemented.
 
 It is possible to use the package with Plain as well as with LaTeX.
 

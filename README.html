@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <meta name="author" content="xint 1.2f" />
+  <meta name="author" content="xint 1.2g" />
   <title>README</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -17,8 +17,8 @@
 <body>
 <div id="header">
 <h1 class="title">README</h1>
-<h2 class="author">xint 1.2f</h2>
-<h3 class="date">2016/03/12</h3>
+<h2 class="author">xint 1.2g</h2>
+<h3 class="date">2016/03/19</h3>
 </div>
 <div id="TOC">
 <ul>
@@ -36,7 +36,7 @@
 <li><a href="#license">License</a></li>
 </ul>
 </div>
-<pre><code>Source:  xint.dtx 1.2f 2016/03/12 (doc 2016/03/12)
+<pre><code>Source:  xint.dtx 1.2g 2016/03/19 (doc 2016/03/19)
 Author:  Jean-Francois B.
 Info:    Expandable operations on big integers, decimals, fractions
 License: LPPL 1.3c</code></pre>
@@ -44,11 +44,14 @@ License: LPPL 1.3c</code></pre>
 <p>Change log is to be found in <code>CHANGES.pdf</code> or <code>CHANGES.html</code>.</p>
 <p>The user manual is <code>xint.pdf</code>, and the commented source code is available as <code>sourcexint.pdf</code>.</p>
 <h1 id="aim">Aim</h1>
-<p>The basic aim is provide <em>expandable</em> computations on big integers, and also big fractions. For example</p>
+<p>The basic aim is provide <em>expandable</em> computations on integers, fractions, and floating point numbers. For example</p>
 <pre><code>\xinttheexpr reduce(37189719/183618963+11390170/17310720)^17\relax</code></pre>
-<p>will evaluate exactly the fraction (the result has 462 characters including the fraction slash). One can also work with dummy variables. For example</p>
+<p>will evaluate exactly the fraction (the result has 462 characters including the fraction slash). One can also work with dummy variables:</p>
 <pre><code>\xinttheexpr mul(add(x(x+1)(x+2), x=y..y+15), y=171286,98762,9296)\relax</code></pre>
-<p>evaluates to <code>15979066346135829902328007959448563667099190784</code>.</p>
+<p>(evaluates to <code>15979066346135829902328007959448563667099190784</code>.)</p>
+<p>Float computations are possible at an adjustable precision (default 16).</p>
+<pre><code>\xintthefloatexpr 123456789^1000.5\relax</code></pre>
+<p>Mathematical functions (apart from <code>sqrt</code> which achieves correct rounding in arbitrary precision) are yet to be implemented.</p>
 <p>It is possible to use the package with Plain as well as with LaTeX.</p>
 <p>Sub-units <code>xintcore</code>, <code>xint</code> and <code>xintfrac</code> provide the underlying macros, and <code>xintexpr</code> loads all of them and provides expandable parsers allowing computations such as the above (and more). A more light-weight package <a href="http://www.ctan.org/pkg/bnumexpr">bnumexpr</a> (LaTeX only) loads only <code>xintcore</code> and provides a parser which handles only big integers, the four operations, the power operation and the factorial (1.2).</p>
 <h1 id="usage">Usage</h1>

@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <meta name="author" content="xint 1.2f" />
+  <meta name="author" content="xint 1.2g" />
   <title>CHANGE LOG</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -17,37 +17,41 @@
 <body>
 <div id="header">
 <h1 class="title">CHANGE LOG</h1>
-<h2 class="author">xint 1.2f</h2>
-<h3 class="date">2016/03/12</h3>
+<h2 class="author">xint 1.2g</h2>
+<h3 class="date">2016/03/19</h3>
 </div>
 <div id="TOC">
 <ul>
-<li><a href="#f-20160312"><code>1.2f (2016/03/12)</code></a><ul>
+<li><a href="#g-20160319"><code>1.2g (2016/03/19)</code></a><ul>
 <li><a href="#incompatible-changes">Incompatible changes</a></li>
-<li><a href="#bug-fixes">Bug fixes</a></li>
 <li><a href="#improvements-and-new-features">Improvements and new features</a></li>
+</ul></li>
+<li><a href="#f-20160312"><code>1.2f (2016/03/12)</code></a><ul>
+<li><a href="#incompatible-changes-1">Incompatible changes</a></li>
+<li><a href="#bug-fixes">Bug fixes</a></li>
+<li><a href="#improvements-and-new-features-1">Improvements and new features</a></li>
 </ul></li>
 <li><a href="#e-20151122"><code>1.2e (2015/11/22)</code></a><ul>
 <li><a href="#bug-fixes-1">Bug fixes</a></li>
-<li><a href="#improvements-and-new-features-1">Improvements and new features</a></li>
+<li><a href="#improvements-and-new-features-2">Improvements and new features</a></li>
 </ul></li>
 <li><a href="#d-20151118"><code>1.2d (2015/11/18)</code></a><ul>
 <li><a href="#bug-fixes-2">Bug fixes</a></li>
-<li><a href="#improvements-and-new-features-2">Improvements and new features</a></li>
+<li><a href="#improvements-and-new-features-3">Improvements and new features</a></li>
 </ul></li>
 <li><a href="#c-20151116"><code>1.2c (2015/11/16)</code></a><ul>
 <li><a href="#bug-fixes-3">Bug fixes</a></li>
-<li><a href="#improvements-and-new-features-3">Improvements and new features</a></li>
+<li><a href="#improvements-and-new-features-4">Improvements and new features</a></li>
 </ul></li>
 <li><a href="#b-20151029"><code>1.2b (2015/10/29)</code></a><ul>
 <li><a href="#bug-fixes-4">Bug fixes</a></li>
 </ul></li>
 <li><a href="#a-20151019"><code>1.2a (2015/10/19)</code></a><ul>
 <li><a href="#bug-fixes-5">Bug fixes</a></li>
-<li><a href="#improvements-and-new-features-4">Improvements and new features</a></li>
+<li><a href="#improvements-and-new-features-5">Improvements and new features</a></li>
 </ul></li>
 <li><a href="#section"><code>1.2 (2015/10/10)</code></a><ul>
-<li><a href="#improvements-and-new-features-5">Improvements and new features</a></li>
+<li><a href="#improvements-and-new-features-6">Improvements and new features</a></li>
 </ul></li>
 <li><a href="#c-20150912"><code>1.1c (2015/09/12)</code></a></li>
 <li><a href="#b-20150831"><code>1.1b (2015/08/31)</code></a></li>
@@ -79,12 +83,26 @@
 <li><a href="#section-8"><code>1.0 (2013/03/28)</code></a></li>
 </ul>
 </div>
-<pre><code>Source:  xint.dtx 1.2f 2016/03/12 (doc 2016/03/12)
+<pre><code>Source:  xint.dtx 1.2g 2016/03/19 (doc 2016/03/19)
 Author:  Jean-Francois B.
 Info:    Expandable operations on big integers, decimals, fractions
 License: LPPL 1.3c</code></pre>
-<h2 id="f-20160312"><code>1.2f (2016/03/12)</code></h2>
+<h2 id="g-20160319"><code>1.2g (2016/03/19)</code></h2>
 <h3 id="incompatible-changes">Incompatible changes</h3>
+<ul>
+<li><p>inside expressions, list item selector <code>[L][n]</code> counts starting at zero, not at one. This is more coherent with <code>[L][a:b]</code> which was already exactly like in Python since its introduction. A function len(L) replaces earlier <code>[L][0]</code>.</p></li>
+<li><p>former <code>iter</code> keyword now called <code>iterr</code>. Indeed it matched with <code>rrseq</code>, the new <code>iter</code> (which was somehow missing from <code>1.1</code>) is the one matching <code>rseq</code>. Allows to iterate more easily with a &quot;list&quot; variable.</p></li>
+</ul>
+<h3 id="improvements-and-new-features">Improvements and new features</h3>
+<ul>
+<li><p>in <strong>xintexpr.sty</strong>: list selectors <code>[L][n]</code> and <code>[L][a:b]</code> are more efficient: the earlier <code>1.1</code> routines did back and forth conversions from comma separated values to braced tokens, the <code>1.2g</code> routines use macros from <strong>xinttools.sty</strong> handling directly the encountered lists of comma separated values.</p></li>
+<li><p>in <strong>xinttools.sty</strong>: slight improvements in the efficiency of the <code>\xintNthElt</code>, <code>\xintKeep</code>, <code>\xintTrim</code> routines and new routines handling directly comma separated values. The latter are not included in the user manual (they are not <code>\long</code>, they don't make efforts to preserve some braces, do not worry about spaces, all those worries being irrelevant to the use in expressions for list selectors).</p></li>
+<li><p>a slight speed improvement to <code>\xintFloatSqrt</code> in its quest of correct rounding.</p></li>
+<li><p>float multiplication and division handle more swiftly operands (non-fractional) with few digits, when the float precision is large.</p></li>
+<li><p>the syntax of expressions is described in a devoted chapter of the documentation; an example shows how to implement (expandably) the Brent-Salamin algorithm for computation of Pi using <code>iter</code> in a float expression.</p></li>
+</ul>
+<h2 id="f-20160312"><code>1.2f (2016/03/12)</code></h2>
+<h3 id="incompatible-changes-1">Incompatible changes</h3>
 <ul>
 <li>no more <code>\xintFac</code> macro but <code>\xintiFac/\xintiiFac/\xintFloatFac</code>.</li>
 </ul>
@@ -94,7 +112,7 @@ License: LPPL 1.3c</code></pre>
 <li><p><code>1.2c</code>'s fix to the subtraction bug from <code>1.2</code> introduced another bug, which in some cases could create leading zeroes in the output, or even worse. This could invalidate other routines using subtractions, like <code>\xintiiSquareRoot</code>.</p></li>
 <li><p>the comparison operators were not recognized by <code>\xintNewIIExpr</code> and <code>\xintdefiifunc</code> constructs.</p></li>
 </ul>
-<h3 id="improvements-and-new-features">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-1">Improvements and new features</h3>
 <ul>
 <li><p>functions <code>binomial</code>, <code>pfactorial</code> and <code>factorial</code> in both integer and float versions.</p></li>
 <li><p>macros <code>\xintiiBinomial</code>, <code>\xintiiPFactorial</code> (<strong>xint.sty</strong>) and <code>\xintFloatBinomial</code>, <code>\xintFloatPFactorial</code> (<strong>xintfrac.sty</strong>). Improvements to <code>\xintFloatFac</code>.</p></li>
@@ -104,7 +122,7 @@ License: LPPL 1.3c</code></pre>
 <li><p>modified behaviour for the <code>\xintPFloat</code> macro, used by <code>\xintthefloatexpr</code> to prettify its output. It now opts for decimal notation if and only if scientific notation would use an exponent between <code>-5</code> and <code>5</code> inclusive. The zero value is printed <code>0.</code> with a dot.</p></li>
 <li><p>the float macros for addition, subtraction, multiplication, division now first round their two operands to P, not P+2, significant places before doing the actual computation (P being the target precision). The same applies to the power macros and to the square root macro.</p></li>
 <li><p>the documentation offers a more precise (and accurate) discussion of floating point issues.</p></li>
-<li><p>various under-the-hood code improvements; the floatexpr operations are chained in a faster way, from skipping some unneeded parsing on results of earlier computations. The absence of a real inner data structure for floats (incorporating their precisions, for one) is however still a bit hair rising: currently the lengths of the mantissas of the operands are computed again by each float macro or expression operation.</p></li>
+<li><p>various under-the-hood code improvements; the floatexpr operations are chained in a faster way, from skipping some unneeded parsing on results of earlier computations. The absence of a real inner data structure for floats (incorporating their precisions, for one) is however still a bit hair raising: currently the lengths of the mantissas of the operands are computed again by each float macro or expression operation.</p></li>
 <li><p>(TeXperts only) the macros defined (internally) from <code>\xintdeffunc</code> et al. constructs do not incorporate an initial <code>\romannumeral</code> anymore.</p></li>
 <li><p>renewed desperate efforts at improving the documentation by random shuffling of sections and well thought additions; cuts were considered and even performed.</p></li>
 </ul>
@@ -115,7 +133,7 @@ License: LPPL 1.3c</code></pre>
 <li><p>in <strong>xintexpr</strong>: release <code>1.2d</code> had broken the recognition of sub-expressions immediately after variable names (with tacit multiplication).</p></li>
 <li><p>in <strong>xintexpr</strong>: contrarily to what <code>1.2d</code> documentation said, tacit multiplication was not yet always done with enhanced precedence. Now yes.</p></li>
 </ul>
-<h3 id="improvements-and-new-features-1">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-2">Improvements and new features</h3>
 <ul>
 <li><p>macro <code>\xintunassignvar</code>.</p></li>
 <li><p>slight modifications of the logged messages in case of <code>\xintverbosetrue</code>.</p></li>
@@ -127,7 +145,7 @@ License: LPPL 1.3c</code></pre>
 <ul>
 <li>in <strong>xintcore</strong>: release <code>1.2c</code> had inadvertently broken the <code>\xintiiDivRound</code> macro.</li>
 </ul>
-<h3 id="improvements-and-new-features-2">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-3">Improvements and new features</h3>
 <ul>
 <li><p>the function definitions done by <code>\xintdeffunc</code> et al., as well as the macro declarations by <code>\xintNewExpr</code> et al. now have only local scope.</p></li>
 <li><p>tacit multiplication applies to more cases, for example (x+y)z, and always ties more than standard * infix operator, e.g. x/2y is like x/(2*y).</p></li>
@@ -138,7 +156,7 @@ License: LPPL 1.3c</code></pre>
 <ul>
 <li>in <strong>xintcore</strong>: recent release <code>1.2</code> introduced a bug in the subtraction (happened when 00000001 was found under certain circumstances at certain mod 8 locations).</li>
 </ul>
-<h3 id="improvements-and-new-features-3">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-4">Improvements and new features</h3>
 <ul>
 <li><p>macros <code>\xintdeffunc</code>, <code>\xintdefiifunc</code>, <code>\xintdeffloatfunc</code> and boolean <code>\ifxintverbose</code>.</p></li>
 <li><p>on-going code improvements and documentation enhancements, but stopped in order to issue this bugfix release.</p></li>
@@ -151,16 +169,16 @@ License: LPPL 1.3c</code></pre>
 <h2 id="a-20151019"><code>1.2a (2015/10/19)</code></h2>
 <h3 id="bug-fixes-5">Bug fixes</h3>
 <ul>
-<li>in <strong>xintexpr</strong>: recent release <code>1.2</code> introduced a bad bug in the parsing of decimal numbers and as a result <code>\xinttheexpr    0.01\relax</code> expanded to <code>0</code> ! (sigh...)</li>
+<li>in <strong>xintexpr</strong>: recent release <code>1.2</code> introduced a bad bug in the parsing of decimal numbers and as a result <code>\xinttheexpr 0.01\relax</code> expanded to <code>0</code> ! (sigh...)</li>
 </ul>
-<h3 id="improvements-and-new-features-4">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-5">Improvements and new features</h3>
 <ul>
 <li><p>added <code>\xintKeepUnbraced</code>, <code>\xintTrimUnbraced</code> (<strong>xinttools</strong>) and fixed documentation of <code>\xintKeep</code> and <code>\xintTrim</code> regarding brace stripping.</p></li>
 <li><p>added <code>\xintiiMaxof/\xintiiMinof</code> (<strong>xint</strong>).</p></li>
 <li><p>TeX hackers only: replaced all code uses of <code>\romannumeral-`0</code> by the quicker <code>\romannumeral`&amp;&amp;@</code> (<code>^</code> being used as letter, had to find another character usable with catcode 7).</p></li>
 </ul>
 <h2 id="section"><code>1.2 (2015/10/10)</code></h2>
-<h3 id="improvements-and-new-features-5">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-6">Improvements and new features</h3>
 <ul>
 <li><p>the basic arithmetic implemented in <strong>xintcore</strong> has been entirely rewritten. The mathematics remains the elementary school one, but the <code>TeX</code> implementation achieves higher speed (except, regarding addition/subtraction, for numbers up to about thirty digits), the gains becoming quite significant for numbers with hundreds of digits.</p></li>
 <li><p>the inputs must have less than 19959 digits. But computations with thousands of digits take time.</p></li>
@@ -168,7 +186,7 @@ License: LPPL 1.3c</code></pre>
 <li><p>a <em>qint</em> function is provided to help the parser gather huge integers in one-go, as an exception to its normal mode of operation which expands token by token.</p></li>
 <li><p><code>\xintFloatFac</code> macro for computing the factorials of integers as floating point numbers to a given precision. The <code>!</code> postfix operator inside <code>\xintfloatexpr</code> maps to this new macro rather than to the exact factorial as used by <code>\xintexpr</code> and <code>\xintiiexpr</code>.</p></li>
 <li><p>the macros <code>\xintAdd</code>, <code>\xintSub</code>, ..., now require package <strong>xintfrac</strong>. With only <strong>xintcore</strong> or <strong>xint</strong> loaded, one <em>must</em> use <code>\xintiiAdd</code>, <code>\xintiiSub</code>, ..., or <code>\xintiAdd</code>, <code>\xintiSub</code>, etc...</p></li>
-<li><p>there is more flexibility in the parsing done by the macros from <strong>xintfrac</strong> on fractional input: the decimal parts of both the numerator and the denominator may arise from a separate expansion via <code>\romannumeral-`0</code>. Also the strict <code>A/B[N]</code> format is a bit relaxed: <code>N</code> may be empty or anything understood by <code>\numexpr</code>.</p></li>
+<li><p>there is more flexibility in the parsing done by the macros from <strong>xintfrac</strong> on fractional input: the decimal parts of both the numerator and the denominator may arise from a separate expansion via <code>\romannumeral-`0</code>. Also the strict <code>A/B[N]</code> format is a bit relaxed: <code>N</code> may be anything understood by <code>\numexpr</code> (it could even be empty but that possibility has been removed by later <code>1.2f</code> release.)</p></li>
 <li><p>on the other hand an isolated dot <code>.</code> is not legal syntax anymore inside the expression parsers: there must be digits either before or after. It remains legal input for the macros of <strong>xintfrac</strong>.</p></li>
 <li><p>added <code>\ht</code>, <code>\dp</code>, <code>\wd</code>, <code>\fontcharht</code>, etc... to the tokens recognized by the parsers and expanded by <code>\number</code>.</p></li>
 <li><p>an obscure bug in package <strong>xintkernel</strong> has been fixed, regarding the sanitization of catcodes: under certain circumstances (which could not occur in a normal <code>LaTeX</code> context), unusual catcodes could end up being propagated to the external world.</p></li>
