@@ -1,4 +1,4 @@
-    Source:  xint.dtx 1.2g 2016/03/19 (doc 2016/03/19)
+    Source:  xint.dtx 1.2h 2016/11/20 (doc 2016/11/20)
     Author:  Jean-Francois B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
@@ -145,8 +145,8 @@ CHANGES.md
 xint.tex
     used to generate xint.pdf via "latex xint.tex" (thrice) then
     "dvipdfmx xint.dvi". It is also possible to compile xint.tex with
-    xelatex, or with pdflatex (this latter option produces a bigger
-    pdf).
+    xelatex, or with pdflatex (this latter option produces a
+    bigger pdf).
     For successful compilation, packages newtxtt, newtxmath, etoc,
     mathastext are needed. Inclusion of the source code is off by
     default, but the toggle can be set in xint.tex.
@@ -207,4 +207,3 @@ xintbinhex.sty, xintgcd.sty, xintseries.sty, xintcfrac.sty,
 xinttools.sty, xint.ins, xint.tex, README, README.md, README.html,
 README.pdf, CHANGES.md, CHANGES.html, CHANGES.pdf, pandoctpl.latex,
 doHTMLs.sh, doPDFs.sh, xint.dvi, xint.pdf, Makefile.mk.
-
