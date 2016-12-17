@@ -1,4 +1,4 @@
-    Source:  xint.dtx 1.2h 2016/11/20 (doc 2016/11/20)
+    Source:  xint.dtx 1.2i 2016/12/13 (doc 2016/12/13)
     Author:  Jean-Francois B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
@@ -31,17 +31,19 @@ Float computations are possible at an adjustable precision (default 16).
 
     \xintthefloatexpr 123456789^1000.5\relax
 
-Mathematical functions (apart from sqrt which achieves correct rounding
-in arbitrary precision) are yet to be implemented.
+However, only integer and half-integer exponents are currently allowed:
+only the sqrt is implemented for floating point numbers. It achieves
+correct rounding in arbitrary precision.
 
 It is possible to use the package with Plain as well as with LaTeX.
 
 Sub-units xintcore, xint and xintfrac provide the underlying macros, and
 xintexpr loads all of them and provides expandable parsers allowing
-computations such as the above (and more). A more light-weight package
-bnumexpr (LaTeX only) loads only xintcore and provides a parser which
-handles only big integers, the four operations, the power operation and
-the factorial (1.2).
+computations such as the above (and more).
+
+A more light-weight (LaTeX only) package bnumexpr loads only xintcore
+and provides a parser which handles only big integers, the four
+operations, the power operation and the factorial.
 
 
 
@@ -69,9 +71,9 @@ One does for example:
 
     \input xintexpr.sty
 
-Again, all dependencies are handled automatically. The packages may be
-loaded in any catcode context such that letters, digits, \ and % have
-their standard catcodes.
+All dependencies are handled automatically. The packages may be loaded
+in any catcode context such that letters, digits, \ and % have their
+standard catcodes.
 
 xintcore.sty and xinttools.sty both import xintkernel.sty which has the
 catcode handler and package identifier and defines a few utilities such

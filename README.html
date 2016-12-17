@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <meta name="author" content="xint 1.2h" />
+  <meta name="author" content="xint 1.2i" />
   <title>README</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -17,8 +17,8 @@
 <body>
 <div id="header">
 <h1 class="title">README</h1>
-<h2 class="author">xint 1.2h</h2>
-<h3 class="date">2016/11/20</h3>
+<h2 class="author">xint 1.2i</h2>
+<h3 class="date">2016/12/13</h3>
 </div>
 <div id="TOC">
 <ul>
@@ -36,7 +36,7 @@
 <li><a href="#license">License</a></li>
 </ul>
 </div>
-<pre><code>Source:  xint.dtx 1.2h 2016/11/20 (doc 2016/11/20)
+<pre><code>Source:  xint.dtx 1.2i 2016/12/13 (doc 2016/12/13)
 Author:  Jean-Francois B.
 Info:    Expandable operations on big integers, decimals, fractions
 License: LPPL 1.3c</code></pre>
@@ -51,9 +51,10 @@ License: LPPL 1.3c</code></pre>
 <p>(evaluates to <code>15979066346135829902328007959448563667099190784</code>.)</p>
 <p>Float computations are possible at an adjustable precision (default 16).</p>
 <pre><code>\xintthefloatexpr 123456789^1000.5\relax</code></pre>
-<p>Mathematical functions (apart from <code>sqrt</code> which achieves correct rounding in arbitrary precision) are yet to be implemented.</p>
+<p>However, only integer and half-integer exponents are currently allowed: only the <code>sqrt</code> is implemented for floating point numbers. It achieves correct rounding in arbitrary precision.</p>
 <p>It is possible to use the package with Plain as well as with LaTeX.</p>
-<p>Sub-units <code>xintcore</code>, <code>xint</code> and <code>xintfrac</code> provide the underlying macros, and <code>xintexpr</code> loads all of them and provides expandable parsers allowing computations such as the above (and more). A more light-weight package <a href="http://www.ctan.org/pkg/bnumexpr">bnumexpr</a> (LaTeX only) loads only <code>xintcore</code> and provides a parser which handles only big integers, the four operations, the power operation and the factorial (1.2).</p>
+<p>Sub-units <code>xintcore</code>, <code>xint</code> and <code>xintfrac</code> provide the underlying macros, and <code>xintexpr</code> loads all of them and provides expandable parsers allowing computations such as the above (and more).</p>
+<p>A more light-weight (LaTeX only) package <a href="http://www.ctan.org/pkg/bnumexpr">bnumexpr</a> loads only <code>xintcore</code> and provides a parser which handles only big integers, the four operations, the power operation and the factorial.</p>
 <h1 id="usage">Usage</h1>
 <h2 id="with-latex">With LaTeX</h2>
 <pre><code>\usepackage{xint}       % expandable arithmetic with big integers
@@ -63,7 +64,7 @@ License: LPPL 1.3c</code></pre>
 <h2 id="with-tex">With TeX</h2>
 <p>One does for example:</p>
 <pre><code>\input xintexpr.sty</code></pre>
-<p>Again, all dependencies are handled automatically. The packages may be loaded in any catcode context such that letters, digits, <code>\</code> and <code>%</code> have their standard catcodes.</p>
+<p>All dependencies are handled automatically. The packages may be loaded in any catcode context such that letters, digits, <code>\</code> and <code>%</code> have their standard catcodes.</p>
 <p><code>xintcore.sty</code> and <code>xinttools.sty</code> both import <code>xintkernel.sty</code> which has the catcode handler and package identifier and defines a few utilities such as <code>\oodef</code>, <code>\fdef</code>, or <code>\xint_dothis/\xint_orthat</code>.</p>
 <h1 id="installation">Installation</h1>
 <h2 id="method-a-using-the-package-manager-of-your-tex-distribution">Method A: using the package manager of your TeX distribution</h2>
