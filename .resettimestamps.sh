@@ -1,4 +1,6 @@
 #!/bin/sh
+touch -ch -t 201411032008.27 ".gitattributes"
+touch -ch -t 201612172258.48 ".gettimestamps.sh"
 touch -ch -t 201612131227.14 "CHANGES.html"
 touch -ch -t 201612131227.14 "CHANGES.pdf"
 touch -ch -t 201602291254.58 "Makefile"
