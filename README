@@ -1,4 +1,4 @@
-    Source:  xint.dtx 1.2j 2016/12/22 (doc 2016/12/22)
+    Source:  xint.dtx 1.2k 2017/01/06 (doc 2017/01/06)
     Author:  Jean-Francois B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
@@ -29,11 +29,11 @@ including the fraction slash). One can also work with dummy variables:
 
 Float computations are possible at an adjustable precision (default 16).
 
-    \xintthefloatexpr 123456789^1000.5\relax
+    \xintDigits:=48;\xintthefloatexpr 123456789^1000.5\relax
+    ->3.63692761822782679930738270515740797370813691938e8095
 
-However, only integer and half-integer exponents are currently allowed:
-only the sqrt is implemented for floating point numbers. It achieves
-correct rounding in arbitrary precision.
+However, only integer and half-integer exponents are currently allowed.
+The sqrt operation achieves correct rounding in arbitrary precision.
 
 It is possible to use the package with Plain as well as with LaTeX.
 
@@ -188,7 +188,7 @@ filename database.
 LICENSE
 
 
-Copyright (C) 2013-2016 by Jean-Francois B.
+Copyright (C) 2013-2017 by Jean-Francois B.
 
 This Work may be distributed and/or modified under the conditions of the
 LaTeX Project Public License version 1.3c. This version of this license
