@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <meta name="author" content="xint 1.2l" />
+  <meta name="author" content="xint 1.2m" />
   <title>README</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -17,8 +17,8 @@
 <body>
 <div id="header">
 <h1 class="title">README</h1>
-<h2 class="author">xint 1.2l</h2>
-<h3 class="date">2017/07/26</h3>
+<h2 class="author">xint 1.2m</h2>
+<h3 class="date">2017/07/31</h3>
 </div>
 <div id="TOC">
 <ul>
@@ -36,7 +36,7 @@
 <li><a href="#license">License</a></li>
 </ul>
 </div>
-<pre><code>Source:  xint.dtx 1.2l 2017/07/26 (doc 2017/07/26)
+<pre><code>Source:  xint.dtx 1.2m 2017/07/31 (doc 2017/07/31)
 Author:  Jean-Francois B.
 Info:    Expandable operations on big integers, decimals, fractions
 License: LPPL 1.3c</code></pre>
@@ -46,26 +46,28 @@ License: LPPL 1.3c</code></pre>
 <h1 id="aim">Aim</h1>
 <p>The basic aim is provide <em>expandable</em> computations on integers, fractions, and floating point numbers. For example</p>
 <pre><code>\xinttheexpr reduce(37189719/183618963+11390170/17310720)^17\relax</code></pre>
-<p>will evaluate exactly the fraction (the result has 462 characters including the fraction slash). One can also work with dummy variables:</p>
+<p>will evaluate exactly the fraction; the result has 462 characters (including the fraction slash.) One can also work with dummy variables:</p>
 <pre><code>\xinttheexpr mul(add(x(x+1)(x+2), x=y..y+15), y=171286,98762,9296)\relax</code></pre>
-<p>(evaluates to <code>15979066346135829902328007959448563667099190784</code>.)</p>
+<p>evaluates to <code>15979066346135829902328007959448563667099190784</code>.</p>
 <p>Float computations are possible at an adjustable precision (default 16).</p>
-<pre><code>\xintDigits:=48;\xintthefloatexpr 123456789^1000.5\relax
+<pre><code>\xintDigits:=48;\xintthefloatexpr 123_456_789^1_000.5\relax
 -&gt;3.63692761822782679930738270515740797370813691938e8095</code></pre>
-<p>However, only integer and half-integer exponents are currently allowed. The <code>sqrt</code> operation achieves correct rounding in arbitrary precision.</p>
-<p>It is possible to use the package with Plain as well as with LaTeX.</p>
+<p>But currently, only integer and half-integer exponents are allowed for the power operation in expressions and only the square-root operation is implemented besides the four arithmetic operations. Square-root and the four operations achieve correct rounding in the given arbitrary precision.</p>
 <p>Sub-units <code>xintcore</code>, <code>xint</code> and <code>xintfrac</code> provide the underlying macros, and <code>xintexpr</code> loads all of them and provides expandable parsers allowing computations such as the above (and more).</p>
-<p>A more light-weight (LaTeX only) package <a href="http://www.ctan.org/pkg/bnumexpr">bnumexpr</a> loads only <code>xintcore</code> and provides a parser which handles only big integers, the four operations, the power operation and the factorial.</p>
 <h1 id="usage">Usage</h1>
+<p>It is possible to use the package with Plain (via <code>\input</code> anywhere) or with LaTeX (via <code>\usepackage</code> in the preamble).</p>
 <h2 id="with-latex">With LaTeX</h2>
 <pre><code>\usepackage{xint}       % expandable arithmetic with big integers
 \usepackage{xintfrac}   % decimal numbers, fractions, floats
 \usepackage{xintexpr}   % expressions with infix operators</code></pre>
-<p>Further packages: <code>xintbinhex</code>, <code>xintgcd</code>, <code>xintseries</code> and <code>xintcfrac</code>. All dependencies are handled automatically. For example <code>xintexpr</code> automatically loads <code>xintfrac</code> which itself loads <code>xint</code>. Package <code>xintcore</code> is the subset of <code>xint</code> providing only the five operations on big integers: <code>\xintiiAdd</code>, <code>\xintiiMul</code>, ... There is also <code>xinttools</code> which is a separate package providing, among others, expandable and non-expandable loops such as <code>\xintFor</code>.</p>
+<p>Further packages: <code>xintbinhex</code>, <code>xintgcd</code>, <code>xintseries</code> and <code>xintcfrac</code>.</p>
+<p>Main dependencies are handled automatically. For example <code>xintexpr</code> automatically loads <code>xintfrac</code> which itself loads <code>xint</code>; but use of the <code>gcd</code> and <code>lcm</code> functions in expressions require explicit loading of <code>xintgcd</code>, and hexadecimal notation requires explicit loading of <code>xintbinhex</code>.</p>
+<p>Package <code>xintcore</code> is the subset of <code>xint</code> providing only the five operations on big integers: <code>\xintiiAdd</code>, <code>\xintiiMul</code>, ... It is (by default) loaded by the (LaTeX only) package <a href="http://www.ctan.org/pkg/bnumexpr">bnumexpr</a> which provides a more light-weight expression parser handling only big integers, the four operations, the power operation and the factorial.</p>
+<p>There is also <code>xinttools</code> which is a separate package providing, among others, expandable and non-expandable loops such as <code>\xintFor</code>.</p>
 <h2 id="with-tex">With TeX</h2>
 <p>One does for example:</p>
 <pre><code>\input xintexpr.sty</code></pre>
-<p>All dependencies are handled automatically. The packages may be loaded in any catcode context such that letters, digits, <code>\</code> and <code>%</code> have their standard catcodes.</p>
+<p>The packages may be loaded in any catcode context such that letters, digits, <code>\</code> and <code>%</code> have their standard catcodes.</p>
 <p><code>xintcore.sty</code> and <code>xinttools.sty</code> both import <code>xintkernel.sty</code> which has the catcode handler and package identifier and defines a few utilities such as <code>\oodef</code>, <code>\fdef</code>, or <code>\xint_dothis/\xint_orthat</code>.</p>
 <h1 id="installation">Installation</h1>
 <h2 id="method-a-using-the-package-manager-of-your-tex-distribution">Method A: using the package manager of your TeX distribution</h2>

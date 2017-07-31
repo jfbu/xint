@@ -1,4 +1,4 @@
-    Source:  xint.dtx 1.2l 2017/07/26 (doc 2017/07/26)
+    Source:  xint.dtx 1.2m 2017/07/31 (doc 2017/07/31)
     Author:  Jean-Francois B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
@@ -20,34 +20,35 @@ fractions, and floating point numbers. For example
 
     \xinttheexpr reduce(37189719/183618963+11390170/17310720)^17\relax
 
-will evaluate exactly the fraction (the result has 462 characters
-including the fraction slash). One can also work with dummy variables:
+will evaluate exactly the fraction; the result has 462 characters
+(including the fraction slash.) One can also work with dummy variables:
 
     \xinttheexpr mul(add(x(x+1)(x+2), x=y..y+15), y=171286,98762,9296)\relax
 
-(evaluates to 15979066346135829902328007959448563667099190784.)
+evaluates to 15979066346135829902328007959448563667099190784.
 
 Float computations are possible at an adjustable precision (default 16).
 
-    \xintDigits:=48;\xintthefloatexpr 123456789^1000.5\relax
+    \xintDigits:=48;\xintthefloatexpr 123_456_789^1_000.5\relax
     ->3.63692761822782679930738270515740797370813691938e8095
 
-However, only integer and half-integer exponents are currently allowed.
-The sqrt operation achieves correct rounding in arbitrary precision.
-
-It is possible to use the package with Plain as well as with LaTeX.
+But currently, only integer and half-integer exponents are allowed for
+the power operation in expressions and only the square-root operation is
+implemented besides the four arithmetic operations. Square-root and the
+four operations achieve correct rounding in the given arbitrary
+precision.
 
 Sub-units xintcore, xint and xintfrac provide the underlying macros, and
 xintexpr loads all of them and provides expandable parsers allowing
 computations such as the above (and more).
 
-A more light-weight (LaTeX only) package bnumexpr loads only xintcore
-and provides a parser which handles only big integers, the four
-operations, the power operation and the factorial.
-
 
 
 USAGE
+
+
+It is possible to use the package with Plain (via \input anywhere) or
+with LaTeX (via \usepackage in the preamble).
 
 
 With LaTeX
@@ -56,13 +57,21 @@ With LaTeX
     \usepackage{xintfrac}   % decimal numbers, fractions, floats
     \usepackage{xintexpr}   % expressions with infix operators
 
-Further packages: xintbinhex, xintgcd, xintseries and xintcfrac. All
-dependencies are handled automatically. For example xintexpr
-automatically loads xintfrac which itself loads xint. Package xintcore
-is the subset of xint providing only the five operations on big
-integers: \xintiiAdd, \xintiiMul, ... There is also xinttools which is a
-separate package providing, among others, expandable and non-expandable
-loops such as \xintFor.
+Further packages: xintbinhex, xintgcd, xintseries and xintcfrac.
+
+Main dependencies are handled automatically. For example xintexpr
+automatically loads xintfrac which itself loads xint; but use of the gcd
+and lcm functions in expressions require explicit loading of xintgcd,
+and hexadecimal notation requires explicit loading of xintbinhex.
+
+Package xintcore is the subset of xint providing only the five
+operations on big integers: \xintiiAdd, \xintiiMul, ... It is (by
+default) loaded by the (LaTeX only) package bnumexpr which provides a
+more light-weight expression parser handling only big integers, the four
+operations, the power operation and the factorial.
+
+There is also xinttools which is a separate package providing, among
+others, expandable and non-expandable loops such as \xintFor.
 
 
 With TeX
@@ -71,9 +80,8 @@ One does for example:
 
     \input xintexpr.sty
 
-All dependencies are handled automatically. The packages may be loaded
-in any catcode context such that letters, digits, \ and % have their
-standard catcodes.
+The packages may be loaded in any catcode context such that letters,
+digits, \ and % have their standard catcodes.
 
 xintcore.sty and xinttools.sty both import xintkernel.sty which has the
 catcode handler and package identifier and defines a few utilities such
