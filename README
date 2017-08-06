@@ -1,4 +1,4 @@
-    Source:  xint.dtx 1.2m 2017/07/31 (doc 2017/07/31)
+    Source:  xint.dtx 1.2n 2017/08/06 (doc 2017/08/06)
     Author:  Jean-Francois B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
@@ -65,7 +65,7 @@ and lcm functions in expressions require explicit loading of xintgcd,
 and hexadecimal notation requires explicit loading of xintbinhex.
 
 Package xintcore is the subset of xint providing only the five
-operations on big integers: \xintiiAdd, \xintiiMul, ... It is (by
+operations on big integers: \xintiiAdd, \xintiiMul, ... It is (by
 default) loaded by the (LaTeX only) package bnumexpr which provides a
 more light-weight expression parser handling only big integers, the four
 operations, the power operation and the factorial.

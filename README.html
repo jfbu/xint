@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <meta name="author" content="xint 1.2m" />
+  <meta name="author" content="xint 1.2n" />
   <title>README</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -17,8 +17,8 @@
 <body>
 <div id="header">
 <h1 class="title">README</h1>
-<h2 class="author">xint 1.2m</h2>
-<h3 class="date">2017/07/31</h3>
+<h2 class="author">xint 1.2n</h2>
+<h3 class="date">2017/08/06</h3>
 </div>
 <div id="TOC">
 <ul>
@@ -36,7 +36,7 @@
 <li><a href="#license">License</a></li>
 </ul>
 </div>
-<pre><code>Source:  xint.dtx 1.2m 2017/07/31 (doc 2017/07/31)
+<pre><code>Source:  xint.dtx 1.2n 2017/08/06 (doc 2017/08/06)
 Author:  Jean-Francois B.
 Info:    Expandable operations on big integers, decimals, fractions
 License: LPPL 1.3c</code></pre>
@@ -62,7 +62,7 @@ License: LPPL 1.3c</code></pre>
 \usepackage{xintexpr}   % expressions with infix operators</code></pre>
 <p>Further packages: <code>xintbinhex</code>, <code>xintgcd</code>, <code>xintseries</code> and <code>xintcfrac</code>.</p>
 <p>Main dependencies are handled automatically. For example <code>xintexpr</code> automatically loads <code>xintfrac</code> which itself loads <code>xint</code>; but use of the <code>gcd</code> and <code>lcm</code> functions in expressions require explicit loading of <code>xintgcd</code>, and hexadecimal notation requires explicit loading of <code>xintbinhex</code>.</p>
-<p>Package <code>xintcore</code> is the subset of <code>xint</code> providing only the five operations on big integers: <code>\xintiiAdd</code>, <code>\xintiiMul</code>, ... It is (by default) loaded by the (LaTeX only) package <a href="http://www.ctan.org/pkg/bnumexpr">bnumexpr</a> which provides a more light-weight expression parser handling only big integers, the four operations, the power operation and the factorial.</p>
+<p>Package <code>xintcore</code> is the subset of <code>xint</code> providing only the five operations on big integers: <code>\xintiiAdd</code>, <code>\xintiiMul</code>, ... It is (by default) loaded by the (LaTeX only) package <a href="http://www.ctan.org/pkg/bnumexpr">bnumexpr</a> which provides a more light-weight expression parser handling only big integers, the four operations, the power operation and the factorial.</p>
 <p>There is also <code>xinttools</code> which is a separate package providing, among others, expandable and non-expandable loops such as <code>\xintFor</code>.</p>
 <h2 id="with-tex">With TeX</h2>
 <p>One does for example:</p>
