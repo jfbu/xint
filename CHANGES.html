@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <meta name="author" content="xint 1.2n" />
+  <meta name="author" content="xint 1.2o" />
   <title>CHANGE LOG</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -17,17 +17,21 @@
 <body>
 <div id="header">
 <h1 class="title">CHANGE LOG</h1>
-<h2 class="author">xint 1.2n</h2>
-<h3 class="date">2017/08/06</h3>
+<h2 class="author">xint 1.2o</h2>
+<h3 class="date">2017/08/29</h3>
 </div>
 <div id="TOC">
 <ul>
-<li><a href="#n-20170806"><code>1.2n (2017/08/06)</code></a><ul>
+<li><a href="#o-20170829"><code>1.2o (2017/08/29)</code></a><ul>
 <li><a href="#incompatible-changes">Incompatible changes</a></li>
+<li><a href="#deprecated">Deprecated</a></li>
+</ul></li>
+<li><a href="#n-20170806"><code>1.2n (2017/08/06)</code></a><ul>
+<li><a href="#incompatible-changes-1">Incompatible changes</a></li>
 <li><a href="#improvements-and-new-features">Improvements and new features</a></li>
 </ul></li>
 <li><a href="#m-20170731"><code>1.2m (2017/07/31)</code></a><ul>
-<li><a href="#incompatible-changes-1">Incompatible changes</a></li>
+<li><a href="#incompatible-changes-2">Incompatible changes</a></li>
 <li><a href="#improvements-and-new-features-1">Improvements and new features</a></li>
 <li><a href="#bug-fixes">Bug fixes</a></li>
 </ul></li>
@@ -37,7 +41,7 @@
 <li><a href="#bug-fixes-1">Bug fixes</a></li>
 </ul></li>
 <li><a href="#k-20170106"><code>1.2k (2017/01/06)</code></a><ul>
-<li><a href="#incompatible-changes-2">Incompatible changes</a></li>
+<li><a href="#incompatible-changes-3">Incompatible changes</a></li>
 <li><a href="#improvements-and-new-features-3">Improvements and new features</a></li>
 <li><a href="#bug-fixes-2">Bug fixes</a></li>
 </ul></li>
@@ -46,7 +50,7 @@
 <li><a href="#bug-fixes-3">Bug fixes</a></li>
 </ul></li>
 <li><a href="#i-20161213"><code>1.2i (2016/12/13)</code></a><ul>
-<li><a href="#incompatible-changes-3">Incompatible changes</a></li>
+<li><a href="#incompatible-changes-4">Incompatible changes</a></li>
 <li><a href="#removed-1">Removed</a></li>
 <li><a href="#improvements-and-new-features-5">Improvements and new features</a></li>
 <li><a href="#bug-fixes-4">Bug fixes</a></li>
@@ -56,11 +60,11 @@
 <li><a href="#bug-fixes-5">Bug fixes</a></li>
 </ul></li>
 <li><a href="#g-20160319"><code>1.2g (2016/03/19)</code></a><ul>
-<li><a href="#incompatible-changes-4">Incompatible changes</a></li>
+<li><a href="#incompatible-changes-5">Incompatible changes</a></li>
 <li><a href="#improvements-and-new-features-7">Improvements and new features</a></li>
 </ul></li>
 <li><a href="#f-20160312"><code>1.2f (2016/03/12)</code></a><ul>
-<li><a href="#incompatible-changes-5">Incompatible changes</a></li>
+<li><a href="#incompatible-changes-6">Incompatible changes</a></li>
 <li><a href="#improvements-and-new-features-8">Improvements and new features</a></li>
 <li><a href="#bug-fixes-6">Bug fixes</a></li>
 </ul></li>
@@ -91,9 +95,9 @@
 <li><a href="#b-20150831"><code>1.1b (2015/08/31)</code></a></li>
 <li><a href="#a-20141107"><code>1.1a (2014/11/07)</code></a></li>
 <li><a href="#section-1"><code>1.1 (2014/10/28)</code></a><ul>
-<li><a href="#incompatible-changes-6">Incompatible changes</a></li>
+<li><a href="#incompatible-changes-7">Incompatible changes</a></li>
 <li><a href="#removed-3">Removed</a></li>
-<li><a href="#deprecated">Deprecated</a></li>
+<li><a href="#deprecated-1">Deprecated</a></li>
 <li><a href="#improvements-and-new-features-14">Improvements and new features</a></li>
 <li><a href="#bug-fixes-12">Bug fixes</a></li>
 </ul></li>
@@ -123,12 +127,28 @@
 <li><a href="#section-8"><code>1.0 (2013/03/28)</code></a></li>
 </ul>
 </div>
-<pre><code>Source:  xint.dtx 1.2n 2017/08/06 (doc 2017/08/06)
+<pre><code>Source:  xint.dtx 1.2o 2017/08/29 (doc 2017/08/29)
 Author:  Jean-Francois B.
 Info:    Expandable operations on big integers, decimals, fractions
 License: LPPL 1.3c</code></pre>
-<h2 id="n-20170806"><code>1.2n (2017/08/06)</code></h2>
+<h2 id="o-20170829"><code>1.2o (2017/08/29)</code></h2>
 <h3 id="incompatible-changes">Incompatible changes</h3>
+<ul>
+<li><strong>xint</strong>: <code>\xintAND</code>, <code>\xintOR</code>, ... and similar Boolean logic macros do not apply anymore <code>\xintNum</code> (or <code>\xintRaw</code> if <strong>xintfrac</strong> is loaded), to their arguments (often, from internal usage of <code>\xintSgn</code>), but only f-expand them (using e.g. <code>\xintiiSgn</code>). This is kept un-modified even if loading <strong>xintfrac</strong>.</li>
+</ul>
+<h3 id="deprecated">Deprecated</h3>
+<p>Deprecated macros raise an error but, generally, then expand as in former releases. They will all get removed at some future release.</p>
+<ul>
+<li><p><strong>xintcore</strong>: <code>\xintiOpp</code>, <code>\xintiAbs</code>, <code>\xintiAdd</code>, <code>\xintiSub</code>, <code>\xintiMul</code>, <code>\xintiDivision</code>, <code>\xintiQuo</code>, <code>\xintiRem</code>, <code>\xintiDivRound</code>, <code>\xintiDivTrunc</code>, <code>\xintiMod</code>, <code>\xintiSqr</code>, <code>\xintiPow</code>, and <code>\xintiFac</code> are deprecated. Only the <code>ii</code>-named variants get defined.</p></li>
+<li><p><strong>xintcore</strong>: <code>\xintCmp</code> and <code>\xintSgn</code> are deprecated from <strong>xintcore</strong> (which only defines <code>\xintiiCmp</code> and <code>\xintiiSgn</code>) as they actually belong to <strong>xintfrac</strong>.</p></li>
+<li><p><strong>xintcore</strong>: <code>\xintiiFDg</code>, resp. <code>\xintiiLDg</code>, are renamed <code>\xintFDg</code>, resp. <code>\xintLDg</code>. Former denominations are deprecated.</p></li>
+<li><p><strong>xint</strong>: <code>\xintMON</code>, <code>\xintMMON</code>, <code>\xintiMax</code>, <code>\xintiMin</code>, <code>\xintiMaxof</code>, <code>\xintiMinof</code>, <code>\xintiSquareRoot</code>, <code>\xintiSqrt</code>, <code>\xintiSqrtR</code>, <code>\xintiBinomial</code>, and <code>\xintiPFactorial</code> are deprecated. Only <code>ii</code>-named variants get defined.</p></li>
+<li><p><strong>xint</strong>: <code>\xintEq</code>, <code>\xintGeq</code>, <code>\xintGt</code>, <code>\xintLt</code>, <code>\xintGtorEq</code>, <code>\xintLtorEq</code>, <code>\xintIsZero</code>, <code>\xintIsNotZero</code>, <code>\xintIsOne</code>, <code>\xintOdd</code>, <code>\xintEven</code>, <code>\xintifSgn</code>, <code>\xintifCmp</code>, <code>\xintifEq</code>, <code>\xintifGt</code>, <code>\xintifLt</code>, <code>\xintifZero</code>, <code>\xintifNotZero</code>, <code>\xintifOne</code>, <code>\xintifOdd</code>, are deprecated. These macros belong to <strong>xintfrac</strong>. Package <strong>xint</strong> defines only the <code>ii</code>-named variants.</p></li>
+<li><p><strong>xint</strong>: <code>\xintNeq</code> was renamed to <code>\xintNotEq</code> which however is only provided by <strong>xintfrac</strong>. Package <strong>xint</strong> defines <code>\xintiiNotEq</code>, and <code>\xintNeq</code> is deprecated.</p></li>
+<li><p><strong>xint</strong>: <code>\xintNot</code> was renamed to <code>\xintNOT</code>, former denomination is deprecated. See also item about Boolean logic macros in the <em>Incompatible Changes</em> section.</p></li>
+</ul>
+<h2 id="n-20170806"><code>1.2n (2017/08/06)</code></h2>
+<h3 id="incompatible-changes-1">Incompatible changes</h3>
 <ul>
 <li><strong>xintbinhex</strong> does not load package <strong>xintcore</strong> anymore, but only <strong>xintkernel</strong>.</li>
 </ul>
@@ -138,7 +158,7 @@ License: LPPL 1.3c</code></pre>
 <li><p>Macros of <strong>xintbinhex</strong> have been improved for speed and increased maximal sizes of allowable inputs.</p></li>
 </ul>
 <h2 id="m-20170731"><code>1.2m (2017/07/31)</code></h2>
-<h3 id="incompatible-changes-1">Incompatible changes</h3>
+<h3 id="incompatible-changes-2">Incompatible changes</h3>
 <ul>
 <li><p><strong>xintbinhex</strong>: the length of the input is now limited. The maximum size depends on the macro and ranges from about <code>4000</code> to about <code>19900</code> digits.</p></li>
 <li><p><strong>xintbinhex</strong>: <code>\xintCHexToBin</code> is now the variant of <code>\xintHexToBin</code> which does not remove leading binary zeroes: <code>N</code> hex-digits give on output exactly <code>4N</code> binary digits.</p></li>
@@ -174,7 +194,7 @@ License: LPPL 1.3c</code></pre>
 <li><p><strong>xintfrac</strong>: the manual said one could use directly <code>\numexpr</code> compatible expressions in arithmetic macros (without even a <code>\numexpr</code> encapsulation) if they were expressed with up to 8 tokens. There was a bug if these 8 tokens evaluated to zero. The bug has been fixed, and up to 9 tokens are now accepted. But it is simpler to use <code>\the\numexpr</code> prefix and not to worry about the token count... The ending <code>\relax</code> is now un-needed.</p></li>
 </ul>
 <h2 id="k-20170106"><code>1.2k (2017/01/06)</code></h2>
-<h3 id="incompatible-changes-2">Incompatible changes</h3>
+<h3 id="incompatible-changes-3">Incompatible changes</h3>
 <ul>
 <li><p>macro <code>\xintFloat</code> which rounds its input to a floating point number does <em>not</em> print anymore <code>10.0...0eN</code> to signal an upwards rounding to the next power of ten. The mantissa has in all cases except the zero input exactly one digit before the decimal mark.</p></li>
 <li><p>some floating point computations may differ in the least significant digits, due to a change in the rounding algorithm applied to macro arguments expressed as fractions and to an improvement in precision regarding half-integer powers in expressions. See next.</p></li>
@@ -207,7 +227,7 @@ License: LPPL 1.3c</code></pre>
 <li>fix two <code>1.2i</code> regressions caused by undefined macros (<code>\xintNthElt</code> in certain branches and <code>[list][N]</code> item extraction in certain cases.) The test files existed but were not executed prior to release. Automation in progress.</li>
 </ul>
 <h2 id="i-20161213"><code>1.2i (2016/12/13)</code></h2>
-<h3 id="incompatible-changes-3">Incompatible changes</h3>
+<h3 id="incompatible-changes-4">Incompatible changes</h3>
 <ul>
 <li><code>\xintDecSplit</code> second argument must have no sign (former code replaced it with its absolute value, a sign now may cause an error.)</li>
 </ul>
@@ -252,7 +272,7 @@ License: LPPL 1.3c</code></pre>
 <li><p>the <code>add</code> and <code>mul</code> from <strong>xintexpr</strong>, which work with dummy variables since <code>1.1</code>, raised an error since <code>1.2c 2015/11/16</code> when the dummy variable was given an empty range (or list) of values, rather than producing respectively <code>0</code> and <code>1</code> as formerly.</p></li>
 </ul>
 <h2 id="g-20160319"><code>1.2g (2016/03/19)</code></h2>
-<h3 id="incompatible-changes-4">Incompatible changes</h3>
+<h3 id="incompatible-changes-5">Incompatible changes</h3>
 <ul>
 <li><p>inside expressions, list item selector <code>[L][n]</code> counts starting at zero, not at one. This is more coherent with <code>[L][a:b]</code> which was already exactly like in Python since its introduction. A function len(L) replaces earlier <code>[L][0]</code>.</p></li>
 <li><p>former <code>iter</code> keyword now called <code>iterr</code>. Indeed it matched with <code>rrseq</code>, the new <code>iter</code> (which was somehow missing from <code>1.1</code>) is the one matching <code>rseq</code>. Allows to iterate more easily with a &quot;list&quot; variable.</p></li>
@@ -266,7 +286,7 @@ License: LPPL 1.3c</code></pre>
 <li><p>the syntax of expressions is described in a devoted chapter of the documentation; an example shows how to implement (expandably) the Brent-Salamin algorithm for computation of Pi using <code>iter</code> in a float expression.</p></li>
 </ul>
 <h2 id="f-20160312"><code>1.2f (2016/03/12)</code></h2>
-<h3 id="incompatible-changes-5">Incompatible changes</h3>
+<h3 id="incompatible-changes-6">Incompatible changes</h3>
 <ul>
 <li>no more <code>\xintFac</code> macro but <code>\xintiFac/\xintiiFac/\xintFloatFac</code>.</li>
 </ul>
@@ -380,7 +400,7 @@ License: LPPL 1.3c</code></pre>
 <li><p>various typographical fixes throughout the documentation, and a bit of clean up of the code comments. Improved <code>\Factors</code> example of nested <code>subs</code>, <code>rseq</code>, <code>iter</code> in <code>\xintiiexpr</code>.</p></li>
 </ul>
 <h2 id="section-1"><code>1.1 (2014/10/28)</code></h2>
-<h3 id="incompatible-changes-6">Incompatible changes</h3>
+<h3 id="incompatible-changes-7">Incompatible changes</h3>
 <ul>
 <li><p>in <code>\xintiiexpr</code>, <code>/</code> does <em>rounded</em> division, rather than the Euclidean division (for positive arguments, this is truncated division). The <code>//</code> operator does truncated division,</p></li>
 <li><p>the <code>:</code> operator for three-way branching is gone, replaced with <code>??</code>,</p></li>
@@ -393,7 +413,7 @@ License: LPPL 1.3c</code></pre>
 <ul>
 <li><code>\xintnumexpr</code>, <code>\xintthenumexpr</code>, <code>\xintNewNumExpr</code>: use <code>\xintiexpr</code>, <code>\xinttheiexpr</code>, <code>\xintNewIExpr</code>.</li>
 </ul>
-<h3 id="deprecated">Deprecated</h3>
+<h3 id="deprecated-1">Deprecated</h3>
 <ul>
 <li><p><code>\xintDivision</code>, <code>\xintQuo</code>, <code>\xintRem</code>: use <code>\xintiDivision</code>, <code>\xintiQuo</code>, <code>\xintiRem</code>.</p></li>
 <li><p><code>\xintMax</code>, <code>\xintMin</code>, <code>\xintAdd</code>, <code>\xintSub</code>, <code>\xintMul</code> (<strong>xint</strong>): their usage without <strong>xintfrac</strong> is deprecated; use <code>\xintiMax</code>, <code>\xintiMin</code>, <code>\xintiAdd</code>, <code>\xintiSub</code>, <code>\xintiMul</code>.</p></li>
