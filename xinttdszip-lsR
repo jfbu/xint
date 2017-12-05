@@ -1,34 +1,34 @@
 Archive:  xint.tds.zip
   Length      Date    Time    Name
 ---------  ---------- -----   ----
-        0  08-29-2017 22:22   doc/
-        0  08-29-2017 22:22   doc/generic/
-        0  08-29-2017 22:22   doc/generic/xint/
-    76386  08-29-2017 22:22   doc/generic/xint/CHANGES.html
-    91475  08-29-2017 22:22   doc/generic/xint/CHANGES.pdf
-     7269  08-29-2017 22:22   doc/generic/xint/README
-    11796  08-29-2017 22:22   doc/generic/xint/README.html
-    33928  08-29-2017 22:22   doc/generic/xint/README.pdf
-   668873  08-29-2017 22:22   doc/generic/xint/sourcexint.pdf
-   789476  08-29-2017 22:22   doc/generic/xint/xint.pdf
-        0  08-29-2017 22:22   source/
-        0  08-29-2017 22:22   source/generic/
-        0  08-29-2017 22:22   source/generic/xint/
-      655  07-26-2017 21:23   source/generic/xint/Makefile
-  1362988  08-29-2017 22:21   source/generic/xint/xint.dtx
-     3016  08-29-2017 22:21   source/generic/xint/xint.ins
-        0  08-29-2017 22:22   tex/
-        0  08-29-2017 22:22   tex/generic/
-        0  08-29-2017 22:22   tex/generic/xint/
-    53800  08-29-2017 22:21   tex/generic/xint/xint.sty
-    16303  08-29-2017 22:21   tex/generic/xint/xintbinhex.sty
-    29916  08-29-2017 22:21   tex/generic/xint/xintcfrac.sty
-    75723  08-29-2017 22:21   tex/generic/xint/xintcore.sty
-   123234  08-29-2017 22:21   tex/generic/xint/xintexpr.sty
-    93832  08-29-2017 22:21   tex/generic/xint/xintfrac.sty
-    13702  08-29-2017 22:21   tex/generic/xint/xintgcd.sty
-    21723  08-29-2017 22:21   tex/generic/xint/xintkernel.sty
-    12280  08-29-2017 22:21   tex/generic/xint/xintseries.sty
-    50990  08-29-2017 22:21   tex/generic/xint/xinttools.sty
+        0  12-05-2017 21:56   doc/
+        0  12-05-2017 21:56   doc/generic/
+        0  12-05-2017 21:56   doc/generic/xint/
+    80303  12-05-2017 21:56   doc/generic/xint/CHANGES.html
+    95120  12-05-2017 21:56   doc/generic/xint/CHANGES.pdf
+     7269  12-05-2017 21:56   doc/generic/xint/README
+    11796  12-05-2017 21:56   doc/generic/xint/README.html
+    34224  12-05-2017 21:56   doc/generic/xint/README.pdf
+   680570  12-05-2017 21:56   doc/generic/xint/sourcexint.pdf
+   807399  12-05-2017 21:56   doc/generic/xint/xint.pdf
+        0  12-05-2017 21:56   source/
+        0  12-05-2017 21:56   source/generic/
+        0  12-05-2017 21:56   source/generic/xint/
+      655  12-05-2017 21:54   source/generic/xint/Makefile
+  1388911  12-05-2017 21:55   source/generic/xint/xint.dtx
+     3016  12-05-2017 21:55   source/generic/xint/xint.ins
+        0  12-05-2017 21:56   tex/
+        0  12-05-2017 21:56   tex/generic/
+        0  12-05-2017 21:56   tex/generic/xint/
+    53778  12-05-2017 21:55   tex/generic/xint/xint.sty
+    16303  12-05-2017 21:55   tex/generic/xint/xintbinhex.sty
+    29916  12-05-2017 21:55   tex/generic/xint/xintcfrac.sty
+    77470  12-05-2017 21:55   tex/generic/xint/xintcore.sty
+   125134  12-05-2017 21:55   tex/generic/xint/xintexpr.sty
+    96820  12-05-2017 21:55   tex/generic/xint/xintfrac.sty
+    14195  12-05-2017 21:55   tex/generic/xint/xintgcd.sty
+    21723  12-05-2017 21:55   tex/generic/xint/xintkernel.sty
+    12280  12-05-2017 21:55   tex/generic/xint/xintseries.sty
+    51990  12-05-2017 21:55   tex/generic/xint/xinttools.sty
 ---------                     -------
-  3537365                     29 files
+  3608872                     29 files
