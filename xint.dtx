@@ -3,28 +3,28 @@
 % Extract all files via "etex xint.dtx" and do "make help"
 % or follow instructions from extracted README.md.
 %<*dtx>
-\def\xintdtxtimestamp {Time-stamp: <05-12-2017 at 19:31:43 CET>}
+\def\xintdtxtimestamp {Time-stamp: <06-02-2018 at 21:58:51 CET>}
 %</dtx>
 %<*drv>
 %% ---------------------------------------------------------------
-\def\xintdocdate {2017/12/05}
-\def\xintbndldate{2017/12/05}
-\def\xintbndlversion {1.2p}
+\def\xintdocdate {2018/02/06}
+\def\xintbndldate{2018/02/06}
+\def\xintbndlversion {1.2q}
 %</drv>
 %<readme>% README
 %<changes>% CHANGE LOG
-%<readme|changes>% xint 1.2p
-%<readme|changes>% 2017/12/05
+%<readme|changes>% xint 1.2q
+%<readme|changes>% 2018/02/06
 %<readme|changes>
-%<readme|changes>    Source:  xint.dtx 1.2p 2017/12/05 (doc 2017/12/05)
+%<readme|changes>    Source:  xint.dtx 1.2q 2018/02/06 (doc 2018/02/06)
 %<readme|changes>    Author:  Jean-Francois B.
 %<readme|changes>    Info:    Expandable operations on big integers, decimals, fractions
-%<readme|changes>    License: LPPL 1.3c
+%<readme|changes>    License: LPPL 1.2qc
 %<readme|changes>
 %<*!readme&!changes&!dohtmlsh&!dopdfsh&!makefile>
 %% ---------------------------------------------------------------
-%% The xint bundle 1.2p 2017/12/05
-%% Copyright (C) 2013-2017 by Jean-Francois B.
+%% The xint bundle 1.2q 2018/02/06
+%% Copyright (C) 2013-2018 by Jean-Francois B.
 %<xintkernel>%% xintkernel: Paraphernalia for the xint packages
 %<xinttools>%% xinttools: Expandable and non-expandable utilities
 %<xintcore>%% xintcore: Expandable arithmetic on big integers
@@ -249,6 +249,21 @@ pandoctpl.latex, doHTMLs.sh, doPDFs.sh, xint.dvi, xint.pdf,
 Makefile.mk.</div>
 %</readme>--------------------------------------------------------
 %<*changes>-------------------------------------------------------
+
+`1.2q (2018/02/06)`
+----
+
+### Improvements and new features
+
+ - **xintexpr**: tacit multiplication extended to cases such as `3!4!5!`
+   or `(1+2)3`.
+
+### Bug fixes
+
+ - **xintcore**: sadly, refactoring at `1.2l` of subtraction left an
+   extra character in an inner macro causing breakage in some rare
+   circumstances. This should not have escaped our test suite!
+
 
 `1.2p (2017/12/05)`
 ----
@@ -3393,7 +3408,7 @@ pdfpagemode=UseOutlines}
 
 \tikzstyle{block} = [rectangle, draw,
     fill=codeboxbg,
-    fill opacity=0.5,% fill opacity Octobre 2014
+%    fill opacity=0.5,% fill opacity Octobre 2014
     draw=codeboxframe,
     line width=2pt,
     text width=6em, text centered, rounded corners, minimum height=4em]
@@ -4130,6 +4145,10 @@ file with name |README.md|. Further help and options will be found therein.
 
 This is release \expandafter|\xintbndlversion| of \expandafter|\xintbndldate|.
 
+|1.2q| fixes a bug introduced by |1.2l| in some cases of subtraction. It also
+extends \hyperref[ssec:tacit multiplication]{Tacit multiplication} to cover
+cases such as |10!20!30!|.
+
 |1.2p| has some breaking changes and improvements (see |CHANGES.html| for bug
 fixes):
 \begin{itemize}[nosep]
@@ -4243,8 +4262,8 @@ See |CHANGES.html| or |CHANGES.pdf| for more information (either |texdoc
     \item In case of equal precedence, the rule is left-associativity: the first
 encountered operation is executed first.
 \hyperref[ssec:tacit multiplication]{Tacit multiplication} has an elevated
-precedence level hence seemingly breaks left-associativity: |(1+2)/(3+4)(5+6)|
-is computed as |(1+2)/((3+4)*(5+6))| and |x/2y| is interpreted as |x/(2*y)|
+precedence level hence seemingly breaks left-associativity: |(1+2)/(3+4)5|
+is computed as |(1+2)/((3+4)*5)| and |x/2y| is interpreted as |x/(2*y)|
 when using variables.
     \item List variants  |^[|, |**[|, |]^|, |]**|,
     |*[|, |/[|, |]*|, |]/|,  |+[|, |-[|, |]+|, |]-|, share the precedence
@@ -5103,18 +5122,23 @@ Some additional examples are to be found in \autoref{ssec:moredummies}.
 Tacit multiplication (insertion of a |*|) applies when the parser is currently
 either scanning the digits of a number (or its decimal part or scientific
 part, or hexadecimal input), or is looking for an infix operator, and:
-(1.)~\emph{encounters a count or dimen or skip register or variable or an
-  \eTeX{} expression}, or (2.)~\emph{encounters a sub-\csa{xintexpr}ession},
-or (3.)~\emph{encounters an opening parenthesis}, or (4.)~\emph{encounters a
+\begin{enumerate}[nosep, label=(\arabic*.)]
+\item \relax\emph{encounters a count or dimen or skip register or variable or an
+  \eTeX{} expression,} or
+\item \emph{encounters a sub-\csa{xintexpr}ession}, or
+\item \emph{encounters an opening parenthesis}, or
+\item \emph{encounters a
   letter (which is interpreted as signaling the start of either a variable or
-  a function name)}.
+  a function name)}, or
+\item (of course, only when in state "looking for an operator") \emph{encounters a digit}.\NewWith{1.2q}
+\end{enumerate}
 
 \begin{framed}
     For example, if |x, y, z| are variables all three of |(x+y)z|, |x(y+z)|,
     |(x+y)(x+z)| will create a tacit multiplication.
 
     Furthermore starting with release
-    |1.2e|,\MyMarginNote[\kern\dimexpr\FrameSep+\FrameRule\relax]{Changed}
+    |1.2e|, %\MyMarginNote[\kern\dimexpr\FrameSep+\FrameRule\relax]{Changed}
     whenever tacit multiplication is applied, in all cases it \emph{always}
     ``ties'' more\IMPORTANT{} than normal multiplication or division, but
     still less than power. Thus |x/2y| is interpreted as |x/(2y)| and
@@ -5126,16 +5150,25 @@ or (3.)~\emph{encounters an opening parenthesis}, or (4.)~\emph{encounters a
 \xinttheexpr (x+y)x, x/2y, x^2y, x!, 2x!, x/2max(x,y)\relax
 \end{everbatim*}
 
+    Since |1.2q| tacit multiplication is triggered also in cases such as
+    |(1+2)5| or |10!20!30!|.
+
+\begin{everbatim*}
+\xinttheexpr (10+7)5, 4!4!, add(i, i=1..10)10, max(x, y)100\relax
+\end{everbatim*}
+
     The ``tie more'' rule applies to all cases of tacit multiplication. It
     impacts only situations when a division was the last seen operator, as the
     normal rule for the \xintexprname parsers is left-associativity in case of
     equal precedence.
 \begin{everbatim*}
-\xinttheexpr (1+2)/(3+4)(5+6), 2/x(10), 2/10x, 3/y\xintiiexpr 5+6\relax, 1/x(y)\relax
+\xinttheexpr 1/(3)5, (1+2)/(3+4)(5+6), 2/x(10), 2/10x, 3/y\xintiiexpr 5+6\relax, 1/x(y)\relax\
+differ from\newline\xinttheexpr 1/3*5, (1+2)/(3+4)*(5+6), 2/x*(10), 2/10*x,
+                                3/y*\xintiiexpr 5+6\relax, 1/x*(y)\relax\par
 \end{everbatim*}
 \end{framed}
 
-    Note that |y\xinttheiiexpr 5+6\relax| would have tried to use a variable
+    Note that |y|\csbxint{theiiexpr}| 5+6\relax| would have tried to use a variable
     with name |y11| rather than doing |y*11|: tacit multiplication works only
     in front of sub-\csbxint{expr}essions, not in front of
     \csbxint{theexpr}essions which are unlocked into explicit digits.
@@ -5149,21 +5182,25 @@ Here is an expression whose meaning is
 \begin{everbatim}
 \xintdeffunc e(z):=1+z(1+z/2(1+z/3(1+z/4)));
 \end{everbatim}
-will be parsed as |1+z*(1+z/(2*(1+z/(3*(1+z/4)))))| which is
-    not at all like the presumably hoped:
+will be parsed as
 \begin{everbatim}
-\xintdeffunc e(z):=1+z(1+z/2*(1+z/3*(1+z/4)));
+\xintdeffunc e(z):=1+z*(1+z/(2*(1+z/(3*(1+z/4)))));
 \end{everbatim}
-This form can also be used, alternatively:
+which is not at all the presumably hoped for:
 \begin{everbatim}
-\xintdeffunc e(z):=(((z/4+1)z/3+1)z/2+1)z+1;
+\xintdeffunc e(z):=1+z*(1+(z/2)*(1+(z/3)*(1+(z/4))));
 \end{everbatim}
+% This case can be handled this way:
+% \begin{everbatim}
+% \xintdeffunc e(z):=(((z/4+1)z/3+1)z/2+1)z+1;
+% \end{everbatim}
 
-     Attention! tacit multiplication before an opening parenthesis applies
-     always, but tacit multiplication after a closing parenthesis \emph{does
-       not} apply in front of digits: |(1+1)5| is not legal. But
-     |subs((1+1)x,x=5)| is, because in that case a variable is following the
-     closing parenthesis.
+% obsolète depuis 1.2q
+     % Attention! tacit multiplication before an opening parenthesis applies
+     % always, but tacit multiplication after a closing parenthesis \emph{does
+     %   not} apply in front of digits: |(1+1)5| is not legal. But
+     % |subs((1+1)x,x=5)| is, because in that case a variable is following the
+     % closing parenthesis.
 
 
 \subsection{More examples with dummy variables}
@@ -15924,7 +15961,7 @@ be treated as first item) number.
 \fi
 \XINT_providespackage
 \ProvidesPackage {xintkernel}%
-  [2017/12/05 1.2p Paraphernalia for the xint packages (JFB)]%
+  [2018/02/06 1.2q Paraphernalia for the xint packages (JFB)]%
 %    \end{macrocode}
 % \subsection{Constants}
 %    \begin{macrocode}
@@ -16510,7 +16547,7 @@ be treated as first item) number.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xinttools}%
-  [2017/12/05 1.2p Expandable and non-expandable utilities (JFB)]%
+  [2018/02/06 1.2q Expandable and non-expandable utilities (JFB)]%
 %    \end{macrocode}
 % \lverb|\XINT_toks is used in macros such as \xintFor. It is not used
 % elsewhere in the xint bundle.|
@@ -18448,7 +18485,7 @@ be treated as first item) number.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcore}%
-  [2017/12/05 1.2p Expandable arithmetic on big integers (JFB)]%
+  [2018/02/06 1.2q Expandable arithmetic on big integers (JFB)]%
 %    \end{macrocode}
 % \subsection{(WIP!) Error conditions and exceptions}
 % \lverb|As per the Mike Cowlishaw/IBM's General Decimal Arithmetic Specification
@@ -19696,6 +19733,10 @@ be treated as first item) number.
 % one is shorter. I thus but back-tracked my steps but in passing I improved
 % the efficiency (probably) in the worst case branch.
 %
+% Sadly this 1.2l refactoring left an extra ! in macro \XINT_sub_l_Ida. This
+% bug shows only in rare circumstances which escaped out test suite :(
+% Fixed at 1.2q.
+%
 % The other reason for backtracking was in relation with the decimal numbers.
 % Having a core format in base 10^8 but ultimately the radix is actually 10
 % leads to complications. I could use radix 10^8 for \xintiiexpr only, but
@@ -19969,7 +20010,7 @@ be treated as first item) number.
     \xint_gob_til_sc #2\XINT_sub_l_Ida;%
     1\relax 00000000!1#2#3!#4;!1\XINT_sub_fix_none!%
 }%
-\def\XINT_sub_l_Ida#1\XINT_sub_fix_none{1;!1\XINT_sub_fix_none!}%
+\def\XINT_sub_l_Ida#1\XINT_sub_fix_none{1;!1\XINT_sub_fix_none}%
 %    \end{macrocode}
 % \lverb|&
 % This is the case where both operands have same 10^8-base length.
@@ -21858,7 +21899,7 @@ They will get removed at some future release.}}%
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xint}%
-  [2017/12/05 1.2p Expandable operations on big integers (JFB)]%
+  [2018/02/06 1.2q Expandable operations on big integers (JFB)]%
 %    \end{macrocode}
 % \subsection{More token management}
 %    \begin{macrocode}
@@ -24231,7 +24272,7 @@ They will get removed at some future release.}}%
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintbinhex}%
-  [2017/12/05 1.2p Expandable binary and hexadecimal conversions (JFB)]%
+  [2018/02/06 1.2q Expandable binary and hexadecimal conversions (JFB)]%
 %    \end{macrocode}
 % \subsection{Constants, etc...}
 % \lverb|1.2n switches to \csname-governed expansion at various places.|
@@ -24883,7 +24924,7 @@ They will get removed at some future release.}}%
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintgcd}%
-  [2017/12/05 1.2p Euclide algorithm with xint package (JFB)]%
+  [2018/02/06 1.2q Euclide algorithm with xint package (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintGCD}, \csh{xintiiGCD}}
 % \lverb|1.09a added \xintnum filtering from \xintiabs. This is a bit overhead
@@ -25588,7 +25629,7 @@ They will get removed at some future release.}}%
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintfrac}%
-  [2017/12/05 1.2p Expandable operations on fractions (JFB)]%
+  [2018/02/06 1.2q Expandable operations on fractions (JFB)]%
 %    \end{macrocode}
 % \subsection{Macros now deprecated in \xintcorenameimp or \xintnameimp}
 % \lverb|1.2o|
@@ -30112,7 +30153,7 @@ It will get removed at some future release.}}%
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintseries}%
-  [2017/12/05 1.2p Expandable partial sums with xint package (JFB)]%
+  [2018/02/06 1.2q Expandable partial sums with xint package (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintSeries}}
 %    \begin{macrocode}
@@ -30613,7 +30654,7 @@ It will get removed at some future release.}}%
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcfrac}%
-  [2017/12/05 1.2p Expandable continued fractions with xint package (JFB)]%
+  [2018/02/06 1.2q Expandable continued fractions with xint package (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintCFrac}}
 %    \begin{macrocode}
@@ -31864,7 +31905,7 @@ It will get removed at some future release.}}%
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintexpr}%
-  [2017/12/05 1.2p Expandable expression parser (JFB)]%
+  [2018/02/06 1.2q Expandable expression parser (JFB)]%
 \catcode`! 11
 \let\XINT_Cmp \xintiiCmp
 %    \end{macrocode}
@@ -32644,7 +32685,9 @@ It will get removed at some future release.}}%
 % The ! starting a sub-expression must be distinguished from the post-fix !
 % for factorial, thus we must not do a too early \string. In versions < 1.2c,
 % the catcode 11 ! had to be identified in all branches of the number or
-% function scans. Here it is simply treated as a special case of a letter.|
+% function scans. Here it is simply treated as a special case of a letter.
+%
+% 1.2q adds tacit multiplication in cases such as (1+1)3 or 5!7!|
 %    \begin{macrocode}
 \def\XINT_expr_getop #1#2% this #1 is the current locked computed value
 {%
@@ -32655,6 +32698,7 @@ It will get removed at some future release.}}%
 {%
     \ifx   \relax #2\xint_dothis\xint_firstofthree\fi
     \ifcat \relax #2\xint_dothis\xint_secondofthree\fi
+    \ifnum\xint_c_ix<1\string#2 \xint_dothis\xint_secondofthree\fi
     \if    _#2\xint_dothis      \xint_secondofthree\fi
     \if    @#2\xint_dothis      \xint_secondofthree\fi
     \if    (#2\xint_dothis      \xint_secondofthree\fi
@@ -35036,7 +35080,7 @@ It will get removed at some future release.}}%
 {%
     \expandafter #1\expandafter #2\csname .=%
     \expandafter\XINT_expr_totwoargs
-    \romannumeral0\expandafter\xintDivMod
+    \romannumeral0\expandafter\xintdivmod
     \romannumeral`&&@\expandafter\XINT_expr_twoargs
     \romannumeral`&&@\XINT_expr_unlock #3,\endcsname
 }%
@@ -35051,7 +35095,7 @@ It will get removed at some future release.}}%
 {%
     \expandafter #1\expandafter #2\csname .=%
     \expandafter\XINT_expr_totwoargs
-    \romannumeral0\expandafter\xintiiDivMod
+    \romannumeral0\expandafter\xintiidivmod
     \romannumeral`&&@\expandafter\XINT_expr_twoargs
     \romannumeral`&&@\XINT_expr_unlock #3,\endcsname
 }%
@@ -35985,7 +36029,7 @@ xinttools.sty:139
   Right bracket \]     Circumflex    \^     Underscore    \_
   Grave accent  \`     Left brace    \{     Vertical bar  \|
   Right brace   \}     Tilde         \~}
-\CheckSum {30982}
+\CheckSum {30988}% 30982 pour 1.2p
 % 30524 pour 1.2o, 30303 pour 1.2h, 30403 pour 1.2i, 30750 pour 1.2j,
 % 30677 pour 1.2k, 30931 pour 1.2l, 30439 pour 1.2m, 30253 pour 1.2n
 \makeatletter\check@checksum\makeatother
