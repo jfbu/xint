@@ -21,14 +21,16 @@
 %% same distribution. (The sources need not necessarily be
 %% in the same archive or directory.)
 %% ---------------------------------------------------------------
-%% The xint bundle 1.3b 2018/05/18
+%% The xint bundle 1.3c 2018/06/17
 %% Copyright (C) 2013-2018 by Jean-Francois B.
 %% ---------------------------------------------------------------
 %%
-%% tex xint.ins extracts all package files from xint.dtx, as well as
-%% xint.tex, README.md, CHANGES.md, doPDFs.sh, doHTMLs.sh.
+%% `tex xint.ins' extracts all package files from xint.dtx, as well as
+%% xint.tex, README.md, CHANGES.md, doPDFs.sh, doHTMLs.sh, .latexmkrc
+%% and xint-gind.ist
 %%
-%% etex xint.ins does the same plus extracts Makefile.mk.
+%% `etex xint.ins' additionally extracts Makefile.mk, which is needed
+%% for building documentation using `make'.
 %%
 \input docstrip.tex
 \askforoverwritefalse
@@ -39,8 +41,10 @@
 \file{doPDFs.sh}{\from{xint.dtx}{dopdfsh}}
 \ifx\numexpr\undefined\else\catcode9 11
             \file{Makefile.mk}{\from{xint.dtx}{makefile}}\fi
+\file{.latexmkrc}{\from{xint.dtx}{latexmkrc}}
 \usepreamble\defaultpreamble
 \usepostamble\defaultpostamble
+\file{xint-gind.ist}{\from{xint.dtx}{gind}}
 \file{pandoctpl.latex}{\from{xint.dtx}{pandoctpl}}
 \file{xint.tex}{\from{xint.dtx}{drv}}
 \file{xintkernel.sty}{\from{xint.dtx}{xintkernel}}
@@ -55,7 +59,7 @@
 \file{xintexpr.sty}{\from{xint.dtx}{xintexpr}}}
 \catcode32=13\relax% active space
 \let =\space%
-\Msg{************************************************************************}
+\Msg{********************************************************************}
 \Msg{*}
 \Msg{* To finish the installation you have to move the following}
 \Msg{* files into a directory searched by TeX:}
@@ -71,15 +75,17 @@
 \Msg{*     xintexpr.sty}
 \Msg{*     xinttools.sty}
 \Msg{*}
-\Msg{* To produce the documentation run latex thrice on xint.tex}
-\Msg{* then dvipdfmx on xint.dvi. Edit xint.tex to get the code}
-\Msg{* source included.}
-\Msg{* dvipdfmx warnings may be ignored, but if the produced pdf}
-\Msg{* has font problems, run rather pdflatex on xint.tex}
+\Msg{* To produce the user manual run latex thrice on xint.tex}
+\Msg{* then dvipdfmx on xint.dvi, or if your system allows,}
+\Msg{* execute `make xint.pdf' (this requires Latexmk).}
+\Msg{*}
+\Msg{* The commented source code is generated from executing}
+\Msg{* `make sourcexint.pdf' (this requires Latexmk; if not}
+\Msg{* available check the details in Makefile.mk and .latexmkrc)}
 \Msg{*}
 \Msg{* Happy TeXing!}
 \Msg{*}
-\Msg{************************************************************************}
+\Msg{********************************************************************}
 \endbatchfile
 \endinput
 %%

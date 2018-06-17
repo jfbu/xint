@@ -1,4 +1,4 @@
-    Source:  xint.dtx 1.3b 2018/05/18 (doc 2018/05/18)
+    Source:  xint.dtx 1.3c 2018/06/17 (doc 2018/06/17)
     Author:  Jean-Francois B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
@@ -32,46 +32,46 @@ Float computations are possible at an adjustable precision (default 16).
     \xintDigits:=48;\xintthefloatexpr 123_456_789^1_000.5\relax
     ->3.63692761822782679930738270515740797370813691938e8095
 
-But currently, only integer and half-integer exponents are allowed for
-the power operation in expressions and only the square-root operation is
+(as this example shows the underscore character can be used to separate
+visually digits, one can also use the space character for that purpose).
+
+Currently, only integer and half-integer exponents are allowed for the
+power operation in expressions and only the square-root operation is
 implemented besides the four arithmetic operations. Square-root and the
 four operations achieve correct rounding in the given arbitrary
 precision.
-
-Sub-units xintcore, xint and xintfrac provide the underlying macros, and
-xintexpr loads all of them and provides expandable parsers allowing
-computations such as the above (and more).
 
 
 
 USAGE
 
 
-It is possible to use the package with Plain (via \input anywhere) or
-with LaTeX (via \usepackage in the preamble).
+It is possible to use the package with Plain (using for example
+\input xintexpr.sty) or with LaTeX (\usepackage{xintexpr}).
 
 
 With LaTeX
 
     \usepackage{xint}       % expandable arithmetic with big integers
     \usepackage{xintfrac}   % decimal numbers, fractions, floats
+    \usepackage{xinttools}  % expandable and non expandable loops
     \usepackage{xintexpr}   % expressions with infix operators
 
 Further packages: xintbinhex, xintgcd, xintseries and xintcfrac.
 
 Main dependencies are handled automatically. For example xintexpr
-automatically loads xintfrac which itself loads xint; but use of the gcd
-and lcm functions in expressions require explicit loading of xintgcd,
-and hexadecimal notation requires explicit loading of xintbinhex.
+automatically loads xinttools and xintfrac (which itself loads xint).
+But the gcd()/lcm() functions require extra loading of xintgcd and
+hexadecimal input requires xintbinhex.
 
 Package xintcore is the subset of xint providing only the five
-operations on big integers: \xintiiAdd, \xintiiMul, ... It is (by
-default) loaded by the (LaTeX only) package bnumexpr which provides a
-more light-weight expression parser handling only big integers, the four
-operations, the power operation and the factorial.
+operations on big integers: \xintiiAdd, \xintiiMul, ...
 
-There is also xinttools which is a separate package providing, among
-others, expandable and non-expandable loops such as \xintFor.
+The LaTeX package bnumexpr defines a more light-weight parser of
+arithmetical expressions using big integers, which supports only the
+four operations, the modulo operation, the power operation, and the
+factorial. By default it uses the macros from xintcore but this can be
+customized.
 
 
 With TeX
@@ -85,7 +85,12 @@ digits, \ and % have their standard catcodes.
 
 xintcore.sty and xinttools.sty both import xintkernel.sty which has the
 catcode handler and package identifier and defines a few utilities such
-as \oodef, \fdef, or \xint_dothis/\xint_orthat.
+as \oodef/\fdef, \xint_dothis/\xint_orthat, or \xintLength.
+
+Since 1.3b, xintkernel.sty also provides \xintUniformDeviate which is a
+wrapper of the engine \pdfuniformdeviate or \uniformdeviate done to
+guarantee more uniformity of the pseudo-random integers. This is used by
+xintexpr.sty for implementing random() and randrange() functions.
 
 
 
@@ -131,8 +136,8 @@ Method C: manual installation using Makefile and xint.dtx
 
 The Makefile automatizes rebuilding from xint.dtx all documentation
 files as well as xint.tds.zip. It is for GNU/Linux-like (inc. Mac OS X)
-systems, with a teTeX like installation such as TeXLive. Furthermore the
-Pandoc software is required.
+systems, with a teTeX like installation such as TeXLive. The Latexmk and
+Pandoc softwares are required to build all the documentation.
 
 1.  obtain xint.dtx and Makefile from
     http://mirror.ctan.org/macros/generic/xint.
@@ -143,41 +148,17 @@ Pandoc software is required.
 
 Method D: installation starting with only xint.dtx
 
-Run "tex xint.dtx" or "etex xint.dtx" to extract from xint.dtx all
-packages as well as these files:
-
-README.md
-    the current README with Markdown formatting.
-
-CHANGES.md
-    the changes across successive releases.
-
-xint.tex
-    used to generate xint.pdf via "latex xint.tex" (thrice) then
-    "dvipdfmx xint.dvi". It is also possible to compile xint.tex with
-    xelatex, or with pdflatex (this latter option produces a bigger
-    pdf).
-    For successful compilation, packages newtxtt, newtxmath, etoc,
-    mathastext are needed. Inclusion of the source code is off by
-    default, but the toggle can be set in xint.tex.
-
-    A third option is to generate xint.pdf via xelatex xint.dtx or
-    pdflatex xint.dtx. Source code is then included by default (but some
-    code comments in French use 8bit characters, hence for xelatex an a
-    priori conversion of xint.dtx into utf-8 will give a better result).
-
-Makefile.mk
-    this is for UNIX-like systems. Note: this file is only produced with
-    "etex xint.dtx", not with "tex xint.dtx". Rename it to Makefile and
-    run make on the command line for further help.
-
-doHTMLs.sh and doPDFs.sh
-    these are scripts (for UNIX-like systems) which can be used to
-    convert the README.md and CHANGES.md to HTML and PDF formats. They
-    require Pandoc.
-
-pandoctpl.latex
-    a Pandoc template used by doPDFs.sh.
+Run etex xint.dtx to extract from xint.dtx all macro files as well as
+auxiliary files needed for building the documentation. Among them there
+is Makefile.mk. If you are on a GNU/Linux-type system, rename the file
+to Makefile and execute make on command line for further help. If not,
+you will need to examine the contents of this file to see the commands
+needed to produce the documentation with latexmk (extraction will have
+created a configuration file .latexmkrc) and pandoc. If not using
+latexmk, you will need to execute suitable makeindex -s xint-gind.ist
+calls to produce the indices of macros for inclusion into
+sourcexint.pdf. It is also possible to get xint.pdf to include the
+source code. For this, see the instructions in xint.tex.
 
 Finishing the installation in a TDS hierarchy:
 
@@ -185,7 +166,7 @@ Finishing the installation in a TDS hierarchy:
 
 -   xint.dtx goes to TDS:source/generic/xint/
 
--   the documentation (xint.pdf, README.md,...) goes to
+-   The documentation (xint.pdf, README.md,...) goes to
     TDS:doc/generic/xint/
 
 Depending on the destination, it may then be necessary to refresh a
@@ -216,4 +197,5 @@ xintkernel.sty, xintcore.sty, xint.sty, xintfrac.sty, xintexpr.sty,
 xintbinhex.sty, xintgcd.sty, xintseries.sty, xintcfrac.sty,
 xinttools.sty, xint.ins, xint.tex, README, README.md, README.html,
 README.pdf, CHANGES.md, CHANGES.html, CHANGES.pdf, pandoctpl.latex,
-doHTMLs.sh, doPDFs.sh, xint.dvi, xint.pdf, Makefile.mk.
+doHTMLs.sh, doPDFs.sh, xint.dvi, xint.pdf, Makefile.mk, xint-gind.ist,
+and .latexmkrc.
