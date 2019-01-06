@@ -1,130 +1,143 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
-  <meta name="author" content="xint 1.3c" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="xint 1.3d" />
   <title>CHANGE LOG</title>
-  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
   <style type="text/css">
     body{margin-left : 10%; margin-right : 15%; margin-top: 4ex; font-size: 12pt;}
     pre  {white-space: pre-wrap;}
     code {white-space: pre-wrap;}
     #TOC {float: right; position: relative; top: 100px; margin-bottom: 100px;}
   </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
 </head>
 <body>
-<div id="header">
+<header>
 <h1 class="title">CHANGE LOG</h1>
-<h2 class="author">xint 1.3c</h2>
-<h3 class="date">2018/06/17</h3>
-</div>
-<div id="TOC">
+<p class="author">xint 1.3d</p>
+<p class="date">2019/01/06</p>
+</header>
+<nav id="TOC">
 <ul>
-<li><a href="#c-20180617"><code>1.3c (2018/06/17)</code></a><ul>
+<li><a href="#d-20190106"><code>1.3d (2019/01/06)</code></a><ul>
+<li><a href="#incompatible-changes">Incompatible changes</a></li>
 <li><a href="#improvements-and-new-features">Improvements and new features</a></li>
 <li><a href="#bug-fixes">Bug fixes</a></li>
 </ul></li>
-<li><a href="#b-20180518"><code>1.3b (2018/05/18)</code></a><ul>
+<li><a href="#c-20180617"><code>1.3c (2018/06/17)</code></a><ul>
 <li><a href="#improvements-and-new-features-1">Improvements and new features</a></li>
+<li><a href="#bug-fixes-1">Bug fixes</a></li>
+</ul></li>
+<li><a href="#b-20180518"><code>1.3b (2018/05/18)</code></a><ul>
+<li><a href="#improvements-and-new-features-2">Improvements and new features</a></li>
 </ul></li>
 <li><a href="#a-20180307"><code>1.3a (2018/03/07)</code></a><ul>
 <li><a href="#removed">Removed</a></li>
-<li><a href="#improvements-and-new-features-2">Improvements and new features</a></li>
-<li><a href="#bug-fixes-1">Bug fixes</a></li>
-</ul></li>
-<li><a href="#section"><code>1.3 (2018/03/01)</code></a><ul>
-<li><a href="#incompatible-changes">Incompatible changes</a></li>
 <li><a href="#improvements-and-new-features-3">Improvements and new features</a></li>
-</ul></li>
-<li><a href="#q-20180206"><code>1.2q (2018/02/06)</code></a><ul>
-<li><a href="#improvements-and-new-features-4">Improvements and new features</a></li>
 <li><a href="#bug-fixes-2">Bug fixes</a></li>
 </ul></li>
-<li><a href="#p-20171205"><code>1.2p (2017/12/05)</code></a><ul>
+<li><a href="#section"><code>1.3 (2018/03/01)</code></a><ul>
 <li><a href="#incompatible-changes-1">Incompatible changes</a></li>
+<li><a href="#improvements-and-new-features-4">Improvements and new features</a></li>
+</ul></li>
+<li><a href="#q-20180206"><code>1.2q (2018/02/06)</code></a><ul>
 <li><a href="#improvements-and-new-features-5">Improvements and new features</a></li>
 <li><a href="#bug-fixes-3">Bug fixes</a></li>
 </ul></li>
-<li><a href="#o-20170829"><code>1.2o (2017/08/29)</code></a><ul>
+<li><a href="#p-20171205"><code>1.2p (2017/12/05)</code></a><ul>
 <li><a href="#incompatible-changes-2">Incompatible changes</a></li>
+<li><a href="#improvements-and-new-features-6">Improvements and new features</a></li>
+<li><a href="#bug-fixes-4">Bug fixes</a></li>
+</ul></li>
+<li><a href="#o-20170829"><code>1.2o (2017/08/29)</code></a><ul>
+<li><a href="#incompatible-changes-3">Incompatible changes</a></li>
 <li><a href="#deprecated">Deprecated</a></li>
 </ul></li>
 <li><a href="#n-20170806"><code>1.2n (2017/08/06)</code></a><ul>
-<li><a href="#incompatible-changes-3">Incompatible changes</a></li>
-<li><a href="#improvements-and-new-features-6">Improvements and new features</a></li>
-</ul></li>
-<li><a href="#m-20170731"><code>1.2m (2017/07/31)</code></a><ul>
 <li><a href="#incompatible-changes-4">Incompatible changes</a></li>
 <li><a href="#improvements-and-new-features-7">Improvements and new features</a></li>
-<li><a href="#bug-fixes-4">Bug fixes</a></li>
 </ul></li>
-<li><a href="#l-20170726"><code>1.2l (2017/07/26)</code></a><ul>
-<li><a href="#removed-1">Removed</a></li>
+<li><a href="#m-20170731"><code>1.2m (2017/07/31)</code></a><ul>
+<li><a href="#incompatible-changes-5">Incompatible changes</a></li>
 <li><a href="#improvements-and-new-features-8">Improvements and new features</a></li>
 <li><a href="#bug-fixes-5">Bug fixes</a></li>
 </ul></li>
-<li><a href="#k-20170106"><code>1.2k (2017/01/06)</code></a><ul>
-<li><a href="#incompatible-changes-5">Incompatible changes</a></li>
+<li><a href="#l-20170726"><code>1.2l (2017/07/26)</code></a><ul>
+<li><a href="#removed-1">Removed</a></li>
 <li><a href="#improvements-and-new-features-9">Improvements and new features</a></li>
 <li><a href="#bug-fixes-6">Bug fixes</a></li>
 </ul></li>
-<li><a href="#j-20161222"><code>1.2j (2016/12/22)</code></a><ul>
+<li><a href="#k-20170106"><code>1.2k (2017/01/06)</code></a><ul>
+<li><a href="#incompatible-changes-6">Incompatible changes</a></li>
 <li><a href="#improvements-and-new-features-10">Improvements and new features</a></li>
 <li><a href="#bug-fixes-7">Bug fixes</a></li>
 </ul></li>
-<li><a href="#i-20161213"><code>1.2i (2016/12/13)</code></a><ul>
-<li><a href="#incompatible-changes-6">Incompatible changes</a></li>
-<li><a href="#removed-2">Removed</a></li>
+<li><a href="#j-20161222"><code>1.2j (2016/12/22)</code></a><ul>
 <li><a href="#improvements-and-new-features-11">Improvements and new features</a></li>
 <li><a href="#bug-fixes-8">Bug fixes</a></li>
 </ul></li>
-<li><a href="#h-20161120"><code>1.2h (2016/11/20)</code></a><ul>
+<li><a href="#i-20161213"><code>1.2i (2016/12/13)</code></a><ul>
+<li><a href="#incompatible-changes-7">Incompatible changes</a></li>
+<li><a href="#removed-2">Removed</a></li>
 <li><a href="#improvements-and-new-features-12">Improvements and new features</a></li>
 <li><a href="#bug-fixes-9">Bug fixes</a></li>
 </ul></li>
-<li><a href="#g-20160319"><code>1.2g (2016/03/19)</code></a><ul>
-<li><a href="#incompatible-changes-7">Incompatible changes</a></li>
+<li><a href="#h-20161120"><code>1.2h (2016/11/20)</code></a><ul>
 <li><a href="#improvements-and-new-features-13">Improvements and new features</a></li>
-</ul></li>
-<li><a href="#f-20160312"><code>1.2f (2016/03/12)</code></a><ul>
-<li><a href="#incompatible-changes-8">Incompatible changes</a></li>
-<li><a href="#improvements-and-new-features-14">Improvements and new features</a></li>
 <li><a href="#bug-fixes-10">Bug fixes</a></li>
 </ul></li>
-<li><a href="#e-20151122"><code>1.2e (2015/11/22)</code></a><ul>
+<li><a href="#g-20160319"><code>1.2g (2016/03/19)</code></a><ul>
+<li><a href="#incompatible-changes-8">Incompatible changes</a></li>
+<li><a href="#improvements-and-new-features-14">Improvements and new features</a></li>
+</ul></li>
+<li><a href="#f-20160312"><code>1.2f (2016/03/12)</code></a><ul>
+<li><a href="#incompatible-changes-9">Incompatible changes</a></li>
 <li><a href="#improvements-and-new-features-15">Improvements and new features</a></li>
 <li><a href="#bug-fixes-11">Bug fixes</a></li>
 </ul></li>
-<li><a href="#d-20151118"><code>1.2d (2015/11/18)</code></a><ul>
+<li><a href="#e-20151122"><code>1.2e (2015/11/22)</code></a><ul>
 <li><a href="#improvements-and-new-features-16">Improvements and new features</a></li>
 <li><a href="#bug-fixes-12">Bug fixes</a></li>
 </ul></li>
-<li><a href="#c-20151116"><code>1.2c (2015/11/16)</code></a><ul>
+<li><a href="#d-20151118"><code>1.2d (2015/11/18)</code></a><ul>
 <li><a href="#improvements-and-new-features-17">Improvements and new features</a></li>
 <li><a href="#bug-fixes-13">Bug fixes</a></li>
 </ul></li>
-<li><a href="#b-20151029"><code>1.2b (2015/10/29)</code></a><ul>
+<li><a href="#c-20151116"><code>1.2c (2015/11/16)</code></a><ul>
+<li><a href="#improvements-and-new-features-18">Improvements and new features</a></li>
 <li><a href="#bug-fixes-14">Bug fixes</a></li>
 </ul></li>
-<li><a href="#a-20151019"><code>1.2a (2015/10/19)</code></a><ul>
-<li><a href="#improvements-and-new-features-18">Improvements and new features</a></li>
+<li><a href="#b-20151029"><code>1.2b (2015/10/29)</code></a><ul>
 <li><a href="#bug-fixes-15">Bug fixes</a></li>
+</ul></li>
+<li><a href="#a-20151019"><code>1.2a (2015/10/19)</code></a><ul>
+<li><a href="#improvements-and-new-features-19">Improvements and new features</a></li>
+<li><a href="#bug-fixes-16">Bug fixes</a></li>
 </ul></li>
 <li><a href="#section-1"><code>1.2 (2015/10/10)</code></a><ul>
 <li><a href="#removed-3">Removed</a></li>
-<li><a href="#improvements-and-new-features-19">Improvements and new features</a></li>
+<li><a href="#improvements-and-new-features-20">Improvements and new features</a></li>
 </ul></li>
 <li><a href="#c-20150912"><code>1.1c (2015/09/12)</code></a></li>
 <li><a href="#b-20150831"><code>1.1b (2015/08/31)</code></a></li>
 <li><a href="#a-20141107"><code>1.1a (2014/11/07)</code></a></li>
 <li><a href="#section-2"><code>1.1 (2014/10/28)</code></a><ul>
-<li><a href="#incompatible-changes-9">Incompatible changes</a></li>
+<li><a href="#incompatible-changes-10">Incompatible changes</a></li>
 <li><a href="#removed-4">Removed</a></li>
 <li><a href="#deprecated-1">Deprecated</a></li>
-<li><a href="#improvements-and-new-features-20">Improvements and new features</a></li>
-<li><a href="#bug-fixes-16">Bug fixes</a></li>
+<li><a href="#improvements-and-new-features-21">Improvements and new features</a></li>
+<li><a href="#bug-fixes-17">Bug fixes</a></li>
 </ul></li>
 <li><a href="#n-20140401"><code>1.09n (2014/04/01)</code></a></li>
 <li><a href="#m-20140226"><code>1.09m (2014/02/26)</code></a></li>
@@ -151,26 +164,45 @@
 <li><a href="#section-8"><code>1.03 (2013/04/14)</code></a></li>
 <li><a href="#section-9"><code>1.0 (2013/03/28)</code></a></li>
 </ul>
-</div>
-<pre><code>Source:  xint.dtx 1.3c 2018/06/17 (doc 2018/06/17)
+</nav>
+<pre><code>Source:  xint.dtx 1.3d 2019/01/06 (doc 2019/01/06)
 Author:  Jean-Francois B.
 Info:    Expandable operations on big integers, decimals, fractions
-License: LPPL 1.3c</code></pre>
-<h2 id="c-20180617"><code>1.3c (2018/06/17)</code></h2>
+License: LPPL 1.3d</code></pre>
+<h2 id="d-20190106"><code>1.3d (2019/01/06)</code></h2>
+<h3 id="incompatible-changes">Incompatible changes</h3>
+<ul>
+<li><p><strong>xintexpr</strong>: the <code>gcd()</code> and <code>lcm()</code> functions formerly converted their arguments to integers via <code>\xintNum</code>. They now handle general input with no such modification.</p></li>
+<li><p><strong>xintexpr</strong>: former <code>\xinteval</code>, <code>\xintieval</code>, <code>\xintiieval</code>, and <code>\xintfloateval</code> renamed to <code>\xintexpro</code>, <code>\xintiexpro</code>, <code>\xintiiexpro</code>, and <code>\xintfloatexpro</code>.</p></li>
+</ul>
 <h3 id="improvements-and-new-features">Improvements and new features</h3>
 <ul>
-<li><p><strong>xintexpr</strong>: with <code>\xintglobaldefstrue</code>, <code>\xintdefvar</code>, <code>\xintdeffunc</code>, <code>\xintNewExpr</code> et. al. make definitions with global scope.</p></li>
+<li><p><strong>xintexpr</strong>: the <code>gcd()</code> and <code>lcm()</code> multi-arguments functions have been refactored to handle general fractions. The dependency on <strong>xintgcd</strong> is removed.</p></li>
+<li><p><strong>xintexpr</strong>: three-way branching <code>\xintifsgnexpr</code>, <code>\xintifsgnfloatexpr</code>, <code>\xintifsgniiexpr</code> conditional macros.</p></li>
+<li><p><strong>xintexpr</strong>: <code>\xintunassignexprfunc</code>, <code>\xintunassigniiexprfunc</code>, <code>\xintunassignfloatexprfunc</code> to “undefine” functions.</p></li>
+<li><p><strong>xintexpr</strong>: <code>\xintunassignvar</code> really makes the (multi-letter) variable unknown (formerly, it only gave it value zero),</p></li>
+<li><p><strong>xintexpr</strong>: functions <code>isone()</code> and <code>isint()</code>.</p></li>
+<li><p><strong>xintexpr</strong>: <code>\xinteval</code>, <code>\xintieval</code>, <code>\xintiieval</code>, and <code>\xintfloateval</code> as synonyms to <code>\xintthexpr...\relax</code> etc…, but with the (comma-separated) expression as a usual braced macro argument.</p></li>
+</ul>
+<h3 id="bug-fixes">Bug fixes</h3>
+<ul>
+<li><strong>xintcore</strong>, <strong>xintexpr</strong> : division in <code>\xintiiexpr</code> was broken for a zero dividend and a one-digit divisor (e.g. <code>0//7</code>) since <code>1.2p</code> due to a bug in <code>\xintiiDivMod</code> for such arguments. The bug was signaled (thanks to Kpym for report) and fixed shortly after <code>1.3c</code> release but I then completely forgot to upload a bugfix release to CTAN at that time, apologies for that.</li>
+</ul>
+<h2 id="c-20180617"><code>1.3c (2018/06/17)</code></h2>
+<h3 id="improvements-and-new-features-1">Improvements and new features</h3>
+<ul>
+<li><p><strong>xintexpr</strong>: with <code>\xintglobaldefstrue</code>, <code>\xintdefvar</code>, <code>\xintdeffunc</code>, <code>\xintNewExpr</code> et al. make definitions with global scope.</p></li>
 <li><p><strong>xintexpr</strong>: <code>qraw()</code> for fast input of (very many) comma separated numbers (in suitable raw format).</p></li>
 <li><p><strong>xintexpr</strong>: the colon in the <code>:=</code> part of the syntax for <code>\xintdefvar</code> and variants is now optional; and if present it may be an active character or have any (reasonable) catcode.</p></li>
 <li><p><strong>xintexpr</strong>: <code>\xintdefvar</code>, <code>\xintdeffunc</code> and their variants try to set the catcode of the semi-colon which delimits their arguments; of course this will not work if that catcode is already frozen.</p></li>
 <li><p><code>\xintUniformDeviate</code> is better documented and <code>sourcexint.pdf</code> is better hyperlinked and includes indices for the macros defined by each package.</p></li>
 </ul>
-<h3 id="bug-fixes">Bug fixes</h3>
+<h3 id="bug-fixes-1">Bug fixes</h3>
 <ul>
 <li><strong>xintfrac</strong>: since <code>1.3</code> release, it loaded <strong>xintgcd</strong> in contradiction to what the documentation says (hence also <strong>xintexpr</strong> loaded <strong>xintgcd</strong> automatically). There is no actual dependency so the loading is removed for now.</li>
 </ul>
 <h2 id="b-20180518"><code>1.3b (2018/05/18)</code></h2>
-<h3 id="improvements-and-new-features-1">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-2">Improvements and new features</h3>
 <p>All additions related to randomness are marked as work-in-progress. They require an engine providing the <code>\(pdf)uniformdeviate</code> primitive.</p>
 <ul>
 <li><p><strong>xintkernel</strong>: <code>\xintUniformDeviate</code>.</p></li>
@@ -178,62 +210,62 @@ License: LPPL 1.3c</code></pre>
 <li><p><strong>xintfrac</strong>: support macros (not public, mainly because internal format for floats is surely not final) for <code>random()</code> and <code>qrand()</code>.</p></li>
 <li><p><strong>xintexpr</strong>: <code>random()</code>, <code>qrand()</code>, and <code>randrange(A[, B])</code>.</p></li>
 <li><p><strong>xintexpr</strong>: when a function <code>foo()</code> is declared via <code>\xintdeffunc</code> (et al.) to be parameter-less, it can be used as <code>foo()</code>; formerly <code>foo(nil)</code> syntax was required.</p></li>
-<li><p>The usual provision of user manual &quot;improvements&quot;.</p></li>
+<li><p>The usual provision of user manual “improvements”.</p></li>
 </ul>
 <h2 id="a-20180307"><code>1.3a (2018/03/07)</code></h2>
 <h3 id="removed">Removed</h3>
 <ul>
 <li><strong>xintcore</strong>, <strong>xint</strong>, <strong>xintfrac</strong>: removal of the internal macros which were used at <code>1.2o</code> to add a deprecation mechanism; all deprecated macros have been removed at <code>1.3</code> so there was no reason to keep the code used for deprecating them.</li>
 </ul>
-<h3 id="improvements-and-new-features-2">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-3">Improvements and new features</h3>
 <ul>
 <li><p><strong>xintexpr</strong>: new conditionals <code>ifone()</code> and <code>ifint()</code>.</p></li>
 <li><p><strong>xintfrac</strong>: <code>\xintREZ</code> is faster on inputs having one hundred digits or more.</p></li>
 <li><p>Added to the user manual mention of macros such as <code>\xintDivFloor</code>, <code>\xintMod</code>, <code>\xintModTrunc</code>, which had been left out so far.</p></li>
 </ul>
-<h3 id="bug-fixes-1">Bug fixes</h3>
+<h3 id="bug-fixes-2">Bug fixes</h3>
 <ul>
 <li><strong>xintexpr</strong>: the mechanism for adjunction to the expression parsers of user defined functions was refactored and improved at previous release <code>1.3</code>: in particular recursive definitions became possible. But an oversight made these recursive functions quite inefficient (to remain polite.) This release fixes the problem.</li>
 </ul>
 <h2 id="section"><code>1.3 (2018/03/01)</code></h2>
-<h3 id="incompatible-changes">Incompatible changes</h3>
+<h3 id="incompatible-changes-1">Incompatible changes</h3>
 <ul>
 <li><p><strong>xintcore</strong>, <strong>xint</strong>, <strong>xintfrac</strong>: all macros deprecated at <code>1.2o</code> got removed.</p></li>
 <li><p><strong>xintfrac</strong>: addition and subtraction of <code>a/b</code> and <code>c/d</code> now use the l.c.m. of the denominators. Similarly the macro supporting the modulo operator <code>/:</code> uses a l.c.m. for the denominator of the result.</p></li>
 <li><p><strong>xintexpr</strong>: the addition, subtraction, modulo <code>/:</code>, and the <code>mod()</code> and <code>divmod()</code> functions produce generally smaller denominators (see previous item).</p></li>
 <li><p><strong>xintexpr</strong>: formerly, the internal macros which are internally associated to user-declared functions were using comma separated parameter texts. They now do not use such commas (their meanings, which may again change in future, are written for information to the log under <code>\xintverbosetrue</code>).</p></li>
 </ul>
-<h3 id="improvements-and-new-features-3">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-4">Improvements and new features</h3>
 <ul>
 <li><p><strong>xintexpr</strong>: user-defined functions may now be of a recursive nature. This was made possible by a refactoring of the <code>\xintNewExpr</code> mechanism. It became both leaner and more extensive than formerly.</p></li>
 <li><p><strong>xintfrac</strong>: new macros <code>\xintPIrr</code> and <code>\xintDecToString</code>. The latter is a backport of a <code>polexpr 0.4</code> utility, and it is to be considered unstable.</p></li>
 <li><p><strong>xintexpr</strong>: new function <code>preduce()</code> associated with <code>\xintPIrr</code>.</p></li>
 </ul>
 <h2 id="q-20180206"><code>1.2q (2018/02/06)</code></h2>
-<h3 id="improvements-and-new-features-4">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-5">Improvements and new features</h3>
 <ul>
 <li><strong>xintexpr</strong>: tacit multiplication extended to cases such as <code>3!4!5!</code> or <code>(1+2)3</code>.</li>
 </ul>
-<h3 id="bug-fixes-2">Bug fixes</h3>
+<h3 id="bug-fixes-3">Bug fixes</h3>
 <ul>
 <li><strong>xintcore</strong>: sadly, refactoring at <code>1.2l</code> of subtraction left an extra character in an inner macro causing breakage in some rare circumstances. This should not have escaped our test suite!</li>
 </ul>
 <h2 id="p-20171205"><code>1.2p (2017/12/05)</code></h2>
-<h3 id="incompatible-changes-1">Incompatible changes</h3>
+<h3 id="incompatible-changes-2">Incompatible changes</h3>
 <ul>
-<li><p><strong>xintgcd</strong>: <code>\xintBezout{a}{b}</code>'s output consists of <code>{u}{v}{d}</code> with <code>u*a+v*b==d</code>, with <code>d</code> the GCD. Formerly it was <code>{a}{b}{u}{v}{d}</code>, and with <code>u*a-v*b==d</code>.</p></li>
+<li><p><strong>xintgcd</strong>: <code>\xintBezout{a}{b}</code>’s output consists of <code>{u}{v}{d}</code> with <code>u*a+v*b==d</code>, with <code>d</code> the GCD. Formerly it was <code>{a}{b}{u}{v}{d}</code>, and with <code>u*a-v*b==d</code>.</p></li>
 <li><p><strong>xintgcd</strong>: <code>\xintBezout{0}{0}</code> expands to <code>{0}{0}{0}</code>. Formerly (since <code>1.2l</code>) it raised <code>InvalidOperation</code>.</p></li>
 <li><p><strong>xintcore</strong>: <code>\xintiiMod</code> is now associated with floored division. The former meaning (associated with truncated division) is available as <code>\xintiiModTrunc</code>.</p></li>
 <li><p><strong>xintfrac</strong>: <code>\xintMod</code> is now associated with floored division. The former meaning is available as <code>\xintModTrunc</code>.</p></li>
 <li><p><strong>xintexpr</strong>: the <code>//</code> operator and its associated modulo <code>'mod'</code> (or <code>/:</code>) now correspond to floored division, like the Python language <code>//</code>, <code>%</code>, and <code>divmod(x, y)</code>. Formerly they had been associated to truncated division. This is breaking change for operands of opposite signs.</p></li>
 </ul>
-<h3 id="improvements-and-new-features-5">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-6">Improvements and new features</h3>
 <ul>
 <li><p><strong>xinttools</strong>: <code>\xintListWithSep</code>, which had remained unchanged since its introduction at <code>1.04 (2013/04/25)</code>, was rewritten for increased speed.</p></li>
-<li><p><strong>xintexpr</strong>: <code>\xintdefvar</code>'s syntax is extended to allow simultaneous assignments. Examples: <code>\xintdefvar x1, x2, x3 := 1, 3**10, 3**20;</code> or <code>\xintdefiivar A, B := B, A 'mod' B;</code> for already defined variables <code>A</code> and <code>B</code>.</p></li>
+<li><p><strong>xintexpr</strong>: <code>\xintdefvar</code>’s syntax is extended to allow simultaneous assignments. Examples: <code>\xintdefvar x1, x2, x3 := 1, 3**10, 3**20;</code> or <code>\xintdefiivar A, B := B, A 'mod' B;</code> for already defined variables <code>A</code> and <code>B</code>.</p></li>
 <li><p><strong>xintexpr</strong>: added <code>divmod()</code> to the built-in functions. It is associated with floored division, like the Python language <code>divmod()</code>. Related support macros added to <strong>xintcore</strong>, and <strong>xintfrac</strong>.</p></li>
 </ul>
-<h3 id="bug-fixes-3">Bug fixes</h3>
+<h3 id="bug-fixes-4">Bug fixes</h3>
 <ul>
 <li><p><strong>xintgcd</strong>: <code>\xintBezout{6}{3}</code> (for example) expanded to <code>{6}{3}{-0}{-1}{3}</code>, but the <code>-0</code> should have been <code>0</code>.</p></li>
 <li><p><strong>xintgcd</strong>: it still used macro <code>\xintiAbs</code> although the latter had been deprecated from <strong>xintcore</strong>.</p></li>
@@ -241,9 +273,9 @@ License: LPPL 1.3c</code></pre>
 <li><p>various documentation fixes; in particular, the partial dependency of <strong>xintcfrac</strong> on <strong>xinttools</strong> had not been mentioned.</p></li>
 </ul>
 <h2 id="o-20170829"><code>1.2o (2017/08/29)</code></h2>
-<h3 id="incompatible-changes-2">Incompatible changes</h3>
+<h3 id="incompatible-changes-3">Incompatible changes</h3>
 <ul>
-<li><strong>xint</strong>: <code>\xintAND</code>, <code>\xintOR</code>, ... and similar Boolean logic macros do not apply anymore <code>\xintNum</code> (or <code>\xintRaw</code> if <strong>xintfrac</strong> is loaded), to their arguments (often, from internal usage of <code>\xintSgn</code>), but only f-expand them (using e.g. <code>\xintiiSgn</code>). This is kept un-modified even if loading <strong>xintfrac</strong>.</li>
+<li><strong>xint</strong>: <code>\xintAND</code>, <code>\xintOR</code>, … and similar Boolean logic macros do not apply anymore <code>\xintNum</code> (or <code>\xintRaw</code> if <strong>xintfrac</strong> is loaded), to their arguments (often, from internal usage of <code>\xintSgn</code>), but only f-expand them (using e.g. <code>\xintiiSgn</code>). This is kept un-modified even if loading <strong>xintfrac</strong>.</li>
 </ul>
 <h3 id="deprecated">Deprecated</h3>
 <p>Deprecated macros raise an error but, generally, then expand as in former releases. They will all get removed at some future release.</p>
@@ -257,26 +289,26 @@ License: LPPL 1.3c</code></pre>
 <li><p><strong>xint</strong>: <code>\xintNot</code> was renamed to <code>\xintNOT</code>, former denomination is deprecated. See also item about Boolean logic macros in the <em>Incompatible Changes</em> section.</p></li>
 </ul>
 <h2 id="n-20170806"><code>1.2n (2017/08/06)</code></h2>
-<h3 id="incompatible-changes-3">Incompatible changes</h3>
+<h3 id="incompatible-changes-4">Incompatible changes</h3>
 <ul>
 <li><strong>xintbinhex</strong> does not load package <strong>xintcore</strong> anymore, but only <strong>xintkernel</strong>.</li>
 </ul>
-<h3 id="improvements-and-new-features-6">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-7">Improvements and new features</h3>
 <ul>
 <li><p><strong>xintbinhex</strong> has only <strong>xintkernel</strong> as dependency.</p></li>
 <li><p>Macros of <strong>xintbinhex</strong> have been improved for speed and increased maximal sizes of allowable inputs.</p></li>
 </ul>
 <h2 id="m-20170731"><code>1.2m (2017/07/31)</code></h2>
-<h3 id="incompatible-changes-4">Incompatible changes</h3>
+<h3 id="incompatible-changes-5">Incompatible changes</h3>
 <ul>
 <li><p><strong>xintbinhex</strong>: the length of the input is now limited. The maximum size depends on the macro and ranges from about <code>4000</code> to about <code>19900</code> digits.</p></li>
 <li><p><strong>xintbinhex</strong>: <code>\xintCHexToBin</code> is now the variant of <code>\xintHexToBin</code> which does not remove leading binary zeroes: <code>N</code> hex-digits give on output exactly <code>4N</code> binary digits.</p></li>
 </ul>
-<h3 id="improvements-and-new-features-7">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-8">Improvements and new features</h3>
 <ul>
 <li><strong>xintbinhex</strong>: all macros have been rewritten using techniques from the 1.2 release (they had remained unmodified since <code>1.08</code> of <code>2013/06/07</code>.) The new macros are faster but limited to a few thousand digits. The <code>1.08</code> routines could handle tens of thousands of digits, but not in a reasonable time.</li>
 </ul>
-<h3 id="bug-fixes-4">Bug fixes</h3>
+<h3 id="bug-fixes-5">Bug fixes</h3>
 <ul>
 <li><p>user manual: the <code>Changes</code> section wrongly stated at <code>1.2l</code> that the macros of <strong>xintbinhex</strong> had been made robust against non terminated input such as <code>\number\mathcode`\-</code>. Unfortunately the author fell into the trap of believing his own documentation and he forgot to actually implement the change. Now done.</p></li>
 <li><p>user manual: the PDF bookmarks were messed up.</p></li>
@@ -288,56 +320,56 @@ License: LPPL 1.3c</code></pre>
 <li><p><code>\xintiiSumExpr</code>, <code>\xintiiPrdExpr</code> (<strong>xint</strong>) and <code>\xintSumExpr</code>, <code>\xintPrdExpr</code> (<strong>xintfrac</strong>). They had not been formally deprecated, but had been left un-documented since <code>1.09d (2013/10/22)</code>.</p></li>
 <li><p>internal macro <code>\xint_gob_til_xint_relax</code> removed.</p></li>
 </ul>
-<h3 id="improvements-and-new-features-8">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-9">Improvements and new features</h3>
 <ul>
 <li><p>the underscore character <code>_</code> is accepted by the <strong>xintexpr</strong> parsers as a digit separator (the space character already could be used for improved readability of big numbers). It is not allowed as <em>first</em> character of a number, as it would then be mis-interpreted as the start of a possible variable name.</p></li>
 <li><p>some refactoring in <strong>xintcore</strong> auxiliary routines and in <code>\xintiiSub</code> and <code>\xintiiCmp</code> for some small efficiency gains.</p></li>
 <li><p>code comments in <strong>xintcore</strong> are better formatted, but remain sparse.</p></li>
-<li><p><strong>xintcore</strong>, <strong>xint</strong>, <strong>xintfrac</strong>, ... : some macros were not robust against arguments whose expansion looks forward for some termination (e.g. <code>\number\mathcode`\-</code>), and particularly, most were fragile against inputs using non-terminated <code>\numexpr</code> (such as <code>\xintiiAdd{\the\numexpr1}{2}</code> or <code>\xintRaw{\numexpr1}</code>). This was not a bug per se, as the user manual did not claim such inputs were legal, but it was slightly inconvenient. Most macros (particularly those of <strong>xintfrac</strong>) have now been made robust against such inputs. Some macros from <strong>xintcore</strong> primarily destined to internal usage still accept only properly terminated arguments such as <code>\the\mathcode`\-&lt;space&gt;</code> or <code>\the\numexpr1\relax</code>.</p>
-<p>The situation with expressions is unchanged: syntax such as <code>\xintexpr \numexpr1+2\relax</code> is illegal as the ending <code>\relax</code> token will get swallowed by the <code>\numexpr</code>; but it is needed by the <code>xintexpr</code>-ession parser, hence the parser will expand forward and presumably end with in an &quot;illegal token&quot; error, or provoke some low-level TeX error (N.B.: a closing brace <code>}</code> for example can not terminate an <code>xintexpr</code>-ession, the parser must find a <code>\relax</code> token at some point). Thus there must be in this example a second <code>\relax</code>.</p></li>
+<li><p><strong>xintcore</strong>, <strong>xint</strong>, <strong>xintfrac</strong>, … : some macros were not robust against arguments whose expansion looks forward for some termination (e.g. <code>\number\mathcode`\-</code>), and particularly, most were fragile against inputs using non-terminated <code>\numexpr</code> (such as <code>\xintiiAdd{\the\numexpr1}{2}</code> or <code>\xintRaw{\numexpr1}</code>). This was not a bug per se, as the user manual did not claim such inputs were legal, but it was slightly inconvenient. Most macros (particularly those of <strong>xintfrac</strong>) have now been made robust against such inputs. Some macros from <strong>xintcore</strong> primarily destined to internal usage still accept only properly terminated arguments such as <code>\the\mathcode`\-&lt;space&gt;</code> or <code>\the\numexpr1\relax</code>.</p>
+<p>The situation with expressions is unchanged: syntax such as <code>\xintexpr \numexpr1+2\relax</code> is illegal as the ending <code>\relax</code> token will get swallowed by the <code>\numexpr</code>; but it is needed by the <code>xintexpr</code>-ession parser, hence the parser will expand forward and presumably end with in an “illegal token” error, or provoke some low-level TeX error (N.B.: a closing brace <code>}</code> for example can not terminate an <code>xintexpr</code>-ession, the parser must find a <code>\relax</code> token at some point). Thus there must be in this example a second <code>\relax</code>.</p></li>
 <li><p>experimental code for error conditions; there is no complete user interface yet, it is done in preparation for next major release and is completely unstable and undocumented.</p></li>
 </ul>
-<h3 id="bug-fixes-5">Bug fixes</h3>
+<h3 id="bug-fixes-6">Bug fixes</h3>
 <ul>
 <li><p><strong>xintbinhex</strong>: since <code>1.2 (2015/10/10)</code>, <code>\xintHexToDec</code> was broken due to an undefined macro (it was in <code>xint.sty</code>, but the module by itself is supposedly dependent only upon <code>xintcore.sty</code>).</p></li>
 <li><p><strong>xintgcd</strong>: macro <code>\xintBezout</code> produced partially wrong output if one of its two arguments was zero.</p></li>
-<li><p><strong>xintfrac</strong>: the manual said one could use directly <code>\numexpr</code> compatible expressions in arithmetic macros (without even a <code>\numexpr</code> encapsulation) if they were expressed with up to 8 tokens. There was a bug if these 8 tokens evaluated to zero. The bug has been fixed, and up to 9 tokens are now accepted. But it is simpler to use <code>\the\numexpr</code> prefix and not to worry about the token count... The ending <code>\relax</code> is now un-needed.</p></li>
+<li><p><strong>xintfrac</strong>: the manual said one could use directly <code>\numexpr</code> compatible expressions in arithmetic macros (without even a <code>\numexpr</code> encapsulation) if they were expressed with up to 8 tokens. There was a bug if these 8 tokens evaluated to zero. The bug has been fixed, and up to 9 tokens are now accepted. But it is simpler to use <code>\the\numexpr</code> prefix and not to worry about the token count… The ending <code>\relax</code> is now un-needed.</p></li>
 </ul>
 <h2 id="k-20170106"><code>1.2k (2017/01/06)</code></h2>
-<h3 id="incompatible-changes-5">Incompatible changes</h3>
+<h3 id="incompatible-changes-6">Incompatible changes</h3>
 <ul>
 <li><p>macro <code>\xintFloat</code> which rounds its input to a floating point number does <em>not</em> print anymore <code>10.0...0eN</code> to signal an upwards rounding to the next power of ten. The mantissa has in all cases except the zero input exactly one digit before the decimal mark.</p></li>
 <li><p>some floating point computations may differ in the least significant digits, due to a change in the rounding algorithm applied to macro arguments expressed as fractions and to an improvement in precision regarding half-integer powers in expressions. See next.</p></li>
 </ul>
-<h3 id="improvements-and-new-features-9">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-10">Improvements and new features</h3>
 <ul>
 <li><p>the initial rounding to the target precision <code>P</code> which is applied by the floating point macros from <strong>xintfrac</strong> to their arguments achieves the <em>exact (aka correct) rounding</em> even for inputs which are fractions with more than <code>P+2</code> digits in their numerators and denominators (<code>&gt;1</code>.) Hence the computed values depend only on the arguments as rational numbers and not upon their representatives. This is not relevant to <em>expressions</em> (<strong>xintexpr</strong>), because the <code>\xintfloatexpr</code> parser sees there <code>/</code> as an operator and does not (apart from special constructs) get to manipulate fractions as such.</p></li>
 <li><p><code>\xintnewdummy</code> is public interface to a <code>1.2e</code> macro which serves to declare any given catcode 11 character as a dummy variable for expressions (<strong>xintexpr</strong>). This is useful for Unicode engines (the Latin letters being already all pre-declared as dummy variables.)</p></li>
 <li><p>added <code>\xintiSqrtR</code>, there was only <code>\xintiiSqrtR</code> alongside <code>\xintiSqrt</code> and <code>\xintiiSqrt</code> (<strong>xint</strong>).</p></li>
 <li><p>added non public <code>\xintLastItem:f:csv</code> to <strong>xinttools</strong> for faster <code>last()</code> function, and improved <code>\xintNewExpr</code> compatibility. Also <code>\xintFirstItem:f:csv</code>.</p></li>
 </ul>
-<h3 id="bug-fixes-6">Bug fixes</h3>
+<h3 id="bug-fixes-7">Bug fixes</h3>
 <ul>
 <li><p>the <code>1.2f</code> half-integer powers computed within <code>\xintfloatexpr</code> had a silly rounding to the target precision just <em>before</em> the final square-root extraction, thus possibly losing some precision. The <code>1.2k</code> implementation keeps guard digits for this final square root extraction. As for integer exponents, it is guaranteed that the computed value differs from the exact one by less than <code>0.52 ulp</code> (for inputs having at most <code>\xinttheDigits</code> digits.)</p></li>
 <li><p>more regressions from <code>1.2i</code> were fixed: <code>\xintLen</code> (<strong>xint</strong>, <strong>xintfrac</strong>) and <code>\xintDouble</code> (<strong>xintcore</strong>) had forgotten that their argument was allowed to be negative. A regression test suite is now in place and is being slowly expanded to cover more macros.</p></li>
 <li><p><code>\xintiiSquareRoot{0}</code> now produces <code>{1}{1}</code>, which fits better the general documented behaviour of this macro than <code>11</code>.</p></li>
 </ul>
 <h2 id="j-20161222"><code>1.2j (2016/12/22)</code></h2>
-<h3 id="improvements-and-new-features-10">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-11">Improvements and new features</h3>
 <ul>
 <li><p><strong>xinttools</strong> and <strong>xintexpr</strong>:</p>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li><p>slightly improves the speed of <code>\xintTrim</code>.</p></li>
 <li><p>speed gains for the handlers of comma separated lists implementing Python-like slicing and item extraction. Relevant non (user) documented macros better documented in <code>sourcexint.pdf</code>.</p></li>
 </ol></li>
-<li><p>significant documentations tweaks (inclusive of suppressing things!), and among them two beautiful hyperlinked tables with both horizontal and vertical rules which bring the documentation of the <strong>xintexpr</strong> syntax to a kind of awe-inspiring perfection... except that implementation of some math functions is still lacking.</p></li>
+<li><p>significant documentations tweaks (inclusive of suppressing things!), and among them two beautiful hyperlinked tables with both horizontal and vertical rules which bring the documentation of the <strong>xintexpr</strong> syntax to a kind of awe-inspiring perfection… except that implementation of some math functions is still lacking.</p></li>
 </ul>
-<h3 id="bug-fixes-7">Bug fixes</h3>
+<h3 id="bug-fixes-8">Bug fixes</h3>
 <ul>
 <li>fix two <code>1.2i</code> regressions caused by undefined macros (<code>\xintNthElt</code> in certain branches and <code>[list][N]</code> item extraction in certain cases.) The test files existed but were not executed prior to release. Automation in progress.</li>
 </ul>
 <h2 id="i-20161213"><code>1.2i (2016/12/13)</code></h2>
-<h3 id="incompatible-changes-6">Incompatible changes</h3>
+<h3 id="incompatible-changes-7">Incompatible changes</h3>
 <ul>
 <li><code>\xintDecSplit</code> second argument must have no sign (former code replaced it with its absolute value, a sign now may cause an error.)</li>
 </ul>
@@ -345,7 +377,7 @@ License: LPPL 1.3c</code></pre>
 <ul>
 <li>deprecated macros <code>\xintifTrue</code>, <code>\xintifTrueFalse</code>, <code>\xintQuo</code>, <code>\xintRem</code>, <code>\xintquo</code>, <code>\xintrem</code>.</li>
 </ul>
-<h3 id="improvements-and-new-features-11">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-12">Improvements and new features</h3>
 <ul>
 <li><p><strong>xintkernel</strong>: <code>\xintLength</code> is faster. New macros:</p>
 <ul>
@@ -362,19 +394,19 @@ License: LPPL 1.3c</code></pre>
 <li><p><strong>xintfrac</strong>: as a result of the above <code>\xintTrunc</code>, <code>\xintRound</code> and <code>\xintXTrunc</code> got faster. But the main improvement for them is with decimal inputs which formerly had not been treated separately from the general fraction case. Also, <code>\xintXTrunc</code> does not anymore create a dependency of <strong>xintfrac</strong> on <strong>xinttools</strong>.</p></li>
 </ul></li>
 <li><p>the documentation has again been (slightly) re-organized; it has a new sub-section on the Miller-Rabin primality test, to illustrate some use of <code>\xintNewFunction</code> for recursive definitions.</p></li>
-<li><p>the documentation has dropped the LaTeX &quot;command&quot; terminology (which had been used initially in 2013 for some forgotten reasons and should have been removed long ago) and uses only the more apt &quot;macro&quot;, as after all, all of <strong>xint</strong> is about expansion of macros (plus the use of <code>\numexpr</code>).</p></li>
+<li><p>the documentation has dropped the LaTeX “command” terminology (which had been used initially in 2013 for some forgotten reasons and should have been removed long ago) and uses only the more apt “macro”, as after all, all of <strong>xint</strong> is about expansion of macros (plus the use of <code>\numexpr</code>).</p></li>
 </ul>
-<h3 id="bug-fixes-8">Bug fixes</h3>
+<h3 id="bug-fixes-9">Bug fixes</h3>
 <ul>
 <li><code>\xintDecSplitL</code> and <code>\xintDecSplitR</code> from <strong>xint</strong> produced their output in a spurious brace pair (bug introduced in <code>1.2f</code>).</li>
 </ul>
 <h2 id="h-20161120"><code>1.2h (2016/11/20)</code></h2>
-<h3 id="improvements-and-new-features-12">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-13">Improvements and new features</h3>
 <ul>
 <li><p>new macro <code>\xintNewFunction</code> in <strong>xintexpr</strong> which allows to extend the parser syntax with functions in situations where <code>\xintdeffunc</code> is not usable (typically, because dummy variables are used over a not yet determined range of values because it depends on the variables).</p></li>
-<li><p>after three years of strict obedience to <code>xint</code> prefix, now <code>\thexintexpr</code>, <code>\thexintiexpr</code>, <code>\thexintfloatexpr</code>, and <code>\thexintiiexpr</code> are provided as synonyms to <code>\xinttheexpr</code>, etc...</p></li>
+<li><p>after three years of strict obedience to <code>xint</code> prefix, now <code>\thexintexpr</code>, <code>\thexintiexpr</code>, <code>\thexintfloatexpr</code>, and <code>\thexintiiexpr</code> are provided as synonyms to <code>\xinttheexpr</code>, etc…</p></li>
 </ul>
-<h3 id="bug-fixes-9">Bug fixes</h3>
+<h3 id="bug-fixes-10">Bug fixes</h3>
 <ul>
 <li><p>the <code>(cond)?{foo}{bar}</code> operator from <strong>xintexpr</strong> mis-behaved in certain circumstances (such as an empty <code>foo</code>).</p></li>
 <li><p>the <strong>xintexpr</strong> <code>1.2f</code> <code>binomial</code> function (which uses <code>\xintiiBinomial</code> from <strong>xint.sty</strong> or <code>\xintFloatBinomial</code> from <strong>xintfrac.sty</strong>) deliberately raised an error for <code>binomial(x,y)</code> with <code>y&lt;0</code> or <code>x&lt;y</code>. This was unfortunate, and it now simply evaluates to zero in such cases.</p></li>
@@ -382,25 +414,25 @@ License: LPPL 1.3c</code></pre>
 <li><p>the <code>add</code> and <code>mul</code> from <strong>xintexpr</strong>, which work with dummy variables since <code>1.1</code>, raised an error since <code>1.2c 2015/11/16</code> when the dummy variable was given an empty range (or list) of values, rather than producing respectively <code>0</code> and <code>1</code> as formerly.</p></li>
 </ul>
 <h2 id="g-20160319"><code>1.2g (2016/03/19)</code></h2>
-<h3 id="incompatible-changes-7">Incompatible changes</h3>
+<h3 id="incompatible-changes-8">Incompatible changes</h3>
 <ul>
 <li><p>inside expressions, list item selector <code>[L][n]</code> counts starting at zero, not at one. This is more coherent with <code>[L][a:b]</code> which was already exactly like in Python since its introduction. A function len(L) replaces earlier <code>[L][0]</code>.</p></li>
-<li><p>former <code>iter</code> keyword now called <code>iterr</code>. Indeed it matched with <code>rrseq</code>, the new <code>iter</code> (which was somehow missing from <code>1.1</code>) is the one matching <code>rseq</code>. Allows to iterate more easily with a &quot;list&quot; variable.</p></li>
+<li><p>former <code>iter</code> keyword now called <code>iterr</code>. Indeed it matched with <code>rrseq</code>, the new <code>iter</code> (which was somehow missing from <code>1.1</code>) is the one matching <code>rseq</code>. Allows to iterate more easily with a “list” variable.</p></li>
 </ul>
-<h3 id="improvements-and-new-features-13">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-14">Improvements and new features</h3>
 <ul>
 <li><p>in <strong>xintexpr.sty</strong>: list selectors <code>[L][n]</code> and <code>[L][a:b]</code> are more efficient: the earlier <code>1.1</code> routines did back and forth conversions from comma separated values to braced tokens, the <code>1.2g</code> routines use macros from <strong>xinttools.sty</strong> handling directly the encountered lists of comma separated values.</p></li>
-<li><p>in <strong>xinttools.sty</strong>: slight improvements in the efficiency of the <code>\xintNthElt</code>, <code>\xintKeep</code>, <code>\xintTrim</code> routines and new routines handling directly comma separated values. The latter are not included in the user manual (they are not <code>\long</code>, they don't make efforts to preserve some braces, do not worry about spaces, all those worries being irrelevant to the use in expressions for list selectors).</p></li>
+<li><p>in <strong>xinttools.sty</strong>: slight improvements in the efficiency of the <code>\xintNthElt</code>, <code>\xintKeep</code>, <code>\xintTrim</code> routines and new routines handling directly comma separated values. The latter are not included in the user manual (they are not <code>\long</code>, they don’t make efforts to preserve some braces, do not worry about spaces, all those worries being irrelevant to the use in expressions for list selectors).</p></li>
 <li><p>a slight speed improvement to <code>\xintFloatSqrt</code> in its quest of correct rounding.</p></li>
 <li><p>float multiplication and division handle more swiftly operands (non-fractional) with few digits, when the float precision is large.</p></li>
 <li><p>the syntax of expressions is described in a devoted chapter of the documentation; an example shows how to implement (expandably) the Brent-Salamin algorithm for computation of Pi using <code>iter</code> in a float expression.</p></li>
 </ul>
 <h2 id="f-20160312"><code>1.2f (2016/03/12)</code></h2>
-<h3 id="incompatible-changes-8">Incompatible changes</h3>
+<h3 id="incompatible-changes-9">Incompatible changes</h3>
 <ul>
 <li>no more <code>\xintFac</code> macro but <code>\xintiFac/\xintiiFac/\xintFloatFac</code>.</li>
 </ul>
-<h3 id="improvements-and-new-features-14">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-15">Improvements and new features</h3>
 <ul>
 <li><p>functions <code>binomial</code>, <code>pfactorial</code> and <code>factorial</code> in both integer and float versions.</p></li>
 <li><p>macros <code>\xintiiBinomial</code>, <code>\xintiiPFactorial</code> (<strong>xint.sty</strong>) and <code>\xintFloatBinomial</code>, <code>\xintFloatPFactorial</code> (<strong>xintfrac.sty</strong>). Improvements to <code>\xintFloatFac</code>.</p></li>
@@ -411,72 +443,72 @@ License: LPPL 1.3c</code></pre>
 <li><p>the float macros for addition, subtraction, multiplication, division now first round their two operands to P, not P+2, significant places before doing the actual computation (P being the target precision). The same applies to the power macros and to the square root macro.</p></li>
 <li><p>the documentation offers a more precise (and accurate) discussion of floating point issues.</p></li>
 <li><p>various under-the-hood code improvements; the floatexpr operations are chained in a faster way, from skipping some unneeded parsing on results of earlier computations. The absence of a real inner data structure for floats (incorporating their precisions, for one) is however still a bit hair raising: currently the lengths of the mantissas of the operands are computed again by each float macro or expression operation.</p></li>
-<li><p>(TeXperts only) the macros defined (internally) from <code>\xintdeffunc</code> et al. constructs do not incorporate an initial <code>\romannumeral</code> anymore.</p></li>
+<li><p>(TeXperts only) the macros defined (internally) from <code>\xintdeffunc</code> et al. constructs do not incorporate an initial <code>\romannumeral</code> anymore.</p></li>
 <li><p>renewed desperate efforts at improving the documentation by random shuffling of sections and well thought additions; cuts were considered and even performed.</p></li>
 </ul>
-<h3 id="bug-fixes-10">Bug fixes</h3>
+<h3 id="bug-fixes-11">Bug fixes</h3>
 <ul>
 <li><p>squaring macro <code>\xintSqr</code> from <strong>xintfrac.sty</strong> was broken due to a misspelled sub-macro name. Dates back to <code>1.1</code> release of <code>2014/10/28</code> <code>:-((</code>.</p></li>
-<li><p><code>1.2c</code>'s fix to the subtraction bug from <code>1.2</code> introduced another bug, which in some cases could create leading zeroes in the output, or even worse. This could invalidate other routines using subtractions, like <code>\xintiiSquareRoot</code>.</p></li>
+<li><p><code>1.2c</code>’s fix to the subtraction bug from <code>1.2</code> introduced another bug, which in some cases could create leading zeroes in the output, or even worse. This could invalidate other routines using subtractions, like <code>\xintiiSquareRoot</code>.</p></li>
 <li><p>the comparison operators were not recognized by <code>\xintNewIIExpr</code> and <code>\xintdefiifunc</code> constructs.</p></li>
 </ul>
 <h2 id="e-20151122"><code>1.2e (2015/11/22)</code></h2>
-<h3 id="improvements-and-new-features-15">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-16">Improvements and new features</h3>
 <ul>
 <li><p>macro <code>\xintunassignvar</code>.</p></li>
 <li><p>slight modifications of the logged messages in case of <code>\xintverbosetrue</code>.</p></li>
 <li><p>a space in <code>\xintdeffunc f(x)&lt;space&gt;:= expression ;</code> is now accepted.</p></li>
 <li><p>documentation enhancements: the <em>Quick Sort</em> section with its included code samples has been entirely re-written; the <em>Commands of the xintexpr package</em> section has been extended and reviewed entirely.</p></li>
 </ul>
-<h3 id="bug-fixes-11">Bug fixes</h3>
+<h3 id="bug-fixes-12">Bug fixes</h3>
 <ul>
 <li><p>in <strong>xintfrac</strong>: the <code>\xintFloatFac</code> from release <code>1.2</code> parsed its argument only through <code>\numexpr</code> but it should have used <code>\xintNum</code>.</p></li>
 <li><p>in <strong>xintexpr</strong>: release <code>1.2d</code> had broken the recognition of sub-expressions immediately after variable names (with tacit multiplication).</p></li>
 <li><p>in <strong>xintexpr</strong>: contrarily to what <code>1.2d</code> documentation said, tacit multiplication was not yet always done with enhanced precedence. Now yes.</p></li>
 </ul>
 <h2 id="d-20151118"><code>1.2d (2015/11/18)</code></h2>
-<h3 id="improvements-and-new-features-16">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-17">Improvements and new features</h3>
 <ul>
-<li><p>the function definitions done by <code>\xintdeffunc</code> et al., as well as the macro declarations by <code>\xintNewExpr</code> et al. now have only local scope.</p></li>
-<li><p>tacit multiplication applies to more cases, for example (x+y)z, and always ties more than standard * infix operator, e.g. x/2y is like x/(2*y).</p></li>
+<li><p>the function definitions done by <code>\xintdeffunc</code> et al., as well as the macro declarations by <code>\xintNewExpr</code> et al. now have only local scope.</p></li>
+<li><p>tacit multiplication applies to more cases, for example (x+y)z, and always ties more than standard * infix operator, e.g. x/2y is like x/(2*y).</p></li>
 <li><p>some documentation enhancements, particularly in the chapter on xintexpr.sty, and also in the code source comments.</p></li>
 </ul>
-<h3 id="bug-fixes-12">Bug fixes</h3>
+<h3 id="bug-fixes-13">Bug fixes</h3>
 <ul>
 <li>in <strong>xintcore</strong>: release <code>1.2c</code> had inadvertently broken the <code>\xintiiDivRound</code> macro.</li>
 </ul>
 <h2 id="c-20151116"><code>1.2c (2015/11/16)</code></h2>
-<h3 id="improvements-and-new-features-17">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-18">Improvements and new features</h3>
 <ul>
 <li><p>macros <code>\xintdeffunc</code>, <code>\xintdefiifunc</code>, <code>\xintdeffloatfunc</code> and boolean <code>\ifxintverbose</code>.</p></li>
 <li><p>on-going code improvements and documentation enhancements, but stopped in order to issue this bugfix release.</p></li>
 </ul>
-<h3 id="bug-fixes-13">Bug fixes</h3>
+<h3 id="bug-fixes-14">Bug fixes</h3>
 <ul>
 <li>in <strong>xintcore</strong>: recent release <code>1.2</code> introduced a bug in the subtraction (happened when 00000001 was found under certain circumstances at certain mod 8 locations).</li>
 </ul>
 <h2 id="b-20151029"><code>1.2b (2015/10/29)</code></h2>
-<h3 id="bug-fixes-14">Bug fixes</h3>
+<h3 id="bug-fixes-15">Bug fixes</h3>
 <ul>
 <li>in <strong>xintcore</strong>: recent release <code>1.2</code> introduced a bug in the division macros, causing a crash when the divisor started with 99999999 (it was attempted to use with 1+99999999 a subroutine expecting only 8-digits numbers).</li>
 </ul>
 <h2 id="a-20151019"><code>1.2a (2015/10/19)</code></h2>
-<h3 id="improvements-and-new-features-18">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-19">Improvements and new features</h3>
 <ul>
 <li><p>added <code>\xintKeepUnbraced</code>, <code>\xintTrimUnbraced</code> (<strong>xinttools</strong>) and fixed documentation of <code>\xintKeep</code> and <code>\xintTrim</code> regarding brace stripping.</p></li>
 <li><p>added <code>\xintiiMaxof/\xintiiMinof</code> (<strong>xint</strong>).</p></li>
 <li><p>TeX hackers only: replaced all code uses of <code>\romannumeral-`0</code> by the quicker <code>\romannumeral`&amp;&amp;@</code> (<code>^</code> being used as letter, had to find another character usable with catcode 7).</p></li>
 </ul>
-<h3 id="bug-fixes-15">Bug fixes</h3>
+<h3 id="bug-fixes-16">Bug fixes</h3>
 <ul>
-<li>in <strong>xintexpr</strong>: recent release <code>1.2</code> introduced a bad bug in the parsing of decimal numbers and as a result <code>\xinttheexpr 0.01\relax</code> expanded to <code>0</code> ! (sigh...)</li>
+<li>in <strong>xintexpr</strong>: recent release <code>1.2</code> introduced a bad bug in the parsing of decimal numbers and as a result <code>\xinttheexpr 0.01\relax</code> expanded to <code>0</code> ! (sigh…)</li>
 </ul>
 <h2 id="section-1"><code>1.2 (2015/10/10)</code></h2>
 <h3 id="removed-3">Removed</h3>
 <ul>
-<li>the macros <code>\xintAdd</code>, <code>\xintSub</code>, <code>\xintMul</code>, <code>\xintMax</code>, <code>\xintMin</code>, <code>\xintMaxof</code>, <code>\xintMinof</code> are removed from package <strong>xint</strong>, and only exist in the versions from <strong>xintfrac</strong>. With only <strong>xintcore</strong> or <strong>xint</strong> loaded, one <em>must</em> use <code>\xintiiAdd</code>, <code>\xintiiSub</code>, ..., or <code>\xintiAdd</code>, <code>\xintiSub</code>, etc...</li>
+<li>the macros <code>\xintAdd</code>, <code>\xintSub</code>, <code>\xintMul</code>, <code>\xintMax</code>, <code>\xintMin</code>, <code>\xintMaxof</code>, <code>\xintMinof</code> are removed from package <strong>xint</strong>, and only exist in the versions from <strong>xintfrac</strong>. With only <strong>xintcore</strong> or <strong>xint</strong> loaded, one <em>must</em> use <code>\xintiiAdd</code>, <code>\xintiiSub</code>, …, or <code>\xintiAdd</code>, <code>\xintiSub</code>, etc…</li>
 </ul>
-<h3 id="improvements-and-new-features-19">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-20">Improvements and new features</h3>
 <ul>
 <li><p>the basic arithmetic implemented in <strong>xintcore</strong> has been entirely rewritten. The mathematics remains the elementary school one, but the <code>TeX</code> implementation achieves higher speed (except, regarding addition/subtraction, for numbers up to about thirty digits), the gains becoming quite significant for numbers with hundreds of digits.</p></li>
 <li><p>the inputs must have less than 19959 digits. But computations with thousands of digits take time.</p></li>
@@ -485,7 +517,7 @@ License: LPPL 1.3c</code></pre>
 <li><p><code>\xintFloatFac</code> macro for computing the factorials of integers as floating point numbers to a given precision. The <code>!</code> postfix operator inside <code>\xintfloatexpr</code> maps to this new macro rather than to the exact factorial as used by <code>\xintexpr</code> and <code>\xintiiexpr</code>.</p></li>
 <li><p>there is more flexibility in the parsing done by the macros from <strong>xintfrac</strong> on fractional input: the decimal parts of both the numerator and the denominator may arise from a separate expansion via <code>\romannumeral-`0</code>. Also the strict <code>A/B[N]</code> format is a bit relaxed: <code>N</code> may be anything understood by <code>\numexpr</code> (it could even be empty but that possibility has been removed by later <code>1.2f</code> release.)</p></li>
 <li><p>on the other hand an isolated dot <code>.</code> is not legal syntax anymore inside the expression parsers: there must be digits either before or after. It remains legal input for the macros of <strong>xintfrac</strong>.</p></li>
-<li><p>added <code>\ht</code>, <code>\dp</code>, <code>\wd</code>, <code>\fontcharht</code>, etc... to the tokens recognized by the parsers and expanded by <code>\number</code>.</p></li>
+<li><p>added <code>\ht</code>, <code>\dp</code>, <code>\wd</code>, <code>\fontcharht</code>, etc… to the tokens recognized by the parsers and expanded by <code>\number</code>.</p></li>
 <li><p>an obscure bug in package <strong>xintkernel</strong> has been fixed, regarding the sanitization of catcodes: under certain circumstances (which could not occur in a normal <code>LaTeX</code> context), unusual catcodes could end up being propagated to the external world.</p></li>
 <li><p>an effort at randomly shuffling around various pieces of the documentation has been done.</p></li>
 </ul>
@@ -510,14 +542,14 @@ License: LPPL 1.3c</code></pre>
 <li><p>various typographical fixes throughout the documentation, and a bit of clean up of the code comments. Improved <code>\Factors</code> example of nested <code>subs</code>, <code>rseq</code>, <code>iter</code> in <code>\xintiiexpr</code>.</p></li>
 </ul>
 <h2 id="section-2"><code>1.1 (2014/10/28)</code></h2>
-<h3 id="incompatible-changes-9">Incompatible changes</h3>
+<h3 id="incompatible-changes-10">Incompatible changes</h3>
 <ul>
 <li><p>in <code>\xintiiexpr</code>, <code>/</code> does <em>rounded</em> division, rather than the Euclidean division (for positive arguments, this is truncated division). The <code>//</code> operator does truncated division,</p></li>
 <li><p>the <code>:</code> operator for three-way branching is gone, replaced with <code>??</code>,</p></li>
 <li><p><code>1e(3+5)</code> is now illegal. The number parser identifies <code>e</code> and <code>E</code> in the same way it does for the decimal mark, earlier versions treated <code>e</code> as <code>E</code> rather as infix operators of highest precedence,</p></li>
 <li><p>the <code>add</code> and <code>mul</code> have a new syntax, old syntax is with <code>`+`</code> and <code>`*`</code> (left quotes mandatory), <code>sum</code> and <code>prd</code> are gone,</p></li>
 <li><p>no more special treatment for encountered brace pairs <code>{..}</code> by the number scanner, <code>a/b[N]</code> notation can be used without use of braces (the <code>N</code> will end up as is in a <code>\numexpr</code>, it is not parsed by the <code>\xintexpr</code>-ession scanner),</p></li>
-<li><p>in earlier releases, place holders for <code>\xintNewExpr</code> could either be denoted <code>#1</code>, <code>#2</code>, ... or also <code>$1</code>, <code>$2</code>, ... Only the usual <code>#</code> form is now accepted and the special cases previously treated via the second form are now managed via a <code>protect(...)</code> function.</p></li>
+<li><p>in earlier releases, place holders for <code>\xintNewExpr</code> could either be denoted <code>#1</code>, <code>#2</code>, … or also <code>$1</code>, <code>$2</code>, … Only the usual <code>#</code> form is now accepted and the special cases previously treated via the second form are now managed via a <code>protect(...)</code> function.</p></li>
 <li><p><strong>xintfrac</strong>: <code>\xintFloor</code> and <code>\xintCeil</code> add a trailing <code>/1[0]</code> to their (integer) output. New <code>\xintiFloor</code> and <code>\xintiCeil</code> do not.</p></li>
 </ul>
 <h3 id="removed-4">Removed</h3>
@@ -530,14 +562,14 @@ License: LPPL 1.3c</code></pre>
 <li><p><code>\xintMax</code>, <code>\xintMin</code>, <code>\xintAdd</code>, <code>\xintSub</code>, <code>\xintMul</code> (<strong>xint</strong>): their usage without <strong>xintfrac</strong> is deprecated; use <code>\xintiMax</code>, <code>\xintiMin</code>, <code>\xintiAdd</code>, <code>\xintiSub</code>, <code>\xintiMul</code>.</p></li>
 <li><p>the <code>&amp;</code> and <code>|</code> as Boolean operators in <code>xintexpr</code>-essions are deprecated in favour of <code>&amp;&amp;</code> and <code>||</code>. The single letter operators might be assigned some other meaning in some later release (bitwise operations, perhaps). Do not use them.</p></li>
 </ul>
-<h3 id="improvements-and-new-features-20">Improvements and new features</h3>
+<h3 id="improvements-and-new-features-21">Improvements and new features</h3>
 <ul>
 <li><p>new package <strong>xintcore</strong> has been split off <strong>xint</strong>. It contains the core arithmetic macros (it is loaded by LaTeX package <strong>bnumexpr</strong>),</p></li>
 <li><p>neither <strong>xint</strong> nor <strong>xintfrac</strong> load <strong>xinttools</strong>. Only <strong>xintexpr</strong> does,</p></li>
 <li><p>whenever some portion of code has been revised, often use has been made of the <code>\xint_dothis</code> and <code>\xint_orthat</code> pair of macros for expandably branching,</p></li>
-<li><p>these tiny helpful macros, and a few others are in package <strong>xintkernel</strong> which contains also the catcode and loading order management code, initially inspired by code found in Heiko Oberdiek's packages,</p></li>
+<li><p>these tiny helpful macros, and a few others are in package <strong>xintkernel</strong> which contains also the catcode and loading order management code, initially inspired by code found in Heiko Oberdiek’s packages,</p></li>
 <li><p>the source code, which was suppressed from <code>xint.pdf</code> in release <code>1.09n</code>, is now compiled into a separate file <code>sourcexint.pdf</code>,</p></li>
-<li><p>faster handling by <code>\xintAdd</code>, <code>\xintSub</code>, <code>\xintMul</code>, ... of the case where one of the arguments is zero,</p></li>
+<li><p>faster handling by <code>\xintAdd</code>, <code>\xintSub</code>, <code>\xintMul</code>, … of the case where one of the arguments is zero,</p></li>
 <li><p>the <code>\xintAdd</code> and <code>\xintSub</code> macros from package <strong>xintfrac</strong> check if one of the denominators is a multiple of the other, and only if this is not the case do they multiply the denominators. But systematic reduction would be too costly,</p></li>
 <li><p>this naturally will be also the case for the <code>+</code> and <code>-</code> operations in <code>\xintexpr</code>,</p></li>
 <li><p><strong>xint</strong> added <code>\xintiiDivRound</code>, <code>\xintiiDivTrunc</code>, <code>\xintiiMod</code> for rounded and truncated division of big integers (next to <code>\xintiiQuo</code> and <code>\xintiiRem</code>),</p></li>
@@ -564,14 +596,14 @@ License: LPPL 1.3c</code></pre>
 <li><p>iteration with <code>iter</code> which is like <code>rrseq</code> but outputs only the last <code>K</code> terms, where <code>K</code> was the number of initial terms,</p></li>
 <li><p>inside <code>seq</code>, <code>rseq</code>, <code>rrseq</code>, <code>iter</code>, possibility to use <code>omit</code>, <code>abort</code> and <code>break</code> to control termination,</p></li>
 <li><p><code>n++</code> potentially infinite index generation for <code>seq</code>, <code>rseq</code>, <code>rrseq</code>, and <code>iter</code>, it is advised to use <code>abort</code> or <code>break(..)</code> at some point,</p></li>
-<li><p>the <code>add</code>, <code>mul</code>, <code>seq</code>, ... are nestable,</p></li>
+<li><p>the <code>add</code>, <code>mul</code>, <code>seq</code>, … are nestable,</p></li>
 <li><p><code>\xintthecoords</code> converts a comma separated list of an even number of items to the format expected by the <code>TikZ</code> <code>coordinates</code> syntax,</p></li>
 <li><p>completely new version <code>\xintNewExpr</code>, <code>protect</code> function to handle external macros. The dollar sign <code>$</code> for place holders is not accepted anymore, only the standard macro parameter <code>#</code>. Not all constructs are compatible with <code>\xintNewExpr</code>.</p></li>
 </ul>
-<h3 id="bug-fixes-16">Bug fixes</h3>
+<h3 id="bug-fixes-17">Bug fixes</h3>
 <ul>
 <li><p><code>\xintZapFirstSpaces</code> hence also <code>\xintZapSpaces</code> from package <strong>xinttools</strong> were buggy when used with an argument either empty or containing only space tokens.</p></li>
-<li><p><code>\xintiiexpr</code> did not strip leading zeroes, hence <code>\xinttheiiexpr 001+1\relax</code> did not obtain the expected result ...</p></li>
+<li><p><code>\xintiiexpr</code> did not strip leading zeroes, hence <code>\xinttheiiexpr 001+1\relax</code> did not obtain the expected result …</p></li>
 <li><p><code>\xinttheexpr \xintiexpr 1.23\relax\relax</code> should have produced <code>1</code>, but it produced <code>1.23</code></p></li>
 <li><p>the catcode of <code>;</code> was not set at package launching time.</p></li>
 <li><p>the <code>\XINTinFloatPrd:csv</code> macro name had a typo, hence <code>prd</code> was non-functional in <code>\xintfloatexpr</code>.</p></li>
@@ -597,7 +629,7 @@ License: LPPL 1.3c</code></pre>
 <li><p>inside <code>\xintexpr..\relax</code> (and its variants) tacit multiplication is implied when a number or operand is followed directly with an opening parenthesis,</p></li>
 <li><p>the <code>&quot;</code> for denoting (arbitrarily big) hexadecimal numbers is recognized by <code>\xintexpr</code> and its variants (package <strong>xintbinhex</strong> is required); a fractional hexadecimal part introduced by a dot <code>.</code> is allowed.</p></li>
 <li><p>re-organization of the first sections of the user manual.</p></li>
-<li><p>bug fix (<strong>xinttools</strong>, <strong>xint</strong>, ...): forgotten catcode check of <code>&quot;</code> at loading time has been added.</p></li>
+<li><p>bug fix (<strong>xinttools</strong>, <strong>xint</strong>, …): forgotten catcode check of <code>&quot;</code> at loading time has been added.</p></li>
 </ul>
 <h2 id="j-20140109"><code>1.09j (2014/01/09)</code></h2>
 <ul>
@@ -616,11 +648,11 @@ License: LPPL 1.3c</code></pre>
 <li><p><em>deprecated</em>: <code>\xintnumexpr</code>, <code>\xintthenumexpr</code>, <code>\xintNewNumExpr</code> are renamed, respectively, <code>\xintiexpr</code>, <code>\xinttheiexpr</code>, <code>\xintNewIExpr</code>. The earlier denominations are kept but are to be removed at some point.</p></li>
 <li><p>it is now possible within <code>\xintexpr...\relax</code> and its variants to use count, dimen, and skip registers or variables without explicit <code>\the/\number</code>: the parser inserts automatically <code>\number</code> and a tacit multiplication is implied when a register or variable immediately follows a number or fraction. Regarding dimensions and <code>\number</code>, see the further discussion in <em>Dimensions</em>.</p></li>
 <li><p>(<strong>xintfrac</strong>) conditional <code>\xintifOne</code>; <code>\xintifTrueFalse</code> renamed to <code>\xintifTrueAelseB</code>; macros <code>\xintTFrac</code> (<code>fractional part</code>, mapped to function <code>frac</code> in <code>\xintexpr</code>-essions), <code>\xintFloatE</code>.</p></li>
-<li><p>(<strong>xinttools</strong>) <code>\xintAssign</code> admits an optional argument to specify the expansion type to be used: <code>[]</code> (none, default), <code>[o]</code> (once), <code>[oo]</code> (twice), <code>[f]</code> (full), <code>[e]</code> (<code>\edef</code>),... to define the macros</p></li>
-<li><p><strong>xinttools</strong> defines <code>\odef</code>, <code>\oodef</code>, <code>\fdef</code> (if the names have already been assigned, it uses <code>\xintoodef</code> etc...). These tools are provided for the case one uses the package macros in a non-expandable context. <code>\oodef</code> expands twice the macro replacement text, and <code>\fdef</code> applies full expansion. They are useful in situations where one does not want a full <code>\edef</code>. <code>\fdef</code> appears to be faster than <code>\oodef</code> in almost all cases (with less than thousand digits in the result), and even faster than <code>\edef</code> for expanding the package macros when the result has a few dozens of digits. <code>\oodef</code> needs that expansion ends up in thousands of digits to become competitive with the other two.</p></li>
+<li><p>(<strong>xinttools</strong>) <code>\xintAssign</code> admits an optional argument to specify the expansion type to be used: <code>[]</code> (none, default), <code>[o]</code> (once), <code>[oo]</code> (twice), <code>[f]</code> (full), <code>[e]</code> (<code>\edef</code>),… to define the macros</p></li>
+<li><p><strong>xinttools</strong> defines <code>\odef</code>, <code>\oodef</code>, <code>\fdef</code> (if the names have already been assigned, it uses <code>\xintoodef</code> etc…). These tools are provided for the case one uses the package macros in a non-expandable context. <code>\oodef</code> expands twice the macro replacement text, and <code>\fdef</code> applies full expansion. They are useful in situations where one does not want a full <code>\edef</code>. <code>\fdef</code> appears to be faster than <code>\oodef</code> in almost all cases (with less than thousand digits in the result), and even faster than <code>\edef</code> for expanding the package macros when the result has a few dozens of digits. <code>\oodef</code> needs that expansion ends up in thousands of digits to become competitive with the other two.</p></li>
 <li><p>some across the board slight efficiency improvement as a result of modifications of various types to <em>fork macros</em> and <em>branching conditionals</em> which are used internally.</p></li>
 <li><p>bug fix (<strong>xint</strong>): <code>\xintAND</code> and <code>\xintOR</code> inserted a space token in some cases and did not expand as promised in two steps <code>:-((</code> (bug dating back to <code>1.09a</code> I think; this bug was without consequences when using <code>&amp;</code> and <code>|</code> in <code>\xintexpr-essions</code>, it affected only the macro form).</p></li>
-<li><p>bug fix (<strong>xintcfrac</strong>): <code>\xintFtoCCv</code> still ended fractions with the <code>[0]</code>'s which were supposed to have been removed since release <code>1.09b</code>.</p></li>
+<li><p>bug fix (<strong>xintcfrac</strong>): <code>\xintFtoCCv</code> still ended fractions with the <code>[0]</code>’s which were supposed to have been removed since release <code>1.09b</code>.</p></li>
 <li><p><em>deprecated</em>: <code>\xintifTrueFalse</code>, <code>\xintifTrue</code>; use <code>\xintifTrueAelseB</code>.</p></li>
 </ul>
 <h2 id="h-20131128"><code>1.09h (2013/11/28)</code></h2>
@@ -652,7 +684,7 @@ License: LPPL 1.3c</code></pre>
 <ul>
 <li><p>(<strong>xint</strong>) <code>\xintintegers</code>, <code>\xintdimensions</code>, <code>\xintrationals</code> for infinite <code>\xintFor</code> loops, interrupted with <code>\xintBreakFor</code> and <code>\xintBreakForAndDo</code>.</p></li>
 <li><p><code>\xintifForFirst</code>, <code>\xintifForLast</code> for the <code>\xintFor</code> and <code>\xintFor*</code> loops,</p></li>
-<li><p>the <code>\xintFor</code> and <code>xintFor*</code> loops are now <code>\long</code>, the replacement text and the items may contain explicit <code>\par</code>'s.</p></li>
+<li><p>the <code>\xintFor</code> and <code>xintFor*</code> loops are now <code>\long</code>, the replacement text and the items may contain explicit <code>\par</code>’s.</p></li>
 <li><p>conditionals <code>\xintifCmp</code>, <code>\xintifInt</code>, <code>\xintifOdd</code>.</p></li>
 <li><p>bug fix (<strong>xint</strong>): the <code>\xintFor</code> loop (not <code>\xintFor*</code>) did not correctly detect an empty list.</p></li>
 <li><p>bug fix (<strong>xint</strong>): <code>\xintiSqrt {0}</code> crashed. <code>:-((</code></p></li>
@@ -679,9 +711,9 @@ License: LPPL 1.3c</code></pre>
 <ul>
 <li><p>various improvements in the documentation,</p></li>
 <li><p>more economical catcode management and re-loading handling,</p></li>
-<li><p>removal of all those <code>[0]</code>'s previously forcefully added at the end of fractions by various macros of <strong>xintcfrac</strong>,</p></li>
+<li><p>removal of all those <code>[0]</code>’s previously forcefully added at the end of fractions by various macros of <strong>xintcfrac</strong>,</p></li>
 <li><p><code>\xintNthElt</code> with a negative index returns from the tail of the list,</p></li>
-<li><p>macro <code>\xintPRaw</code> to have something like what <code>\xintFrac</code> does in math mode; i.e. a <code>\xintRaw</code> which does not print the denominator if it is one.</p></li>
+<li><p>macro <code>\xintPRaw</code> to have something like what <code>\xintFrac</code> does in math mode; i.e. a <code>\xintRaw</code> which does not print the denominator if it is one.</p></li>
 </ul>
 <h2 id="a-20130924"><code>1.09a (2013/09/24)</code></h2>
 <ul>
@@ -695,7 +727,7 @@ License: LPPL 1.3c</code></pre>
 <li><p><code>\xintnumexpr .. \relax</code> (now renamed <code>\xintiexpr</code>) is <code>\xintexpr round( .. ) \relax</code>.</p></li>
 <li><p><code>\xintNewExpr</code> now works with the standard macro parameter character <code>#</code>.</p></li>
 <li><p>both regular <code>\xintexpr</code>-essions and commands defined by <code>\xintNewExpr</code> will work with comma separated lists of expressions,</p></li>
-<li><p>commands <code>\xintFloor</code>, <code>\xintCeil</code>, <code>\xintMaxof</code>, <code>\xintMinof</code> (package <strong>xintfrac</strong>), <code>\xintGCDof</code>, <code>\xintLCM</code>, <code>\xintLCMof</code> (package <strong>xintgcd</strong>), <code>\xintifLt</code>, <code>\xintifGt</code>, <code>\xintifSgn</code>, <code>\xintANDof</code>, ...</p></li>
+<li><p>commands <code>\xintFloor</code>, <code>\xintCeil</code>, <code>\xintMaxof</code>, <code>\xintMinof</code> (package <strong>xintfrac</strong>), <code>\xintGCDof</code>, <code>\xintLCM</code>, <code>\xintLCMof</code> (package <strong>xintgcd</strong>), <code>\xintifLt</code>, <code>\xintifGt</code>, <code>\xintifSgn</code>, <code>\xintANDof</code>, …</p></li>
 <li><p>The arithmetic macros from package <strong>xint</strong> now filter their operands via <code>\xintNum</code> which means that they may use directly count registers and <code>\numexpr</code>-essions without having to prefix them by <code>\the</code>. This is thus similar to the situation holding previously already when <strong>xintfrac</strong> was loaded.</p></li>
 <li><p>a bug (<strong>xintfrac</strong>) introduced in <code>1.08b</code> made <code>\xintCmp</code> crash when one of its arguments was zero. <code>:-((</code></p></li>
 </ul>
@@ -724,7 +756,7 @@ License: LPPL 1.3c</code></pre>
 <pre><code>\xintfloatexpr . . . \relax</code></pre>
 <p>allowing on input formulas using the infix operators <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, and <code>^</code>, and arbitrary levels of parenthesizing. Within a float expression the operations are executed according to the current value set by <code>\xintDigits</code>. Within an <code>\xintexpr</code>-ession the binary operators are computed exactly.</p>
 <p>To write the <code>\xintexpr</code> parser I benefited from the commented source of the <code>l3fp</code> parser; the <code>\xintexpr</code> parser has its own features and peculiarities. <em>See its documentation</em>.</p></li>
-<li><p>The floating point precision <code>D</code> is set (this is a local assignment to a <code>\mathchar</code> variable) with <code>\xintDigits := D;</code> and queried with <code>\xinttheDigits</code>. It may be set to anything up to <code>32767</code>.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> The macro incarnations of the binary operations admit an optional argument which will replace pointwise <code>D</code>; this argument may exceed the <code>32767</code> bound.</p></li>
+<li><p>The floating point precision <code>D</code> is set (this is a local assignment to a <code>\mathchar</code> variable) with <code>\xintDigits := D;</code> and queried with <code>\xinttheDigits</code>. It may be set to anything up to <code>32767</code>.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> The macro incarnations of the binary operations admit an optional argument which will replace pointwise <code>D</code>; this argument may exceed the <code>32767</code> bound.</p></li>
 <li><p>The <strong>xintfrac</strong> macros now accept numbers written in scientific notation, the <code>\xintFloat</code> command serves to output its argument with a given number <code>D</code> of significant figures. The value of <code>D</code> is either given as optional argument to <code>\xintFloat</code> or set with <code>\xintDigits := D;</code>. The default value is <code>16</code>.</p></li>
 </ul>
 <h2 id="b-20130514"><code>1.06b (2013/05/14)</code></h2>
@@ -736,7 +768,7 @@ License: LPPL 1.3c</code></pre>
 <li><p>Some code improvements, particularly for macros of <strong>xint</strong> doing loops.</p></li>
 <li><p>New utilities in <strong>xint</strong> for expandable manipulations of lists:</p>
 <pre><code>\xintNthElt, \xintCSVtoList, \xintRevWithBraces</code></pre></li>
-<li><p>The macros did only a double expansion of their arguments. They now fully expand them (using <code>\romannumeral-`0</code>). Furthermore, in the case of arguments constrained to obey the TeX bounds they will be inserted inside a <code>\numexpr..\relax</code>, hence completely expanded, one may use count registers, even infix arithmetic operations, etc...</p></li>
+<li><p>The macros did only a double expansion of their arguments. They now fully expand them (using <code>\romannumeral-`0</code>). Furthermore, in the case of arguments constrained to obey the TeX bounds they will be inserted inside a <code>\numexpr..\relax</code>, hence completely expanded, one may use count registers, even infix arithmetic operations, etc…</p></li>
 </ul>
 <h2 id="section-6"><code>1.05 (2013/05/01)</code></h2>
 <p>Minor changes and additions to <strong>xintfrac</strong> and <strong>xintcfrac</strong>.</p>
@@ -767,11 +799,11 @@ License: LPPL 1.3c</code></pre>
 <blockquote>
 <p>The packages may be used with Plain and with LaTeX.</p>
 </blockquote>
-<div class="footnotes">
+<section class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p>but values higher than 100 or 200 will presumably give too slow evaluations.<a href="#fnref1">↩</a></p></li>
+<li id="fn1"><p>but values higher than 100 or 200 will presumably give too slow evaluations.<a href="#fnref1" class="footnote-back">↩</a></p></li>
 </ol>
-</div>
+</section>
 </body>
 </html>

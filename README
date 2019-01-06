@@ -1,7 +1,7 @@
-    Source:  xint.dtx 1.3c 2018/06/17 (doc 2018/06/17)
+    Source:  xint.dtx 1.3d 2019/01/06 (doc 2019/01/06)
     Author:  Jean-Francois B.
     Info:    Expandable operations on big integers, decimals, fractions
-    License: LPPL 1.3c
+    License: LPPL 1.3d
 
 This README is also available as README.pdf and README.html.
 
@@ -65,7 +65,7 @@ But the gcd()/lcm() functions require extra loading of xintgcd and
 hexadecimal input requires xintbinhex.
 
 Package xintcore is the subset of xint providing only the five
-operations on big integers: \xintiiAdd, \xintiiMul, ...
+operations on big integers: \xintiiAdd, \xintiiMul, …
 
 The LaTeX package bnumexpr defines a more light-weight parser of
 arithmetical expressions using big integers, which supports only the
@@ -114,22 +114,22 @@ Assumes a GNU/Linux-like system (or Mac OS X).
 
 2.  cd to the download repertory and issue:
 
-        unzip xint.tds.zip -d <TEXMF>
+         unzip xint.tds.zip -d <TEXMF>
 
     where <TEXMF> is a suitable TDS-compliant destination repertory. For
     example, with TeXLive:
 
     -   Linux, standard access rights, hence sudo is needed,
-        installation into the "local" tree:
+        installation into the “local” tree:
 
-            sudo unzip xint.tds.zip -d /usr/local/texlive/texmf-local
-            sudo texhash /usr/local/texlive/texmf-local
+              sudo unzip xint.tds.zip -d /usr/local/texlive/texmf-local
+              sudo texhash /usr/local/texlive/texmf-local
 
     -   Mac OS X, installation into user home folder (no sudo needed,
         and it is recommended to not have a ls-R file there, hence no
         texhash):
 
-            unzip xint.tds.zip -d  ~/Library/texmf
+              unzip xint.tds.zip -d  ~/Library/texmf
 
 
 Method C: manual installation using Makefile and xint.dtx
@@ -166,7 +166,7 @@ Finishing the installation in a TDS hierarchy:
 
 -   xint.dtx goes to TDS:source/generic/xint/
 
--   The documentation (xint.pdf, README.md,...) goes to
+-   The documentation (xint.pdf, README.md,…) goes to
     TDS:doc/generic/xint/
 
 Depending on the destination, it may then be necessary to refresh a
@@ -177,7 +177,7 @@ filename database.
 LICENSE
 
 
-Copyright (C) 2013-2018 by Jean-Francois B.
+Copyright (C) 2013-2019 by Jean-Francois B.
 
 This Work may be distributed and/or modified under the conditions of the
 LaTeX Project Public License version 1.3c. This version of this license

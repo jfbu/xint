@@ -1,26 +1,34 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
-  <meta name="author" content="xint 1.3c" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="xint 1.3d" />
   <title>README</title>
-  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
   <style type="text/css">
     body{margin-left : 10%; margin-right : 15%; margin-top: 4ex; font-size: 12pt;}
     pre   {white-space: pre-wrap; }
     code  {white-space: pre-wrap; }
     .mono {font-family: monospace;}
   </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
 </head>
 <body>
-<div id="header">
+<header>
 <h1 class="title">README</h1>
-<h2 class="author">xint 1.3c</h2>
-<h3 class="date">2018/06/17</h3>
-</div>
-<div id="TOC">
+<p class="author">xint 1.3d</p>
+<p class="date">2019/01/06</p>
+</header>
+<nav id="TOC">
 <ul>
 <li><a href="#aim">Aim</a></li>
 <li><a href="#usage">Usage</a><ul>
@@ -35,11 +43,11 @@
 </ul></li>
 <li><a href="#license">License</a></li>
 </ul>
-</div>
-<pre><code>Source:  xint.dtx 1.3c 2018/06/17 (doc 2018/06/17)
+</nav>
+<pre><code>Source:  xint.dtx 1.3d 2019/01/06 (doc 2019/01/06)
 Author:  Jean-Francois B.
 Info:    Expandable operations on big integers, decimals, fractions
-License: LPPL 1.3c</code></pre>
+License: LPPL 1.3d</code></pre>
 <p>This <code>README</code> is also available as <code>README.pdf</code> and <code>README.html</code>.</p>
 <p>Change log is to be found in <code>CHANGES.pdf</code> or <code>CHANGES.html</code>.</p>
 <p>The user manual is <code>xint.pdf</code>, and the commented source code is available as <code>sourcexint.pdf</code>.</p>
@@ -63,7 +71,7 @@ License: LPPL 1.3c</code></pre>
 \usepackage{xintexpr}   % expressions with infix operators</code></pre>
 <p>Further packages: <code>xintbinhex</code>, <code>xintgcd</code>, <code>xintseries</code> and <code>xintcfrac</code>.</p>
 <p>Main dependencies are handled automatically. For example <code>xintexpr</code> automatically loads <code>xinttools</code> and <code>xintfrac</code> (which itself loads <code>xint</code>). But the <code>gcd()/lcm()</code> functions require extra loading of <code>xintgcd</code> and hexadecimal input requires <code>xintbinhex</code>.</p>
-<p>Package <code>xintcore</code> is the subset of <code>xint</code> providing only the five operations on big integers: <code>\xintiiAdd</code>, <code>\xintiiMul</code>, ...</p>
+<p>Package <code>xintcore</code> is the subset of <code>xint</code> providing only the five operations on big integers: <code>\xintiiAdd</code>, <code>\xintiiMul</code>, …</p>
 <p>The LaTeX package <a href="http://www.ctan.org/pkg/bnumexpr">bnumexpr</a> defines a more light-weight parser of arithmetical expressions using big integers, which supports only the four operations, the modulo operation, the power operation, and the factorial. By default it uses the macros from <code>xintcore</code> but this can be customized.</p>
 <h2 id="with-tex">With TeX</h2>
 <p>One does for example:</p>
@@ -77,22 +85,22 @@ License: LPPL 1.3c</code></pre>
 <p>There can be a few days of delay between apparition of a new version on <a href="http://www.ctan.org/pkg/xint">CTAN</a> and availability via the distribution package manager.</p>
 <h2 id="method-b-manual-installation-using-xint.tds.zip-and-unzip">Method B: manual installation using <code>xint.tds.zip</code> and <code>unzip</code></h2>
 <p>Assumes a GNU/Linux-like system (or Mac OS X).</p>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li><p>obtain <code>xint.tds.zip</code> from CTAN: <a href="http://mirror.ctan.org/install/macros/generic/xint.tds.zip" class="uri">http://mirror.ctan.org/install/macros/generic/xint.tds.zip</a></p></li>
 <li><p>cd to the download repertory and issue:</p>
-<pre><code>unzip xint.tds.zip -d &lt;TEXMF&gt;</code></pre>
+<pre><code> unzip xint.tds.zip -d &lt;TEXMF&gt;</code></pre>
 <p>where <code>&lt;TEXMF&gt;</code> is a suitable TDS-compliant destination repertory. For example, with TeXLive:</p>
 <ul>
-<li><p>Linux, standard access rights, hence sudo is needed, installation into the &quot;local&quot; tree:</p>
-<pre><code>sudo unzip xint.tds.zip -d /usr/local/texlive/texmf-local
-sudo texhash /usr/local/texlive/texmf-local</code></pre></li>
+<li><p>Linux, standard access rights, hence sudo is needed, installation into the “local” tree:</p>
+<pre><code>  sudo unzip xint.tds.zip -d /usr/local/texlive/texmf-local
+  sudo texhash /usr/local/texlive/texmf-local</code></pre></li>
 <li><p>Mac OS X, installation into user home folder (no sudo needed, and it is recommended to not have a ls-R file there, hence no texhash):</p>
-<pre><code>unzip xint.tds.zip -d  ~/Library/texmf</code></pre></li>
+<pre><code>  unzip xint.tds.zip -d  ~/Library/texmf</code></pre></li>
 </ul></li>
 </ol>
 <h2 id="method-c-manual-installation-using-makefile-and-xint.dtx">Method C: manual installation using <code>Makefile</code> and <code>xint.dtx</code></h2>
 <p>The Makefile automatizes rebuilding from <code>xint.dtx</code> all documentation files as well as <code>xint.tds.zip</code>. It is for GNU/Linux-like (inc. Mac OS X) systems, with a teTeX like installation such as TeXLive. The <a href="http://personal.psu.edu/jcc8/software/latexmk/">Latexmk</a> and <a href="http://johnmacfarlane.net/pandoc/">Pandoc</a> softwares are required to build all the documentation.</p>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li><p>obtain <code>xint.dtx</code> and <code>Makefile</code> from <a href="http://mirror.ctan.org/macros/generic/xint" class="uri">http://mirror.ctan.org/macros/generic/xint</a>.</p></li>
 <li><p>put them in an otherwise empty working repertory, run <code>make</code> or equivalently <code>make help</code> for further instructions.</p></li>
 </ol>
@@ -102,12 +110,12 @@ sudo texhash /usr/local/texlive/texmf-local</code></pre></li>
 <ul>
 <li><p>move the style files to <code>TDS:tex/generic/xint/</code></p></li>
 <li><p><code>xint.dtx</code> goes to <code>TDS:source/generic/xint/</code></p></li>
-<li><p>The documentation (xint.pdf, README.md,...) goes to <code>TDS:doc/generic/xint/</code></p></li>
+<li><p>The documentation (xint.pdf, README.md,…) goes to <code>TDS:doc/generic/xint/</code></p></li>
 </ul>
 <p>Depending on the destination, it may then be necessary to refresh a filename database.</p>
 <h1 id="license">License</h1>
 <div class="mono">
-<p>Copyright (C) 2013-2018 by Jean-Francois B.</p>
+<p>Copyright (C) 2013-2019 by Jean-Francois B.</p>
 <p>This Work may be distributed and/or modified under the conditions of the LaTeX Project Public License version 1.3c. This version of this license is in</p>
 <blockquote>
 <p><a href="http://www.latex-project.org/lppl/lppl-1-3c.txt" class="uri">http://www.latex-project.org/lppl/lppl-1-3c.txt</a></p>
