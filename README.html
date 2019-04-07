@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="author" content="xint 1.3d" />
+  <meta name="author" content="xint 1.3e" />
   <title>README</title>
   <style type="text/css">
       code{white-space: pre-wrap;}
@@ -25,8 +25,8 @@
 <body>
 <header>
 <h1 class="title">README</h1>
-<p class="author">xint 1.3d</p>
-<p class="date">2019/01/06</p>
+<p class="author">xint 1.3e</p>
+<p class="date">2019/04/05</p>
 </header>
 <nav id="TOC">
 <ul>
@@ -44,10 +44,10 @@
 <li><a href="#license">License</a></li>
 </ul>
 </nav>
-<pre><code>Source:  xint.dtx 1.3d 2019/01/06 (doc 2019/01/06)
+<pre><code>Source:  xint.dtx 1.3e 2019/04/05 (doc 2019/04/05)
 Author:  Jean-Francois B.
 Info:    Expandable operations on big integers, decimals, fractions
-License: LPPL 1.3d</code></pre>
+License: LPPL 1.3e</code></pre>
 <p>This <code>README</code> is also available as <code>README.pdf</code> and <code>README.html</code>.</p>
 <p>Change log is to be found in <code>CHANGES.pdf</code> or <code>CHANGES.html</code>.</p>
 <p>The user manual is <code>xint.pdf</code>, and the commented source code is available as <code>sourcexint.pdf</code>.</p>
@@ -61,24 +61,28 @@ License: LPPL 1.3d</code></pre>
 <pre><code>\xintDigits:=48;\xintthefloatexpr 123_456_789^1_000.5\relax
 -&gt;3.63692761822782679930738270515740797370813691938e8095</code></pre>
 <p>(as this example shows the underscore character can be used to separate visually digits, one can also use the space character for that purpose).</p>
-<p>Currently, only integer and half-integer exponents are allowed for the power operation in expressions and only the square-root operation is implemented besides the four arithmetic operations. Square-root and the four operations achieve correct rounding in the given arbitrary precision.</p>
+<p>Square-root and the four operations achieve correct rounding in the given arbitrary precision.</p>
+<p>Trigonometric functions (direct and inverse) are available with a maximal precision of 60 digits.</p>
+<p>Logarithms and exponentials are available using the <a href="http://www.ctan.org/pkg/poormanlog">poormanlog</a> package which provides only 8 or 9 digits of precision. This will be increased in future.</p>
 <h1 id="usage">Usage</h1>
-<p>It is possible to use the package with Plain (using for example <code>\input xintexpr.sty</code>) or with LaTeX (<code>\usepackage{xintexpr}</code>).</p>
+<p>It is possible to use the package both with Plain (<code>\input xintexpr.sty</code>) or with LaTeX (<code>\usepackage{xintexpr}</code>).</p>
 <h2 id="with-latex">With LaTeX</h2>
 <pre><code>\usepackage{xint}       % expandable arithmetic with big integers
 \usepackage{xintfrac}   % decimal numbers, fractions, floats
 \usepackage{xinttools}  % expandable and non expandable loops
 \usepackage{xintexpr}   % expressions with infix operators</code></pre>
+<p>The <code>xinttrig</code> and <code>xintlog</code> packages are loaded automatically by <code>xintexpr</code> and will refuse to be loaded directly.</p>
 <p>Further packages: <code>xintbinhex</code>, <code>xintgcd</code>, <code>xintseries</code> and <code>xintcfrac</code>.</p>
-<p>Main dependencies are handled automatically. For example <code>xintexpr</code> automatically loads <code>xinttools</code> and <code>xintfrac</code> (which itself loads <code>xint</code>). But the <code>gcd()/lcm()</code> functions require extra loading of <code>xintgcd</code> and hexadecimal input requires <code>xintbinhex</code>.</p>
+<p>Main dependencies are handled automatically. For example <code>xintexpr</code> automatically loads <code>xinttools</code> and <code>xintfrac</code> (which itself loads <code>xint</code>). Hexadecimal input requires explicit loading of <code>xintbinhex</code>.</p>
 <p>Package <code>xintcore</code> is the subset of <code>xint</code> providing only the five operations on big integers: <code>\xintiiAdd</code>, <code>\xintiiMul</code>, …</p>
 <p>The LaTeX package <a href="http://www.ctan.org/pkg/bnumexpr">bnumexpr</a> defines a more light-weight parser of arithmetical expressions using big integers, which supports only the four operations, the modulo operation, the power operation, and the factorial. By default it uses the macros from <code>xintcore</code> but this can be customized.</p>
+<p>The LaTeX package <a href="http://www.ctan.org/pkg/polexpr">polexpr</a> is based upon <code>xintexpr</code> and allows formal algebra with polynomials, and finding all real roots with arbitrary precision.</p>
 <h2 id="with-tex">With TeX</h2>
 <p>One does for example:</p>
 <pre><code>\input xintexpr.sty</code></pre>
-<p>The packages may be loaded in any catcode context such that letters, digits, <code>\</code> and <code>%</code> have their standard catcodes.</p>
+<p>This will automatically load <code>xintfrac.sty</code>, <code>xinttrig.sty</code>, <code>xintlog.sty</code> and <code>xinttools.sty</code>. The packages may be loaded in any catcode context such that letters, digits, <code>\</code> and <code>%</code> have their standard catcodes.</p>
 <p><code>xintcore.sty</code> and <code>xinttools.sty</code> both import <code>xintkernel.sty</code> which has the catcode handler and package identifier and defines a few utilities such as <code>\oodef/\fdef</code>, <code>\xint_dothis/\xint_orthat</code>, or <code>\xintLength</code>.</p>
-<p>Since <code>1.3b</code>, <code>xintkernel.sty</code> also provides <code>\xintUniformDeviate</code> which is a wrapper of the engine <code>\pdfuniformdeviate</code> or <code>\uniformdeviate</code> done to guarantee more uniformity of the pseudo-random integers. This is used by <code>xintexpr.sty</code> for implementing <code>random()</code> and <code>randrange()</code> functions.</p>
+<p>Since <code>1.3b</code>, <code>xintkernel.sty</code> also provides <code>\xintUniformDeviate</code> which is a wrapper of the engine <code>\pdfuniformdeviate</code> or <code>\uniformdeviate</code> done to guarantee more uniformity of the pseudo-random integers.</p>
 <h1 id="installation">Installation</h1>
 <h2 id="method-a-using-the-package-manager-of-your-tex-distribution">Method A: using the package manager of your TeX distribution</h2>
 <p><code>xint</code> is included in <a href="http://tug.org/texlive/">TeXLive</a> (hence also <a href="http://tug.org/mactex/">MacTeX</a>) and <a href="http://www.miktex.org/">MikTeX</a>.</p>
@@ -105,7 +109,7 @@ License: LPPL 1.3d</code></pre>
 <li><p>put them in an otherwise empty working repertory, run <code>make</code> or equivalently <code>make help</code> for further instructions.</p></li>
 </ol>
 <h2 id="method-d-installation-starting-with-only-xint.dtx">Method D: installation starting with only <code>xint.dtx</code></h2>
-<p>Run <code>etex xint.dtx</code> to extract from <code>xint.dtx</code> all macro files as well as auxiliary files needed for building the documentation. Among them there is <code>Makefile.mk</code>. If you are on a GNU/Linux-type system, rename the file to <code>Makefile</code> and execute <code>make</code> on command line for further help. If not, you will need to examine the contents of this file to see the commands needed to produce the documentation with <code>latexmk</code> (extraction will have created a configuration file <code>.latexmkrc</code>) and <code>pandoc</code>. If not using <code>latexmk</code>, you will need to execute suitable <code>makeindex -s xint-gind.ist</code> calls to produce the indices of macros for inclusion into <code>sourcexint.pdf</code>. It is also possible to get <code>xint.pdf</code> to include the source code. For this, see the instructions in <code>xint.tex</code>.</p>
+<p>Run <code>etex xint.dtx</code> to extract from <code>xint.dtx</code> all macro files as well as auxiliary files needed for building the documentation. Among them there is <code>Makefile.mk</code>. If you are on a GNU/Linux-type system, rename the file to <code>Makefile</code> and execute <code>make</code> on command line for further help. If you can’t use <code>make</code> read the contents of the <code>Makefile</code> for instructions.</p>
 <p>Finishing the installation in a TDS hierarchy:</p>
 <ul>
 <li><p>move the style files to <code>TDS:tex/generic/xint/</code></p></li>
@@ -123,7 +127,7 @@ License: LPPL 1.3d</code></pre>
 <p>and version 1.3 or later is part of all distributions of LaTeX version 2005/12/01 or later.</p>
 <p>This Work has the LPPL maintenance status <code>author-maintained</code>.</p>
 <p>The Author of this Work is Jean-Francois B..</p>
-This Work consists of the source file xint.dtx and of its derived files: xintkernel.sty, xintcore.sty, xint.sty, xintfrac.sty, xintexpr.sty, xintbinhex.sty, xintgcd.sty, xintseries.sty, xintcfrac.sty, xinttools.sty, xint.ins, xint.tex, README, README.md, README.html, README.pdf, CHANGES.md, CHANGES.html, CHANGES.pdf, pandoctpl.latex, doHTMLs.sh, doPDFs.sh, xint.dvi, xint.pdf, Makefile.mk, xint-gind.ist, and .latexmkrc.
+This Work consists of the source file xint.dtx and of its derived files: xintkernel.sty, xintcore.sty, xint.sty, xintfrac.sty, xintexpr.sty, xinttrig.sty, xintlog.sty, xintbinhex.sty, xintgcd.sty, xintseries.sty, xintcfrac.sty, xinttools.sty, xint.ins, xint.tex, README, README.md, README.html, README.pdf, CHANGES.md, CHANGES.html, CHANGES.pdf, pandoctpl.latex, doHTMLs.sh, doPDFs.sh, xint.dvi, xint.pdf, and Makefile.mk.
 </div>
 </body>
 </html>

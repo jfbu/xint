@@ -21,7 +21,7 @@
 %% same distribution. (The sources need not necessarily be
 %% in the same archive or directory.)
 %% ---------------------------------------------------------------
-%% The xint bundle 1.3d 2019/01/06
+%% The xint bundle 1.3e 2019/04/05
 %% Copyright (C) 2013-2019 by Jean-Francois B.
 %% ---------------------------------------------------------------
 %%
@@ -41,10 +41,8 @@
 \file{doPDFs.sh}{\from{xint.dtx}{dopdfsh}}
 \ifx\numexpr\undefined\else\catcode9 11
             \file{Makefile.mk}{\from{xint.dtx}{makefile}}\fi
-\file{.latexmkrc}{\from{xint.dtx}{latexmkrc}}
 \usepreamble\defaultpreamble
 \usepostamble\defaultpostamble
-\file{xint-gind.ist}{\from{xint.dtx}{gind}}
 \file{pandoctpl.latex}{\from{xint.dtx}{pandoctpl}}
 \file{xint.tex}{\from{xint.dtx}{drv}}
 \file{xintkernel.sty}{\from{xint.dtx}{xintkernel}}
@@ -56,7 +54,9 @@
 \file{xintfrac.sty}{\from{xint.dtx}{xintfrac}}
 \file{xintseries.sty}{\from{xint.dtx}{xintseries}}
 \file{xintcfrac.sty}{\from{xint.dtx}{xintcfrac}}
-\file{xintexpr.sty}{\from{xint.dtx}{xintexpr}}}
+\file{xintexpr.sty}{\from{xint.dtx}{xintexpr}}
+\file{xinttrig.sty}{\from{xint.dtx}{xinttrig}}
+\file{xintlog.sty}{\from{xint.dtx}{xintlog}}}
 \catcode32=13\relax% active space
 \let =\space%
 \Msg{********************************************************************}
@@ -73,6 +73,8 @@
 \Msg{*     xintseries.sty}
 \Msg{*     xintcfrac.sty}
 \Msg{*     xintexpr.sty}
+\Msg{*     xinttrig.sty}
+\Msg{*     xintlog.sty}
 \Msg{*     xinttools.sty}
 \Msg{*}
 \Msg{* To produce the user manual run latex thrice on xint.tex}
