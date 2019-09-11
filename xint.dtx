@@ -3,27 +3,27 @@
 % Extract all files via "etex xint.dtx" and do "make help"
 % or follow instructions from extracted README.md.
 %<*dtx>
-\def\xintdtxtimestamp {Time-stamp: <06-04-2019 at 18:55:58 CEST>}
+\def\xintdtxtimestamp {Time-stamp: <10-09-2019 at 22:59:27 CEST>}
 %</dtx>
 %<*drv>
 %% ---------------------------------------------------------------
-\def\xintdocdate {2019/04/05}
-\def\xintbndldate{2019/04/05}
-\def\xintbndlversion {1.3e}
+\def\xintdocdate {2019/09/10}
+\def\xintbndldate{2019/09/10}
+\def\xintbndlversion {1.3f}
 %</drv>
 %<readme>% README
 %<changes>% CHANGE LOG
-%<readme|changes>% xint 1.3e
-%<readme|changes>% 2019/04/05
+%<readme|changes>% xint 1.3f
+%<readme|changes>% 2019/09/10
 %<readme|changes>
-%<readme|changes>    Source:  xint.dtx 1.3e 2019/04/05 (doc 2019/04/05)
+%<readme|changes>    Source:  xint.dtx 1.3f 2019/09/10 (doc 2019/09/10)
 %<readme|changes>    Author:  Jean-Francois B.
 %<readme|changes>    Info:    Expandable operations on big integers, decimals, fractions
-%<readme|changes>    License: LPPL 1.3e
+%<readme|changes>    License: LPPL 1.3f
 %<readme|changes>
 %<*!readme&!changes&!dohtmlsh&!dopdfsh&!makefile>
 %% ---------------------------------------------------------------
-%% The xint bundle 1.3e 2019/04/05
+%% The xint bundle 1.3f 2019/09/10
 %% Copyright (C) 2013-2019 by Jean-Francois B.
 %<xintkernel>%% xintkernel: Paraphernalia for the xint packages
 %<xinttools>%% xinttools: Expandable and non-expandable utilities
@@ -240,15 +240,44 @@ and Makefile.mk.</div>
 %</readme>--------------------------------------------------------
 %<*changes>-------------------------------------------------------
 
+`1.3f (2019/09/10)`
+----
+
+### Improvements and new features
+
+ - **xintfrac**: `\xintDigits = P;` syntax (i.e. without a colon) is now
+   accepted in addition to `\xintDigits := P;`.
+
+     Document that the ending semi-colon can not be an active character
+   and that it has always been allowed to use in its place a
+   non-expanding token e.g. `\xintDigits := 32\relax`.
+
+     Add `\xintSetDigits`.
+
+ - **xintexpr**: add starred variants `\xintDigits*` and `\xintSetDigits*`
+   which execute `\xintreloadxinttrig`.
+
+     Revert 1.3e ban on usage of `\xinteval` et al. inside expressions by
+   `\xintdeffunc`.  And make them usable also inside macro definitions via
+   `\xintNewExpr`.
+
+### Bug fixes
+
+ - **xintexpr**: fix bug preventing usage of `\xintdefefunc` to define a
+   function without variables.
+
+     Fix some issue with `\xintfloatexpr[D]..\relax` if used inside an
+   expression parsed by `\xintdeffunc` et al.
+
+
 `1.3e (2019/04/05)`
 ----
 
 ### Incompatible changes
 
- - When defining functions, sub-expressions can only use the
-   `\xint(float)expr...\relax` syntax. One can *not* use there the
-   `\xint(float)eval` wrappers (anyhow they add overhead and can be
-   replaced with the lower level syntax).
+ - (_reverted at 1.3f_) When defining functions, sub-expressions can only
+   use the `\xint(float)expr...\relax` syntax. One can not use there the
+   `\xint(float)eval` wrappers.
 
 ### Improvements and new features
 
@@ -258,10 +287,12 @@ and Makefile.mk.</div>
    digits. It is for the most part implemented using high level user
    interface, but will probably get some optimizations in future (and
    perhaps extension to more digits).
+
  - The **xintlog** library is automatically loaded by **xintexpr**. It
    uses [poormanlog](http://ctan.org/pkg/poormanlog) to provide
    logarithms and exponentials with almost 9 digits of precision.
    Extended precision is for a future release.
+
  - **xintexpr**: `\xintdefefunc`, `\xintdeffloatefunc`, `\xintdefiiefunc`
    define functions which are not protected against expansion in the
    definition of other functions; refer to `xint.pdf` for the related
@@ -270,9 +301,12 @@ and Makefile.mk.</div>
    Notice that whole area of `\xintdef(e)func`, `\xintNewExpr`,
    `\xintNewFunction` is complex and to be considered still as work in
    progress as it has a number of shortcomings.
+
  - **xintexpr**: `inv()`, `ilog10()`, `sfloat()`, behaviour of
    `qfloat()` slightly modified.
+
  - **xintexpr**: `\xintensuredummy`, `\xintrestorelettervar`.
+
  - The optional argument of `\xintfloatexpr` or `\xintfloateval` (it
    must be at start of braced argument) can be negative; it then means
    to trim (and round) from the output at float precision that many
@@ -2515,6 +2549,10 @@ dvipdfmx CHANGES.dvi
 \ifpdf  \chardef\Withdvipdfmx 0 \fi
 \ifxetex\chardef\Withdvipdfmx 0 \fi
 
+% Get rid of HARASSMENT by KOMA-Script
+\makeatletter
+\def\class@shoulddisablepackagewarning@list{tocloft.}
+\makeatother
 \ifnum\Withdvipdfmx=1
 \def\pgfsysdriver{pgfsys-dvipdfm.def}
 \documentclass [dvipdfm, dvipdfmx, dvipdfmx-outline-open]{scrdoc}
@@ -2581,7 +2619,6 @@ dvipdfmx CHANGES.dvi
 \fi
 
 \usepackage{xinttools}
-\xintverbosetrue
 
 \usepackage{enumitem}
 \usepackage{varioref}
@@ -3672,15 +3709,16 @@ pdfpagemode=UseOutlines}
     \node [right of=kernel] (B) {};
     \node [block, below right of=B] (core) {\xintcorename};
     \node [block, below left of=A]  (tools) {\xinttoolsname};
-    \node [block, right of=core, xshift=1cm]  (bnumexpr) {\href{http://www.ctan.org/pkg/bnumexpr}{bnumexpr}};
+    \node [block, right of=core, xshift=1cm]  (bnumexpr) {\href{https://ctan.org/pkg/bnumexpr}{bnumexpr}};
     \node [block, below of=core] (xint) {\xintname};
     \node [block, left of=xint, xshift=-.5cm] (gcd) {\xintgcdname};
     \node [block, left of=gcd] (binhex) {\xintbinhexname};
     \node [block, below of=xint] (frac) {\xintfracname};
     \node [block, below of=frac, yshift=-.5cm] (expr) {\xintexprname};
-    \node [block, below right of=expr, yshift=-.5cm, xshift=2.25cm] (polexpr) {\href{http://www.ctan.org/pkg/polexpr}{polexpr}};
+    \node [block, below right of=expr, yshift=-.5cm, xshift=2.25cm] (polexpr) {\href{https://ctan.org/pkg/polexpr}{polexpr}};
     \node [block, below of=expr, yshift=-.5cm] (trig) {\xinttrigname};
     \node [block, left of=trig] (log) {\xintlogname};
+    \node [block, left of=log, xshift=-1cm] (poormanlog) {\href{https://ctan.org/pkg/poormanlog}{poormanlog}};
     \node [block, below right of=frac, xshift=1cm] (series) {\xintseriesname};
     \node [block, right of=series] (cfrac) {\xintcfracname};
     % Draw edges
@@ -3695,6 +3733,7 @@ pdfpagemode=UseOutlines}
     \path [line,-{Stealth[length=5mm]}] (expr) -- (polexpr);
     \path [line,{Stealth[length=5mm]}-{Stealth[length=5mm]}] (expr) -- (trig);
     \path [line,{Stealth[length=5mm]}-{Stealth[length=5mm]}] (expr) -- (log);
+    \path [line,-{Stealth[length=5mm]}] (poormanlog) -- (log);
     \path [line,-{Stealth[length=5mm]}] (expr) -- (polexpr);
     \path [line,-{Stealth[length=5mm]}] (frac) to [out=0,in=90] (series.north);
     \path [line,-{Stealth[length=5mm]}] (frac) to [out=0,in=90] (cfrac.north);
@@ -3720,15 +3759,18 @@ pdfpagemode=UseOutlines}
     functionalities of the lower module it is thus necessary to use 
     a suitable |\usepackage| (\LaTeX) or |\input| (Plain \TeX.)\par
 
-    \href{http://ctan.org/pkg/bnumexpr}{bnumexpr} is a
+    \href{https://ctan.org/pkg/bnumexpr}{bnumexpr} is a
     separate (\LaTeX{} only) package by the author which uses (by default)
     \xintcorename as its mathematical engine.
 
-    \href{http://ctan.org/pkg/polexpr}{polexpr} is a
+    \href{https://ctan.org/pkg/polexpr}{polexpr} is a
     separate (\LaTeX{} only) package by the author which requires \xintexprname.
 
     \xinttrigname and \xintlogname are loaded automatically by \xintexprname; they
     will refuse to be loaded directly (but see \csbxint{reloadxinttrig}).
+
+    \href{https://ctan.org/pkg/poormanlog}{poormanlog} is a \TeX{} and
+    \LaTeX{} package by the author which is loaded automatically by \xintlogname.
 \par
 \end{addmargin}
 
@@ -3899,7 +3941,7 @@ Float computations are done by default with \dtt{16} digits of precision.
 This can be changed via an assignment to |\xintDigits|:
 \begin{everbatim*}
 % use braces (or a LaTeX environment) to limit the scope of the \xintDigits assignment
-{\xintDigits := 88;\xintfloateval{3.25^100-3.2^100}}\par
+{\xintDigits := 88\relax \xintfloateval{3.25^100-3.2^100}}\par
 \end{everbatim*}
 Trigonometrical function need a reload after modifying the float precision,
 this is done by \csbxint{reloadxinttrig}.
@@ -3907,7 +3949,7 @@ this is done by \csbxint{reloadxinttrig}.
 We can even try daring things:\footnote{The \cs{printnumber} is not part of
   the package, see \autoref{ssec:printnumber}.}
 \begin{everbatim*}
-{\xintDigits:=500;\printnumber{\xintfloateval{sqrt(2)}}}
+{\xintDigits:=500\relax \printnumber{\xintfloateval{sqrt(2)}}}
 \end{everbatim*}
 
 All operations executed by the parsers are based on underlying macros from
@@ -4061,7 +4103,7 @@ opt for the floating point version:
 A bigger example (the scope of
 the assignment to |\xintDigits| is limited by the braces):
 \begin{everbatim*}
-{\xintDigits:=24; \xintthefloatexpr 1.23456789123456789^123456789\relax }
+{\xintDigits:=24\relax  \xintthefloatexpr 1.23456789123456789^123456789\relax }
 \end{everbatim*}
 (<- notice the size of the power of ten: this surely largely exceeds your pocket
 calculator abilities).
@@ -4132,7 +4174,7 @@ which are among the extra packages included in the \xintname distribution.
 
 The printing of the outputs will either use a custom |\printnumber| macro as
 described in the previous section, or sometimes the |\np| macro from the
-\href{http://www.ctan.org/pkg/numprint}{numprint} package (see
+\href{https://ctan.org/pkg/numprint}{numprint} package (see
 \autoref{fn:np}).
 
 \begin{itemize}
@@ -4160,12 +4202,12 @@ described in the previous section, or sometimes the |\np| macro from the
   exact evaluation before truncation would be costly, and it is more efficient
   to use floating point numbers:
 %
-\leftedline{|\xintDigits:=20;
+\leftedline{|\xintDigits:=20\relax 
                \np{\xintthefloatexpr .7123045678952^-243\relax}|}%
 %
-\leftedline{\xintDigits:=20;\dtt{\np{\xintthefloatexpr .7123045678952^-243\relax }}}
+\leftedline{\xintDigits:=20\relax \dtt{\np{\xintthefloatexpr .7123045678952^-243\relax }}}
 %
-\xintDigits:=16;%
+\xintDigits:=16\relax %
 %
 Side note: the exponent |-243| didn't have to be put inside parentheses,
 contrarily to what happens with some professional computational
@@ -4182,8 +4224,8 @@ software. |;-)|
 \item {$2000!$ as a float. As \xintexprname does not handle |exp/log| so far,
     the computation is done internally without the Stirling formula,
     by repeated multiplications truncated suitably:}\\
-  |\xintDigits:=50;|\newline |\xintthefloatexpr 2000!\relax|:
-  {\xintDigits:=50;\dtt{\printnumber{\xintthefloatexpr 2000!\relax}}}
+  |\xintDigits:=50\relax |\newline |\xintthefloatexpr 2000!\relax|:
+  {\xintDigits:=50\relax \dtt{\printnumber{\xintthefloatexpr 2000!\relax}}}
 
 \item Just to show off (again), let's print 300 digits (after the decimal
   point) of the decimal expansion of $0.7^{-25}$:%
@@ -4245,7 +4287,7 @@ $\frac{\pi^2}{144}-\frac1{162}={}$%
 \dtt{\np{0.06236607994583659534684445}\dots}\,%
 %
 \footnote{\label{fn:np}This number is typeset using the
-  \href{http://www.ctan.org/pkg/numprint}{numprint} package, with
+  \href{https://ctan.org/pkg/numprint}{numprint} package, with
   |\npthousandsep{,\hskip 1pt plus .5pt minus .5pt}|. But the breaking
   across lines works only in text mode. The number itself was (of
   course...) computed initially with \xintname, with 30 digits of $\pi$
@@ -4274,7 +4316,7 @@ was:
 \leftedline{|\numprint{\xintFloatPow [24]{2}{999999999}}|}
 \leftedline{\dtt{\numprint{\Temp}}}
 %
-where the \href{http://www.ctan.org/pkg/numprint}{numprint} package was used
+where the \href{https://ctan.org/pkg/numprint}{numprint} package was used
 (\autoref{fn:np}), directly in text mode (it can also naturally be used from
 inside math mode). \xintname provides a simple-minded \csbxint{Frac}
 typesetting macro,%
@@ -4295,7 +4337,7 @@ number formatting macros than |\xintFrac|.
 %
 We have already mentioned
 |\numprint| which is used above, there is also |\num| from package
-\href{http://www.ctan.org/pkg/siunitx}{siunitx}. The raw output from
+\href{https://ctan.org/pkg/siunitx}{siunitx}. The raw output from
 %
 \leftedline{\detokenize{\xintFloatPow[24]{2}{999999999}}}
 %
@@ -4382,7 +4424,7 @@ run.%
 is probably no need for a custom install: just use the package manager to
 update if necessary \xintname to the latest version available.
 
-The |README| files on \href{http://www.ctan.org/pkg/xint}{CTAN} explain how to
+The |README| files on \href{https://ctan.org/pkg/xint}{CTAN} explain how to
 proceed with a custom installation.
 
 On \TeX\ distributions with a |"texdoc"| or similar utility,
@@ -4396,14 +4438,14 @@ will offer to display one of those files:
 \end{itemize}
 
 % For manual installation, follow the instructions from the |README| file which
-% is to be found on \href{http://www.ctan.org/pkg/xint}{CTAN}; it is also
+% is to be found on \href{https://ctan.org/pkg/xint}{CTAN}; it is also
 % available there in PDF and HTML formats. The simplest method proposed is to
-% use the archive file \href{http://www.ctan.org/pkg/xint}{xint.tds.zip},
+% use the archive file \href{https://ctan.org/pkg/xint}{xint.tds.zip},
 % downloadable from the same location.
 
 % The next simplest one is to make use of the |Makefile|, which is also
 % downloadable from
-% \href{http://mirror.ctan.org/macros/generic/xint}{CTAN}. This is
+% \href{http://mirrors.ctan.org/macros/generic/xint}{CTAN}. This is
 % for GNU/Linux systems and Mac OS X, and necessitates use of the command
 % line. If for some reason you have |xint.dtx| but no internet access,
 % you can recreate |Makefile| as a file with this name and the following
@@ -4434,6 +4476,25 @@ For more information see
 The formatted source code is available in file |sourcexint.pdf|:
 \centeredline{|texdoc sourcexint|}
 
+\noindent\expandafter|\xintbndlversion| (\expandafter|\xintbndldate|):
+\begin{itemize}[nosep]
+\item Fix bug preventing usage of \csbxint{defefunc}
+      to define a function with no variables.
+\item Fix bug with usage of |\xintfloatexpr[D]..\relax| inside the parsed
+      expression for \csbxint{deffunc} and variants.
+\item Revert |1.3e| ban on usage of \csbxint{eval} et al. inside a function
+      definition via \csbxint{deffunc} and variants.
+\item Macro definitions via \csbxint{NewExpr} now also allow \csbxint{eval} et
+      al. within them.
+\item Add \csbxint{Digits}|=P;| syntax with no colon.
+\item Document that the ending semi-colon in \csbxint{Digits}|:=P;| must not
+      be active, and that it has always been allowed to use any non-expanding
+      token such as a dot or a |\relax| in its place.
+\item Add \csbxint{SetDigits} user interface.
+\item Add \csbxint{Digits*}|:=P;| and \csbxint{SetDigits*}|{P}| variants
+      which execute \csbxint{reloadxinttrig}.
+\end{itemize}
+
 \noindent|1.3e| (|2019/04/05|):
 \begin{itemize}[nosep]
 \item An \xinttrigname library is automatically loaded by \xintexprname and
@@ -4455,13 +4516,13 @@ The formatted source code is available in file |sourcexint.pdf|:
   \csbxint{defiiefunc} and documented the ``protected'' nature of the
   functions defined by the original variants \csbxint{deffunc} et al. This
   whole area is complex and to be still considered work in progress.
-\item Breaking change: only the \csbxint{expr}|...\relax| syntax is accepted
-  for sub-expressions when doing function definitions via \csbxint{deffunc}
-  and \csbxint{defefunc} et al. One can \textbf{not} use \csbxint{eval},
-  \csbxint{ieval}, \csbxint{floateval} for sub-evaluations inside such
-  definitions (anyway there are not efficient there because the parser will
-  have to recollect the digits of the value whereas \csbxint{expr} keeps some
-  private internal format).
+\item Breaking change (\emph{which got reverted at
+    \texttt{1.3f}}):\CHANGED{1.3f}
+  only the
+  \csbxint{expr}|...\relax| syntax is accepted for sub-expressions when doing
+  function definitions via \csbxint{deffunc} and \csbxint{defefunc} et al. One
+  can not use \csbxint{eval}, \csbxint{ieval}, \csbxint{floateval} inside such
+  definitions.
 \item \func{inv}, \func{ilog10}.
 \item \func{sfloat}, slight modification of behaviour of \func{qfloat}.
 \item \csbxint{ensuredummy}, \csbxint{restorelettervar}.
@@ -4470,24 +4531,25 @@ The formatted source code is available in file |sourcexint.pdf|:
   \csbxint{theDigits} diminished by this argument.
 \end{itemize}
 
-\noindent|1.3d| (|2019/01/06|):
-\begin{itemize}[nosep]
-\item \func{gcd} and \func{lcm} in \csbxint{expr}|...\relax| now handle
-  general arguments, without converting them to integers,
-\item It is not needed anymore to load package \xintgcdname to benefit from
-  \func{gcd} and \func{lcm} in the parsers.
-\item \csbxint{ifsgnexpr}, \csbxint{ifsgnfloatexpr}, \csbxint{ifsgniiexpr}.
-\item \csbxint{unassignexprfunc} and variants for the other parsers.
-\item \func{isone} and \func{isint}.
-\item \csbxint{eval}, \csbxint{ieval}, \csbxint{iieval}, and
-   \csbxint{floateval}. Attention: these names were formerly used with some other
-    (barely documented) meanings, for which |\xintexpro|, |\xintiexpro|,
-    etc... are now used.
-\item Sadly, in \csbxint{iiexpr}|...\relax| division with a zero dividend and
-  a one-digit divisor got broken at |1.2p|. Fixed. Thanks to \textsc{Kpym} for
-  report. Sorry for long delay in releasing the bugfix, which was done shortly
-  after |1.3c| release.
-\end{itemize}
+% \noindent|1.3d| (|2019/01/06|):
+% \begin{itemize}[nosep]
+% \item \func{gcd} and \func{lcm} in \csbxint{expr}|...\relax| now handle
+%   general arguments, without converting them to integers,
+% \item It is not needed anymore to load package \xintgcdname to benefit from
+%   \func{gcd} and \func{lcm} in the parsers.
+% \item \csbxint{ifsgnexpr}, \csbxint{ifsgnfloatexpr}, \csbxint{ifsgniiexpr}.
+% \item \csbxint{unassignexprfunc} and variants for the other parsers.
+% \item \func{isone} and \func{isint}.
+% \item \csbxint{eval}, \csbxint{ieval}, \csbxint{iieval}, and
+%    \csbxint{floateval}. Attention: these names were formerly used with some other
+%     (barely documented) meanings, for which |\xintexpro|, |\xintiexpro|,
+%     etc... are now used.
+% \item Sadly, in \csbxint{iiexpr}|...\relax| division with a zero dividend and
+%   a one-digit divisor got broken at |1.2p|. Fixed. Thanks to \textsc{Kpym} for
+%   report. Sorry for long delay in releasing the bugfix, which was done shortly
+%   after |1.3c| release.
+% \end{itemize}
+
 
 \section{The syntax of \xintexprname expressions}
 \label{sec:xintexprsyntax}
@@ -4510,7 +4572,7 @@ separated list of results.
   |num(6.02e23)| which will convert to an integer notation
   \dtt{\printnumber{\xinttheiiexpr num(6.02e23)\relax}}.
 \item \csbxint{thefloatexpr}| ... \relax| does computations with a given
-  precision \dtt{P}, as specified via a prior assignment |\xintDigits:=P;|.
+  precision \dtt{P}, as specified via a prior assignment |\xintDigits:=P\relax |.
   The default is \dtt{P=16} digits. An optional argument controls the
   precision for \emph{formatting the output} (this is not the precision of the
   computations themselves). The four basic operations and the square root
@@ -4906,7 +4968,7 @@ Miscellaneous notes:
   |2|.%
 \begin{everbatim*}
   \pdfsetrandomseed 12345
-  \xintDigits:=37;%
+  \xintDigits:=37\relax
   \xintthefloatexpr random()\relax\newline
   \xintthefloatexpr random()\relax\par
 \end{everbatim*}
@@ -4927,7 +4989,7 @@ Miscellaneous notes:
 \begin{everbatim*}
   % still with 37 digits as prevailing float precision
   \xintthefloatexpr qrand(), random()\relax\newline
-  \xintDigits:=16;%
+  \xintDigits:=16\relax
   \xintthefloatexpr qrand(), random()\relax\par
 \end{everbatim*}
 
@@ -5149,16 +5211,16 @@ $\xintthefloatexpr subs(((x-1)/x, x/x, (x+1)/x), x=2**30)\relax
     allow arbitrarily complicated combinations of various |bool(name)|.
 \funcdesc[name]{togl} 
     returns $1$
-    if the \LaTeX{} package \href{http://www.ctan.org/pkg/etoolbox}{etoolbox}%
+    if the \LaTeX{} package \href{https://ctan.org/pkg/etoolbox}{etoolbox}%
     %
     %
 %
-\footnote{\url{http://www.ctan.org/pkg/etoolbox}}
+\footnote{\url{https://ctan.org/pkg/etoolbox}}
     %
     has been used to define a toggle named |name|, and this toggle is
     currently set to |true|. Using |togl| in an |\xintexpr..\relax|
     without having loaded
-    \href{http://www.ctan.org/pkg/etoolbox}{etoolbox} will result in an
+    \href{https://ctan.org/pkg/etoolbox}{etoolbox} will result in an
     error from |\iftoggle| being a non-defined macro. If |etoolbox| is
     loaded but |togl| is used on a name not recognized by |etoolbox|
     the error message will be of the type ``ERROR: Missing |\endcsname|
@@ -5277,7 +5339,7 @@ $\xintthefloatexpr subs(((x-1)/x, x/x, (x+1)/x), x=2**30)\relax
     use of inside \csa{xintexpr}|...\relax|, this switches to the use of the
     float version, rather than the exact one.
 \begin{everbatim*}
-\xinttheexpr factorial (100,32)\relax, {\xintDigits:=32;\xintthefloatexpr
+\xinttheexpr factorial (100,32)\relax, {\xintDigits:=32\relax \xintthefloatexpr
                                            factorial (100)\relax}\newline
 \xinttheexpr factorial (50)\relax\newline
 \xinttheexpr factorial (50, 32)\relax
@@ -5291,6 +5353,9 @@ $\xintthefloatexpr subs(((x-1)/x, x/x, (x+1)/x), x=2**30)\relax
     a random integer |A <= x < B|. As in Python it is an «empty range» error
     in first case if |A| is zero or negative and in second case if |B <= A|.
     \NewWith{1.3b}
+
+    Attention that the arguments are first converted to integers using
+    \csbxint{Num} (i.e. truncated towards zero).
 
     The function can be used in all three parsers. Of course the size is not
     limited (but in the float parser, the integer will be rounded if involved
@@ -5392,10 +5457,10 @@ mod(11/7,1/13)- (11/7)/:(1/13), (11/7)//(1/13)\relax\newline
   the |q| is produced unrounded. Either as in the above example or this one
   with comparison operators:
 \begin{everbatim*}
-\xintDigits := 4;%
+\xintDigits := 4\relax
 \xintthefloatexpr if(12345678//23=537000, 1, 0), 12345678//23\relax\newline
 \xintthefloatexpr if(float(12345678//23)=537000, 1, 0)\relax\par
-\xintDigits := 16;%
+\xintDigits := 16\relax
 \end{everbatim*}
   In the first line, the comparison is done with
   |floor(12350000/23)|\dtt{=\xinttheiiexpr12350000/23\relax} (notice in
@@ -5668,32 +5733,30 @@ this ``nuple''. For example:
   We can illustrate its use with an expandable (!)
   implementation of the Brent-Salamin algorithm for the computation of $\pi$:
 \begin{everbatim*}
-\xintDigits:= 91;
-\xintdeffloatfunc BS(a, b, t, p):= (a+b)/2, sqrt(a*b), t-p(a-b)^2, \xintiiexpr 2p\relax;
-\xintthefloatexpr [88] % use 3 guard digits (output value is *rounded*)
-  iter(1, 1/sqrt(2), 1, 1; % initial values
-      ([@][0]-[@][1]<2[-45])? % if a-b is small enough stop iterating and ... 
-      {break(([@][0]+[@][1])^2/[@][2])}      % ... do final computation,
-      {BS(@)}, % else do iteration via pre-defined (for convenience) function BS.
+\xintDigits:= 87\relax 
+% Below 83 is 87-3-1 (3 guard digits, target 84=1+83 digits) and 43 is 84/2+1.
+\xintdeffloatefunc BS(a, b, t, p):= 0.5*(a+b), sqrt(a*b), t-p*sqr(a-b), \xintiiexpr 2p\relax;
+\xinteval
+{trunc(% I feel truncation is better than rounding to display decimals of π
+  \xintfloatexpr
+    iter(1, sqrt(0.5), 1, 1; % initial values
+      ([@][0]-[@][1]<2e-43)?% stopping criteria; takes into account that the
+                            % exit computation (break() argument) doubles
+                            % number of exact digits (roughly) 
+      {break(sqr([@][0]+[@][1])/[@][2])}      % ... do final computation,
+      {BS(@)}, % else do iteration
        i=1++)  % This generates infinite iteration. The i is not used.
-\relax
-\xintDigits:=16;%
+  \relax
+ , 83)% closing parenthesis of trunc()
+}...% some dots following end of \xinteval argument
+\xintDigits:=16\relax
 \end{everbatim*}\newline
-  You can try with |\xintDigits:=1001;| and |2[-501]| in place of
-  |\xintDigits:=91;| and |2[-45]|, but don't make a final rounding to only
-  |88| digits of course ... and better wrap the whole thing in |\message| or
-  |\immediate\write128| because it will run in the right margin (about
-  \dtt{7}s on my laptop last time I tried). By the way here is how the |BS|
-  function is defined internally:
-\begin{everbatim}
-    Function BS for \xintfloatexpr parser associated to \XINT_flexpr_userfunc_B
-S with meaning macro:#1#2#3#4->\XINTinFloatDiv {\XINTinFloatAdd {#1}{#2}}{2},\X
-INTinFloatSqrtdigits {\XINTinFloatMul {#1}{#2}},\XINTinFloatSub {#3}{\XINTinFlo
-atMul {#4}{\XINTinFloatPowerH {\XINTinFloatSub {#1}{#2}}{2}}},\xintiiMul {2}{#4
-}
-\end{everbatim}
-
-
+  You can try with |\xintDigits:=1004\relax| and |2e-501| in place of
+  |\xintDigits:=87\relax| and |2e-43|, but be patient for some seconds
+  for the result. Of course don't truncate the final
+  result to only \dtt{83} fractional decimal digits but \dtt{1000}...
+  and better to wrap the whole thing in |\message| or
+  |\immediate\write128| or |\edef| because it will then run in the right margin.
 
 \funcdesc[initial values; expr, letter=values]{rrseq} recursive sequence with multiple initial terms. Say, there are
   |K| of them. Then |@1|, ..., |@4| and then |@@(n)| up to |n=K| refer to the
@@ -5864,19 +5927,16 @@ Prime numbers are always cool
 \end{everbatim*}
 
 The syntax in this last example may look a bit involved (... and it is so I
-admit). First |x/:m| computes
-|x modulo m| (this is the modulo with respect to truncated division, which
-here for positive arguments is like Euclidean division; in
-|\xintexpr...\relax|, |a/:b| is such that |a = b*(a//b)+a/:b|, with |a//b| the
-algebraic quotient |a/b| truncated to an integer.). The |(x)?{yes}{no}|
-construct checks if |x| (which \emph{must} be within parentheses) is true or
-false, i.e. non zero or zero. It then executes either the |yes| or the |no|
-branch, the non chosen branch is \emph{not} evaluated. Thus if |m| divides |x|
-we are in the second (``false'') branch. This gives a |-1|. This |-1| is the
-argument to a |??| branch which is of the type |(y)??{y<0}{y=0}{y>0}|, thus here
-the |y<0|, i.e., |break(0)| is chosen. This |0| is thus given to another |?|
-which consequently chooses |omit|, hence the number is not kept in the list.
-The numbers which survive are the prime numbers.
+admit). First |x/:m| computes |x modulo m| (this is the modulo with respect to
+floored division). The |(x)?{yes}{no}| construct checks if |x| (which
+\emph{must} be within parentheses) is true or false, i.e. non zero or zero. It
+then executes either the |yes| or the |no| branch, the non chosen branch is
+\emph{not} evaluated. Thus if |m| divides |x| we are in the second (``false'')
+branch. This gives a |-1|. This |-1| is the argument to a |??| branch which is
+of the type |(y)??{y<0}{y=0}{y>0}|, thus here the |y<0|, i.e., |break(0)| is
+chosen. This |0| is thus given to another |?| which consequently chooses
+|omit|, hence the number is not kept in the list. The numbers which survive
+are the prime numbers.
 
 \begin{everbatim*}
 The first Fibonacci number beyond |2^64| bound is
@@ -6030,10 +6090,9 @@ A variable name must start with a letter:
 \end{itemize}
 
 |x_1x| is a licit variable name, as well as |x_1x_| and |x_1x_2| and |x_1x_2y|
-etc... hence tacit multiplication fails in cases like |x_1x_2| with |x_1| and
-|x_2| defined as variables; the parser goes not go to the effort of tracing
-back its steps, and it is too late when it realizes |x_1x_2| isn't a valid
-variable name. An explicit infix |*| operator is needed.
+etc... As the parser does not trace back its steps, it will raise an ``unknown
+variable'' error in cases such as |x_1x_2| with defined variables |x_1| and
+|x_2| but not |x_1x_2|. Input syntax must be |x_1*x_2| in such cases.
 
 Single letter names |a..z| and |A..Z| are pre-declared by the package for use
 as special type of variables called ``dummy variables''. It is allowed to
@@ -6074,9 +6133,9 @@ rounding errors:
 \xintdeffloatvar  e_4:=e_2+add(1/i!, i=11..20);% float sum
 \xintthefloatexpr e_3, e_4\relax\newline
 \xintdeffloatvar e:=2.7182818284590452353602874713526624977572470936999595749669676;%
-\xintDigits:=24;
+\xintDigits:=24\relax 
 \xintthefloatexpr[16] e, e^1000, e^1000000\relax (e rounded to 24 digits first)\newline
-\xintDigits:=16;
+\xintDigits:=16\relax 
 \xintthefloatexpr     e, e^1000, e^1000000\relax (e rounded to 16 digits first)\par
 \end{everbatim*}
 
@@ -6179,6 +6238,16 @@ Since release |1.2c| it is possible to declare functions:
 \end{everbatim*}(notice the numerous tacit multiplications in this expression;
 and that |x/2y| is interpreted as |x/(2y)|.)
 
+\begin{framed}
+  The ending semi-colon is allowed to be of active catcode, as |\xintdeffunc|
+  temporarily resets (since |1.3c|) its catcode before parsing the expression.
+  But this will fail if the whole thing is inside a macro definition. Then the
+  used semi-colon must be the standard one.
+
+  The colon is optional (since |1.2e|) and its (reasonable) catcode does not
+  matter.
+\end{framed}
+
 
 
 Here are a few important items (bookmark this for reading again later once you
@@ -6195,15 +6264,7 @@ have gained experience in using this interface...):
 \item A function can have at most nine variables.
 \item The mechanism for functions shares a common code base with the one
   implementing \csbxint{NewExpr}. This means it shares its features and also
-  its \hyperref[sssec:limitations]{limitations}. %
- 
-  Most notably,\IMPORTANT{} the |1.3d| \csbxint{eval}, \csbxint{ieval},
-  \csbxint{floateval} can not be used inside the parsed
-  expression: only the lower level syntax
-  \csbxint{expr}|...\relax| et al. is accepted (and not
-  \csbxint{theexpr} et al.\CHANGED{1.3e} which are about the same as \csbxint{eval} et al.).
-  Prior to |1.3e| \csbxint{NewExpr} and \csbxint{deffunc} diverged on that
-  point, but their behaviour is now identical.
+  its \hyperref[sssec:limitations]{limitations}.
 \item In order to allow recursive constructs, a core mechanism is implemented
   which inhibits immediate expansion in a new definition; think of
   \csbxint{deffunc} as being 
@@ -6259,11 +6320,6 @@ have gained experience in using this interface...):
 \item If the expression uses an \func{iterr}, \func{rseq}, or \func{rrseq}) it
   must hide its |;| inside braces to let it not be confused with the ending
   |;|.
-\item \csbxint{deffunc} tries to set the catcode of |;| before fetching the
-  expression as a delimited parameter, but this is too late if the whole thing
-  was already fetched as argument to some macro. On the other hand the
-  (reasonable) catcode of the |:| does not matter at all, actually this colon
-  before the equality sign is optional.
 \end{itemize}
 
 
@@ -6416,8 +6472,9 @@ some example here...
 Think of former described variant \csbxint{deffunc} as doing the same as this
 \csbxint{defefunc}\NewWith{1.3e} but with an extra protection added to the
 defined function. If you don't need recursivity, \csbxint{defefunc} is the
-better tool, as numerical evaluation involving it and arising in further
-definitions will be converted on the spot to actual values, rather than being
+better tool, as numerical evaluations which will use the defined function
+inside further
+definitions will get converted on the spot to actual values, rather than being
 delayed for expansion to actual use of the defined function in \csbxint{eval}
 or \csbxint{ieval}.
 
@@ -6631,7 +6688,7 @@ precision for the evaluation.
 \def\CR{\cr}
 \halign
 {\tabskip1ex
-\hfil\bfseries#&\xintDigits:=\xintiloopindex;\xintthefloatexpr Rump(77617,33096)#\cr
+\hfil\bfseries#&\xintDigits:=\xintiloopindex\relax \xintthefloatexpr Rump(77617,33096)#\cr
 \xintiloop [8+1]
 \xintiloopindex &\relax\CR
 \ifnum\xintiloopindex<40 \repeat
@@ -7146,7 +7203,7 @@ Integers with only $10$ digits and starting with a $3$ already exceed the
 \TeX{} bound; and \TeX{} does not have a native processing of floating point
 numbers (multiplication by a decimal number of a dimension register is allowed
 --- this is used for example by the
-\href{http://mirror.ctan.org/graphics/pgf/base}{pgf} basic math engine.)
+\href{http://mirrors.ctan.org/graphics/pgf/base}{pgf} basic math engine.)
 
 \TeX{} elementary operations on numbers are done via the non-expandable
 \emph{\char92advance, \char92multiply, \emph{and} \char92divide} assignments.
@@ -7155,7 +7212,7 @@ using standard infix notations with \TeX{} integers. But \eTeX{} did not
 modify the \TeX{} bound on acceptable integers, and did not add floating point
 support.
 
-The \href{http://www.ctan.org/pkg/bigintcalc}{bigintcalc} package by
+The \href{https://ctan.org/pkg/bigintcalc}{bigintcalc} package by
 \textsc{Heiko Oberdiek} provided expandable macros (using some of |\numexpr|
 possibilities, when available) on arbitrarily big integers, beyond the \TeX{}
 bound. It does not provide an expression parser.%
@@ -7184,9 +7241,9 @@ notation with a given number of significant figures'.%
 
 The \LaTeX3 project has implemented expandably floating-point computations with
 \dtt{16} significant figures
-(\href{http://www.ctan.org/pkg/l3kernel}{l3fp}), including
+(\href{https://ctan.org/pkg/l3kernel}{l3fp}), including
 functions such as exp, log, sine and cosine.\footnote{at the time of writing (2014/10/28) the
-  \href{http://www.ctan.org/pkg/l3kernel}{l3fp} (exactly represented) floating
+  \href{https://ctan.org/pkg/l3kernel}{l3fp} (exactly represented) floating
   point numbers have their exponents limited to $\pm$\dtt{9999}.}
 %
 
@@ -7220,14 +7277,14 @@ Even with the superior \liiibigint{} Karatsuba multiplication it takes about
 computations in a document. I have long been thinking that without the
 expandability constraint much higher speeds could be achieved, but perhaps I
 have not given enough thought to sustain that optimistic stance.\footnote{The
-  \href{http://www.ctan.org/pkg/apnum}{apnum} package implements
+  \href{https://ctan.org/pkg/apnum}{apnum} package implements
   (non-expandably) arbitrary precision fixed point algebra and (v1.6)
   functions exp, log, sqrt, the trigonometrical direct and inverse functions.}
 
 I remain of the opinion that if one really wants to do computations with
 \emph{thousands} of digits, one should drop the expandability requirement.
 Indeed, as clearly demonstrated long ago by the
-\href{http://www.ctan.org/pkg/pi}{pi computing file} by \textsc{D. Roegel} one
+\href{https://ctan.org/pkg/pi}{pi computing file} by \textsc{D. Roegel} one
 can program \TeX{} to compute with many digits at a much higher speed than
 what \xintname achieves: but, direct access to memory storage in one form or
 another seems a necessity for this kind of speed and one has to renounce at
@@ -7246,7 +7303,7 @@ given arbitrary precision |P|. The default value is $P=16$ meaning that the
 significands of the produced (non-zero) numbers have \dtt{16} decimal digits.
 The syntax to set the precision to |P| is
 %
-\centeredline{|\xintDigits:=P;|}
+\centeredline{|\xintDigits:=P\relax|}
 %
 The value is local to the group or environment (if using \LaTeX). To query the
 current value use \csbxint{theDigits}.
@@ -7446,9 +7503,9 @@ margin annotation next to the description of the arguments.
   package provided conditionals such as \csbxint{ifEq}, \csbxint{ifGt},
   \csbxint{ifSgn},\dots\ or, for \LaTeX{} users and when dealing
   with short integers the
-  \href{http://www.ctan.org/pkg/etoolbox}{etoolbox}%
+  \href{https://ctan.org/pkg/etoolbox}{etoolbox}%
 %
-\footnote{\url{http://www.ctan.org/pkg/etoolbox}}
+\footnote{\url{https://ctan.org/pkg/etoolbox}}
   expandable conditionals (for small integers only) such as \texttt{\char92
     ifnumequal}, \texttt{\char92 ifnumgreater}, \dots . Use of
   \emph{non-expandable} things such as \csa{ifthenelse} is impossible inside the
@@ -7993,9 +8050,9 @@ unused branches should not be forgotten.
 
 If these tests are to be applied to standard \TeX{} short integers, it is more
 efficient to use (under \LaTeX{}) the equivalent conditional tests from the
-\href{http://www.ctan.org/pkg/etoolbox}{etoolbox}%
+\href{https://ctan.org/pkg/etoolbox}{etoolbox}%
 %
-\footnote{\url{http://www.ctan.org/pkg/etoolbox}}
+\footnote{\url{https://ctan.org/pkg/etoolbox}}
 package.
 
 \subsection{No variable declarations are needed}
@@ -9622,6 +9679,12 @@ reversed. Unprotected spaces (of any character code) are gobbled.
 %
 \leftedline{gives:
   \ttfamily{\string\Stuff\string\to1002\string\xintiiPow\string\xintDigitsOf}}
+
+\xinttoolsname provides a variant \csbxint{RevWithBraces} which keeps brace
+pairs in the output, and \fexpan ds its input first.
+
+For inputs consisting only digit tokens, see \csbxint{ReverseDigits} from
+\xintname.
 
 \subsection{\csh{xintLength}}
 \label{xintLength}
@@ -11860,10 +11923,64 @@ $\xintIsOne {21921379213/21921379213}\neq\xintIsOne {1.0000000000000000000000000
 \label{xintDigits}
 \label{xinttheDigits}
 
-The syntax |\xintDigits := D;| (where spaces do not matter) assigns the
-value of |D| to the number of digits to be used by floating point
-operations. The default is |16|. The maximal value is |32767|. The macro
-|\xinttheDigits|\etype{} serves to print the current value.
+The syntax |\xintDigits := D;| assigns the value of |D| to the number of
+digits to be used by floating point operations (this uses internally a
+|\mathchardef| assignement, and |D| stands for (or expands to) a legal \TeX\
+number). The default is |16|. The maximal value is |32767|.
+
+The expandable macro |\xinttheDigits|\etype{} serves to retrieve (internally
+it uses |\number|) the current value.
+
+Spaces do not matter (but they must not occur in-between digit tokens, as such a space
+  would terminate the \TeX{} number):
+\begin{everbatim*}
+\xintDigits := 24;\xinttheDigits, %
+\xintDigits:=36  ;\xinttheDigits, %
+\xintDigits:= 16 ;and \xinttheDigits.
+\end{everbatim*}
+
+It has always been the case that an active colon |:| was allowed.
+It\NewWith{1.3f} is now even possible to drop it and to use |\xintDigits = D;|
+syntax.
+
+An ending active semi-colon |;| is \emph{not} compatible: it can and most
+probably will cause low-level \TeX{} errors at such locations (this is the
+case if it is made active by |\usepackage[french]{babel}| in \LaTeX). This
+restriction always applied, but never got properly documented prior to
+|1.3f| release... It is possible to use |\string;| but then there can not be
+any space separating it from the digits.
+
+But this problem with an active semi-colon |;| has trivial workaround: it
+always applied (but was not formerly documented) that any non-expanding token
+could be used in place of the ending semi-colon |;|. One has always been
+allowed to use e.g. a dot character or a |\relax| token. This non-expanding
+ending token will get removed from the token stream.
+
+The safer syntax is thus |\xintDigits := D\relax| (with or without the colon).
+This is the syntax now in use in most examples from the documentation.
+\begin{everbatim*}
+\xintDigits  = 24\def\xinttheDigits, % only for showing it works! don't do that!
+\xintDigits := 36.\xinttheDigits,    % one can use a dot in place of semi-colon
+\xintDigits  = 16\relax and \xinttheDigits.\par % with \relax, even better
+\end{everbatim*}
+
+\begin{framed}
+  \xintexprname adds the variant \csbxint{Digits*} which executes \csbxint{reloadxinttrig}.
+\end{framed}
+
+\subsection{\csh{xintSetDigits}}
+\label{xintSetDigits}
+
+To be used as |\xintSetDigits|\marg{expression}\ntype{\numx} where the
+expression will be fed to |\numexpr|. It is a shortcut for doing
+|\xintDigits := \numexpr|\meta{expression}|\relax \relax|\NewWith{1.3f}.
+\begin{everbatim*}
+\xintSetDigits{1+2+3+4+5}The value is now \xinttheDigits.
+\xintSetDigits{2*8}The value is now \xinttheDigits.\par
+\end{everbatim*}
+\begin{framed}
+  See also the \xintexprname-added variant \csbxint{SetDigits*}.
+\end{framed}
 
 \subsection{\csh{xintFloat}}\label{xintFloat}
 
@@ -12100,7 +12217,7 @@ $2^{31}$ is not quite there yet.
 
 With expressions:
 \begin{everbatim*}
-{\xintDigits:=48;\np{\xintthefloatexpr 1.1547^(2^35)\relax}}
+{\xintDigits:=48\relax \np{\xintthefloatexpr 1.1547^(2^35)\relax}}
 \end{everbatim*}
 
 There is a subtlety here that the |2^35| will be evaluated as a floating point
@@ -12114,10 +12231,10 @@ efficient to code the above rather as:
 Here is an example with
 |12^16| as exponent, which has $18$ digits (\dtt{={\xintiiPow{12}{16}}}).
 \begin{everbatim*}
-{\xintDigits:=12;\np{\xintthefloatexpr (1+1e-8)^\xintiiexpr 12^16\relax\relax}}\newline
+{\xintDigits:=12\relax \np{\xintthefloatexpr (1+1e-8)^\xintiiexpr 12^16\relax\relax}}\newline
 \np{\xintthefloatexpr (1+1e-8)^\xintiiexpr 12^16\relax\relax}\newline
-{\xintDigits:=27;\np{\xintthefloatexpr (1+1e-8)^(12^16)\relax}}\newline
-{\xintDigits:=48;\np{\xintthefloatexpr (1+1e-8)^(12^16)\relax}}
+{\xintDigits:=27\relax \np{\xintthefloatexpr (1+1e-8)^(12^16)\relax}}\newline
+{\xintDigits:=48\relax \np{\xintthefloatexpr (1+1e-8)^(12^16)\relax}}
 \end{everbatim*}
 
 There is an important difference between |\xintFloatPower[Q]{X}{Y}| and
@@ -12281,7 +12398,7 @@ The associated function in \csbxint{floatexpr} is \func{pfactorial}:
 \xintthefloatexpr pfactorial(2500,5000)\relax
 \end{everbatim*}
 
-\xintDigits:=16;
+\xintDigits:=16\relax 
 
 \subsection{\csh{xintFrac}}\label{xintFrac}
 
@@ -12531,7 +12648,7 @@ operators and functions. This section now adds some complementary information.
 
 \item There is  \csbxint{floatexpr}| ... \relax| where the algebra is done
   in floating point approximation (also for each intermediate result). Use the
-  syntax |\xintDigits:=N;| to set the precision. Default: $16$ digits.
+  syntax |\xintDigits:=N\relax| to set the precision. Default: $16$ digits.
   %
   \leftedline{|\xintthefloatexpr 2^100000\relax:| \dtt{\xintthefloatexpr
       2^100000\relax }}
@@ -12550,7 +12667,7 @@ Here the [60] is to avoid truncation to |\xinttheDigits| of precision on output.
   results will easily have hundreds, if not thousands, of digits.
   %
 \begin{everbatim*}
-\xintDigits:=48;\xintthefloatexpr 2^100000\relax
+\xintDigits:=48\relax \xintthefloatexpr 2^100000\relax
 \end{everbatim*}
 
   Only integer and (in |\xintfloatexpr...\relax|) half-integer exponents are
@@ -12789,6 +12906,13 @@ inside an expression, but its use will need only as many |\csname|'s as were
 needed for the function arguments plus one more for encapsulating the function
 result.
 
+\subsection{\csh{xintDigits*}, \csh{xintSetDigits*}}
+\label{xintDigits*}
+\label{xintSetDigits*}
+
+These starred variants of \csbxint{Digits} and \csbxint{SetDigits} execute
+\csbxint{reloadxinttrig}.\NewWith{1.3f}
+
 \subsection{\csh{xintiexpr}, \csh{xinttheiexpr}}
 \label{xintiexpr}\label{xinttheiexpr}\label{thexintiexpr}
 
@@ -12960,7 +13084,7 @@ is not rounded prior to its use as operand to such a float operation.
 
 |\thexintfloatexpr| is synonym to |\xintthefloatexpr|.
 
-|\xintDigits:=36;|\xintDigits:=36;
+|\xintDigits:=36\relax|\xintDigits:=36\relax 
 %
 \leftedline{|\xintthefloatexpr
   (1/13+1/121)*(1/179-1/173)/(1/19-1/18)\relax|}
@@ -13088,7 +13212,7 @@ hundred expansion steps for the list to be entirely produced.}%
 %
 \begin{everbatim*}
 \begin{figure}[htbp]
-\centering\begin{tikzpicture}[scale=10]\xintDigits:=8;
+\centering\begin{tikzpicture}[scale=10]\xintDigits:=8\relax 
   \clip (-1.1,-.25) rectangle (.3,.25);
   \draw [blue] (-1.1,0)--(1,0);
   \draw [blue] (0,-1)--(0,+1);
@@ -13485,46 +13609,47 @@ All the preceeding applies identically for \csbxint{deffunc}, \csbxint{defiifunc
 \csa{xintNewIIExpr}, ..., replacing the |#1|, |#2|, ... in the discussion by
 the letters used as function arguments.
 
-Here is a final syntax restriction: it is possible to use sub-expressions only if they use
-\csa{xintexpr}, those with \csa{xinttheexpr}, or \csbxint{eval} are illegal.
+Here is a final syntax restriction: it is possible to use sub-expressions only
+if they use \csbxint{expr} (or \csbxint{eval} since |1.3f|) but using
+\csbxint{theexpr} (or \csbxint{the}) is illegal.
 \begin{everbatim*}
 \xintNewExpr \FC [4] {#1+\xintexpr #2*#3\relax + #4}
 \printnumber{\fixmeaning\FC}
 \end{everbatim*}\newline
-works, but
+works, and
+\begin{everbatim*}
+\xintNewExpr \FD [1] {#1+\xinteval{1}}
+\printnumber{\fixmeaning\FD}
+\end{everbatim*}\newline
+also,\CHANGED{1.3f} but
 \begin{everbatim}
 \xintNewExpr \FD [1] {#1+\xinttheexpr 1\relax}
 \end{everbatim}
-or
-\begin{everbatim}
-\xintNewExpr \FD [1] {#1+\xinteval{1}}
-\end{everbatim}
-do not.
+is illegal.
 
 Prior to |1.3e| it would have been possible to do\CHANGED{1.3e}
 \begin{everbatim}
-\xintdeffunc FD(t) := t + \xinttheexpr 1\relax ;
+\xintdeffunc FE(t) := t + \xinttheexpr 1\relax ;
 \end{everbatim}
 and even
 \begin{everbatim}
-\xintdeffunc FE(t,u) := t + \xinttheexpr u\relax ;
+\xintdeffunc FF(t,u) := t + \xinttheexpr u\relax ;
 \end{everbatim}
-They are now illegal, but fortunately
+They are now illegal, but fortunately things such as
 \begin{everbatim*}
-\xintdeffunc FD(t) := t + \xintexpr 1\relax ;
-\end{everbatim*}
+\xintdeffunc FG(t, u, v) := t + \xintexpr u + v\relax ;
+\expandafter\meaning\csname XINT_expr_userfunc_FG\endcsname
+\end{everbatim*}\newline
 and even for example
 \begin{everbatim*}
-\xintdeffunc FE(t,u) := \xintfloatexpr t + u\relax ;
-\end{everbatim*}
-do work. The latter would not have worked formerly. It now does, see
-\xinttrigname for use case.
+\xintdeffunc FH(t,u, v) := t + \xintfloateval{u + v} ;
+\expandafter\meaning\csname XINT_expr_userfunc_FH\endcsname
+\end{everbatim*}\newline
+do work.\CHANGED{1.3f}
 
 Anyway, one should never use |\xinttheexpr| for sub-expressions but only
 |\xintexpr|, so these restrictions on the \csbxint{NewExpr} and
-\csbxint{deffunc} syntax have no importance. However since the package
-provides the high level \csbxint{eval} et al., it may trap some users. But if
-they read the documentation they will have been warned.
+\csbxint{deffunc} syntax are of no real significance.
 
 \subsection{\csh{xintNewFloatExpr}}\label{xintNewFloatExpr}
 
@@ -13546,17 +13671,17 @@ formula will be evaluated using the precision valid at the time of use.
 \xintNewFloatExpr \f [1] {sqrt(#1)}
 \f {2} (with \xinttheDigits{} digits of precision).
 
-{\xintDigits := 32;\f {2} (with \xinttheDigits{} digits of precision).}
+{\xintDigits := 32\relax\f {2} (with \xinttheDigits{} digits of precision).}
 
 \xintNewFloatExpr \f [1] {sqrt(#1)*sqrt(2)}
 \f {2} (with \xinttheDigits {} digits of precision).
 
-\xintDigits := 32;\f {2} (?? we thought we had a higher precision.)
+\xintDigits := 32\relax\f {2} (?? we thought we had a higher precision.)
 
 \xintNewFloatExpr \f [1] {sqrt(#1)*sqrt(2)}
 \f {2} (with \xinttheDigits {} digits of precision)
 
-\xintDigits := 16;% back to default
+\xintDigits := 16\relax back to default
 \end{everbatim*}
 
 The |sqrt(2)| in the first |sqrt(#1)*sqrt(2)| NewFloatExpression was computed
@@ -13579,7 +13704,7 @@ Like \csbxint{NewExpr} but using |\xinttheiiexpr|.
 
 Like \csbxint{NewExpr} but using |\xinttheboolexpr|.
 
-\xintDigits:= 16;
+\xintDigits:= 16\relax 
 
 \subsection{The \cshnolabel{xintdefvar}, \cshnolabel{xintdefiivar}, \cshnolabel{xintdeffloatvar} macros}
 
@@ -13666,7 +13791,7 @@ Note that |\relax| is \emph{mandatory} (contrarily to the situation for |\numexp
 
 I was greatly helped in my preparatory thinking, prior to producing such an
 expandable parser, by the commented source of the
-\href{http://www.ctan.org/pkg/l3kernel}{l3fp} package, specifically the
+\href{https://ctan.org/pkg/l3kernel}{l3fp} package, specifically the
 |l3fp-parse.dtx| file (in the version of April-May 2013; I think there was in
 particular a text called ``roadmap'' which was helpful). Also the source of the
 |calc| package was instructive, despite the fact that here for |\xintexpr| the
@@ -13687,23 +13812,30 @@ principles are necessarily different due to the aim of achieving expandability.
 This package provides trigonometric functions for use with \xintexprname.
 The sole macro is \csbxint{reloadxinttrig}.
 
-This package was first included in release |1.3e| (|2019/04/01|) of
+This package was first included in release |1.3e| (|2019/04/05|) of
 \xintexprname. It is automatically loaded by \xintexprname.
 
-\textbf{Acknowledgements} I finally decided to release some such functions
+\textbf{Acknowledgements:} I finally decided to release some such functions
 under friendly pressure of Jürgen \textsc{Gilg} and Thomas \textsc{Söll}, let
 them both be thanked here.
 
 \subsection{\csh{xintreloadxinttrig}}\label{xintreloadxinttrig}
 
+The library is loaded automatically by \xintexprname, thus with the default
+value of \csbxint{theDigits} which is \dtt{16}. But it can handle a precision
+of up to about \fbox{\dtt{60}} digits (make this \dtt{59} at most for the
+inverse functions). For this, execute for example \csbxint{SetDigits*}|{48}|.
+
 \begin{framed}
-  After modifying \csbxint{Digits},\IMPORTANTf{} one must issue
-  \csbxint{reloadxinttrig} to let the package re-configure itself.
+  Since |1.3f|, the starred variants \csbxint{Digits*}|:=P;| and\NewWithf{1.3f}
+  \csbxint{SetDigits*}\marg{num. expression} execute \csbxint{reloadxinttrig}
+  to let the package re-configure itself.
+
+  The non-starred variants do not execute \csbxint{reloadxinttrig} (to avoid
+  adding artificial overhead to existing documents).\IMPORTANTf{}
 \end{framed}
 
-The library is pre-configured to be able to handle a precision of up to about
-\fbox{\dtt{60}} digits (make this \dtt{59} at most for the inverse functions).
-But absence of guard digits (whether in the used hard-coded constants or in
+Absence of guard digits (whether in the used hard-coded constants or in
 passing over values from one auxiliary function to the next) due to high level
 (user) interface used for the programming means that the produced values are
 definitely expected to be wrong in the last digit or last two digits. I should
@@ -13728,7 +13860,7 @@ into to tell the float macros to work at a somewhat elevated precision.
 
 \subsection{Constants}
 
-They are the correct rounding to \csbxint{Digits} precision of the
+They are the correct rounding to \csbxint{theDigits} precision of the
 mathematically exact ones. Their values get incorporated into the
 trigonometrical functions at the time of their definitions during loading or
 reloading of the package. They are left free to use, or modified, or
@@ -13800,9 +13932,8 @@ With the value in radians:
 \funcdesc{acos} arccosine
 \funcdesc{atan} arctangent
 \funcdesc[x, y]{Arg} the main branch of the argument of the complex number
-|x+iy|, from $-\pi$ (excluded) to $\pi$ (included). Inherent rounding of
-output makes 
--\var{Pi} a possible return value.
+|x+iy|, from $-\pi$ (excluded) to $\pi$ (included). As the output is rounded
+-\var{Pi} is a possible return value.
 \funcdesc[x, y]{pArg} the branch of the argument of the complex number
 |x+iy| with values going from $0$ (included) to $2\pi$ (excluded). Inherent
 rounding makes \var{twoPi} a possible return value.
@@ -13823,7 +13954,7 @@ to be returned.
 \funcdesc[x, y]{pArgd} the branch of the argument of the complex number
 |x+iy| with values going from $0$ (included) to $360$ (excluded). Inherent rounding of
 output can cause |360| to be returned.
-\funcdesc[y, x]{atan2d} it is |Arg(x, y)|. Note the reversal of the arguments,
+\funcdesc[y, x]{atan2d} it is |Argd(x, y)|. Note the reversal of the arguments,
 this seems to be the most frequently encountered convention across languages.
 \end{description}
 
@@ -13899,28 +14030,69 @@ an elevated precision and print final results at a lower precision.
   whole thing.
 \item Floats with large exponents are integers and are multiple of \dtt{1000};
   hence modulo \dtt{360} all such ``angles'' are multiple of \dtt{40} degrees.
-  Needless to say that considering usage of the sine and cosine functions
+  Needless to say that considering usage of the |sind()| and |cosd()| functions
   with such large float numbers is meaningless.
-\item Regarding such a big float angle in radians, \xinttrigname converts
-  it to degrees by multiplication by (pre-rounded) $180/\pi$, then it does
-  range reduction modulo $360$ and goes back to radians in the appropriate
-  octants and use the series (roughly said). Thus |cos()| and |sin()| will be
-  evaluated as if at some of the finitely many rounded multiples of (exact)
-  $2\pi/9$. When the unit in the last place of the original input was for
-  example \dtt{1e9} it is clear that the final result means nothing at all;
-  this intrinsic problem is not one of conversion from radians to degrees: the
-  unit in the last place interval extends above possibly astronomical numbers of
-  intervals of length $2\pi$. This is an in-built inadequacy of (large)
-  floating point numbers for trigonometrical evaluations; the argument should
-  be treated then as a uniformly distributed random variable modulo $2\pi$,
-  and the sine and cosine values should be random variables realizing the value
-  distribution of these mathematical functions. Clearly this adds some
-  programming complication of deciding how to make the transition. Too lazy
-  for that.
+\item Regarding |sin()| and |cos()|, \xinttrigname converts their argument to
+  degrees by multiplication by (pre-rounded) $180/\pi$, then does range
+  reduction modulo $360$ and finally goes back to radians in the appropriate
+  octants to use usual Taylor series (roughly said). For large floats, the
+  output value will thus be one of |sind(40n)|, |cosd(40n)|, |n=0..8|. If the
+  unit in the last place of original variable was for example \dtt{1e9} the
+  final result means nothing at all: the unit in the last place interval
+  extends above possibly astronomical numbers of intervals of length $2\pi$.
+
+  This intrinsic problem is not a by-product of conversion problems to and
+  from degrees, it is an in-built inadequacy of the concept of floating point
+  numbers to provide meaning to evaluating trigonometrical functions. The
+  argument should be treated as a uniformly distributed random variable modulo
+  $2\pi$, and the sine and cosine values should be random variables realizing
+  the value distribution of these mathematical functions. Clearly this adds
+  some (rather severe) implementation complications such as deciding how to
+  make the transition to randomness. Too lazy for that.
+
+  Opting for a random value also raises the question of how to deal with
+  multiple such evaluations at the same argument in a single expression. I
+  would argue again that as it is evil to consider meaningless quantities, it
+  is not a problem if new compilations give different results, or even single
+  compilation gives different results in various parts of the same formula,
+  that's the whole point of randomness! As said already, I got too lazy to
+  consider seriously implementing such a non-standard philosophy, despite its
+  compelling soundness.
 \item Did I say the implementation was done at very high level (for the most
   part), hence has ample room for optimization? This is particularly the case
   for the handling of small inputs by functions such as sine or arcsine.
 \end{itemize}
+
+\subsection{Some example evaluations}
+
+\noindent
+\begin{everbatim*}
+\xintDigits* := 50\relax % target 48 digits via 2 guard digits
+$sind(17)\approx\xintfloateval{[-2] sind(17)}$\newline
+$cosd(17)\approx\xintfloateval{[-2] cosd(17)}$\newline
+$tand(17)\approx\xintfloateval{[-2] tand(17)}$\newline
+$sind(43)\approx\xintfloateval{[-2] sind(43)}$\newline
+$cosd(43)\approx\xintfloateval{[-2] cosd(43)}$\newline
+$tand(43)\approx\xintfloateval{[-2] tand(43)}$\newline
+$asind(0.3)\approx\xintfloateval{[-2] asind(0.3)}$\newline
+$acosd(0.3)\approx\xintfloateval{[-2] acosd(0.3)}$\newline
+$atand(3)\approx\xintfloateval{[-2] atand(3)}$\newline
+$tan(atan(7))\approx\xintfloateval{[-2] tan(atan(7))}$\newline
+$asind(sind(25))\approx\xintfloateval{[-2] asind(sind(25))}$\par\medskip
+\noindent\xintDigits* := 26\relax % target 24 digits via 2 guard digits
+$sind(17)\approx\xintfloateval{[-2] sind(17)}$\newline
+$cosd(17)\approx\xintfloateval{[-2] cosd(17)}$\newline
+$tand(17)\approx\xintfloateval{[-2] tand(17)}$\newline
+$sind(43)\approx\xintfloateval{[-2] sind(43)}$\newline
+$cosd(43)\approx\xintfloateval{[-2] cosd(43)}$\newline
+$tand(43)\approx\xintfloateval{[-2] tand(43)}$\newline
+$asind(0.3)\approx\xintfloateval{[-2] asind(0.3)}$\newline
+$acosd(0.3)\approx\xintfloateval{[-2] acosd(0.3)}$\newline
+$atand(3)\approx\xintfloateval{[-2] atand(3)}$\newline
+$tan(atan(7))\approx\xintfloateval{[-2] tan(atan(7))}$\newline
+$asind(sind(25))\approx\xintfloateval{[-2] asind(sind(25))}$\par
+\xintDigits* := 16\relax
+\end{everbatim*}
 
 \clearpage
 \let\xinttrignameUp\undefined
@@ -13937,13 +14109,19 @@ an elevated precision and print final results at a lower precision.
 This package provides logarithms, exponentials and fractional powers for use
 with \xintexprname.
 
-This package was first included in release |1.3e| (|2019/04/01|) of
+This package was first included in release |1.3e| (|2019/04/05|) of
 \xintexprname. It is automatically loaded by \xintexprname.
 
-Currently it is a wrapper to import package
-\href{http://www.ctan.org/pkg/poormanlog}{poormanlog} which computes with
-\dtt{8} or \dtt{9} digits of precision, adding the \func{log}, \func{exp}, and
-\func{pow} function to the \func{log10} and \func{pow10} provided by the package.
+Currently, the functions \func{log10}, \func{pow10}, \func{log}, \func{exp},
+and \func{pow} use at their core two fast expandable macros handling base 10
+logarithms and powers for mantissas of 9 digit tokens. They are
+defined by package \href{https://ctan.org/pkg/poormanlog}{poormanlog} which is
+automatically imported. The error is believed to be at most \dtt{2ulp} (see
+its |README|). The package \href{https://ctan.org/pkg/poormanlog}{poormanlog}
+has no dependencies and can be imported by any other \TeX\ macro file.
+
+Although the precision is thus limited to about \dtt{8} or \dtt{9} digits this
+is amply enough for plots.
 
 \subsection{\csh{poormanloghack}}
 \label{ssec:poormanloghack}
@@ -13960,8 +14138,6 @@ If used, they obey \TeX\ scoping as usual.
 \poormanloghack{**}\xintfloateval{[8]1.234**5.678}\newline
 \poormanloghack{^}\xintfloateval{[8]1.234^5.678}\par
 \endgroup
-% ** and ^ now do not accept fractional exponents: only half-integer ones and
-% only in \xintfloateval, not \xinteval.
 \end{everbatim*}
 
 Notice that in \csbxint{floateval} those (equivalent) operators already
@@ -13993,7 +14169,7 @@ first 8 or 9 digits of the output are significant...
 \end{everbatim*}
 Notice that the last digit of |log(2)| is not the correctly rounded one... I
 did say 9 \textbf{or} 8 digits or precision... The documentation of
-\href{http://www.ctan.org/pkg/poormanlog}{poormanlog} mentions an error of up
+\href{https://ctan.org/pkg/poormanlog}{poormanlog} mentions an error of up
 to 2 units in the ninth digit when computing |log10(x)| for |1<x<10| and
 |10^x| for |0<x<1|.
 
@@ -15223,7 +15399,7 @@ laptop (a 2012 model) this took about $5.05$ seconds last time I tried.%
   denominators at most $9999$). The |1.2| \xintcorename achieves a further
   gain at \dtt{5.6} seconds.}
 %
-\footnote{With |\xintDigits:=1001;|, the non-optimized implementation with the
+\footnote{With |\xintDigits:=1001\relax|, the non-optimized implementation with the
   |iter| of \xintexprname fame using the
   \hyperlink{BrentSalamin}{Brent-Salamin algorithm}, took, last time I tried
   (1.2i), about \dtt{7} seconds on my laptop (the last two digits were wrong,
@@ -15247,7 +15423,7 @@ laptop (a 2012 model) this took about $5.05$ seconds last time I tried.%
 
 
 As mentioned in the
-introduction, the file \href{http://www.ctan.org/pkg/pi}{pi.tex} by \textsc{D.
+introduction, the file \href{https://ctan.org/pkg/pi}{pi.tex} by \textsc{D.
   Roegel} shows that orders of magnitude faster computations are possible within
 \TeX{}, but recall our constraints of complete expandability and be merciful,
 please.
@@ -17734,7 +17910,7 @@ be treated as first item) number.
 
 \makeatother
 
-\section{Introduction to the implementation (recent changes)}
+\section{Introduction to this document and (very much) shortened version history}
 
 This is \expandafter|\xintbndlversion| of \expandafter|\xintbndldate|.
 
@@ -17751,9 +17927,11 @@ in PDF viewers. Already the local tables of contents are useful enough most of
 the time when one searches something.
 
 \begin{itemize}
-\item Release |1.3e| of |2019/04/01|: \xinttrignameimp, \xintlognameimp,
-  \csbxint{defefunc} ``non-protected'' variant of \csbxint{deffunc}. Indices
-  removed from |sourcexint.pdf|.
+\item Release |1.3f| of |2019/09/10|: starred variant \csbxint{Digits*}.
+\item Release |1.3e| of |2019/04/05|: \xinttrignameimp, \xintlognameimp,
+  \csbxint{defefunc} ``non-protected'' variant of \csbxint{deffunc}.
+
+  Indices removed from |sourcexint.pdf|.
 \item Release |1.3d| of |2019/01/06|: bugfix of |1.2p| bug for division with a
   zero dividend and a one-digit divisor, \csbxint{eval} et al. wrappers,
   |gcd()| and |lcm()| work with fractions.
@@ -17995,7 +18173,7 @@ math shift catcode.
 \fi
 \XINT_providespackage
 \ProvidesPackage {xintkernel}%
-  [2019/04/05 1.3e Paraphernalia for the xint packages (JFB)]%
+  [2019/09/10 v1.3f Paraphernalia for the xint packages (JFB)]%
 %    \end{macrocode}
 % \subsection{Constants}
 %    \begin{macrocode}
@@ -18669,7 +18847,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xinttools}%
-  [2019/04/05 1.3e Expandable and non-expandable utilities (JFB)]%
+  [2019/09/10 v1.3f Expandable and non-expandable utilities (JFB)]%
 %    \end{macrocode}
 % \lverb|\XINT_toks is used in macros such as \xintFor. It is not used
 % elsewhere in the xint bundle.|
@@ -20638,7 +20816,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcore}%
-  [2019/04/05 1.3e Expandable arithmetic on big integers (JFB)]%
+  [2019/09/10 v1.3f Expandable arithmetic on big integers (JFB)]%
 %    \end{macrocode}
 % \subsection{(WIP!) Error conditions and exceptions}
 % \lverb|As per the Mike Cowlishaw/IBM's General Decimal Arithmetic Specification
@@ -21565,11 +21743,6 @@ math shift catcode.
 {%
     \expandafter\XINT_add_nfork\expandafter#1\romannumeral`&&@#3\xint:#2\xint:
 }%
-\def\XINT_iadd #1#2\xint:#3%
-{%
-    \expandafter\XINT_add_nfork\expandafter
-    #1\romannumeral0\xintnum{#3}\xint:#2\xint:
-}%
 \def\XINT_add_fork #1#2\xint:#3\xint:{\XINT_add_nfork #1#3\xint:#2\xint:}%
 \def\XINT_add_nfork #1#2%
 {%
@@ -21658,7 +21831,7 @@ math shift catcode.
 % but not have to check lengths), and I will probably remove it at some point.
 %
 % Output: blocks of 1<8d>! representing the addition, (least significant
-% first), and a final 1;!. In recursive algotithm this 1;! terminator can
+% first), and a final 1;!. In recursive algorithm this 1;! terminator can
 % thus conveniently be reused as part of input terminator (up to the length
 % problem).
 %
@@ -21755,10 +21928,6 @@ math shift catcode.
 \def\XINT_iicmp #1#2\xint:#3%
 {%
     \expandafter\XINT_cmp_nfork\expandafter #1\romannumeral`&&@#3\xint:#2\xint:
-}%
-\def\XINT_icmp #1#2\xint:#3%
-{%
-    \expandafter\XINT_cmp_nfork\expandafter #1\romannumeral0\xintnum{#3}\xint:#2\xint:
 }%
 \def\XINT_cmp_nfork #1#2%
 {%
@@ -21858,7 +22027,7 @@ math shift catcode.
 %
 % Refactored at 1.2l. I was initially aiming at clinching some internal format
 % of the type 1<8digits>!....1<8digits>! for chaining the arithmetic
-% operations (as a preliminary step to decided upon some internal format for
+% operations (as a preliminary step to deciding upon some internal format for
 % $xintfracnameimp macros), thus I wanted to uniformize delimiters in
 % particular and have some core macros inputting and outputting such formats.
 % But the way division is implemented makes it currently very hard to obtain a
@@ -21888,11 +22057,6 @@ math shift catcode.
 {%
     \expandafter\XINT_sub_nfork\expandafter
     #1\romannumeral`&&@#3\xint:#2\xint:
-}%
-\def\XINT_isub #1#2\xint:#3%
-{%
-   \expandafter\XINT_sub_nfork\expandafter
-   #1\romannumeral0\xintnum{#3}\xint:#2\xint:
 }%
 \def\XINT_sub_nfork #1#2%
 {%
@@ -23314,9 +23478,6 @@ math shift catcode.
 %    \begin{macrocode}
 \def\xintiiDivRound   {\romannumeral0\xintiidivround }%
 \def\xintiidivround #1{\expandafter\XINT_iidivround\romannumeral`&&@#1\xint:}%
-\def\XINT_idivround #1#2\xint:#3%
-    {\expandafter\XINT_iidivround_a\expandafter #1%
-                 \romannumeral0\xintnum{#3}\xint:#2\xint:}%
 \def\XINT_iidivround #1#2\xint:#3%
     {\expandafter\XINT_iidivround_a\expandafter #1\romannumeral`&&@#3\xint:#2\xint:}%
 \def\XINT_iidivround_a #1#2% #1 de A, #2 de B.
@@ -23955,7 +24116,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xint}%
-  [2019/04/05 1.3e Expandable operations on big integers (JFB)]%
+  [2019/09/10 v1.3f Expandable operations on big integers (JFB)]%
 %    \end{macrocode}
 % \subsection{More token management}
 %    \begin{macrocode}
@@ -26379,7 +26540,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintbinhex}%
-  [2019/04/05 1.3e Expandable binary and hexadecimal conversions (JFB)]%
+  [2019/09/10 v1.3f Expandable binary and hexadecimal conversions (JFB)]%
 %    \end{macrocode}
 % \subsection{Constants, etc...}
 % \lverb|1.2n switches to \csname-governed expansion at various places.|
@@ -27031,7 +27192,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintgcd}%
-  [2019/04/05 1.3e Euclide algorithm with xint package (JFB)]%
+  [2019/09/10 v1.3f Euclide algorithm with xint package (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintGCD}, \csh{xintiiGCD}}
 % \lverb|&
@@ -27741,7 +27902,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintfrac}%
-  [2019/04/05 1.3e Expandable operations on fractions (JFB)]%
+  [2019/09/10 v1.3f Expandable operations on fractions (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{XINT_cntSgnFork}}
 % \lverb|1.09i. Used internally, #1 must expand to \m@ne, \z@, or \@ne or
@@ -29406,16 +29567,6 @@ math shift catcode.
     #2\romannumeral\XINT_rep#1\endcsname0.\romannumeral\XINT_rep#3\endcsname0%
 }%
 %    \end{macrocode}
-% \subsection{\csh{xintDigits}}
-% \lverb|The mathchardef used to be called \XINT_digits, but for reasons
-% originating in \xintNewExpr (and now obsolete), release 1.09a uses
-% \XINTdigits without underscore.|
-%    \begin{macrocode}
-\mathchardef\XINTdigits 16
-\def\xintDigits #1#2%
-   {\afterassignment \xint_gobble_i \mathchardef\XINTdigits=}%
-\def\xinttheDigits {\number\XINTdigits }%
-%    \end{macrocode}
 % \subsection{\csh{xintAdd}}
 % \lverb|Big change at 1.3: a/b+c/d uses lcm(b,d) as denominator.|
 %    \begin{macrocode}
@@ -30252,6 +30403,20 @@ math shift catcode.
 %   cost of fetching long sequences of tokens.
 % \end{framed}
 %
+% \subsection{\csh{xintDigits}, \csh{xintSetDigits}}
+% \lverb|&
+% 1.3f modifies the (strange) original signature #1#2 for \xintDigits macro
+% into #1=, allowing usage
+% without colon. It also adds \xintSetDigits. Starred variants are added
+% by xintexpr.sty.
+% |
+%    \begin{macrocode}
+\mathchardef\XINTdigits 16
+\def\xintDigits #1=%
+   {\afterassignment \xint_gobble_i \mathchardef\XINTdigits=}%
+\def\xinttheDigits {\number\XINTdigits }%
+\def\xintSetDigits #1{\mathchardef\XINTdigits=\numexpr#1\relax}%
+%    \end{macrocode}
 %
 % \subsection{\csh{xintFloat}}
 % \lverb|&
@@ -32457,6 +32622,75 @@ math shift catcode.
     \romannumeral`&&@\expandafter\XINT_eightrandomdigits
                 \romannumeral`&&@\XINT_eightrandomdigits[-16]%
 }%
+%    \end{macrocode}
+% \subsection{\csh{PoorManLogBaseTen}}
+% \lverb|1.3f. Code originally in poormanlog v0.4 got transferred here. It
+% produces the logarithm in base 10 with an error (believed to be at
+% most) about 1 unit in the 9th (i.e. last) fractional digit. Testing seems
+% to indicate error at most 2 units.|
+%    \begin{macrocode}
+\def\PoorManLogBaseTen{\romannumeral0\poormanlogbaseten}%
+\def\poormanlogbaseten #1%
+   {\expandafter\PML@logbaseten\romannumeral0\XINTinfloat[9]{#1}}%
+\def\PML@logbaseten#1[#2]%
+{%
+    \xintiiadd{\xintDSx{-9}{\the\numexpr#2+8\relax}}{\the\numexpr\PML@#1.}%
+    [-9]%
+}%
+%    \end{macrocode}
+% \subsection{\csh{PoorManPowerOfTen}}
+% \lverb|1.3f. Transferred from poormanlog v0.4. Produces the 10^#1 with 9
+% digits of float precision, with an error (believed to be) at most 2 units in
+% the last place. Of course for this the input must be precise enough to have
+% 9 fractional digits of **fixed point** precision.|
+%    \begin{macrocode}
+\def\PoorManPowerOfTen{\the\numexpr\poormanpoweroften}%
+\def\poormanpoweroften #1%
+   {\expandafter\PML@powoften\romannumeral0\xintraw{#1}}%
+\def\PML@powoften#1%
+{%
+    \xint_UDzerominusfork
+      #1-\PML@powoften@zero
+      0#1\PML@powoften@neg
+       0-\PML@powoften@pos
+    \krof #1%
+}%
+\def\PML@powoften@zero 0{1\relax}%/1[0]
+\def\PML@powoften@pos#1[#2]%
+{%
+    \expandafter\PML@powoften@pos@a\romannumeral0\xintround{9}{#1[#2]}.%
+}%
+\def\PML@powoften@pos@a#1.#2.{\PML@Pa#2.\expandafter[\the\numexpr-8+#1]}%
+\def\PML@powoften@neg#1[#2]%
+{%
+    \expandafter\PML@powoften@neg@a\romannumeral0\xintround{9}{#1[#2]}.%
+}%
+\def\PML@powoften@neg@a#1.#2.%
+{\ifnum#2=\xint_c_ \xint_afterfi{1\relax/1[#1]}\else
+   \expandafter\expandafter\expandafter
+   \PML@Pa\expandafter\xint_gobble_i\the\numexpr2000000000-#2.%
+   \expandafter[\the\numexpr-9+#1\expandafter]\fi
+}%
+%    \end{macrocode}
+% \subsection{\csh{PoorManPower}}
+% \lverb|1.3f. This code originally in poormanlog v0.4 transferred here. It does
+% #1 to the power #2.|
+%    \begin{macrocode}
+\def\PoorManPower#1#2%
+{%
+    \PoorManPowerOfTen{\xintMul{#2}{\PoorManLogBaseTen{#1}}}%
+}%
+%    \end{macrocode}
+% \subsection{Support macros for natural logarithm and exponential
+% \xintexprnameimp functions}
+% \lverb|At 1.3f, the poormanlog v0.04 extension to xintfrac.sty got
+% transferred here. These macros from xintlog.sty 1.3e got transferred here
+% too.|
+%    \begin{macrocode}
+\def\xintLog#1{\xintMul{\PoorManLogBaseTen{#1}}{23025850923[-10]}}%
+\def\XINTinFloatLog#1{\XINTinFloatMul{\PoorManLogBaseTen{#1}}{23025850923[-10]}}%
+\def\xintExp#1{\PoorManPowerOfTen{\xintMul{#1}{434294481903[-12]}}}%
+\def\XINTinFloatExp#1{\PoorManPowerOfTen{\XINTinFloatMul{#1}{434294481903[-12]}}}%
 \XINT_restorecatcodes_endinput%
 %    \end{macrocode}
 % \StoreCodelineNo {xintfrac}
@@ -32532,7 +32766,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintseries}%
-  [2019/04/05 1.3e Expandable partial sums with xint package (JFB)]%
+  [2019/09/10 v1.3f Expandable partial sums with xint package (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintSeries}}
 %    \begin{macrocode}
@@ -33033,7 +33267,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcfrac}%
-  [2019/04/05 1.3e Expandable continued fractions with xint package (JFB)]%
+  [2019/09/10 v1.3f Expandable continued fractions with xint package (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintCFrac}}
 %    \begin{macrocode}
@@ -34282,9 +34516,20 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintexpr}%
-  [2019/04/05 1.3e Expandable expression parser (JFB)]%
+  [2019/09/10 v1.3f Expandable expression parser (JFB)]%
 \catcode`! 11
 \let\XINT_Cmp \xintiiCmp
+%    \end{macrocode}
+% \subsection{\csh{xintDigits*}, \csh{xintSetDigits*}}
+% \lverb|1.3f|
+%    \begin{macrocode}
+\def\xintDigits {\futurelet\XINT_token\xintDigitss}%
+\def\xintDigitss #1={\afterassignment\xintDigitsss\mathchardef\XINTdigits=}%
+\def\xintDigitsss#1{\ifx*\XINT_token\expandafter\xintreloadxinttrig\fi}%
+\let\xintfracSetDigits\xintSetDigits
+\def\xintSetDigits#1#{\if\relax\detokenize{#1}\relax
+                      \else\afterassignment\xintreloadxinttrig\fi
+                      \xintfracSetDigits}%
 %    \end{macrocode}
 % \subsection{\csh{xintexpr}, \csh{xintiexpr}, \csh{xintfloatexpr},
 % \csh{xintiiexpr}}
@@ -34306,7 +34551,8 @@ math shift catcode.
 %
 % ATTENTION! 1.3d renamed \xinteval to \xintexpro etc...
 %
-% Some renaming of macros at 1.3e here.|
+% Some renaming of macros at 1.3e here. Again at 1.3f with some real changes
+% (to fix the \xintfloatexpr [D] issue inside \xintdeffunc).|
 %    \begin{macrocode}
 \def\xintiexpro #1%
 {%
@@ -34315,16 +34561,16 @@ math shift catcode.
 }%
 \def\XINT_iexpr_noopt
 {%
-    \expandafter\XINT_iexpr_preprint\expandafter 0%
+    \expandafter\XINT_iexpr_round\expandafter 0%
     \romannumeral0\xintbareeval
 }%
 \def\XINT_iexpr_withopt [#1]%
 {%
-    \expandafter\XINT_iexpr_preprint\expandafter
+    \expandafter\XINT_iexpr_round\expandafter
     {\the\numexpr \xint_zapspaces #1 \xint_gobble_i\expandafter}%
     \romannumeral0\xintbareeval
 }%
-\def\XINT_iexpr_preprint #1#2%
+\def\XINT_iexpr_round #1#2%
 {%
     \expandafter\XINT_expr_wrap
     \csname .=\xintRound::csv {#1}{\XINT_expr_unlock #2}\endcsname
@@ -34336,19 +34582,35 @@ math shift catcode.
 }%
 \def\XINT_flexpr_noopt
 {%
-    \expandafter\XINT_flexpr_preprint\expandafter\xinttheDigits
-    \romannumeral0\xintbarefloateval
+    \expandafter\XINT_flexpr_noopt_a\romannumeral0\xintbarefloateval
+}%
+\def\XINT_flexpr_noopt_a #1%
+{%
+    \expandafter\XINT_flexpr_wrap
+    \csname .;\xinttheDigits.=\XINT_expr_unlock #1\endcsname
 }%
 \def\XINT_flexpr_withopt [#1]%
 {%
-    \expandafter\XINT_flexpr_preprint\expandafter
-    {\the\numexpr\xint_zapspaces #1 \xint_gobble_i\expandafter}%
+    \expandafter\XINT_flexpr_withopt_a
+    \the\numexpr\xint_zapspaces #1 \xint_gobble_i\expandafter.%
     \romannumeral0\xintbarefloateval
 }%
-\def\XINT_flexpr_preprint #1#2%
+\def\XINT_flexpr_withopt_a #1.#2%
 {%
     \expandafter\XINT_flexpr_wrap
     \csname .;#1.=\XINTinFloat::csv {#1}{\XINT_expr_unlock #2}\endcsname
+}%
+%    \end{macrocode}
+% \lverb|&
+% 1.3f fixes some problems with using \xintfloatexpr [D]..\relax as a sub
+% expression inside \xintdeffunc. Comma separated expressions are not allowed
+% inside such sub-expression.
+% |
+%    \begin{macrocode}
+\def\XINT:NE_flexpr_withopt_a #1.#2%
+{%
+    \expandafter\XINT_flexpr_wrap
+    \csname .;#1.=\XINT:NE:one{\XINTinFloat::csv{#1}}{\XINT_expr_unlock #2}\endcsname
 }%
 %    \end{macrocode}
 % \subsection{\csh{XINT_expr_wrap}, \csh{XINT_iiexpr_wrap}, \csh{XINT_flexpr_wrap}}
@@ -34367,7 +34629,11 @@ math shift catcode.
 % \subsection{\csh{XINT_expr_print}, \csh{XINT_iiexpr_print}, \csh{XINT_flexpr_print}}
 %    \begin{macrocode}
 \def\XINT_expr_print   #1{\xintSPRaw::csv  {\XINT_expr_unlock #1}}%
-\def\XINT_iiexpr_print #1{\xintCSV::csv    {\XINT_expr_unlock #1}}%
+\def\XINT:NE_expr_print#1{\expandafter
+    \xintSPRaw::csv\expandafter{\romannumeral`&&@\XINT_expr_unlock #1}}%
+\def\XINT_iiexpr_print    #1{\xintCSV::csv  {\XINT_expr_unlock #1}}%
+\def\XINT:NE_iiexpr_print #1{\expandafter
+    \xintCSV::csv\expandafter{\romannumeral`&&@\XINT_expr_unlock #1}}%
 \def\XINT_flexpr_print #1%
 {%
     \expandafter\xintPFloat::csv
@@ -34412,6 +34678,18 @@ math shift catcode.
 \def\xintiieval #1%
    {\romannumeral`&&@\expandafter\XINT_iiexpr_print\romannumeral0\xintbareiieval#1\relax}%
 %    \end{macrocode}
+% \lverb|The «print» macros are made into inert entities when an expression is
+% parsed by \xintNewExpr or \xintdeffunc. In order to allow usage of \xinteval
+% et al., we need to replace them by the corresponding \xintexpr et al and
+% drop the macro wrappers (because they do not expand and will trap the
+% expression parser). The behaviour of \xinteval{3}7 will not be as in a
+% normal expression but such syntax is anyhow obscure.|
+%    \begin{macrocode}
+\def\XINT:NE:eval     #1{\xintexpr #1\relax}%
+\def\XINT:NE:ieval    #1{\xintiexpr #1\relax}%
+\def\XINT:NE:floateval#1{\xintfloatexpr #1\relax}%
+\def\XINT:NE:iieval   #1{\xintiiexpr #1\relax}%
+%    \end{macrocode}
 % \subsection{\csh{xintthe}}
 %    \begin{macrocode}
 \def\xintthe #1{\romannumeral`&&@\expandafter\xint_gobble_iii\romannumeral`&&@#1}%
@@ -34441,7 +34719,9 @@ math shift catcode.
     \XINT_boolexpr_done\expandafter\xint_gobble_iv\romannumeral0\xintexpro
 }%
 \def\XINT_boolexpr_done {!\XINT_expr_usethe\XINT_protectii\XINT_boolexpr_print}%
-\def\XINT_boolexpr_print #1{\xintIsTrue::csv {\XINT_expr_unlock #1}}%
+\def\XINT_boolexpr_print    #1{\xintIsTrue::csv {\XINT_expr_unlock #1}}%
+\def\XINT:NE_boolexpr_print #1{\expandafter
+    \xintIsTrue::csv\expandafter{\romannumeral`&&@\XINT_expr_unlock #1}}%
 \def\xinttheboolexpr
 {%
     \romannumeral`&&@\expandafter\expandafter\expandafter
@@ -38521,7 +38801,7 @@ math shift catcode.
 \def\XINT_expr_defuserefunc_none #1#2#3%
 {%
     \expandafter\XINT_expr_defuserefunc_none_a
-    \csname XINT_#3_userefunc_#2\endcsname
+    \csname XINT_#3_userefunc_#2\endcsname #1%
 }%
 \def\XINT_expr_defuserefunc_none_a #1#2%
 {%
@@ -38869,27 +39149,22 @@ math shift catcode.
     \xint_orthat{#3}%
 }%
 %    \end{macrocode}
-% \lverb|Problème pour autoriser ici qu'une liste arrive comme argument qui
-% potentiellement en donnerait deux mais pour le moment on ne sait pas. Donc
-% j'impose le prérequis que \XINT:NE:twosp soit toujours suivi de deux items
-% exactement.
-%
-% Il y a eu des modifications à 1.3e car j'ai supprimé des choses que je ne
-% comprenais pas puis je les ai remises lorsque je comprenais mais sans doute
-% pas pareil (certains tests passent et pas avant) et ensuite je ne comprenais
-% plus à nouveau.|
+% \lverb|&
+% At 1.3f, added braces around #1 and #3 in \XINT:NE:one to handle the
+% \xintfloatexpr [D] issue inside an \xintdeffunc.
+% |
 %    \begin{macrocode}
 \def\XINT:NE:twosp#1#2,#3#4,!#5%
 {%
     \XINT:NE:two_fork_dd#1#3{#5}{\detokenize{#5}}{#1#2}{#3#4}%
 }%
-\def\XINT:NE:one#1#2{\expandafter\XINT:NE:one_a\romannumeral`&&@#2!#1}%
+\def\XINT:NE:one#1#2{\expandafter\XINT:NE:one_a\romannumeral`&&@#2!{#1}}%
 \def\XINT:NE:one_a#1#2!#3%
 {%
     \if ###1\xint_dothis {\detokenize{#3}}\fi
     \if  ~#1\xint_dothis {\detokenize{#3}}\fi
     \if  $#1\xint_dothis {~xintApply::csv{\detokenize{#3}}}\fi %$
-    \xint_orthat #3{#1#2}%
+    \xint_orthat {#3}{#1#2}%
 }%
 %    \end{macrocode}
 % \lverb|\xintExpandArgs is defined in xinttools.sty (I don't recall why; not
@@ -39104,7 +39379,6 @@ math shift catcode.
   \let\xintiiifSgn:           \xintiiifSgnNE:
   \let\xintSeqNumeric::csv         \xintSeq::csv
   \let\xintiiSeqNumeric::csv       \xintiiSeq::csv
-  \let\XINTinFloatSeqNumeric::csv  \XINTinFloatSeq::csv
   \let\xintSeqBNumeric::csv        \xintSeqB::csv
   \let\xintiiSeqBNumeric::csv      \xintiiSeqB::csv
   \let\XINTinFloatSeqBNumeric::csv\XINTinFloatSeqB::csv
@@ -39112,8 +39386,6 @@ math shift catcode.
     {\XINT:NE:two_\xintSeqNumeric::csv{$noexpand$xintSeq::csv}}%
   \def\xintiiSeq::csv
     {\XINT:NE:two_\xintiiSeqNumeric::csv{$noexpand$xintiiSeq::csv}}%
-  \def\XINTinFloatSeq::csv
-    {\XINT:NE:two_\XINTinFloatSeqNumeric::csv{$noexpand$XINTinFloatSeq::csv}}%
   \def\xintSeqB::csv
     {\XINT:NE:two_\xintSeqBNumeric::csv{$noexpand$xintSeqB:f:csv}}%
   \def\xintiiSeqB::csv
@@ -39125,37 +39397,34 @@ math shift catcode.
   \def\XINTinRandomFloatSixteen{~XINTinRandomFloatSixteen }%
   \def\xintiiRandRange{~xintiiRandRange }%
   \def\xintiiRandRangeAtoB{~xintiiRandRangeAtoB }%
+%    \end{macrocode}
+% \lverb|1.3f authorizes usage of \xinteval et al. inside expression
+% definitions. The computed value must end up purely numerical.
+% |
+%    \begin{macrocode}
+  \let\xinteval\XINT:NE:eval
+  \let\xintieval\XINT:NE:ieval
+  \let\xintiieval\XINT:NE:iieval
+  \let\xintfloateval\XINT:NE:floateval
 }%
 %    \end{macrocode}
 % \subsubsection{\csh{XINT_expr_redefineprints}}
-% \lverb|This is used by \xintNewExpr and prior to 1.3e not by \xintdeffunc,
-% presumably to avoid some supposedly unneeded overhead. Now also used by
-% \xintdeffunc see some comment further below for why.
+% \lverb|&
+% This was used by \xintNewExpr but not by \xintdeffunc until 1.3e.
+% Since then, used by both.
+%
+% Comma separated sub-expressions are not supported, the expansion
+% is inhibited but it is not checked if it would have given strictly
+% more than one value.
+%
 % |
 %    \begin{macrocode}
 \def\XINT_expr_redefineprints
 {%
-   \def\XINT_flexpr_noopt
-   {%
-       \expandafter
-       \XINT_flexpr_preprint\expandafter-\romannumeral0\xintbarefloateval
-   }%
-   \def\XINT_flexpr_preprint ##1##2%
-   {%
-       \expandafter\XINT_flexpr_wrap
-       \csname .;##1.=\XINT_expr_unlock##2\endcsname
-   }%
-   \def\XINT_expr_unlock_sp ##1.;##2##3.=##4!%
-   {%
-       \if -##2\expandafter\xint_firstoftwo\else\expandafter\xint_secondoftwo\fi
-       \XINTdigits{{##2##3}}{##4}%
-   }%
-   \def\XINT_expr_print ##1{\expandafter
-       \xintSPRaw::csv\expandafter{\romannumeral`&&@\XINT_expr_unlock ##1}}%
-   \def\XINT_iiexpr_print ##1{\expandafter
-       \xintCSV::csv\expandafter{\romannumeral`&&@\XINT_expr_unlock ##1}}%
-   \def\XINT_boolexpr_print ##1{\expandafter
-       \xintIsTrue::csv\expandafter{\romannumeral`&&@\XINT_expr_unlock ##1}}%
+   \let\XINT_flexpr_withopt_a\XINT:NE_flexpr_withopt_a
+   \let\XINT_expr_print      \XINT:NE_expr_print
+   \let\XINT_iiexpr_print    \XINT:NE_iiexpr_print
+   \let\XINT_boolexpr_print  \XINT:NE_boolexpr_print
    \def\xintCSV::csv     {~xintCSV::csv    }%
    \def\xintSPRaw::csv   {~xintSPRaw::csv  }%
    \def\xintPFloat::csv  {~xintPFloat::csv }%
@@ -39168,17 +39437,22 @@ math shift catcode.
 % 1.2c modifications to accomodate \XINT_expr_deffunc_newexpr etc..
 %
 % 1.2f adds token \XINT_newexpr_clean to be able to have a different
-% \XINT_newfunc_clean.|
+% \XINT_newfunc_clean.
+%
+% As \XINT_NewExpr always execute \XINT_expr_redefineprints since 1.3e whether
+% with \xintNewExpr or \XINT_NewFunc, it has been moved from argument to
+% hardcoded in replacement text.
+% |
 %    \begin{macrocode}
-\def\xintNewExpr     {\XINT_NewExpr\XINT_expr_redefineprints\xint_firstofone
+\def\xintNewExpr     {\XINT_NewExpr\xint_firstofone
                                  \xinttheexpr\XINT_newexpr_clean}%
-\def\xintNewFloatExpr{\XINT_NewExpr\XINT_expr_redefineprints\xint_firstofone
+\def\xintNewFloatExpr{\XINT_NewExpr\xint_firstofone
                                  \xintthefloatexpr\XINT_newexpr_clean}%
-\def\xintNewIExpr    {\XINT_NewExpr\XINT_expr_redefineprints\xint_firstofone
+\def\xintNewIExpr    {\XINT_NewExpr\xint_firstofone
                                  \xinttheiexpr\XINT_newexpr_clean}%
-\def\xintNewIIExpr   {\XINT_NewExpr\XINT_expr_redefineprints\xint_firstofone
+\def\xintNewIIExpr   {\XINT_NewExpr\xint_firstofone
                                  \xinttheiiexpr\XINT_newexpr_clean}%
-\def\xintNewBoolExpr {\XINT_NewExpr\XINT_expr_redefineprints\xint_firstofone
+\def\xintNewBoolExpr {\XINT_NewExpr\xint_firstofone
                                  \xinttheboolexpr\XINT_newexpr_clean}%
 \def\XINT_newexpr_clean #1>{\noexpand\romannumeral`&&@}%
 %    \end{macrocode}
@@ -39187,11 +39461,11 @@ math shift catcode.
 % At 1.3, NewFunc does not use a comma delimited pattern anymore.|
 %    \begin{macrocode}
 \def\XINT_NewFunc
- {\XINT_NewExpr\XINT_expr_redefineprints\xint_gobble_i\xintthebareeval\XINT_newfunc_clean}%
+ {\XINT_NewExpr\xint_gobble_i\xintthebareeval\XINT_newfunc_clean}%
 \def\XINT_NewFloatFunc
- {\XINT_NewExpr\XINT_expr_redefineprints\xint_gobble_i\xintthebarefloateval\XINT_newfunc_clean}%
+ {\XINT_NewExpr\xint_gobble_i\xintthebarefloateval\XINT_newfunc_clean}%
 \def\XINT_NewIIFunc
- {\XINT_NewExpr\XINT_expr_redefineprints\xint_gobble_i\xintthebareiieval\XINT_newfunc_clean}%
+ {\XINT_NewExpr\xint_gobble_i\xintthebareiieval\XINT_newfunc_clean}%
 \def\XINT_newfunc_clean #1>{}%
 %    \end{macrocode}
 % \lverb|1.2c adds optional logging. For this needed to pass to _NewExpr_a the
@@ -39201,38 +39475,34 @@ math shift catcode.
 % done locally.
 %
 % Modified at 1.3c so that \XINT_NewFunc et al. do not execute the
-% \xintexprSafeCatcodes, as it is now already done earlier by \xintdeffunc:
-% and as already #2 was either \xint_firstofone (for \xintNewExpr et al.) or
-% \xint_gobble_i (for \XINT_NewFunc et al.) we can use that #2. This is only
-% to avoid doing twice the catcodes, as anyhow there is an \endgroup coming
-% later, so external \xintexprRestoreCatcodes would not have been compromised.
+% \xintexprSafeCatcodes, as it is now already done earlier by \xintdeffunc.
 %
 % Modified at 1.3e: \XINT_NewFunc et al. do issue \XINT_expr_redefineprints.
 % I suppose I did not use it formely as I considered it unneeded overhead,
 % but this meant that \xintdeffunc foo(x):=\xintfloatexpr bar(x)\relax; was
-% impossible. And in fact this is convenient for xinttrig.sty to transfer
+% impossible. But such a syntax is convenient for xinttrig.sty to transfer
 % float functions to normal functions.
 % |
 %    \begin{macrocode}
-\def\XINT_NewExpr #1#2#3#4#5#6[#7]%
+\def\XINT_NewExpr #1#2#3#4#5[#6]%
 {%
  \begingroup
-    \ifcase #7\relax
-        \toks0 {\endgroup\XINT_global\def#5}%
-    \or \toks0 {\endgroup\XINT_global\def#5##1}%
-    \or \toks0 {\endgroup\XINT_global\def#5##1##2}%
-    \or \toks0 {\endgroup\XINT_global\def#5##1##2##3}%
-    \or \toks0 {\endgroup\XINT_global\def#5##1##2##3##4}%
-    \or \toks0 {\endgroup\XINT_global\def#5##1##2##3##4##5}%
-    \or \toks0 {\endgroup\XINT_global\def#5##1##2##3##4##5##6}%
-    \or \toks0 {\endgroup\XINT_global\def#5##1##2##3##4##5##6##7}%
-    \or \toks0 {\endgroup\XINT_global\def#5##1##2##3##4##5##6##7##8}%
-    \or \toks0 {\endgroup\XINT_global\def#5##1##2##3##4##5##6##7##8##9}%
+    \ifcase #6\relax
+        \toks0 {\endgroup\XINT_global\def#4}%
+    \or \toks0 {\endgroup\XINT_global\def#4##1}%
+    \or \toks0 {\endgroup\XINT_global\def#4##1##2}%
+    \or \toks0 {\endgroup\XINT_global\def#4##1##2##3}%
+    \or \toks0 {\endgroup\XINT_global\def#4##1##2##3##4}%
+    \or \toks0 {\endgroup\XINT_global\def#4##1##2##3##4##5}%
+    \or \toks0 {\endgroup\XINT_global\def#4##1##2##3##4##5##6}%
+    \or \toks0 {\endgroup\XINT_global\def#4##1##2##3##4##5##6##7}%
+    \or \toks0 {\endgroup\XINT_global\def#4##1##2##3##4##5##6##7##8}%
+    \or \toks0 {\endgroup\XINT_global\def#4##1##2##3##4##5##6##7##8##9}%
     \fi
-    #2\xintexprSafeCatcodes
+    #1\xintexprSafeCatcodes
     \XINT_expr_redefinemacros
-    #1%
-    \XINT_NewExpr_a #2#3#4#5%
+    \XINT_expr_redefineprints
+    \XINT_NewExpr_a #1#2#3#4%
 }%
 %    \end{macrocode}
 % \lverb|& attention que & est de catcode 14
@@ -39376,8 +39646,10 @@ math shift catcode.
 % \csbxint{NewExpr}, and to add to \xintexprnameimp the \csbxint{defefunc}
 % macro (see user documentation).
 %
-% Finally on April 5, 2019 I pushed the idea of the algorithm for the arcsine
-% function to its logical limit obtaining the method finally in use here.
+% Finally on April 5, 2019 I pushed further the idea of the algorithm for the
+% arcsine function. The cost is at least the one of a combined |sin()/cos()|
+% evaluation, surely this is not best approach for low precision, but I like
+% the principle and its suitability to go into hundreds of digits if desired.
 %
 % Almost all of the code remains written at high level, and in particular it
 % is not easily feasible from this interface to execute computations with
@@ -39436,10 +39708,10 @@ math shift catcode.
   \expandafter\xint_secondoftwo
 \fi
 {\immediate\write-1{Reloading xinttrig library using Digits=\xinttheDigits.}}%
-{\expandafter\gdef\csname xintlibver@trig\endcsname{2019/04/05 1.3e}%
+{\expandafter\gdef\csname xintlibver@trig\endcsname{2019/09/10 v1.3f}%
 \XINT_providespackage
 \ProvidesPackage{xinttrig}%
-[2019/04/05 1.3e Trigonometrical functions for xintexpr (JFB)]%
+[2019/09/10 v1.3f Trigonometrical functions for xintexpr (JFB)]%
 }%
 %    \end{macrocode}
 % \subsection{Ensure used letters are dummy letters}
@@ -39966,7 +40238,8 @@ math shift catcode.
 %    \end{macrocode}
 % \subsection{\cshn{sinc()}}
 % \lverb|&
-% Should I also consider adding (1-cos(x))/x^2 ?
+% Should I also consider adding (1-cos(x))/(x^2/2) ? it is sinc^2(x/2) but
+% avoids a square.
 % |
 %    \begin{macrocode}
 \xintdeffloatefunc sinc(x):=
@@ -40002,7 +40275,7 @@ math shift catcode.
 %
 % The approach I shall first describe (which is only a first step towards our
 % final approach) converges quintically but requires an initial square root
-% computation. However, when used for atan(x), we then do not have to do any
+% computation. For atan(x), we do not have to do any
 % such square root extraction. See code next.
 %
 % The algorithm (for this first approach): we have 0 <= t < 0.72,
@@ -40024,8 +40297,7 @@ math shift catcode.
 %
 % ©copyright J.F. B., March 30, 2019. This surely has a name.
 %
-% The algorithm is quintically convergent! I must have thought about this some
-% many years ago, but I like it a lot and I found it again on March 30, 2019.
+% The algorithm is quintically convergent.
 % One can do the same to go from exp to log. Basically the idea is that we can
 % improve the Newton Method for any function f for which knowing target value
 % of f implies one also knows target value of its derivative. In fact I
@@ -40098,8 +40370,7 @@ math shift catcode.
 % transition values were chosen or why (the series below is enough up to 59
 % digits of precision). It does only one iteration, in all cases. Using it for
 % arcsine requires a preliminary square root extraction, but for arctangent
-% one can arrange things as I did in order to avoid having to compute a square
-% root!
+% one arranges things to avoid having to compute a square root.
 %
 %
 % ©copyright J.F. B., April 5, 2019. This surely has a name.
@@ -40378,10 +40649,12 @@ math shift catcode.
 \xintexprSafeCatcodes\catcode`_ 11
 \XINT_providespackage
 \ProvidesPackage{xintlog}%
-[2019/04/05 1.3e Logarithms and exponentials for xintexpr (JFB)]%
+[2019/09/10 v1.3f Logarithms and exponentials for xintexpr (JFB)]%
 %    \end{macrocode}
 % \subsection{Loading of \cshn{poormanlog} package}
-% \lverb|Attention to catcode regime when loading poormanlog.|
+% \lverb|Attention to catcode regime when loading poormanlog. It matters less
+% now for 1.3f as those chunks of code from poormanlog.tex v0.04 which needed
+% specific xintexpr like catcodes got transferred here anyway.|
 %    \begin{macrocode}
 \ifdefined\RequirePackage
   \RequirePackage{poormanlog}%
@@ -40390,21 +40663,38 @@ math shift catcode.
 \fi
 %    \end{macrocode}
 % \lverb|\XINT_setcatcodes switches to the standard catcode regime of
-% xint*.sty files. And we need the xintexpr catcode for ! too.
+% xint*.sty files. And we need the xintexpr catcode for ! too (cf
+% \XINT_expr_func_pow)
 %
-% See remark above about \xintexprRestoreCatcodes.|
+% See the remark above about importance of doing \xintexprRestoreCatcodes if
+% \xintexprSafeCatcodes has been used...|
 %    \begin{macrocode}
 \xintexprRestoreCatcodes\csname XINT_setcatcodes\endcsname\catcode`\! 11
 %    \end{macrocode}
-% \subsection{Support macros for natural logarithm and exponential}
+% \subsection{The \cshn{log10()} and \cshn{pow10()} functions}
+% \lverb|The support macros from poormanlog v0.04 \PoorManLogBaseTen,
+% \PoorManLogPowerOfTen, \PoorManPower got transferred into xintfrac.sty at
+% 1.3f.|
 %    \begin{macrocode}
-\def\xintLog#1{\xintMul{\PoorManLogBaseTen{#1}}{23025850923[-10]}}%
-\def\XINTinFloatLog#1{\XINTinFloatMul{\PoorManLogBaseTen{#1}}{23025850923[-10]}}%
-\def\xintExp#1{\PoorManPowerOfTen{\xintMul{#1}{434294481903[-12]}}}%
-\def\XINTinFloatExp#1{\PoorManPowerOfTen{\XINTinFloatMul{#1}{434294481903[-12]}}}%
+\expandafter\def\csname XINT_expr_func_log10\endcsname#1#2#3%
+{%
+    \expandafter #1\expandafter #2\csname.=%
+    \XINT:NEhook:one\PoorManLogBaseTen{\XINT_expr_unlock #3}\endcsname
+}%
+\expandafter\let\csname XINT_flexpr_func_log10\expandafter\endcsname
+                \csname XINT_expr_func_log10\endcsname
+\expandafter\def\csname XINT_expr_func_pow10\endcsname#1#2#3%
+{%
+    \expandafter #1\expandafter #2\csname.=%
+    \XINT:NEhook:one\PoorManPowerOfTen{\XINT_expr_unlock #3}\endcsname
+}%
+\expandafter\let\csname XINT_flexpr_func_pow10\expandafter\endcsname
+                \csname XINT_expr_func_pow10\endcsname
 %    \end{macrocode}
-% \subsection{The \cshn{log()}, \cshn{exp()}, and \cshn{pow()} function}
-% \lverb|The log10() and pow10() are already defined by poormanlog.|
+% \subsection{The \cshn{log()}, \cshn{exp()}, and \cshn{pow()} functions}
+% \lverb|The log10() and pow10() were defined by poormanlog v0.04 but have
+% been moved here at xint 1.3f. The support macros are defined in
+% xintfrac.sty.|
 %    \begin{macrocode}
 \def\XINT_expr_func_log #1#2#3%
 {%
@@ -40426,6 +40716,9 @@ math shift catcode.
     \expandafter #1\expandafter #2\csname.=%
     \XINT:NEhook:one\XINTinFloatExp{\XINT_expr_unlock #3}\endcsname
 }%
+%    \end{macrocode}
+% \lverb|Attention that the ! is of catcode 11 here.|
+%    \begin{macrocode}
 \def\XINT_expr_func_pow #1#2#3%
 {%
     \expandafter #1\expandafter #2\csname.=%
@@ -40435,8 +40728,66 @@ math shift catcode.
 }%
 \let\XINT_flexpr_func_pow\XINT_expr_func_pow
 %    \end{macrocode}
-% \lverb|We don't worry about setting catcodes as this file is theoretically
-% only loadable from xintexpr.sty itself.|
+% \subsection{\csh{poormanloghack}}
+% \lverb|With \poormanloghack{**}, the ** operator will use pow10(y*log10(x)).
+% Same for ^.|
+%    \begin{macrocode}
+\catcode`\* 11
+\def\poormanloghack**{%
+\def\XINT_expr_op_** ##1%
+{%
+    \expandafter \XINT_expr_until_**_a
+    \expandafter ##1\romannumeral`&&@\expandafter\XINT_expr_getnext
+}%
+\def\XINT_expr_until_**_a ##1{%
+\def\XINT_expr_until_**_a ####1####2%
+{%
+    \xint_UDsignfork
+      ####2{\expandafter \XINT_expr_until_**_a \expandafter ##1%
+         \romannumeral`&&@##1}%
+       -{\XINT_expr_until_**_b ####1####2}%
+    \krof
+}}\expandafter\XINT_expr_until_**_a\csname XINT_expr_op_-ix\endcsname
+\def\XINT_expr_until_**_b ##1##2##3##4%
+{%
+    \ifnum ##2>\XINT_expr_precedence_**
+       \xint_afterfi
+       {\expandafter \XINT_expr_until_**_a \expandafter ##1%
+        \romannumeral`&&@\csname XINT_expr_op_##3\endcsname{##4}}%
+    \else
+       \xint_afterfi
+       {\expandafter ##2\expandafter ##3%
+        \csname .=\XINT:NEhook:two
+        \PoorManPower{\XINT_expr_unlock ##1}{\XINT_expr_unlock ##4}\endcsname
+       }%
+     \fi
+}%
+\let\XINT_flexpr_op_** \XINT_expr_op_**
+\let\XINT_flexpr_until_**_a\XINT_expr_until_**_a
+\let\XINT_flexpr_until_**_b\XINT_expr_until_**_b
+}%
+\def\poormanloghack^{%
+\def\XINT_expr_until_^_b ##1##2##3##4%
+{%
+    \ifnum ##2>\XINT_expr_precedence_^
+       \xint_afterfi
+       {\expandafter \XINT_expr_until_^_a \expandafter ##1%
+        \romannumeral`&&@\csname XINT_expr_op_##3\endcsname {##4}}%
+    \else
+       \xint_afterfi
+       {\expandafter ##2\expandafter ##3%
+        \csname .=\XINT:NEhook:two
+        \PoorManPower{\XINT_expr_unlock ##1}{\XINT_expr_unlock ##4}\endcsname
+       }%
+     \fi
+}%
+\let\XINT_flexpr_until_^_b\XINT_expr_until_^_b
+}%
+\def\poormanloghack#1{\csname poormanloghack#1\endcsname}%
+%    \end{macrocode}
+% \lverb|We don't worry about resetting catcodes now as this file is
+% theoretically only loadable from xintexpr.sty itself which will take care of
+% the needed restore.|
 % \StoreCodelineNo {xintlog}
 % \cleardoublepage\let\xintlognameUp\undefined
 % \MakePercentComment
@@ -40447,35 +40798,35 @@ math shift catcode.
 xint.sty:190
 xintbinhex.sty:53
 xintcfrac.sty:183
-xintcore.sty:274
-xintexpr.sty:285
-xintfrac.sty:468
+xintcore.sty:271
+xintexpr.sty:287
+xintfrac.sty:473
 xintgcd.sty:48
 xintkernel.sty:15
-xintlog.sty:5
+xintlog.sty:11
 xintseries.sty:48
 xinttools.sty:140
 xinttrig.sty:31
 \fi
 % grep -o "^{%" xint*sty | wc -l
-\def\totala{    1740}
+\def\totala{    1750}
 \iffalse
 % grep -c -e "^}%" xint*sty
 xint.sty:189
 xintbinhex.sty:52
 xintcfrac.sty:183
-xintcore.sty:271
-xintexpr.sty:312
-xintfrac.sty:470
+xintcore.sty:268
+xintexpr.sty:314
+xintfrac.sty:476
 xintgcd.sty:50
 xintkernel.sty:16
-xintlog.sty:5
+xintlog.sty:12
 xintseries.sty:48
 xinttools.sty:139
 xinttrig.sty:32
 \fi
 % grep -o "^}%" xint*sty | wc -l
-\def\totalb{    1767}
+\def\totalb{    1779}
 \cleardoublepage
 \section{Cumulative line count}
 
@@ -40499,8 +40850,8 @@ xinttrig.sty:32
     \TeX\strut. Version {\xintbndlversion} of {\xintbndldate}.\par
 }
 
-\CheckSum {33274}% 1.3e
-% 31601 pour 1.3d, 31122 pour 1.3c
+\CheckSum {33497}% 1.3f
+% 33497 pour 1.3f, 33274 pour 1.3e, 31601 pour 1.3d, 31122 pour 1.3c
 % 31069 pour 1.3b, 30482 pour 1.3a, 30621 pour 1.3, 30988 pour 1.2q,
 % 30982 pour 1.2p, 30524 pour 1.2o, 30303 pour 1.2h, 30403 pour 1.2i,
 % 30750 pour 1.2j, 30677 pour 1.2k, 30931 pour 1.2l, 30439 pour 1.2m,
