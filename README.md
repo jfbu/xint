@@ -1,8 +1,8 @@
 % README
-% xint 1.4
-% 2020/01/31
+% xint 1.4a
+% 2020/02/19
 
-    Source:  xint.dtx 1.4 2020/01/31 (doc 2020/01/31)
+    Source:  xint.dtx 1.4a 2020/02/19 (doc 2020/02/19)
     Author:  Jean-Francois B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
@@ -87,8 +87,8 @@ Documentation
 Requirements
 ============
 
-Attention, release `1.4` requires the `\expanded` primitive available
-in all major TeX engines since TeXLive 2019.
+Attention, since release `1.4` `xintexpr` requires the `\expanded`
+primitive (it is provided by all major TeX engines since TeXLive 2019).
 
 License
 =======
