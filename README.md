@@ -1,8 +1,8 @@
 % README
-% xint 1.4a
-% 2020/02/19
+% xint 1.4b
+% 2020/02/25
 
-    Source:  xint.dtx 1.4a 2020/02/19 (doc 2020/02/19)
+    Source:  xint.dtx 1.4b 2020/02/25 (doc 2020/02/25)
     Author:  Jean-Francois B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
@@ -10,27 +10,44 @@
 Aim and usage
 =============
 
-The basic aim is provide *expandable* computations on integers,
-fractions, and floating point numbers.  For example, with fractions:
+It is possible to use the package both with Plain (`\input xintexpr.sty`)
+or with the LaTeX macro format (`\usepackage{xintexpr}`).
 
-    \xinteval{reduce(37189719/183618963+11390170/17310720)^17}
+The basic aim is provide *expandable* computations on (arbitrily big)
+integers, fractions, and floating point numbers (at a user chosen
+precision).  The four operations and the square-root extraction achieve
+so-called *correct rounding* for the given arbitrary precision.
 
-The result has `462` characters (forward slash included.)
-One can also work with dummy variables:
+The syntax knows dummy variables, as in this example:
 
-    \xinteval{mul(add(x(x+1)(x+2), x=y..y+15), y=171286,98762,9296)}
+    \xinteval{reduce(add(x/(x+7), x = 1000..1010))}
 
-and do computations with floating point numbers at an adjustable
-precision (default `16`).
+which expands to:
 
-    \xintDigits:=48;\xintfloateval{123_456_789^10_000.5}
-    expands to 1.56866129625858270633170234772583710433908855336e80919
+    108959959329292321880648657/9974444716475301992902544
 
-Release `1.4` adds support for nested structures:
+Trigonometrical functions are available:
+
+    \xintDigits*:=48\relax
+
+    \xintfloateval{[-2] sind(37)}
+
+expands to:
+
+    0.6018150231520482799179770004414898414256377098
+
+The [-2] means to round the result to 2 digits less than float precision:
+currently trigonometrical functions are mostly implemented at high level
+via the user interface for declaring functions and variables and have no
+way to use guard digits, hence the last two digits are often not
+accurate.
+
+Release `1.4` adds support for nested structures.  For example:
 
     \xintthealign\xintexpr ndseq(1/(i+j), i=1..5; j=1..5)\relax
 
-will print on the page
+will print on the page (this is customizable, e.g. to use a pmatrix
+environnement rather):
 
     [[ 1/2, 1/3, 1/4, 1/5, 1/6  ],
      [ 1/3, 1/4, 1/5, 1/6, 1/7  ],
@@ -38,15 +55,9 @@ will print on the page
      [ 1/5, 1/6, 1/7, 1/8, 1/9  ],
      [ 1/6, 1/7, 1/8, 1/9, 1/10 ]]
 
-The four operations and the square-root extraction achieve so-called
-*correct rounding* in the given arbitrary precision.
-
-Trigonometric functions (direct and inverse) are available up to a
-maximal precision of about `58` digits. Logarithms and exponentials are
-currently evaluated only with `8` or `9` digits precision.
-
-It is possible to use the package both with Plain (`\input xintexpr.sty`)
-or with the LaTeX macro format (`\usepackage{xintexpr}`).
+It is possible to declare "universal functions" (à la NumPy) which will
+act itemwise on all leaves of such "arrays".  More features are planned
+such as providing an interface to algebra of matrices in this framework.
 
 Installation
 ============
@@ -87,8 +98,8 @@ Documentation
 Requirements
 ============
 
-Attention, since release `1.4` `xintexpr` requires the `\expanded`
-primitive (it is provided by all major TeX engines since TeXLive 2019).
+Since release `1.4`, `xintexpr` requires the `\expanded` primitive. This
+is a functionality of all major TeX engines since TeXLive 2019.
 
 License
 =======
