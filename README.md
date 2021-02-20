@@ -1,8 +1,8 @@
 % README
-% xint 1.4b
-% 2020/02/25
+% xint 1.4c
+% 2021/02/20
 
-    Source:  xint.dtx 1.4b 2020/02/25 (doc 2020/02/25)
+    Source:  xint.dtx 1.4c 2021/02/20 (doc 2021/02/20)
     Author:  Jean-Francois B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
@@ -13,7 +13,7 @@ Aim and usage
 It is possible to use the package both with Plain (`\input xintexpr.sty`)
 or with the LaTeX macro format (`\usepackage{xintexpr}`).
 
-The basic aim is provide *expandable* computations on (arbitrily big)
+The basic aim is provide *expandable* computations on (arbitrarily big)
 integers, fractions, and floating point numbers (at a user chosen
 precision).  The four operations and the square-root extraction achieve
 so-called *correct rounding* for the given arbitrary precision.
@@ -36,18 +36,15 @@ expands to:
 
     0.6018150231520482799179770004414898414256377098
 
-The [-2] means to round the result to 2 digits less than float precision:
-currently trigonometrical functions are mostly implemented at high level
-via the user interface for declaring functions and variables and have no
-way to use guard digits, hence the last two digits are often not
-accurate.
+The [-2] at start of the `\xintfloateval` argument means to round the
+result to 2 digits less than the float precision.
 
 Release `1.4` adds support for nested structures.  For example:
 
     \xintthealign\xintexpr ndseq(1/(i+j), i=1..5; j=1..5)\relax
 
-will print on the page (this is customizable, e.g. to use a pmatrix
-environnement rather):
+will print on the page (this is customizable, e.g. to use a `pmatrix`
+environment):
 
     [[ 1/2, 1/3, 1/4, 1/5, 1/6  ],
      [ 1/3, 1/4, 1/5, 1/6, 1/7  ],

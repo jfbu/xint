@@ -3,27 +3,27 @@
 % Extract all files via "etex xint.dtx" and do "make help"
 % or follow instructions from extracted README.md.
 %<*dtx>
-\def\xintdtxtimestamp {Time-stamp: <25-02-2020 at 23:06:44 CET>}
+\def\xintdtxtimestamp {Time-stamp: <20-02-2021 at 20:47:06 CET>}
 %</dtx>
 %<*drv>
 %% ---------------------------------------------------------------
-\def\xintdocdate {2020/02/25}
-\def\xintbndldate{2020/02/25}
-\def\xintbndlversion {1.4b}
+\def\xintdocdate {2021/02/20}
+\def\xintbndldate{2021/02/20}
+\def\xintbndlversion {1.4c}
 %</drv>
 %<readme>% README
 %<changes>% CHANGE LOG
-%<readme|changes>% xint 1.4b
-%<readme|changes>% 2020/02/25
+%<readme|changes>% xint 1.4c
+%<readme|changes>% 2021/02/20
 %<readme|changes>
-%<readme|changes>    Source:  xint.dtx 1.4b 2020/02/25 (doc 2020/02/25)
+%<readme|changes>    Source:  xint.dtx 1.4c 2021/02/20 (doc 2021/02/20)
 %<readme|changes>    Author:  Jean-Francois B.
 %<readme|changes>    Info:    Expandable operations on big integers, decimals, fractions
 %<readme|changes>    License: LPPL 1.3c
 %<readme|changes>
 %<*!readme&!changes&!dohtmlsh&!makefile>
 %% ---------------------------------------------------------------
-%% The xint bundle 1.4b 2020/02/25
+%% The xint bundle 1.4c 2021/02/20
 %% Copyright (C) 2013-2020 by Jean-Francois B.
 %<xintkernel>%% xintkernel: Paraphernalia for the xint packages
 %<xinttools>%% xinttools: Expandable and non-expandable utilities
@@ -49,7 +49,7 @@ Aim and usage
 It is possible to use the package both with Plain (`\input xintexpr.sty`)
 or with the LaTeX macro format (`\usepackage{xintexpr}`).
 
-The basic aim is provide *expandable* computations on (arbitrily big)
+The basic aim is provide *expandable* computations on (arbitrarily big)
 integers, fractions, and floating point numbers (at a user chosen
 precision).  The four operations and the square-root extraction achieve
 so-called *correct rounding* for the given arbitrary precision.
@@ -72,18 +72,15 @@ expands to:
 
     0.6018150231520482799179770004414898414256377098
 
-The [-2] means to round the result to 2 digits less than float precision:
-currently trigonometrical functions are mostly implemented at high level
-via the user interface for declaring functions and variables and have no
-way to use guard digits, hence the last two digits are often not
-accurate.
+The [-2] at start of the `\xintfloateval` argument means to round the
+result to 2 digits less than the float precision.
 
 Release `1.4` adds support for nested structures.  For example:
 
     \xintthealign\xintexpr ndseq(1/(i+j), i=1..5; j=1..5)\relax
 
-will print on the page (this is customizable, e.g. to use a pmatrix
-environnement rather):
+will print on the page (this is customizable, e.g. to use a `pmatrix`
+environment):
 
     [[ 1/2, 1/3, 1/4, 1/5, 1/6  ],
      [ 1/3, 1/4, 1/5, 1/6, 1/7  ],
@@ -164,6 +161,14 @@ See `xint.pdf` for contact information.
 %</readme>--------------------------------------------------------
 %<*changes>-------------------------------------------------------
 
+`1.4c (2021/02/20)`
+----
+
+### Bug fixes
+
+ - Fix `1.4` regression which broke syntax `varname(...)` which supposedly
+   is allowed and inserts a tacit multiplication.
+
 `1.4b (2020/02/25)`
 ----
 
@@ -196,31 +201,33 @@ All changes regard the **xintexpr** module.
  - Chaining of comparison operators (e.g. `x<y<z`) as in Python (but all
    comparisons are done even if one is found false) and l3fp.
 
- - Strangely, it was possible since `1.4`'s `\xintFracToSciE` to
-   configure the separator between mantissas and exponents in the output
-   of `\xinteval` but this did not modify the output of
-   `\xintfloateval`.  This is now fixed via the added `\xintPFloatE`.
+ - It was possible since `1.4`'s `\xintFracToSciE` to configure the
+   separator between mantissas and exponents in the output of
+   `\xinteval` but strangely there was no way to customize the output of
+   `\xintfloateval`.  The added `\xintPFloatE` fixes this.
 
 ### Bug fixes
 
  - `\xintieval{[D]...}` with a negative `D` (a feature added at `1.4a`)
-   used erroneously a catcode 12 `e` in output.  And its customization
-   via `\xintFracToSciE` remained without effect.
+   used erroneously a catcode 12 `e` in output, which moreover remained
+   immuned to the `\xintFracToSciE` setting.
 
 `1.4a (2020/02/19)`
 ----
 
+All changes regard the **xintexpr** module.
+
 ### Breaking changes
 
- - **xintexpr**: the macros implementing customization of
+ - The macros implementing customization of
    `\xintthealign` have modified meanings and names.
 
 ### New features
 
- - **xintexpr**: `\xintthespaceseparated` (serves to provide
+ - `\xintthespaceseparated` (serves to provide
    suitable input to PS-Tricks `\listplot`).
 
- - **xintexpr**: the optional argument `[D]` to `\xintieval/\xintiexpr`
+ - The optional argument `[D]` to `\xintieval/\xintiexpr`
    can be negative, with the same meaning as the non-negative case, i.e.
    rounding to an integer multiple of `10^(-D)`.
 
@@ -230,10 +237,10 @@ All changes regard the **xintexpr** module.
 
 ### Bug fixes
 
- - **xintexpr**: usage of `round()` and `trunc()` within `\xintdeffunc`
+ - Usage of `round()` and `trunc()` within `\xintdeffunc`
    got broken at `1.4`.
 
- - **xintexpr**: `add()` and `mul()` were supposedly accepting the
+ - `add()` and `mul()` were supposedly accepting the
    `omit`, `abort` and `break()` keywords since `1.4` but this was
    broken.
    
@@ -4447,7 +4454,7 @@ Two derived parsers:
 \begin{itemize}
 \item \csbxint{ieval}\marg{expression} does all computations like \csbxint{eval}
   but rounds the result to the nearest integer. If there is an optional
-  positive argument |[D]|, the rounding is to:
+  argument |[D]|, the rounding is to:
   \begin{itemize}
   \item if |D>0|: the nearest fixed point number with |D| digits after the
     decimal mark,
@@ -4479,9 +4486,15 @@ This core syntax can be used directly in typesetting flow.\NewWith{1.4} In an
 |\edef| they expand to some braced nested data (all computations having been
 done) prefixed with some |\protected| «typesetter» macros. When using
 \csbxint{eval} (in contrast to \csbxint{expr}), the protection of the
-«typesetter» is removed and its action gives (expandably, in two steps)
+«typesetter» is by-passed and its action gives (expandably)
 explicit digits and other characters such as those of scientific notation or
-brackets.
+brackets.%
+%
+\footnote{\csbxint{eval} and \csbxint{expr} both expand completely in exactly
+  two steps. And \csbxint{expr} expands fully under \fexpan sion (of the
+  |\romannumeral0| or |-`0| type). As per \csbxint{eval} attention that it may
+  expand to nothing, then naturally \fexpan sion propagates to tokens
+  following up in the input stream.}
 
 It is possible to use the core syntax\NewWith{1.4}
 \csbxint{expr}\meta{expression}|\relax| also in so-called moving arguments,
@@ -4511,24 +4524,31 @@ terms). Thus most probably what you want is \csbxint{floateval} and
 As mentioned already, the parsers are compatible with expansion-only
 context.
 
-Also, they expand the expression piece by piece:
-the normal mode of operation of the parsers is to unveil the parsed material
-token by token.  Unveiling is a process combining brace removal (one level
-generally) and \fexpan sion.
+Also, they expand the expression piece by piece: the normal mode of operation
+of the parsers is to unveil the parsed material token by token.  Unveiling is
+a process combining space swallowing, brace removal (one level generally), and
+\fexpan sion.
 
-For example a closing parenthesis does not have generally to be immediately
-visible, it may arise later from expansion.  Even the ending |\relax| may
-arise from expansion. Even though the \csbxint{eval} user interface means that
-the package has at some point the entire expression in its hands, it
-immediately re-inserts it into token stream with an additional postfixed
-|\relax| and from this point on has lost any ways to manipulate formally again
-the whole thing; it can only re-discover it piece per piece.
+For example a closing parenthesis after some function arguments does not have
+to be immediately visible, it and the arguments themselves may arise from
+\fexpan sion (applied before grabbing each successive token).  Even the ending
+|\relax| may arise from expansion. Even though the \csbxint{eval} user
+interface means that the package has at some point the entire expression in
+its hands, it immediately re-inserts it into token stream with an additional
+postfixed |\relax| and from this point on has lost any ways (a simple-minded
+delimited macro won't do because the expression is allowed to contain
+sub-\csbxint{expr}essions, even nested) to manipulate formally again the whole
+thing; it can only re-discover it one token at a time.
 
-This general behaviour has significative exceptions mostly related to
+This general behaviour (which allows much more freedom in assembling
+expressions than is usually the case with familiar programming languages such
+as Python, although admittedly that freedom will prove useful only to
+power-\TeX users and possibly does not have that many significant use cases)
+has significative exceptions. These exceptions are mostly related to
 «pseudo»-functions. A «pseudo»-function will grab some of its arguments via
 delimited macros. For example |subs(expr1,x=expr2)| needs to see the comma,
 equal sign and closing parenthesis. But it has mechanisms to allow |expr1| and
-|expr2| to possess their own commas and parentheses. 
+|expr2| to possess their own commas and parentheses.
 
 Inner semi-colons on the other hand currently always can originate from expansion.
 Defining functions or variables requires a visible semi-colon acting as
@@ -4592,7 +4612,7 @@ example with a matrix environment, where |\noexpand| rather than |\protected|
 is used.
 \begin{everbatim}
 \protected\def\xintexpralignbegin       {\halign\bgroup\tabskip2ex\hfil##&&##\hfil\cr}%
-\protected\def\xintexpralignend         {\crcr\egroup}%
+\def\xintexpralignend                   {\crcr\egroup}% removed \protected at 1.4c
 \protected\def\xintexpralignlinesep     {,\cr}% separates "lines"
 \protected\def\xintexpralignleftsep     {&}% at left of first item in a "line" (after brackets)
 \protected\def\xintexpraligninnersep    {,&}% at the left of non-first items
@@ -18318,7 +18338,7 @@ math shift catcode.
 \fi
 \XINT_providespackage
 \ProvidesPackage {xintkernel}%
-  [2020/02/25 v1.4b Paraphernalia for the xint packages (JFB)]%
+  [2021/02/20 v1.4c Paraphernalia for the xint packages (JFB)]%
 %    \end{macrocode}
 % \subsection{Constants}
 %    \begin{macrocode}
@@ -19104,7 +19124,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xinttools}%
-  [2020/02/25 v1.4b Expandable and non-expandable utilities (JFB)]%
+  [2021/02/20 v1.4c Expandable and non-expandable utilities (JFB)]%
 %    \end{macrocode}
 % \lverb|\XINT_toks is used in macros such as \xintFor. It is not used
 % elsewhere in the xint bundle.|
@@ -20056,6 +20076,21 @@ math shift catcode.
     \xint_bye #8\XINT_ziptwo_e \xint_bye {{#3}#8}%
     \xint_bye #4\XINT_ziptwo_e \xint_bye
     \xint_bye #9\XINT_ziptwo_e \xint_bye {{#4}#9}%
+%    \end{macrocode}
+% \lverb|Attention here that #6 can very well deliver no tokens at all. But
+% the \ifx will then do the expected thing. Only mentioning!
+%
+% By the way, the \xint_bye method means TeX needs to look into tokens
+% but skipping braced groups. A conditional based method lets TeX look only
+% at the start but then it has to find \else or \fi so here also it must looks
+% at tokens, and actually goes into braced groups. But (written 2020/02/26) I
+% never did serious testing comparing the two, and in xint I have usually
+% preferred \xint_bye/\xint_gob_til_foo types of methods (they proved superior
+% than \ifnum to check for 0000 in numerical core context for example, at the
+% early days when xint used blocks of 4 digits, not 8), or usage of \if/\ifx
+% only on single tokens, combined with some \xint_dothis/\xint_orthat syntax.
+% |
+%    \begin{macrocode}
     \ifx \empty#6\expandafter\XINT_zipone_a\fi
     \XINT_ziptwo_b #5\xint:
 }%
@@ -21433,7 +21468,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcore}%
-  [2020/02/25 v1.4b Expandable arithmetic on big integers (JFB)]%
+  [2021/02/20 v1.4c Expandable arithmetic on big integers (JFB)]%
 %    \end{macrocode}
 % \subsection{(WIP!) Error conditions and exceptions}
 % \lverb|As per the Mike Cowlishaw/IBM's General Decimal Arithmetic Specification
@@ -24735,7 +24770,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xint}%
-  [2020/02/25 v1.4b Expandable operations on big integers (JFB)]%
+  [2021/02/20 v1.4c Expandable operations on big integers (JFB)]%
 %    \end{macrocode}
 % \subsection{More token management}
 %    \begin{macrocode}
@@ -27301,7 +27336,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintbinhex}%
-  [2020/02/25 v1.4b Expandable binary and hexadecimal conversions (JFB)]%
+  [2021/02/20 v1.4c Expandable binary and hexadecimal conversions (JFB)]%
 %    \end{macrocode}
 % \subsection{Constants, etc...}
 % \lverb|1.2n switches to \csname-governed expansion at various places.|
@@ -27973,7 +28008,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintgcd}%
-  [2020/02/25 v1.4b Euclide algorithm with xint package (JFB)]%
+  [2021/02/20 v1.4c Euclide algorithm with xint package (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintBezout}}
 % \lverb|&
@@ -28573,7 +28608,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintfrac}%
-  [2020/02/25 v1.4b Expandable operations on fractions (JFB)]%
+  [2021/02/20 v1.4c Expandable operations on fractions (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{XINT_cntSgnFork}}
 % \lverb|1.09i. Used internally, #1 must expand to \m@ne, \z@, or \@ne or
@@ -33762,7 +33797,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintseries}%
-  [2020/02/25 v1.4b Expandable partial sums with xint package (JFB)]%
+  [2021/02/20 v1.4c Expandable partial sums with xint package (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintSeries}}
 %    \begin{macrocode}
@@ -34263,7 +34298,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcfrac}%
-  [2020/02/25 v1.4b Expandable continued fractions with xint package (JFB)]%
+  [2021/02/20 v1.4c Expandable continued fractions with xint package (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintCFrac}}
 %    \begin{macrocode}
@@ -35655,7 +35690,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintexpr}%
-  [2020/02/25 v1.4b Expandable expression parser (JFB)]%
+  [2021/02/20 v1.4c Expandable expression parser (JFB)]%
 \catcode`! 11
 \let\XINT_Cmp \xintiiCmp
 \def\XINTfstop{\noexpand\XINTfstop}%
@@ -35756,11 +35791,15 @@ math shift catcode.
 % Breaking change at 1.4a as helper macros were renamed and their meanings
 % refactored: no more \xintexpraligntab nor \xintexpraligninnercomma or
 % \xintexpralignoutercomma but \xintexpraligninnersep, etc...
+%
+% At 1.4c I remove the \protected from \xintexpralignend.  I had made note a
+% year ago that it served nothing.  Let's trust myself on this one (risky one
+% year later!)
 % .|
 %    \begin{macrocode}
 \catcode`& 4
 \protected\def\xintexpralignbegin       {\halign\bgroup\tabskip2ex\hfil##&&##\hfil\cr}%
-\protected\def\xintexpralignend         {\crcr\egroup}%
+\def\xintexpralignend                   {\crcr\egroup}%
 \protected\def\xintexpralignlinesep     {,\cr}%
 \protected\def\xintexpralignleftbracket {[}%
 \protected\def\xintexpralignrightbracket{]}%
@@ -35821,7 +35860,7 @@ math shift catcode.
 % with an xintfrac macro such as \xintiRound{0} one needs first to define
 % a wrapper which will expand it into braces :
 %
-% \def\foo#1{{\xintiRound{0){#1}}%
+% \def\foo#1{{\xintiRound{0}{#1}}%
 %
 % As the things will expand inside expanded, propagating expansion is not an
 % issue.
@@ -35876,7 +35915,7 @@ math shift catcode.
 %
 %
 % The 1.4a version of optional argument [D] for \xintiexpr accepts a negative
-% D, with same meaning as \xintTrunc from xintfrac.sty.
+% D, with same meaning as the 1.4a \xintRound from xintfrac.sty.
 % |
 %    \begin{macrocode}
 \def\xintexpr       {\romannumeral0\xintexpro      }%
@@ -35961,14 +36000,8 @@ math shift catcode.
 % 
 %  Comments currently under reconstruction.
 %
-% 1.4: The reason for \expanded is to ensure \xintthe mechanism does expand
-% completely in two steps, now that the print helper macros are not f-expandable
-% anymore.
-%
-% It is possible that the expression gave an empty object (e.g. \xintexpr
-% [4][1]\relax). Thus we do not use \romannumeral`^^@ trigger else
-% twice expansion of \xinttheexpr will propagate beyond empty expression.
-% Thus \romannumeral ended via a chardef zero token.
+% 1.4: attention that this now requires \expanded context as the «printer»
+% macros are not f-expandable but only e-expandable.
 %
 %  | 
 %    \begin{macrocode}
@@ -36013,7 +36046,11 @@ math shift catcode.
 % serves to achieve this support of *sub* \xinteval, it serves nothing for
 % the actual produced macros. For \xintdeffunc, things are simpler, but still
 % we support the [N] optional argument of \xintiexpr and \xintfloatexpr, which
-% required some work...|
+% required some work...
+%
+% The \expanded upfront ensures \xintthe mechanism does expand
+% completely in two steps.
+% |
 %    \begin{macrocode}
 \def\xintthe      #1{\expanded\expandafter\xint_gobble_i\romannumeral`&&@#1}%
 \def\xintthealign #1{\expandafter\xintexpralignbegin
@@ -36058,7 +36095,17 @@ math shift catcode.
 \def\xintthebarefloateval {\romannumeral0\expandafter\xint_stop_atfirstofone\romannumeral0\xintbarefloateval}%
 \def\xintthebareiieval    {\romannumeral0\expandafter\xint_stop_atfirstofone\romannumeral0\xintbareiieval}%
 %    \end{macrocode}
-% \subsubsection{\csh{xinteval}, \csh{xintieval}, \csh{xintfloateval}, \csh{xintiieval}}
+% \subsubsection{\csh{xinteval}, \csh{xintieval}, \csh{xintfloateval},
+% \csh{xintiieval}}
+% \lverb|Refactored at 1.4.
+%
+% The \expanded upfront ensures \xinteval still expands
+% completely in two steps. No \romannumeral trigger here, in relation to the
+% fact that \XINTexprprint is no f-expandable, only e-expandable.
+%
+% (and attention that \xintexpr\relax is now legal, and an empty ople can be
+% produced in output also from \xintexpr [17][1]\relax for example)
+% |
 %    \begin{macrocode}
 \def\xinteval #1%
    {\expanded\expandafter\XINTexprprint\expandafter.\romannumeral0\xintbareeval#1\relax}%
@@ -36172,7 +36219,10 @@ math shift catcode.
    {\xint_gob_til_! #9\xintthespaceseparated_c !%
     #1#2#3#4#5#6#7#8#9%
     \xintthespaceseparated_b}%
-\def\xintthespaceseparated_c !#1!#2^{#1}%
+%    \end{macrocode}
+% \lverb|1.4c I add a space here to stop the \romannumeral`^^@ if #1 is empty.|
+%    \begin{macrocode}
+\def\xintthespaceseparated_c !#1!#2^{ #1}%
 %    \end{macrocode}
 % \subsection{Hooks into the numeric parser for usage by the
 % \cshnolabel{xintdeffunc} symbolic parser}
@@ -38329,6 +38379,20 @@ math shift catcode.
 % adapted. However in future it could be that variables holding large data
 % will be managed much faster.
 %
+% |1.4c| |2021/02/20|. One year later I realized I had broken tacit
+% multiplication for situations such as |variable(1+2)|.  As hinted at in
+% comments above before |1.4| release I had been doing some deep refactoring
+% here, which I cancelled almost completely in the end... but not quite, and
+% as a result there was a problem that some macro holding braced contents was
+% expanded to late, once it was in old core routines of xintfrac not expecting
+% other things than digits. I do an emergency bugfix here with some
+% |\expandafter|'s but I don't have the code in my brain at this time, and
+% don't have the luxury now to invest into it. Let's hope this does not induce
+% breakage elsewhere, and that the February 2020 |1.4| did not break something
+% else.
+% 
+%
+%
 %    \begin{macrocode}
 \catcode`* 11
 \def\XINT_expr_defvar_one #1#2%
@@ -38344,9 +38408,11 @@ math shift catcode.
         {{\expandafter\noexpand\csname XINT_expr_varvalue_#1\endcsname}}%
     \XINT_global
     \expandafter\edef\csname XINT_expr_onliteral_#1\endcsname
-        {\noexpand\expandafter\XINT_expr_precedence_***
-         \noexpand\expandafter *\expandafter
-         \noexpand\csname XINT_expr_var_#1\endcsname(}%
+        {\unexpanded{\expandafter\expandafter\expandafter}%
+         \XINT_expr_precedence_***
+         \unexpanded{\expandafter\expandafter\expandafter}%
+         *\unexpanded{\expandafter\expandafter}%
+         \expandafter\noexpand\csname XINT_expr_var_#1\endcsname(}%
     \ifxintverbose\xintMessage{xintexpr}{Info}
        {Variable "#1" \ifxintglobaldefs globally \fi
         defined with value \csname XINT_expr_varvalue_#1\endcsname.}%
@@ -41803,10 +41869,10 @@ math shift catcode.
   \expandafter\xint_secondoftwo
 \fi
 {\immediate\write-1{Reloading xinttrig library using Digits=\xinttheDigits.}}%
-{\expandafter\gdef\csname xintlibver@trig\endcsname{2020/02/25 v1.4b}%
+{\expandafter\gdef\csname xintlibver@trig\endcsname{2021/02/20 v1.4c}%
 \XINT_providespackage
 \ProvidesPackage{xinttrig}%
-[2020/02/25 v1.4b Trigonometrical functions for xintexpr (JFB)]%
+[2021/02/20 v1.4c Trigonometrical functions for xintexpr (JFB)]%
 }%
 %    \end{macrocode}
 % \subsection{Ensure used letters are dummy letters}
@@ -42802,7 +42868,7 @@ math shift catcode.
 \xintexprSafeCatcodes\catcode`_ 11
 \XINT_providespackage
 \ProvidesPackage{xintlog}%
-[2020/02/25 v1.4b Logarithms and exponentials for xintexpr (JFB)]%
+[2021/02/20 v1.4c Logarithms and exponentials for xintexpr (JFB)]%
 %    \end{macrocode}
 % \subsection{Loading of \cshn{poormanlog} package}
 % \lverb|Attention to catcode regime when loading poormanlog. It matters less
@@ -43050,8 +43116,8 @@ xinttrig.sty:32
     \TeX\strut. Version {\xintbndlversion} of {\xintbndldate}.\par
 }
 
-\CheckSum {35103}% 1.4b
-% 34648 pour 1.4a, 34575 pour 1.4
+\CheckSum {35109}% 1.4c
+% 35103 pour 1.4b, 34648 pour 1.4a, 34575 pour 1.4
 % 33497 pour 1.3f, 33274 pour 1.3e, 31601 pour 1.3d, 31122 pour 1.3c
 % 31069 pour 1.3b, 30482 pour 1.3a, 30621 pour 1.3, 30988 pour 1.2q,
 % 30982 pour 1.2p, 30524 pour 1.2o, 30303 pour 1.2h, 30403 pour 1.2i,
