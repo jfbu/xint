@@ -1,8 +1,8 @@
 % README
-% xint 1.4c
-% 2021/02/20
+% xint 1.4d
+% 2021/03/29
 
-    Source:  xint.dtx 1.4c 2021/02/20 (doc 2021/02/20)
+    Source:  xint.dtx 1.4d 2021/03/29 (doc 2021/03/29)
     Author:  Jean-Francois B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
@@ -101,7 +101,7 @@ is a functionality of all major TeX engines since TeXLive 2019.
 License
 =======
 
-Copyright (C) 2013-2020 by Jean-Francois B.
+Copyright (C) 2013-2021 by Jean-Francois B.
 
 This Work may be distributed and/or modified under the
 conditions of the LaTeX Project Public License version 1.3c.
