@@ -1,14 +1,15 @@
 % README
-% xint 1.4d
-% 2021/03/29
+% xint 1.4e
+% 2021/05/05
 
-    Source:  xint.dtx 1.4d 2021/03/29 (doc 2021/03/29)
+    Source:  xint.dtx 1.4e 2021/05/05 (doc 2021/05/05)
     Author:  Jean-Francois B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
 
-Aim and usage
-=============
+
+Description
+===========
 
 It is possible to use the package both with Plain (`\input xintexpr.sty`)
 or with the LaTeX macro format (`\usepackage{xintexpr}`).
@@ -16,45 +17,39 @@ or with the LaTeX macro format (`\usepackage{xintexpr}`).
 The basic aim is provide *expandable* computations on (arbitrarily big)
 integers, fractions, and floating point numbers (at a user chosen
 precision).  The four operations and the square-root extraction achieve
-so-called *correct rounding* for the given arbitrary precision.
+the *correct rounding* for the given arbitrary precision.  Exponential
+(natural and to the base ten), logarithm (also to the base 10),
+fractional powers, direct and inverse trigonometrical functions are
+available up to 62 digits of precision.  The syntax supports dummy
+variables (to generate sequences of values) and nested structures.
+Support for user-declared functions and variables is implemented.
 
-The syntax knows dummy variables, as in this example:
+Usage on the command line
+=========================
 
-    \xinteval{reduce(add(x/(x+7), x = 1000..1010))}
+One can use `xintexpr` as an interactive calculator on the command line.
+See the [xintsession](http://ctan.org/pkg/xintsession) package.
 
-which expands to:
-
-    108959959329292321880648657/9974444716475301992902544
-
-Trigonometrical functions are available:
-
-    \xintDigits*:=48\relax
-
-    \xintfloateval{[-2] sind(37)}
-
-expands to:
-
-    0.6018150231520482799179770004414898414256377098
-
-The [-2] at start of the `\xintfloateval` argument means to round the
-result to 2 digits less than the float precision.
-
-Release `1.4` adds support for nested structures.  For example:
-
-    \xintthealign\xintexpr ndseq(1/(i+j), i=1..5; j=1..5)\relax
-
-will print on the page (this is customizable, e.g. to use a `pmatrix`
-environment):
-
-    [[ 1/2, 1/3, 1/4, 1/5, 1/6  ],
-     [ 1/3, 1/4, 1/5, 1/6, 1/7  ],
-     [ 1/4, 1/5, 1/6, 1/7, 1/8  ],
-     [ 1/5, 1/6, 1/7, 1/8, 1/9  ],
-     [ 1/6, 1/7, 1/8, 1/9, 1/10 ]]
-
-It is possible to declare "universal functions" (à la NumPy) which will
-act itemwise on all leaves of such "arrays".  More features are planned
-such as providing an interface to algebra of matrices in this framework.
+    *2^100;
+    (@_1)    1267650600228229401496703205376
+    *cos(1);
+    (@_2)    0.5403023058681397
+    *&fp32
+    (./xintlog.sty) (./xinttrig.sty) fp32 mode (log and trig reloaded)
+    *cos(1);
+    (@_3)    0.54030230586813971740093660744298
+    *3^1000;
+    (@_4)    1.3220708194808066368904552597521e477
+    *&exact
+    exact mode (floating point evaluations use 32 digits)
+    *3^1000;
+    (@_5)    1322070819480806636890455259752144365965422032752148167664920368226828
+    5973467048995407783138506080619639097776968725823559509545821006189118653427252
+    5795367402762022519832080387801477422896484127439040011758861804112894781562309
+    4438061566173054086674490506178125480344405547054397038895817465368254916136220
+    8302685637785822902284163983078878969185564040848989376093732421718463599386955
+    1676501894058810906042608967143886410281435038564874716583201061436613217310276
+    8902855220001
 
 Installation
 ============
