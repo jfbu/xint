@@ -3,27 +3,27 @@
 % Extract all files via "etex xint.dtx" and do "make help"
 % or follow instructions from extracted README.md.
 %<*dtx>
-\def\xintdtxtimestamp {Time-stamp: <05-05-2021 at 15:26:12 CEST>}
+\def\xintdtxtimestamp {Time-stamp: <10-05-2021 at 17:45:52 CEST>}
 %</dtx>
 %<*drv>
 %% ---------------------------------------------------------------
-\def\xintdocdate {2021/05/05}
-\def\xintbndldate{2021/05/05}
-\def\xintbndlversion {1.4e}
+\def\xintdocdate {2021/05/10}
+\def\xintbndldate{2021/05/10}
+\def\xintbndlversion {1.4f}
 %</drv>
 %<readme>% README
 %<changes>% CHANGE LOG
-%<readme|changes>% xint 1.4e
-%<readme|changes>% 2021/05/05
+%<readme|changes>% xint 1.4f
+%<readme|changes>% 2021/05/10
 %<readme|changes>
-%<readme|changes>    Source:  xint.dtx 1.4e 2021/05/05 (doc 2021/05/05)
+%<readme|changes>    Source:  xint.dtx 1.4f 2021/05/10 (doc 2021/05/10)
 %<readme|changes>    Author:  Jean-Francois B.
 %<readme|changes>    Info:    Expandable operations on big integers, decimals, fractions
 %<readme|changes>    License: LPPL 1.3c
 %<readme|changes>
 %<*!readme&!changes&!dohtmlsh&!makefile>
 %% ---------------------------------------------------------------
-%% The xint bundle 1.4e 2021/05/05
+%% The xint bundle 1.4f 2021/05/10
 %% Copyright (C) 2013-2021 by Jean-Francois B.
 %<xintkernel>%% xintkernel: Paraphernalia for the xint packages
 %<xinttools>%% xinttools: Expandable and non-expandable utilities
@@ -70,8 +70,10 @@ See the [xintsession](http://ctan.org/pkg/xintsession) package.
     (@_1)    1267650600228229401496703205376
     *cos(1);
     (@_2)    0.5403023058681397
-    *&fp32
-    (./xintlog.sty) (./xinttrig.sty) fp32 mode (log and trig reloaded)
+    *&fp=32
+    (/usr/local/texlive/2021/texmf-dist/tex/generic/xint/xintlog.sty)
+    (/usr/local/texlive/2021/texmf-dist/tex/generic/xint/xinttrig.sty)
+    fp mode (log and trig reloaded at Digits=32)
     *cos(1);
     (@_3)    0.54030230586813971740093660744298
     *3^1000;
@@ -79,13 +81,7 @@ See the [xintsession](http://ctan.org/pkg/xintsession) package.
     *&exact
     exact mode (floating point evaluations use 32 digits)
     *3^1000;
-    (@_5)    1322070819480806636890455259752144365965422032752148167664920368226828
-    5973467048995407783138506080619639097776968725823559509545821006189118653427252
-    5795367402762022519832080387801477422896484127439040011758861804112894781562309
-    4438061566173054086674490506178125480344405547054397038895817465368254916136220
-    8302685637785822902284163983078878969185564040848989376093732421718463599386955
-    1676501894058810906042608967143886410281435038564874716583201061436613217310276
-    8902855220001
+    (@_5)    132207081948080663689045525975... (trimmed for this README)
 
 Installation
 ============
@@ -156,6 +152,64 @@ See `xint.pdf` for contact information.
 %</readme>--------------------------------------------------------
 %<*changes>-------------------------------------------------------
 
+`1.4f (2021/05/10)`
+----
+
+### Breaking changes
+
+ - **xintexpr**: `\xintieval{[-D]...}`, which rounds to a multiple of
+   `1eD` for `D` positive now *does not insert the trailing zeros* (as
+   done at `1.4e`) *nor a scientific part* `eD` (as prior to `1.4e`).
+   The use case envisioned is for the quantized value to be used with an
+   appropriate unit, for example `k` for `D=3` or `M` for `D=6`
+   etc... Sorry for the very long process which was needed to reach this
+   final decision.
+
+ - **xintexpr**: for Digits beyond the officially supported range for
+   accurate math functions, i.e. for `D>62`, computations were still
+   done and printed with full number of digits, but the extra digits
+   were meaningless; they now operate on and output mantissas limited to
+   `min(D,64)` digits.
+ 
+ - **xintexpr**: for powers `a^b` with Digits at most `8`, the number
+   `a` is now float-rounded to Digits before computation, as is done for
+   `Digits>8`; previously `9` significant digits were kept.
+
+ - **xintexpr**: further changes in the computation of powers, see the
+   bug fixes below.
+
+ - **xintexpr**: the `float_()` function got renamed into `float_dgt()`.
+ 
+### Bug fixes
+
+ - **xintexpr**: the documentation said `float_()` function had been
+   renamed `float_dgt()` but actually that was not yet the case.
+
+ - **xintexpr**: powers `a^b` (with exponent `b` neither integer nor
+   half-integer) stopped being accurate regarding the last digits for
+   `|b|` about `1000` and beyond.  Except for `0.8<a<1.25` for which
+   accuracy was maintained up to about `|b|=10^7`.  Fixed via keeping
+   the same suitable number of extra digits for internal computations of
+   logarithms, independently of whether `a` is close to `1` or not.
+
+ - **xintexpr**: powers `a^b` in `\xinteval` with `|b|` an integer at
+   least `10000` were paradoxically computed with less accuracy than in
+   `\xintfloateval`... although they were documented to be handled
+   exactly the same in the two parsers.
+
+ - **xintexpr**: powers `a^b` for Digits at most `8` unconditionally
+   used `log10()/pow10()` approach but due to the limited accuracy of
+   the poorman logarithm (`9` fractional digits) this was inaccurate
+   already for `b` about `100`. So, the handling is now as for Digits at
+   least `9`, i.e. integer and half-integer exponents are handled via
+   the legacy `\xintFloatPower/\xintFloatSqrt` allowing arbitrarily big
+   exponents. It is advised to split big powers with non integer non
+   half integer exponents into a product; this is not done internally
+   to avoid costly overhead for possibly rare use cases.
+
+ - **xintexpr**: the invalid input `(-1)^2.5` triggered an undefined
+   control sequence error if Digits was at most `8`.
+
 `1.4e (2021/05/05)`
 ----
 
@@ -182,7 +236,7 @@ extended if need be after the author gets some rest.
  - **xintexpr**: the output format of `\xintfloateval`, which uses
    `\xintPFloat`, changed. The `\xintfloatexprPrintOne` macro now
    expects to be used with either one or two arguments, the first one
-   being within brackets not braces. It defaults to `\xintPFloat`.
+   being within brackets not braces.
 
  - **xintexpr**: when using `\xintieval{[D]...}` optional `[D]` with a
    negative `D`, which triggers quantization to a positive power of ten,
@@ -202,8 +256,8 @@ extended if need be after the author gets some rest.
    than the precision, got stored "as is" in the defined variable,
    without pre-rounding to the Digits precision.
 
- - **xintfrac**:`\xintPFloat` and `\xintFracToSci` behave
-   differently. The macro `\xintFracToSciE` does not exist anymore, as
+ - **xintfrac**:`\xintPFloat` and `\xintFracToSci` have both been
+   modified. The macro `\xintFracToSciE` does not exist anymore, as
    `\xintFracToSci` in the case of scientific exponents hands over the
    process to `\xintPFloat` (without the rounding to Digits, of course).
 
@@ -219,7 +273,8 @@ extended if need be after the author gets some rest.
    `xintfloateval`, per default.
 
  - **xinttrig**: now working up to `62` digits and with increased
-   accuracy. Special faster mode at `8` digits or less.
+   accuracy. Special faster (or not as slow if you prefer) mode at `8`
+   digits or less.
 
  - **xintexpr**: the constraints on the `\xintexprPrintOne` replacement
    macro, which defaults to `\xintFracToSci`, have been much simplified.
@@ -232,7 +287,8 @@ extended if need be after the author gets some rest.
    also delimited with a dot which will be removed by internal
    processing. The default however simply expands to the letter `e`.
  
- - **xintfrac**: `\xintDecToStringREZ`
+ - **xintfrac**: `\xintDecToStringREZ` is like `\xintDecToString` but
+   starts by removing trailing zeroes.
 
 ### Bug fixes
 
@@ -4035,17 +4091,19 @@ pdfpagemode=UseNone,%
 \end{everbatim}
 \end{itemize}
 
-\xintexprname is a package to do expandable computations, either exactly
-(i.e.\@ with fractions) with arbitrarily big inputs, or in the sense of
-floating point numbers (logarithm, exponential, sine, cosine, ...) up to 62
-digits.
+\xintexprname is a package to do expandable computations, either exactly with
+arbitrarily big inputs (fractions, arbitrarily long decimal expansions, ...),
+or in the sense of floating point numbers (logarithm, exponential, sine,
+cosine, ...).  The math functions are implemented up to \dtt{62} digits of
+precision.  The square root (as well of course as the four operations) achieve
+correct rounding in arbitrary precision.
 
 The syntax to modify the precision used for floating point evaluations is
 \begin{everbatim}
 \xintDigits*:= <Number>;
 \end{everbatim}
-Use the |*|, else the scientific libraries will not be reloaded.  See
-\csbxint{Digits}. The current precision is available as \csbxint{theDigits},
+Use the |*| (\csbxint{Digits*}), else the scientific libraries will not be
+reloaded.  The current precision is available as \csbxint{theDigits},
 but in this documentation I might be using simply |Digits| to refer to it.
 
 
@@ -4058,16 +4116,19 @@ adapt to your environment} work interactively on the command line
 \begin{everbatim}
 rlwrap etex xintsession
 [...hit RET once...]
-  Magic words: `&pause' (or `;'), `&help', `&bye', and toggles
-  `&exact', `&fp', `&fp16', `&fp24', `&fp32', `&int', `&pol'.
+  Magic words: `&pause' (or `;'), `&help', `&bye',
+               `&exact', `&fp', `&int', `&pol'.
+  Say e.g. `&fp=24' to activate floating point mode with Digits=24.
   Starting in exact mode (floating point evaluations use 16 digits)
 (Please type a command or say `\end')
 *2^100;
 (@_1)    1267650600228229401496703205376
 *cos(1);
 (@_2)    0.5403023058681397
-*&fp32
-(./xintlog.sty) (./xinttrig.sty) fp32 mode (log and trig reloaded)
+*&fp=32
+(/usr/local/texlive/2021/texmf-dist/tex/generic/xint/xintlog.sty)
+(/usr/local/texlive/2021/texmf-dist/tex/generic/xint/xinttrig.sty)
+fp mode (log and trig reloaded at Digits=32)
 *cos(1);
 (@_3)    0.54030230586813971740093660744298
 *3^1000;
@@ -4081,10 +4142,10 @@ exact mode (floating point evaluations use 32 digits)
 4438061566173054086674490506178125480344405547054397038895817465368254916136220
 8302685637785822902284163983078878969185564040848989376093732421718463599386955
 1676501894058810906042608967143886410281435038564874716583201061436613217310276
-8902855220001
+890285522000
 *&bye
 Did I say something wrong?
-Session transcript written on xintsession-210505_11h05.tex
+Session transcript written on xintsession-210509_14h55.tex
 No pages of output.
 Transcript written on xintsession.log.
 \end{everbatim}
@@ -4103,7 +4164,7 @@ sections, which was a hard decision to take, almost breaking the palimpsest
 quality of the document).  Reports welcome.%
 %
 \footnote{Thanks to Jürgen Gilg for keeping the author motivated and
-  helping proof-read the documentation.}
+  helping proof-read the 1.4 documentation.}
 
 \subsection{Improved support for logarithm, exponential, sine, etc... at
   the \texttt{1.4e} release of \texttt{2021/05/05}}
@@ -4114,17 +4175,106 @@ setting of Digits), when Digits is at least \dtt{9}.
 See \xintlogname and \xinttrigname.
 
 For Digits up to \dtt{8}, a special more approximate implementation is used,
-and the functions achieve the ``correct rounding'' (particularly at |Digits=8
-or 7|) less often, but are significantly faster than working with \dtt{9}
-digits or more. The precision is largely
-enough for plots:
-\begin{everbatim}
-\xintDigits*:=8;% do floating point computations at only 8 digits of precision
-\end{everbatim}
-For some more information on the limitations at Digits set to \dtt{8} or less
-relative to the logarithm and exponential in particular, refer to the comments
-in |sourcexint.pdf| at the start of the \xintlogname chapter.
+and the functions achieve the ``correct rounding'' (particularly at |Digits|
+equal to \dtt{8} or \dtt{7}) less often, but are significantly faster
+(especially logarithm, exponential, powers) than working with \dtt{9} digits
+or more.  The achieved precision is largely enough for plots (but see some
+information relative to powers below). For some information on the limitations
+at Digits set to \dtt{8} or less relative to the logarithm in particular,
+refer to the comments in |sourcexint.pdf| at the start of the \xintlogname
+chapter. Or check this footnote.%
+%
+\footnote{Most notably, for inputs near \dtt{1}, the logarithm in this special
+  \dtt{$D\leq8$} mode is far from achieving accuracy in floating point sense, as
+  it is obtained with \dtt{9} fractional fixed point digits, the more of them
+  being zeros the closer the input is close to \dtt{1}.}
 
+Important notes regarding powers:\IMPORTANT{}
+\begin{enumerate}[noitemsep]
+\item Powers |a^b| (or |a**b|, or |pow(a,b)|) in \csbxint{eval} with an
+  integer exponent are computed exactly if
+  the output is estimated to not exceed by much \dtt{10000} digits. Else, or
+  for non-integer exponents, they are computed as in \csbxint{floateval}
+  (see \csbxint{Pow}).
+\item Powers |a^b| in \csbxint{floateval} are computed differently according
+  to the exponent |b|:
+  \begin{itemize}[noitemsep]
+    \item if |b| is an integer or half-integer the legacy \csbxint{FloatPower}
+      (and, for |b| half-integer, \csbxint{FloatSqrt}) are used; they work in
+      arbitrary precision, so the result is produced with a full-size
+      mantissa, even if |Digits| is more than \dtt{62},
+    \item else the computation goes via the |10^(b*log10(a))| formula (done
+      internally with increased accuracy) and the mantissa lengths will be
+      limited in output to the smallest of |Digits| or \dtt{64}.  In this
+      branch the last digits of the mantissa will start being wrong if |b|
+      becomes about (in absolute value) \dtt{100000000}. If you really need to
+      compute powers with exponents that large or larger, it is recommended to
+      decompose the exponent as a sum of the nearest integer or half-integer
+      and a fractional part and express the power as a product. This is not
+      done automatically as it would add some overhead in general for some a
+      priori very rare use cases. And recall that the decimal exponents of
+      final and intermediate results should obey the \TeX\ bound for integers
+      anyhow, i.e. be at most (in absolute value) \dtt{\number"7FFFFFFF}, add some
+      safety margin...
+    \item if |Digits| is at most \dtt{8}, logarithms are computed faster but
+      with less accuracy (internally, between \dtt{8} and \dtt{9} \emph{fixed
+        point fractional digits} accuracy) and powers |a^b| lose accuracy in
+      last digits quickly as |b| rises. Here is what I observed in limited
+      random tests:
+      \begin{itemize}[noitemsep]
+      \item for |b| integer or half-integer, all our tested samples gave
+        correct rounding to \dtt{8} digits and we tested this with the
+        exponent |b| up to \dtt{1000000000.5},
+      \item for |b| neither integer nor half-integer and |1<b<10|, we observed
+        roughly \dtt{8} correct digits in between \dtt{80}\% and \dtt{90}\% of
+        cases and the remaining cases had only a \dtt{1ulp} error.
+      \item for |b| neither integer nor half-integer and |10^e<b<10^(e+1)|,
+        then roughly \dtt{8-e} digits are correct for around
+        \dtt{90}\% of cases and there is a one unit error in the last of
+        those digits in the remaining cases.
+      \end{itemize}
+      To maintain higher accuracy, split the input as |a^n a^h| with |n|
+      integer or half-integer nearest to |b|. After having considered (and
+      implemented) the method, decision was made to not incorporate it as it
+      would induce serious overhead generally speaking. The |a^b| with
+      fractional exponent |b| such that |abs(b)<10| are currently computed
+      with at most \dtt{1ulp} error in the vast majority of cases it seems,
+      which is largely precise enough for plots, and then speed matters
+      most. Larger exponents can be handled (since |1.4f|) via manually
+      implementing the splitting trick, as described above.
+  \end{itemize}
+\end{enumerate}
+
+The documentation of the legacy macro \csbxint{FloatPower} (which is used for
+powers with integer and half-integer exponents) explains it has a guaranteed
+error bound of |0.52ulp|, in arbitrary precision. Generally speaking, the math
+functions added at |1.4e| target even smaller errors (but only up to \dtt{62}
+digits), something of the order of |0.505ulp|, and in practice they seem to
+achieve even better than \dtt{99\%} of correct rounding probability (at least
+in their natural ranges, and it varies according to the value of
+|Digits|). Perhaps in future I will re-examine whether it is worthwile to
+increase a bit the theoretical accuracy of \csbxint{FloatPower}, as I have not
+had the time to really measure systematically its pratical accuracy, all
+anecdotical evidence showing it is good.
+
+\subsection{Breaking changes at the \texttt{1.4f} release}
+
+\begin{enumerate}[noitemsep]
+\item \csbxint{ieval}|{[-D]...}| which quantizes to a multiple of |1eD| when
+  |D| is positive now does \emph{NOT append the |D| trailing zeroes anymore}!\IMPORTANT
+\item \func{float\string_dgt} is the new name of |float_()|, as already
+  documented but
+  not yet done at |1.4e|.
+\item Powers in \csbxint{floateval} with big exponents are computed with more
+  accuracy.
+\item For |Digits| at most \dtt{8}, powers in \csbxint{floateval} with integer
+  or half-integer exponents do not use \func{log10}/\func{pow10} method but
+  (as for |Digits| at least \dtt{9}) the \csbxint{FloatPower} based approach,
+  allowing very big integer of half-integer exponents while keeping accuracy.
+\item Computations with math functions in \csbxint{floateval} at a setting of
+  |Digits| higher than \dtt{62} will produce an output limited to the smallest
+  of |Digits| and \dtt{64} digits.
+\end{enumerate}
 
 \subsection{Breaking changes at the \texttt{1.4e} release}
 
@@ -4161,6 +4311,9 @@ support is needed...
   negative |D| (i.e.\@ rounding the output to a multiple of a positive power
   of ten) the output does not use scientific notation but is an integer ending
   with explicit zeros.
+
+  Update: at |1.4f| this was changed again.\IMPORTANT{} Now no trailing zeroes
+  are added at all!
 
   Nothing was changed to output for the case of a positive |[D]| (i.e.\@
   rounding to |D| figures after decimal point).  One now only needs to
@@ -4213,7 +4366,7 @@ For bugfixes and possibly more details check |CHANGES.html|:
   \item Chaining of \hyperlink{\detokenize{prec-10}}{comparison operators} à la
   Python (no short-circuit, though) and |l3fp|.
 
-  \item \csbxint{PFloatE} to specify like \csbxint{FracToSciE} (now defunct at
+  \item \csbxint{PFloatE} to specify like \csa{xintFracToSciE} (now defunct at
     |1.4e|) does for
     \csbxint{eval} since |1.4| the separator to use between mantissa and
     exponent in the output of \csbxint{floateval} output.
@@ -4222,12 +4375,8 @@ For bugfixes and possibly more details check |CHANGES.html|:
     to PS-Tricks |\listplot|).
 
   \item The optional argument |[D]| to \csbxint{iexpr} (or \csbxint{ieval})
-    can be negative, with the same meaning as the non-negative case, i.e.
-    rounding to an integer multiple of |1e-D| (as formerly, for |D| positive
-    the output uses fixed point notation with decimal digits and with |D=0| the
-    output is an integer with no decimal separator; with |D<0| scientific
-    notation is used%
-    ).
+    can be negative, with about the same meaning as the non-negative case, i.e.
+    rounding to an integer multiple of |1e-D|.
 
   \item The same applies to the functions \func{trunc} and \func{round}. And
     matching updates to \csbxint{Trunc}, \csbxint{Round}, \csbxint{iTrunc},
@@ -4739,6 +4888,10 @@ Two derived parsers:
   \item if |D=0|: the nearest integer,
   \item if |D<0|: the\NewWith{1.4a} nearest multiple of |10^(-D)| (this case
     is new with |1.4a| and uses scientific notation).
+
+    At |1.4e| this was changed from using scientific notation on output to
+    inserting |-D| explicit zeroes, and at |1.4f| it is again changed to do neither!
+    \CHANGED{1.4f}
   \end{itemize}
   ATTENTION: the optional argument
   |[D]| is to be located \emph{within} the braces at the start of the expression. 
@@ -5125,7 +5278,7 @@ discussion at each level.
 
   \operdesc{e} scientific notation.
 
-  \operdesc{E} scientific notation. For output, see \csbxint{FracToSciE}.
+  \operdesc{E} scientific notation. For output, see \csbxint{PFloatE}.
 
   \operdesc{"} prefix for hexadecimal input. Only uppercase letters, and
   one optional |.| separating integer and fractional hexadecimal parts.
@@ -7988,6 +8141,7 @@ the trigonometric functions will not be updated).
 
 The |*| is mandatory to reload the library, don't forget it.\IMPORTANTf{}
 
+\pdfstringdefDisableCommands{\let\cs\empty}
 \subsection{Powers in \texttt{\cs{xinteval}} and \texttt{\cs{xintfloateval}}}
 
 For powers |a^b| or |a**b| in \csbxint{floateval} the following rules apply:
@@ -11084,7 +11238,7 @@ Since |1.4e|\CHANGED{1.4e}, \csbxint{DecToString} is the default for
 \csbxint{iexprPrintOne}, which governs the \csbxint{ieval} output format (in
 this use case there is never a |/B| fractional part).
 \begin{everbatim}
-\let\xintexprPrintOne\xintDecToString
+\let\xintiexprPrintOne\xintDecToString
 \end{everbatim}
 
 Any replacement of \csbxint{iexprPrintOne} should obey the following blueprint:
@@ -11109,9 +11263,10 @@ represents the zero value).
 
 Truncation is done towards zero.
 \begin{everbatim*}
-\xintFor* #1 in {\xintSeq[-1]{7}{-14}}:{\xintTrunc{#1}{-11e12/7}\newline}%
-\xintTrunc{10}{1e-11}\newline
-\xintTrunc{10}{1/65536}\par
+\begin{multicols}{2}
+  \xintFor* #1 in {\xintSeq[-1]{7}{-14}}:{\xintTrunc{#1}{-11e12/7}\newline}%
+  \xintTrunc{10}{1e-11}\newline \xintTrunc{10}{1/65536}\par
+\end{multicols}
 \end{everbatim*}
 
 \begin{framed}
@@ -11338,9 +11493,10 @@ exactly zero; else it contains always either a decimal mark (even if |x=0|) or
 a scientific part and it conserves the sign of |f| (even if the rounded value
 represents the zero value).
 \begin{everbatim*}
-\xintFor* #1 in {\xintSeq[-1]{7}{-14}}:{\xintRound{#1}{-11e12/7}\newline}%
-\xintRound{10}{1e-11}\newline
-\xintRound{10}{1/65536}\newline
+\begin{multicols}{2}
+  \xintFor* #1 in {\xintSeq[-1]{7}{-14}}:{\xintRound{#1}{-11e12/7}\newline}%
+  \xintRound{10}{1e-11}\newline \xintRound{10}{1/65536}\newline
+\end{multicols}
 \end{everbatim*}%
 Rounding is done with half-way numbers going towards infinity of
 the same sign.
@@ -11368,9 +11524,10 @@ Note the trailing |[0]|, see \csbxint{iFloor} if it is not desired.
 times what \csa{xintTrunc}|{x}{f}| would produce. Attention that leading zeros
 are automatically removed: the output is in strict integer format.
 \begin{everbatim*}
-\xintFor* #1 in {\xintSeq[-1]{7}{-14}}:{\xintiTrunc{#1}{-11e12/7}\newline}%
-\xintiTrunc{10}{1e-11}\newline
-\xintiTrunc{10}{1/65536}\par
+\begin{multicols}{2}
+  \xintFor* #1 in {\xintSeq[-1]{7}{-14}}:{\xintiTrunc{#1}{-11e12/7}\newline}%
+  \xintiTrunc{10}{1e-11}\newline \xintiTrunc{10}{1/65536}\par
+\end{multicols}
 \end{everbatim*}
 
 \subsection{\csh{xintTTrunc}}\label{xintTTrunc}
@@ -11385,9 +11542,10 @@ zero). This is the same as |\xintiTrunc {0}{f}| and also the same as
 times what \csa{xintRound}|{x}{f}| would return. The output has no leading
 zeroes, it is always in strict integer format.
 \begin{everbatim*}
-\xintFor* #1 in {\xintSeq[-1]{7}{-14}}:{\xintiRound{#1}{-11e12/7}\newline}%
-\xintiRound{10}{1e-11}\newline
-\xintiRound{10}{1/65536}\par
+\begin{multicols}{2}
+  \xintFor* #1 in {\xintSeq[-1]{7}{-14}}:{\xintiRound{#1}{-11e12/7}\newline}%
+  \xintiRound{10}{1e-11}\newline \xintiRound{10}{1/65536}\par
+\end{multicols}
 \end{everbatim*}
 
 \subsection{\csh{xintiFloor}}\label{xintiFloor}
@@ -11661,39 +11819,57 @@ Computes the square\etype{\Ff} of one fraction.
 \csa{xintPow}{|{f}{x}|}:\etype{\Ff\Numf} computes |f^x| with |f| a fraction and
 |x| possibly also.
 
-This is the support macro for |a^b| in \csbxint{eval}.
-At |1.4e| the macro was extended to allow non-integer exponents (previously
-this was the case too, but the non-integer exponent was truncated to an
-integer...).
-\CHANGED{1.4e}
+At |1.4e|\CHANGED{1.4e} the behaviour of the macro is modified if
+\xintexprname is loaded, at it is then the support macro for powers
+|a^b|, |a**b| and the \func{pow} function in \csbxint{eval}: the macro is
+extended to allow non-integer exponents (in absence of \xintexprname,
+non-integer exponents are allowed but truncated to integers...) and also it
+checks a priori if an exact evaluation (in the case of an integer exponent)
+would produce more than about \dtt{10000} digits and then does in its place a
+floating point evaluation.
 
-A check is done whether the exponent is integer, but this check is not on the
-value but on the format. So |4/2| will not be recognized as integer; however
-|2.0| will be.
+The check whether the exponent is integer is not on the mathematical value but
+on the format (for reasons of efficiency). So |4/2| will not be recognized as
+integer and it will thus trigger usage of the floating point evaluations;
+however |2.0| will be recognized as an integer, as of course |2|.
 
 If the exponent is considered an integer it is then checked if it is less than
 \dtt{10000} (in absolute value) and if the output would contain less than
-\dtt{10000} digits (separately for numerator and denominator) and only then is
-the power computed exactly.
+\dtt{10000} digits (separately for numerator and denominator) and only
+then\CHANGED{1.4e} is the power computed exactly.  Else it is computed as by
+\csbxint{FloatPower} (but the output uses raw |A[N]| format not scientific
+notation). Use \csbxint{iiPow} (on integers only, not fractions) for exact
+powers with larger exponents.
 
-A check is also done whether the exponent is half-integer. Again this check is
-not one the value but on the format, so |2.5| is an half integer, as is
-|25e-1|, or |2.50| but |5/2| is not considered an half-integer. If the
-exponent is half-integer the power is computed by combining suitably
-\csbxint{FloatPower} with a square-root extraction.
+Also, a check is done whether the exponent is half-integer. Again this check
+is not on the value but on the format, so |2.5| is an half integer, as is
+|25e-1|, or |2.50| but |5/2| is not considered an half-integer (for reasons of
+internal efficiency). If the exponent is half-integer\CHANGED{1.4e} the power
+is computed by combining suitably \csbxint{FloatPower} with \csbxint{FloatSqrt}
+(but the output uses raw |A[N]| format not scientific notation).
 
 If the exponent is neither an integer nor an half-integer, the power is
-computed using logarithm and exponential based approach.
+computed using\CHANGED{1.4e} logarithm and exponential based approach (and uses raw |A[N]|
+output format). If |Digits| is at most \dtt{8} (which triggers
+\ctanpackage{poormanlog} usage, for very fast logarithms but only with about
+\dtt{8} or \dtt{9} accurate fractional digits) this will start being
+inaccurate in the last digit already with fractional exponents |x > 10|. It
+is recommended to split then the exponent into an integer or half-integer part
+and a fractional part. Powers with integer or half-integer exponents, even
+very big, are always computed accurately, for any value of |Digits|.
 
-For relevant details see the code comments of the \xintlogname library in
-|sourcexint.pdf|.
+% Note: in all cases where the macro has been
+% extended at |1.4e| to proceed via a floating point evaluation, the output is
+% in raw |A[N]| format.
 
 
 
 
-Within an \csbxint{iiexpr}|..\relax| the infix operator |^| is mapped to
-\csa{xintiiPow}; within an \csbxint{expr}-ession it is mapped to
-\csa{xintPow}.
+Within an \csbxint{iiexpr}|..\relax| the infix operators |^| and |**| are
+mapped to \csbxint{iiPow} and powers are always computed exactly even if they
+would produce more than \dtt{10000} digits and melt your CPU; within an
+\csbxint{expr}-ession |^| and |**| are mapped to \csbxint{Pow} as described
+here.
 
 \subsection{\csh{xintFac}}\label{xintFac}
 
@@ -12131,37 +12307,44 @@ The argument |f| is first rounded to |P| significant places to give
 \csa{xintFloatPower}|[P]{f}{g}|\etype{{\upshape[\numx]}\Ff\Numf} computes a
 floating point value |f^g| where the exponent |g| is not constrained to be at
 most the \TeX{} bound \dtt{\number "7FFFFFFF}. It may even be a fraction
-|A/B| but must simplify to a (possibly big) integer. The exponent of the
+|A/B| but will be truncated to an integer. The exponent of the
 \emph{output} however \emph{must} at any rate obey the \TeX{} bound.
 
 The argument |f| is first rounded to |P| significant places to give
 |f'|. The output |Z| is then such that the exact |f'^g| differs from
 |Z| by an absolute error less than |0.52 ulp(Z)|.
 
-This is the support macro which is used for the |^| (or |**|) infix operators
-in \csbxint{floateval}, but \emph{ONLY for integer or half-integer
-  exponents}.\CHANGED{1.4e}
-Half-integer exponents combine this macro with a square-root extraction.
-For some related details see \xintlogname.
 
-The macro itself was \emph{NOT} modified at |1.4e| (contrarily to what
-happened with \csbxint{Pow}). 
+\emph{For integer exponents} this is the support macro which
+is used for the |^| (or |**|) infix operators in \csbxint{floateval}, or also
+in \csbxint{eval} for very big integer exponents. It is also used in
+\csbxint{floateval} and \csbxint{eval} for half-integer exponents, via a
+combination with the \csbxint{FloatSqrt} square-root extraction.
 
+The macro itself was \emph{NOT} modified at |1.4e|: when used directly it
+still starts by truncating the exponent to an integer... As for other
+user-level floating-point macros, its output is handled by \csbxint{Float},
+i.e. it uses scientific notation.
 
+The |0.52 ulp(Z)| guaranteed error bound applies also to the
+\csbxint{floateval} evaluations for the half-integer exponent case. It is
+valid only when |f| already had a mantissa of at most |P| digits and was
+not modified by the initial rounding done by the macro to reduce |f| to |P|
+digits.
 
-When used directly it first rounds the exponent to nearest integer or
-half-integer so that the computation never raises errors (except naturally for
-negative exponent and zero |f|.) The |0.52 ulp(Z)| bound applies with
-half-integer exponents too. Notice that this is a bound on the distance from
-|f'^g| to |Z|, as |f| always gets rounded to |P| or \csbxint{theDigits}
-digits. The distance from |f^g| to |Z| can be much worse if |g| is very
-large. Roughly, when |g| is negligible compared to |10^P|, we get an extra
-difference of up to about |50g ulp(Z)| which completely dwarfs the |0.52
-ulp(Z)|. Thus, if |f| has strictly more than |P| digits, then the computation
-must be done with an elevated working precision |P'|. For example with
-|g=1000| we should use |P'=P+6| to achieve a total error at worst slightly
-bigger than |0.55 ulp(Z)| after the final rounding from |P'| to |P| digits to
-get |Z|.
+The integer exponent |g| may have more than |P| (or |Digits|) digits, it is
+handled exactly. And as said above its absolute value may exceed the \TeX\ bound.
+
+% Notice that this is a bound on the distance from
+% |f'^g| to |Z|, where |f'| is the rounded value of the original input |f|; 
+% the distance from |f^g| to |Z| can be much worse if |g| is very
+% large. Roughly, when |g| is negligible compared to |10^P|, we get an extra
+% difference of up to about |50g ulp(Z)| which completely dwarfs the |0.52
+% ulp(Z)|. Thus, if |f| has strictly more than |P| digits, then the computation
+% must be done with an elevated working precision |P'|. For example with
+% |g=1000| we should use |P'=P+6| to achieve a total error at worst slightly
+% bigger than |0.55 ulp(Z)| after the final rounding from |P'| to |P| digits to
+% get |Z|.
 
 % Examples:%
 % %
@@ -16296,7 +16479,7 @@ the least affected from the fact that the outer ``environment'' is the
 \label{xintSetDigits*}
 
 These starred variants of \csbxint{Digits} and \csbxint{SetDigits} execute
-\csbxint{reloadxinttrig}.
+\csbxint{reloadxinttrig} and \csbxint{reloadxintlog}.
 
 \subsection{\csh{xintiexpr}, \csh{xinttheiexpr}}
 \label{xintiexpr}\label{xinttheiexpr}\label{thexintiexpr}
@@ -16329,6 +16512,11 @@ Already on October 20, 2015, it was suggested by \textsc{Kpym} to give some
 meaning to negative |D|. The suggestion was to let it act like |-D| but
 remove trailing zeroes of the output. Finally, I opted rather for
 quantization.
+
+IMPORTANT:\IMPORTANT{} (2021/05/09) Currently, the case of negative |D| gives
+(since |1.4e|) explicit trailing zeroes (formerly it used scientific
+notation). This looks a bit silly indeed, so I am considering at next major
+release to suppress these zeros.
 
 \subsection{\csh{xintiiexpr}, \csh{xinttheiiexpr}}
 \label{xintiiexpr}\label{xinttheiiexpr}\label{thexintiiexpr}
@@ -18592,7 +18780,6 @@ Please refer to |CHANGES.html| for a (very) detailed history.
   ones being the (provisory) drop of |x*[a, b,...]|, |x+[a, b,...]| et al.\@
   syntax and the requirement of |\expanded| primitive (currently required only
   by \xintexprnameimp).
-\item Release |1.3f| of |2019/09/10|: starred variant \csbxint{Digits*}.
 \item Release |1.3e| of |2019/04/05|: packages \xinttrignameimp, \xintlognameimp;
   \csa{xintdefefunc} ``non-protected'' variant of \csbxint{deffunc} (at |1.4|
   the two got merged and \csa{xintdefefunc} became a deprecated alias for
@@ -18865,7 +19052,7 @@ math shift catcode.
 \fi
 \XINT_providespackage
 \ProvidesPackage {xintkernel}%
-  [2021/05/05 v1.4e Paraphernalia for the xint packages (JFB)]%
+  [2021/05/10 v1.4f Paraphernalia for the xint packages (JFB)]%
 %    \end{macrocode}
 % \subsection{Constants}
 %    \begin{macrocode}
@@ -19652,7 +19839,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xinttools}%
-  [2021/05/05 v1.4e Expandable and non-expandable utilities (JFB)]%
+  [2021/05/10 v1.4f Expandable and non-expandable utilities (JFB)]%
 %    \end{macrocode}
 % \lverb|\XINT_toks is used in macros such as \xintFor. It is not used
 % elsewhere in the xint bundle.|
@@ -21996,7 +22183,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcore}%
-  [2021/05/05 v1.4e Expandable arithmetic on big integers (JFB)]%
+  [2021/05/10 v1.4f Expandable arithmetic on big integers (JFB)]%
 %    \end{macrocode}
 % \subsection{(WIP!) Error conditions and exceptions}
 % \lverb|As per the Mike Cowlishaw/IBM's General Decimal Arithmetic Specification
@@ -25305,7 +25492,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xint}%
-  [2021/05/05 v1.4e Expandable operations on big integers (JFB)]%
+  [2021/05/10 v1.4f Expandable operations on big integers (JFB)]%
 %    \end{macrocode}
 % \subsection{More token management}
 %    \begin{macrocode}
@@ -27883,7 +28070,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintbinhex}%
-  [2021/05/05 v1.4e Expandable binary and hexadecimal conversions (JFB)]%
+  [2021/05/10 v1.4f Expandable binary and hexadecimal conversions (JFB)]%
 %    \end{macrocode}
 % \subsection{Constants, etc...}
 % \lverb|1.2n switches to \csname-governed expansion at various places.|
@@ -28555,7 +28742,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintgcd}%
-  [2021/05/05 v1.4e Euclide algorithm with xint package (JFB)]%
+  [2021/05/10 v1.4f Euclide algorithm with xint package (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintBezout}}
 % \lverb|&
@@ -29155,7 +29342,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintfrac}%
-  [2021/05/05 v1.4e Expandable operations on fractions (JFB)]%
+  [2021/05/10 v1.4f Expandable operations on fractions (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{XINT_cntSgnFork}}
 % \lverb|1.09i. Used internally, #1 must expand to \m@ne, \z@, or \@ne or
@@ -34545,7 +34732,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintseries}%
-  [2021/05/05 v1.4e Expandable partial sums with xint package (JFB)]%
+  [2021/05/10 v1.4f Expandable partial sums with xint package (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintSeries}}
 %    \begin{macrocode}
@@ -35053,7 +35240,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcfrac}%
-  [2021/05/05 v1.4e Expandable continued fractions with xint package (JFB)]%
+  [2021/05/10 v1.4f Expandable continued fractions with xint package (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintCFrac}}
 %    \begin{macrocode}
@@ -36445,7 +36632,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintexpr}%
-  [2021/05/05 v1.4e Expandable expression parser (JFB)]%
+  [2021/05/10 v1.4f Expandable expression parser (JFB)]%
 \catcode`! 11
 \let\XINT_Cmp \xintiiCmp
 \def\XINTfstop{\noexpand\XINTfstop}%
@@ -36474,6 +36661,18 @@ math shift catcode.
     \let\XINTdigits\XINT_digits
     \xintreloadscilibs
 }%
+%    \end{macrocode}
+% \subsection{\csh{XINTdigitsormax}}
+% \lverb|1.4f. To not let xintlog and xinttrig work with, and produce,
+% long mantissas exceeeding the supported range for accuracy of the math
+% functions. The official maximal value is 62, let's set the cut-off at 64.
+%
+% A priori, no need for \expandafter, always ends up expanded in \numexpr (I
+% saw also in an \edef in xinttrig as argument to \xintReplicate prior
+% to its \numexpr).
+%|
+%    \begin{macrocode}
+\def\XINTdigitsormax{\ifnum\XINTdigits>\xint_c_ii^vi\xint_c_ii^vi\else\XINTdigits\fi}%
 %    \end{macrocode}
 % \subsection{Support for output and transform of nested braced contents as
 % core data type}
@@ -36743,7 +36942,7 @@ math shift catcode.
     \expanded
     \XINT:NEhook:x:mapwithin\XINT:expr:mapwithin{\XINTiRound_braced{#1}}%
 }%
-\def\XINTiRound_braced#1#2{{\xintiRound{#1}{#2}[\the\numexpr-#1]}}%
+\def\XINTiRound_braced#1#2{{\xintiRound{#1}{#2}[\the\numexpr\ifnum#1<\xint_c_i0\else-#1\fi]}}%
 \def\xintfloatexpro #1%
 {%
     \ifx [#1\expandafter\XINT_flexpr_withopt\else\expandafter\XINT_flexpr_noopt
@@ -40969,16 +41168,29 @@ math shift catcode.
 % After some hesitation at 1.4e regarding guard digits mechanism the float_()
 % got renamed to float_dgt(), but then renamed back to float_() to avoid a
 % breaking change and having to document it. But I don't like the name.
+%
+% The documentation of 1.4e mentioned float_dgt(), but here it was still
+% float_()... now changed for real.
+%
+% 1.4f adds private float_dgtormax and sfloat_dgtormax for matters of xinttrig.
+%
 % |
 %    \begin{macrocode}
-\def\XINT_expr_func_float_ #1#2#3%
+\def\XINT_expr_func_float_dgt #1#2#3%
 {%
     \expandafter #1\expandafter #2\expandafter{%
     \romannumeral`&&@\XINT:NEhook:f:one:from:one
     {\romannumeral`&&@\XINTinFloatdigits#3}}%
 }%
-\let\XINT_flexpr_func_float_\XINT_expr_func_float_
+\let\XINT_flexpr_func_float_dgt\XINT_expr_func_float_dgt
 % no \XINT_iiexpr_func_float_dgt
+\def\XINT_expr_func_float_dgtormax #1#2#3%
+{%
+    \expandafter #1\expandafter #2\expandafter{%
+    \romannumeral`&&@\XINT:NEhook:f:one:from:one
+    {\romannumeral`&&@\XINTinFloatdigitsormax#3}}%
+}%
+\let\XINT_flexpr_func_float_dgtormax\XINT_expr_func_float_dgtormax
 \def\XINT_expr_func_sfloat #1#2#3%
 {%
     \expandafter #1\expandafter #2\expandafter{\expandafter{%
@@ -40988,6 +41200,13 @@ math shift catcode.
 }%
 \let\XINT_flexpr_func_sfloat\XINT_expr_func_sfloat
 % no \XINT_iiexpr_func_sfloat
+\def\XINT_expr_func_sfloat_dgtormax #1#2#3%
+{%
+    \expandafter #1\expandafter #2\expandafter{%
+    \romannumeral`&&@\XINT:NEhook:f:one:from:one
+    {\romannumeral`&&@\XINTinFloatSdigitsormax#3}}%
+}%
+\let\XINT_flexpr_func_sfloat_dgtormax\XINT_expr_func_sfloat_dgtormax
 \expandafter\def\csname XINT_expr_func_ilog10\endcsname #1#2#3%
 {%
     \expandafter #1\expandafter #2\expandafter{\expandafter{%
@@ -42738,10 +42957,10 @@ math shift catcode.
   \expandafter\xint_secondoftwo
 \fi
 {\immediate\write-1{Reloading xinttrig library using Digits=\xinttheDigits.}}%
-{\expandafter\gdef\csname xintlibver@trig\endcsname{2021/05/05 v1.4e}%
+{\expandafter\gdef\csname xintlibver@trig\endcsname{2021/05/10 v1.4f}%
 \XINT_providespackage
 \ProvidesPackage{xinttrig}%
-[2021/05/05 v1.4e Trigonometrical functions for xintexpr (JFB)]%
+[2021/05/10 v1.4f Trigonometrical functions for xintexpr (JFB)]%
 }%
 %    \end{macrocode}
 % \subsection{Ensure used letters are dummy letters}
@@ -42770,19 +42989,19 @@ math shift catcode.
 \xintdefvar @twoPi :=
     float(
 6.2831853071795864769252867665590057683943387987502116419498891846156328125724180
-    ,\xinttheDigits+4);%
+    ,\XINTdigitsormax+4);%
 \xintdefvar @threePiover2 :=
     float(
 4.7123889803846898576939650749192543262957540990626587314624168884617246094293135
-    ,\xinttheDigits+4);%
+    ,\XINTdigitsormax+4);%
 \xintdefvar @Pi :=
     float(
 3.1415926535897932384626433832795028841971693993751058209749445923078164062862090
-    ,\xinttheDigits+4);%
+    ,\XINTdigitsormax+4);%
 \xintdefvar @Piover2 :=
     float(
 1.5707963267948966192313216916397514420985846996875529104874722961539082031431045
-    ,\xinttheDigits+4);%
+    ,\XINTdigitsormax+4);%
 %    \end{macrocode}
 % \subsubsection{\cshn{@oneDegree}, \cshn{@oneRadian}}
 % \lverb|&
@@ -42793,11 +43012,11 @@ math shift catcode.
 \xintdefvar @oneDegree :=
     float(
 0.017453292519943295769236907684886127134428718885417254560971914401710091146034494
-    ,\xinttheDigits+4);%
+    ,\XINTdigitsormax+4);%
 \xintdefvar @oneRadian :=
     float(
 57.295779513082320876798154814105170332405472466564321549160243861202847148321553
-    ,\xinttheDigits+12);%
+    ,\XINTdigitsormax+12);%
 %    \end{macrocode}
 % \subsection{Hack \cs{xintdeffloatfunc} for inserting usage of guard digits}
 % \lverb|1.4e. This is not a general approach, but it sufficient for the
@@ -42817,19 +43036,19 @@ math shift catcode.
 \expandafter\XINT_tmpa
     \csname XINT_flexpr_exec_+_\expandafter\endcsname
     \csname XINT_flexpr_exec_+\expandafter\endcsname
-    \the\numexpr\XINTdigits+4.~XINTinFloatAdd_wopt.%
+    \the\numexpr\XINTdigitsormax+4.~XINTinFloatAdd_wopt.%
 \expandafter\XINT_tmpa
     \csname XINT_flexpr_exec_-_\expandafter\endcsname
     \csname XINT_flexpr_exec_-\expandafter\endcsname
-    \the\numexpr\XINTdigits+4.~XINTinFloatSub_wopt.%
+    \the\numexpr\XINTdigitsormax+4.~XINTinFloatSub_wopt.%
 \expandafter\XINT_tmpa
     \csname XINT_flexpr_exec_*_\expandafter\endcsname
     \csname XINT_flexpr_exec_*\expandafter\endcsname
-    \the\numexpr\XINTdigits+4.~XINTinFloatMul_wopt.%
+    \the\numexpr\XINTdigitsormax+4.~XINTinFloatMul_wopt.%
 \expandafter\XINT_tmpa
     \csname XINT_flexpr_exec_/_\expandafter\endcsname
     \csname XINT_flexpr_exec_/\expandafter\endcsname
-    \the\numexpr\XINTdigits+4.~XINTinFloatDiv_wopt.%
+    \the\numexpr\XINTdigitsormax+4.~XINTinFloatDiv_wopt.%
 \def\XINT_tmpa#1#2#3.#4.%
 {%
   \let #1#2%
@@ -42838,15 +43057,15 @@ math shift catcode.
 \expandafter\XINT_tmpa
     \csname XINT_flexpr_sqrfunc\expandafter\endcsname
     \csname XINT_flexpr_func_sqr\expandafter\endcsname
-    \the\numexpr\XINTdigits+4.~XINTinFloatSqr_wopt.%
+    \the\numexpr\XINTdigitsormax+4.~XINTinFloatSqr_wopt.%
 \expandafter\XINT_tmpa
     \csname XINT_flexpr_sqrtfunc\expandafter\endcsname
     \csname XINT_flexpr_func_sqrt\expandafter\endcsname
-    \the\numexpr\XINTdigits+4.~XINTinFloatSqrt.%
+    \the\numexpr\XINTdigitsormax+4.~XINTinFloatSqrt.%
 \expandafter\XINT_tmpa
     \csname XINT_flexpr_invfunc\expandafter\endcsname
     \csname XINT_flexpr_func_inv\expandafter\endcsname
-    \the\numexpr\XINTdigits+4.~XINTinFloatInv_wopt.%
+    \the\numexpr\XINTdigitsormax+4.~XINTinFloatInv_wopt.%
 \catcode`~ 3
 %    \end{macrocode}
 % \subsection{The sine and cosine series}
@@ -42900,11 +43119,11 @@ math shift catcode.
 %    \begin{macrocode}
 \ifnum\XINTdigits>8
 \edef\XINT_tmpG % 1/3!
-  {1\xintReplicate{\XINTdigits+2}{6}7[\the\numexpr-\XINTdigits-4]}%
+  {1\xintReplicate{\XINTdigitsormax+2}{6}7[\the\numexpr-\XINTdigitsormax-4]}%
 \edef\XINT_tmpH % 1/5!
-  {8\xintReplicate{\XINTdigits+1}{3}[\the\numexpr-\XINTdigits-4]}%
+  {8\xintReplicate{\XINTdigitsormax+1}{3}[\the\numexpr-\XINTdigitsormax-4]}%
 \edef\XINT_tmpd % 1/5!
-  {8\xintReplicate{\XINTdigits+9}{3}[\the\numexpr-\XINTdigits-12]}%
+  {8\xintReplicate{\XINTdigitsormax+9}{3}[\the\numexpr-\XINTdigitsormax-12]}%
 \def\XINT_tmpe#1.#2.#3.#4.#5#6#7%
 {%
 \def#5##1\xint:
@@ -42921,8 +43140,8 @@ math shift catcode.
 }%
 }%
 \expandafter\XINT_tmpe
-  \the\numexpr\XINTdigits+4\expandafter.%
-  \the\numexpr\XINTdigits+2\expandafter.\expanded{%
+  \the\numexpr\XINTdigitsormax+4\expandafter.%
+  \the\numexpr\XINTdigitsormax+2\expandafter.\expanded{%
   \XINT_tmpH.% 1/5!
   \XINT_tmpG.% 1/3!
   \expandafter}%
@@ -42964,13 +43183,13 @@ math shift catcode.
  \csname XINT_#8Aux_series_c_\romannumeral\numexpr#1-2\expandafter\endcsname
  \csname XINT_#8Aux_series_c_\romannumeral\numexpr#1-3\endcsname
  \edef\XINT_tmpd
-   {\XINTinFloat[\XINTdigits-#2+8]{\xintDiv{\XINT_tmpd}{\the\numexpr#5*(#5-1)\relax}}}%
+   {\XINTinFloat[\XINTdigitsormax-#2+8]{\xintDiv{\XINT_tmpd}{\the\numexpr#5*(#5-1)\relax}}}%
  \let\XINT_tmpF\XINT_tmpG
  \let\XINT_tmpG\XINT_tmpH
- \edef\XINT_tmpH{\XINTinFloat[\XINTdigits-#2]{\XINT_tmpd}}%
+ \edef\XINT_tmpH{\XINTinFloat[\XINTdigitsormax-#2]{\XINT_tmpd}}%
  \expandafter\XINT_tmpc
- \the\numexpr\XINTdigits-#3\expandafter.%
- \the\numexpr\XINTdigits-#2\expandafter.\expanded{%
+ \the\numexpr\XINTdigitsormax-#3\expandafter.%
+ \the\numexpr\XINTdigitsormax-#2\expandafter.\expanded{%
  \XINT_tmpH.%
  \XINT_tmpG.%
  \XINT_tmpF.%
@@ -42997,13 +43216,13 @@ math shift catcode.
 \ifnum\XINTdigits>55 \XINT_tmpa 22 53 49 45 43 41 39 Sin \fi
 \ifnum\XINTdigits>58 \XINT_tmpa 23 56 53 49 45 43 41 Sin \fi
 \edef\XINT_tmpd % 1/4!
-  {41\xintReplicate{\XINTdigits+8}{6}7[\the\numexpr-\XINTdigits-12]}%
+  {41\xintReplicate{\XINTdigitsormax+8}{6}7[\the\numexpr-\XINTdigitsormax-12]}%
 \edef\XINT_tmpH % 1/4!
-  {41\xintReplicate{\XINTdigits}{6}7[\the\numexpr-\XINTdigits-4]}%
+  {41\xintReplicate{\XINTdigitsormax}{6}7[\the\numexpr-\XINTdigitsormax-4]}%
 \def\XINT_tmpG{5[-1]}% 1/2!
 \expandafter\XINT_tmpe
-  \the\numexpr\XINTdigits+4\expandafter.%
-  \the\numexpr\XINTdigits+3\expandafter.\expanded{%
+  \the\numexpr\XINTdigitsormax+4\expandafter.%
+  \the\numexpr\XINTdigitsormax+3\expandafter.\expanded{%
   \XINT_tmpH.%
   \XINT_tmpG.%
   \expandafter}%
@@ -43036,12 +43255,12 @@ math shift catcode.
 \def\XINT_SinAux_series#1%
 {%
     \expandafter\XINT_SinAux_series_a_iii
-    \romannumeral0\XINTinfloatS[\XINTdigits+4]{#1}\xint:
+    \romannumeral0\XINTinfloatS[\XINTdigitsormax+4]{#1}\xint:
 }%
 \def\XINT_CosAux_series#1%
 {%
     \expandafter\XINT_CosAux_series_a_iii
-    \romannumeral0\XINTinfloatS[\XINTdigits+4]{#1}\xint:
+    \romannumeral0\XINTinfloatS[\XINTdigitsormax+4]{#1}\xint:
 }%
 \fi % end of \XINTdigits>8
 %    \end{macrocode}
@@ -43108,7 +43327,7 @@ math shift catcode.
 % domain and we handle it semi-satisfactorily.  The main problem is that in
 % January 2019 I had done only support for degrees, and when I added radians I
 % used the most naive approach.  But one can find worse: in 2019 I was
-% surprised to have importent divergences with Maple's results at 16 digits
+% surprised to observe important divergences with Maple's results at 16 digits
 % near -π. Turns out that Maple probably adds π
 % in the floating point sense causing catastrophic loss of digits when one is
 % near -π. On the other hand even though the approach here is still naive, it
@@ -43189,7 +43408,7 @@ math shift catcode.
 \def\xintSind##1%
 {%
     \romannumeral`&&@\expandafter\xintsind\romannumeral0\XINTinfloatS[#1]{##1}}%
-}\expandafter\XINT_tmpa\the\numexpr\XINTdigits+12.%
+}\expandafter\XINT_tmpa\the\numexpr\XINTdigitsormax+12.%
 \def\xintsind #1[#2#3]%
 {%
     \xint_UDsignfork 
@@ -43203,7 +43422,7 @@ math shift catcode.
     \expandafter\XINT_sind_a
     \romannumeral0\xinttrunc{#1}{##2[##1]}%
 }%
-}\expandafter\XINT_tmpa\the\numexpr\XINTdigits+5.%
+}\expandafter\XINT_tmpa\the\numexpr\XINTdigitsormax+5.%
 \def\XINT_sind_a{\expandafter\XINT_sind_i\the\numexpr\XINT_mod_ccclx_i0.}%
 \def\XINT_sind_int
 {%
@@ -43263,7 +43482,7 @@ math shift catcode.
          {\romannumeral0\XINTinfloat[#1]{\xintMul{\xintSub{##1[0]}{.##2}}#2}}%
 }%
 }\expandafter\XINT_tmpa
-    \the\numexpr\XINTdigits+4\expandafter.%
+    \the\numexpr\XINTdigitsormax+4\expandafter.%
     \romannumeral`&&@\xintbarefloateval @oneDegree\relax.%
 \def\XINT_sind_B#1{\xint_UDsignfork#1\XINT_sind_B_n-\XINT_sind_B_p\krof #1}%
 \def\XINT_sind_C#1{\xint_UDsignfork#1\XINT_sind_C_n-\XINT_sind_C_p\krof #1}%
@@ -43285,7 +43504,7 @@ math shift catcode.
 \def\xintCosd##1%
 {%
     \romannumeral`&&@\expandafter\xintcosd\romannumeral0\XINTinfloatS[#1]{##1}}%
-}\expandafter\XINT_tmpa\the\numexpr\XINTdigits+12.%
+}\expandafter\XINT_tmpa\the\numexpr\XINTdigitsormax+12.%
 \def\xintcosd #1[#2#3]%
 {%
     \xint_UDsignfork 
@@ -43299,7 +43518,7 @@ math shift catcode.
     \expandafter\XINT_cosd_a
     \romannumeral0\xinttrunc{#1}{##2[##1]}%
 }%
-}\expandafter\XINT_tmpa\the\numexpr\XINTdigits+5.%
+}\expandafter\XINT_tmpa\the\numexpr\XINTdigitsormax+5.%
 \def\XINT_cosd_a{\expandafter\XINT_cosd_i\the\numexpr\XINT_mod_ccclx_i0.}%
 \def\XINT_cosd_int
 {%
@@ -43318,8 +43537,8 @@ math shift catcode.
 %    \end{macrocode}
 % \lverb|#2 will be empty in the "integer" branch, but attention in general
 % branch to handling of negative integer part after the subtraction of 90,
-% 180, 270, or 360, and avoid abusing A[N] notation which yes speeds up
-% xintfrac parsing but has its pitfalls.|
+% 180, 270, or 360.
+% |
 %    \begin{macrocode}
 \def\XINT_tmpa#1.#2.{%
 \def\XINT_cosd_A##1.##2.%
@@ -43363,7 +43582,7 @@ math shift catcode.
          {\romannumeral0\XINTinfloat[#1]{\xintMul{\xintSub{##1[0]}{.##2}}#2}}%
 }%
 }\expandafter\XINT_tmpa
-    \the\numexpr\XINTdigits+4\expandafter.%
+    \the\numexpr\XINTdigitsormax+4\expandafter.%
     \romannumeral`&&@\xintbarefloateval @oneDegree\relax.%
 \def\XINT_cosd_B#1{\xint_UDsignfork#1\XINT_cosd_B_n-\XINT_cosd_B_p\krof #1}%
 \def\XINT_cosd_C#1{\xint_UDsignfork#1\XINT_cosd_C_n-\XINT_cosd_C_p\krof #1}%
@@ -43439,8 +43658,8 @@ math shift catcode.
                              ;%
 %    \end{macrocode}
 % \subsection{\cshn{@tan()}, \cshn{@tand()}, \cshn{@cot()}, \cshn{@cotd()}}
-% \lverb|The 0e0 in cot(x) is a dummy place holder, 1/0 would raise an error at
-% time of definition...|
+% \lverb|The 0 in cot(x) is a dummy place holder. We don't have a notion of
+% Inf yet.|
 %    \begin{macrocode}
 \xintdeffloatfunc @tand(x):= @sind(x)/@cosd(x);%
 \xintdeffloatfunc @cotd(x):= @cosd(x)/@sind(x);%
@@ -43460,7 +43679,7 @@ math shift catcode.
                               {@cos(x)/@sin(x)}
                               {(x)??
                                 {-@tand(\xintexpr9e1+x*@oneRadian\relax)}
-                                {0e0}
+                                {0}
                                 {@tand(\xintexpr9e1-x*@oneRadian\relax)}
                               };%
 %    \end{macrocode}
@@ -43477,7 +43696,8 @@ math shift catcode.
 % I always liked very much the general algorithm whose idea I found
 % in 2019. But it costs a square root plus a sine plus a cosine all
 % at target precision. For the arctangent the square root will be
-% avoided by a trick.
+% avoided by a trick. (memo: it is replaced by a division and I am not so sure
+% now this is advantageous in fact)
 %
 % And now I like it even more as I have re-done the first step entirely
 % in a single \numexpr... Thus the inverse trigonometry got a serious
@@ -43514,7 +43734,7 @@ math shift catcode.
 % value than 1e-9, but it is possible for example in Python to program it and
 % go through all possible (less than) 1e9 inputs and check what happens.
 %
-% Very small inputs will give b=0 (first step is a fixe point rounding of t to
+% Very small inputs will give b=0 (first step is a fixed point rounding of t to
 % nine fractional digits, so this rounding gives zero for input <0.5e-9,
 % others will give b=t, because the arcsine numexpr will end up with
 % 1000000000 (last time I checked that was for t a bit less than 5e-5,
@@ -43551,7 +43771,7 @@ math shift catcode.
     \xintAdd{1/1[0]}{##1/6[##2]}%
 }%
 }%
-\expandafter\XINT_tmpc\the\numexpr\XINTdigits-14.%
+\expandafter\XINT_tmpc\the\numexpr\XINTdigitsormax-14.%
 \fi
 \ifnum\XINTdigits>34
 \def\XINT_tmpc#1.#2.#3.#4.%
@@ -43574,10 +43794,10 @@ math shift catcode.
 }%
 }%
 \expandafter\XINT_tmpc
-  \the\numexpr\XINTdigits-14\expandafter.%
-  \the\numexpr\XINTdigits-32\expandafter.\expanded{%
-  \XINTinFloat[\XINTdigits-32]{3/40[0]}.%
-  \XINTinFloat[\XINTdigits-14]{1/6[0]}.%
+  \the\numexpr\XINTdigitsormax-14\expandafter.%
+  \the\numexpr\XINTdigitsormax-32\expandafter.\expanded{%
+  \XINTinFloat[\XINTdigitsormax-32]{3/40[0]}.%
+  \XINTinFloat[\XINTdigitsormax-14]{1/6[0]}.%
   }%
 \fi
 \ifnum\XINTdigits>52
@@ -43603,11 +43823,11 @@ math shift catcode.
 }%
 }%
 \expandafter\XINT_tmpc
-  \the\numexpr\XINTdigits-32\expandafter.%
-  \the\numexpr\XINTdigits-50\expandafter.\expanded{%
-  \XINTinFloat[\XINTdigits-50]{5/112[0]}.%
-  \XINTinFloat[\XINTdigits-32]{3/40[0]}.%
-  \XINTinFloat[\XINTdigits-14]{1/6[0]}.%
+  \the\numexpr\XINTdigitsormax-32\expandafter.%
+  \the\numexpr\XINTdigitsormax-50\expandafter.\expanded{%
+  \XINTinFloat[\XINTdigitsormax-50]{5/112[0]}.%
+  \XINTinFloat[\XINTdigitsormax-32]{3/40[0]}.%
+  \XINTinFloat[\XINTdigitsormax-14]{1/6[0]}.%
   }%
 \fi
 \def\XINT_flexpr_func_@asin_I#1#2#3%
@@ -43846,25 +44066,28 @@ math shift catcode.
 %    \end{macrocode}
 % \subsection{Let the functions be known to the \cshnolabel{xintexpr} parser}
 % \lverb|&
+% We use here float_dgtormax which uses the smaller of Digits and 64.
 % |
 %    \begin{macrocode}
+\edef\XINTinFloatdigitsormax{\noexpand\XINTinFloat[\the\numexpr\XINTdigitsormax]}%
+\edef\XINTinFloatSdigitsormax{\noexpand\XINTinFloatS[\the\numexpr\XINTdigitsormax]}%
 \xintFor #1 in {sin, cos, tan, sec, csc, cot,
                 asin, acos, atan}\do
 {%
-    \xintdeffloatfunc #1(x) := float_(@#1(x));%
-    \xintdeffloatfunc #1d(x) := float_(@#1d(x));%
-    \xintdeffunc #1(x) := float_(\xintfloatexpr @#1(sfloat(x))\relax);%
-    \xintdeffunc #1d(x):= float_(\xintfloatexpr @#1d(sfloat(x))\relax);%
+    \xintdeffloatfunc #1(x) := float_dgtormax(@#1(x));%
+    \xintdeffloatfunc #1d(x) := float_dgtormax(@#1d(x));%
+    \xintdeffunc #1(x) := float_dgtormax(\xintfloatexpr @#1(sfloat_dgtormax(x))\relax);%
+    \xintdeffunc #1d(x):= float_dgtormax(\xintfloatexpr @#1d(sfloat_dgtormax(x))\relax);%
 }%
 \xintFor #1 in {Arg, pArg, atan2}\do
 {%
-    \xintdeffloatfunc #1(x, y)  := float_(@#1(x, y));%
-    \xintdeffloatfunc #1d(x, y) := float_(@#1d(x, y));%
-    \xintdeffunc #1(x, y) := float_(\xintfloatexpr @#1(sfloat(x), sfloat(y))\relax);%
-    \xintdeffunc #1d(x, y):= float_(\xintfloatexpr @#1d(sfloat(x), sfloat(y))\relax);%
+    \xintdeffloatfunc #1(x, y)  := float_dgtormax(@#1(x, y));%
+    \xintdeffloatfunc #1d(x, y) := float_dgtormax(@#1d(x, y));%
+    \xintdeffunc #1(x, y) := float_dgtormax(\xintfloatexpr @#1(sfloat_dgtormax(x), sfloat_dgtormax(y))\relax);%
+    \xintdeffunc #1d(x, y):= float_dgtormax(\xintfloatexpr @#1d(sfloat_dgtormax(x), sfloat_dgtormax(y))\relax);%
 }%
-\xintdeffloatfunc sinc(x):= float_(@sinc(x));%
-\xintdeffunc      sinc(x):= float_(\xintfloatexpr @sinc(sfloat(x))\relax);%
+\xintdeffloatfunc sinc(x):= float_dgtormax(@sinc(x));%
+\xintdeffunc      sinc(x):= float_dgtormax(\xintfloatexpr @sinc(sfloat_dgtormax(x))\relax);%
 %    \end{macrocode}
 % \subsection{Synonyms: \cshn{@tg()}, \cshn{@cotg()}}
 % \lverb|These are my childhood notations and I am attached to them. In
@@ -43877,15 +44100,15 @@ math shift catcode.
 %    \end{macrocode}
 % \subsection{Final clean-up}
 % \lverb|Restore used dummy variables to their status prior to the package reloading.
-% On first loading this is not needed naturally, because this is done
-% immediately at end of xintexpr.sty.|
+% On first loading this is not needed, but I have not added a way to check
+% here whether this a first loading or a re-loading.|
 %    \begin{macrocode}
-\xintdeffloatvar twoPi := @twoPi;%
-\xintdeffloatvar threePiover2 := @threePiover2;%
-\xintdeffloatvar Pi := @Pi;%
-\xintdeffloatvar Piover2 := @Piover2;%
-\xintdeffloatvar oneDegree := @oneDegree;%
-\xintdeffloatvar oneRadian := @oneRadian;%
+\xintdefvar twoPi := float_dgtormax(@twoPi);%
+\xintdefvar threePiover2 := float_dgtormax(@threePiover2);%
+\xintdefvar Pi := float_dgtormax(@Pi);%
+\xintdefvar Piover2 := float_dgtormax(@Piover2);%
+\xintdefvar oneDegree := float_dgtormax(@oneDegree);%
+\xintdefvar oneRadian := float_dgtormax(@oneRadian);%
 \xintunassignvar{@twoPi}\xintunassignvar{@threePiover2}%
 \xintunassignvar{@Pi}\xintunassignvar{@Piover2}%
 \xintunassignvar{@oneRadian}\xintunassignvar{@oneDegree}%
@@ -44054,10 +44277,10 @@ math shift catcode.
   \expandafter\xint_secondoftwo
 \fi
 {\immediate\write-1{Reloading xintlog library using Digits=\xinttheDigits.}}%
-{\expandafter\gdef\csname xintlibver@log\endcsname{2021/05/05 v1.4e}%
+{\expandafter\gdef\csname xintlibver@log\endcsname{2021/05/10 v1.4f}%
 \XINT_providespackage
 \ProvidesPackage{xintlog}%
-[2021/05/05 v1.4e Logarithms and exponentials for xintexpr (JFB)]%
+[2021/05/10 v1.4f Logarithms and exponentials for xintexpr (JFB)]%
 }%
 %    \end{macrocode}
 % \subsection{\csh{xintreloadxintlog}}
@@ -44095,8 +44318,7 @@ math shift catcode.
 %
 % Breaking changes at 1.4e:
 %
-%( - these macros will be mapped to log10(), log(), pow10(), exp(), pow(,)&
-%    and the ** and ^ (if \poormanloghack) only for Digits at most 8
+%( - \poormanloghack now a no-op,
 %: - \xintLog was used for \xinteval and differed slightly from its&
 %    counterpart used for \xintfloateval, the latter float-rounded&
 %    to P = Digits, the former did not and kept completly meaning-less&
@@ -44232,32 +44454,9 @@ math shift catcode.
 \def\PoorManExp#1{\PoorManPowerOfTen{\xintMul{#1}{43429448190325182765[-20]}}}%
 %    \end{macrocode}
 % \subsubsection{Removed: \csh{PoorManPower}, see \cshnolabel{XINTinFloatSciPow}}
-% \lverb|Originally in poormanlog v0.04, got transferred into xintfrac.sty at
-% 1.3f, then here into xintlog.sty at 1.4e. Support for powers with "about 8
-% to 9 digits" (only when output not too big). This definition
-% 10^(log10(x)*y), or e^(log(x)*y), matching the mathematical one, is common
-% in many float support software but has many problems of precision when the
-% result starts getting big (i.e. has a decimal exponent larger than 1000000
-% for example, and already 10000 will start demonstrating the loss of
-% precision); recall for example for e^y = 10^(y/log(10)) that we had to be
-% careful with log(10) precision, and this is only one instance of a general
-% phenomenon.
-%
-% When computing a^b, it would be more precise to express b as an integer n
-% plus a fractional part t, and compute a^b as a^n times a^t, where a^n is
-% evaluated for example using repeated squaring base approach, with guard
-% digits. This is precisely what \XINTinFloatPower available in xintfrac does
-% (the documentation mentions a 0.52ulp error bound in result). But let's not
-% make life complicated, and anyway this is all now for special "speedy"
-% context at most 8 digits.
-%
-% Removed at  1.4e. See \XINTinFloatSciPow.
-% |
+% \lverb|Removed at  1.4e. See \XINTinFloatSciPow.|
 % \subsubsection{Made a no-op: \csh{poormanloghack}}
-% \lverb|&
-%
-%
-% Made a no-op at 1.4e.|
+% \lverb|Made a no-op at 1.4e.|
 %    \begin{macrocode}
 \def\poormanloghack#1%
 {%
@@ -44265,75 +44464,37 @@ math shift catcode.
     {\string\poormanloghack\space is a no-op since 1.4e and will be removed at next major release}%
 }%
 %    \end{macrocode}
-% \subsection{Macro support for the expression functional syntax}
-% \lverb|As up to Digits=8 we use only poormanlog, we delay to end of package
-% the lay-out of macros used for the actual computations, so that we execute
-% an earlier \endinput if Digits<=8.
-%
-% Let us start by the support for the ** and ^ operators which will use
-% in \xintfloatexpr \XINTinFloatSciPow and in \xintexpr \xintPow. The latter
-% from $xintfracnameimp is thus modified here.
-%
-% The code is a bit complicated as we want to recycle things between the
-% floateval and eval context, and between Digits>8 and Digits<=8.
-%
-% In the end I decided to simply define everything for Digits>8, and then
-% let some macros be re-defined for the Digits<=8 case. The latter differs
-% from the former in using systematically always the log10/pow10 approach,
-% with the sole exception of integer exponents in \xintexpr context.
-% |
+% \subsection{Macro support for powers}
 %
 % \subsubsection{\csh{XINTinFloatSciPow}}
+%
+%
 % \lverb|&
 %
 % This is the new name and extension of \XINTinFloatPowerH which was
 % a non user-documented macro used for a^b previously, and previously
 % was located in $xintfracnameimp.
 %
-% For integer exponents up to at least 10000 (and certainly more but I have
-% not yet much tested) the old $xintfracnameimp implementation of powers is
-% faster than using logarithms and exponentials. And this is still the case
-% for half-integer exponents, which are handled via a final square-root.
+% A check is done whether the exponent is integer or half-integer, and if
+% positive, the legacy \xintFloatPower/\xintFloatSqrt macros are used. The
+% rationale is that:
+%
+%( - they give faster evaluations for integer exponent b < 10000 (and beyond)
+%: - they operate at any value of Digits
+%: - they keep accuracy even with gigantic exponents, whereas the pow10()/log10()&
+%  path starts losing accuracy for b about 1e8. In fact at 1.4e it was even&
+%  for b about 1000, as log10(A) was not computed with enough fractional&
+%  digits, except for 0.8<A<1.26 (roughly), for this usage. At the 1.4f&
+%  bugfix we compute log10(A) with enough accuracy for A^b to be safe with&
+%  b as large as 1e7, and show visible degradation only for b about 1e9.
+%)
 %
 % The user documentation of \xintFloatPower mentions a 0.52 ulp(Z) error where
-% Z is the computed result. Individually, \XINTinFloatLogTen and
-% \XINTinFloatPowTen have been designed for an even higher accuracy but I have
-% not really much tested what this gives in practice for powers. It is
-% possible that \xintFloatPower less often finds the correct rounding than
-% going (as below) via log10 and pow10 (in a special way described below), for
-% non too big exponents, but what is certain is that:
-%
-% - the old \xintFloatPower is more accurate when one goes into extremely high
-% exponent. For example 1.0000001^(12^16), where 12^16 is 184884258895036416
-% and has 18 digits, is computed to be at 60 Digits
-%
-% 1.87998567669494838838184407480229599674641360996864647488708e802942130
-%
-% by \xintFloatPower and this is the correct rounding. Whereas going via
-% logarithm as below would give the least 5 significant digits wrong (in fact
-% the logarithm road will start having accuracy problems if exponent is of the
-% order 1e12, something like that, although right now I say that a bit at
-% random because I don't know why I started to write these comments and I
-% rather want to finish the code).
-%
-% - also for integer exponents up to 10000 (and quite beyond, surely 100000
-% also, but I limited to 10000 when I was testing against xfp, as it doesn't
-% support higher powers of 10) the old \xintFloatPower is faster than current
-% log+exp (but I have not benchmarked much, as this takes tremendous amount of
-% time and energy).  And this is even true when one adds a square root
-% extraction to cover half-integer exponents.
-%
-% We also want to do this in \xinteval for integer exponents, not only
-% \xintfloateval, with a twist: in \xinteval we will compute *exactly* for not
-% too big exponents: for A^b, we want the output to not have more than 10000
-% digits. For this we limit b depending on the length of A.
-%
-% If it is decided that the output would be too big, the computation is done
-% as in \xintfloateval, i.e. using the old \xintFloatPower float macros.
-%
-% If the exponent is half-integer the
-% computation will be done as in \xintfloateval, i.e. using FloatPower then a
-% square root.
+% Z is the computed result, which seems not as good as the kind of accuracy we
+% target for pow10() (for -1<x<1) and log10() (for 1<x<10) which is more like
+% about 0.505ulp.  Perhaps in future I will examine if I need to increase a
+% bit the theoretical accuracy of \xintFloatPower but at time of 1.4e/1.4f
+% release I have left it standing as is.
 %
 % The check whether exponent is integer or half-integer is not on the value
 % but on the representation. Even in \xintfloatexpr, input such
@@ -44341,14 +44502,26 @@ math shift catcode.
 % to avoid costly overhead. 3/2 will not be recognized as half-integer.
 % But 2.0 will be recognized as integer, 25e-1 as half-integer.
 %
-% In the computation of a^b, a will be float-rounded to Digits, but the
-% exponent b will be handled as is until last minute. Recall that the
-% \xintfloatexpr parser does not automatically  float round isolated inputs,
+% In the computation of A^b, A will be float-rounded to Digits, but the
+% exponent b will be handled "as is" until last minute. Recall that the
+% \xintfloatexpr parser does not automatically float round isolated inputs,
 % this happens only once involved in computations.
 %
-% In the Digits<=8 branch the test for b integer if a is negative
-% is done after float-rounding b, but the input b is used for computation.
-% |
+% In the Digits<=8 branch we do the same as for Digits>8 since 1.4f. At 1.4e I
+% had strangely chosen (for "speed", but that was anyhow questionable for
+% integer exponents less than 10 for example) to always use log10()/pow10()...
+% But with only 9 fractional digits for the logarithms, exponents such as 1000
+% naturally led to last 2 or 3 digits being wrong and let's not even mention
+% when the exponent was of the order or 1e6... now A^1000 and A^1000.5 are
+% accurately computed and one can handle a^1000.1 as a^1000*a^0.1
+%
+% I wrote the code during 1.4e to 1.4f transition for doing this split of
+% exponent automatically, but it induced a very significant time penalty down
+% the line for fractional exponents, whereas currently a^b is computed at
+% Digits=8 with perfectly acceptable accuracy for fractional abs(b)<10, and at
+% high speed, and accuracy for big exponents can be obtained by manually
+% splitting as above (although the above has no user interface for keeping
+% each contribution with its extra digits; a single one for a^h, -1<h<1).|
 %    \begin{macrocode}
 \def\XINTinFloatSciPow{\romannumeral0\XINTinfloatscipow}%
 \def\XINTinfloatscipow#1#2%
@@ -44362,28 +44535,35 @@ math shift catcode.
 \def\XINT_scipow_Biszero#1]#2#3{ 1[0]}%
 \def\XINT_scipow_b #1#2/#3[#4]#5%
 {%
-  \unless\if1\XINT_is_One#3XY\xint_dothis\XINT_scipow_c\fi
-  \ifnum#4<\xint_c_mone\xint_dothis\XINT_scipow_c\fi
-  \ifnum#4=\xint_c_mone
-    \if5\xintLDg{#1#2} %
+    \unless\if1\XINT_is_One#3XY\xint_dothis\XINT_scipow_c\fi
+    \ifnum#4<\xint_c_mone\xint_dothis\XINT_scipow_c\fi
+    \ifnum#4=\xint_c_mone
+      \if5\xintLDg{#1#2} %
        \xint_afterfi{\xint_dothis\XINT_scipow_halfint}\else
        \xint_afterfi{\xint_dothis\XINT_scipow_c}%
+      \fi
     \fi
-  \fi
-  \xint_orthat#5#1#2/#3[#4]%
+    \xint_orthat#5#1#2/#3[#4]%
 }%
 \def\XINT_scipow_int #1/1[#2]#3%
 {%
- \expandafter\XINT_flpower_checkB_a
- \romannumeral0\XINT_dsx_addzeros{#2}#1;.\XINTdigits.{#3}{\XINTinfloatS[\XINTdigits]}%
+    \expandafter\XINT_flpower_checkB_a
+    \romannumeral0\XINT_dsx_addzeros{#2}#1;.\XINTdigits.{#3}{\XINTinfloatS[\XINTdigits]}%
 }%
+%    \end{macrocode}
+% \lverb|The \XINT_flpowerh_finish is the sole remnant of \XINTinFloatPowerH
+% which was formerly stitched to \xintFloatPower and checked for half-integer
+% exponent.|
+%    \begin{macrocode}
 \def\XINT_scipow_halfint#1/1[#2]#3%
 {%
- \expandafter\XINT_flpower_checkB_a
- \romannumeral0\xintdsr{\xintDouble{#1}}.\XINTdigits.{#3}\XINT_flpowerh_finish
+    \expandafter\XINT_flpower_checkB_a
+    \romannumeral0\xintdsr{\xintDouble{#1}}.\XINTdigits.{#3}\XINT_flpowerh_finish
 }%
 \def\XINT_flpowerh_finish #1%
-   {\XINTinfloatS[\XINTdigits]{\XINTinFloatSqrt[\XINTdigits+\xint_c_iii]{#1}}}%
+{%
+    \XINTinfloatS[\XINTdigits]{\XINTinFloatSqrt[\XINTdigits+\xint_c_iii]{#1}}%
+}%
 \def\XINT_tmpa#1.{%
 \def\XINT_scipow_c ##1[##2]##3%
 {%
@@ -44408,41 +44588,75 @@ math shift catcode.
 {%
     \XINTinfloatpowten{\xintMul{#2}{\XINTinFloatLogTen_xdgout#1}}%
 }%
+%    \end{macrocode}
+% \lverb|If a^b with a<0, we arrive here only if b was not considered to be
+% an integer exponent. So let's raise an error.|
+%    \begin{macrocode}
 \def\XINT_scipow_Aisneg #1#2\xint:#3\xint:
 {%
-   \XINT_signalcondition{InvalidOperation}{Fractional power of negative argument}{}{0[0]}
+   \XINT_signalcondition{InvalidOperation}{Fractional power of negative argument}{}{0[0]}%
 }%
 \ifnum\XINTdigits<9
-  \def\XINTinfloatscipow#1#2%
+%    \end{macrocode}
+% \lverb|At 1.4f we only need for Digits up to 8 to insert usage of poormanlog
+% for non integer, non half-integer exponents. At 1.4e the code was more
+% complicated because I had strangely opted for using always the log10()
+% path. However we have to be careful to use \PML@logbaseten with 9 digits
+% always.
+%
+% As the legacy macros used for integer and half-integer exponents float-round
+% the input to Digits digits, we must do the same here for coherence. Which
+% induces some small complications here.
+% |
+%    \begin{macrocode}
+  \def\XINT_tmpa#1.#2.#3.{%
+  \def\XINT_scipow_c ##1[##2]##3%
   {%
-    \expandafter\XINT_scipow_a\romannumeral0\xintraw{#2}\relax{#1}%
+      \expandafter\XINT_scipow_d
+      \romannumeral0\expandafter\XINT_scipow_c_i
+      \romannumeral0\XINTinfloat[#1]{##3}\xint:##1[##2]\xint:
   }%
-  \def\XINT_scipow_b #1[#2]#3#4%
-  {%
-      \expandafter\XINT_scipow_d\romannumeral0\XINTinfloat[9]{#4}\xint:#1[#2]\xint:
-  }%
+  \def\XINT_scipow_c_i##1[##2]{ ##1#3[##2-#2]}%
+  }\expandafter\XINT_tmpa\the\numexpr\XINTdigits\expandafter.%
+   \the\numexpr9-\XINTdigits\expandafter.%
+   \romannumeral\xintreplicate{9-\XINTdigits}0.%
   \def\XINT_scipow_Aispos #1\xint:#2\xint:
   {%
       \poormanpoweroften{\xintMul{#2}{\romannumeral0\expandafter\PML@logbaseten#1}}%
   }%
-  \def\XINT_scipow_Aisneg #1#2\xint:#3\xint:
-  {%
-      \ifcase\xintFloatIntType{#3}%
-      \or\expandafter-\romannumeral0%
-      \else
-        \expandafter\XINT_scipow_AnegBfrac
-      \fi
-      \poormanpoweroften{\xintMul{#3}{\romannumeral0\expandafter\PML@logbaseten#2}}%
-  }%
 \fi
 %    \end{macrocode}
-% \subsubsection{\csh{xintPow}}
+% \subsubsection{\cshnolabel{xintPow}}
 % \lverb|&
 %
-% This overloads the original $xintfracnameimp macro and uses it for integer
-% exponents, under a criterion which guarantees output (numerator and
-% denominator separately) does not exceed by much 10000 digits if at all.
+% Support macro for a^b in \xinteval. This overloads the original
+% $xintfracnameimp macro, keeping its original meaning only for integer
+% exponents, which are not too big: for exact evaluation of A^b, we want the
+% output to not have more than about 10000 digits (separately for numerator
+% and denominator). For this we limit b depending on the length of A, simply
+% we want b to be smaller than the rounded value of 10000 divided by the
+% length of A. For one-digit A, this would give 10000 as maximal exponent but
+% due to organization of code related to avoir arithmetic overflow (we can't
+% immediately operate in \numexpr with b as it is authorized to be beyond TeX
+% bound), the maximal exponent is 9999.
 %
+% The criterion, which guarantees output (numerator and
+% denominator separately) does not exceed by much 10000 digits if at all is
+% that the exponent should be less than the (rounded in the sense of \numexpr)
+% quotient of 10000 by the number of digits of a (considering separately
+% numerator and denominator).
+%
+% The decision whether to compute A^b exactly depends on the length of
+% internal representation of A. So 9^9999 is evaluated exactly (in \xinteval)
+% but for 9.0 it is 9.0^5000 the maximal power.  This may change in future.
+%
+% 1.4e had the following bug (for Digits>8): big integer exponents used the
+% log10()/pow10() based approach rather than the legacy macro path which goes
+% via \xintFloatPower, as done by \xintfloateval! As a result powers very
+% large integer exponents were more precise in \xintfloateval than in \xinteval!
+%
+% 1.4f fixes this. Also, it handles Digits<=8 as Digits>8, bringing much
+% simplification here.
 % |
 %    \begin{macrocode}
 \def\xintPow{\romannumeral0\xintpow}%
@@ -44450,18 +44664,64 @@ math shift catcode.
 {%
     \expandafter\XINT_scipow_a\romannumeral0\xintrez{#2}\XINT_pow_int{#1}%
 }%
-\def\XINT_pow_int #1/1[#2]%#3
+%    \end{macrocode}
+% \lverb|In case of half-integer exponent the \XINT_scipow_a will have
+% triggered usage of the (new incarnation) of \XINTinFloatPowerH which combines
+% \xintFloatPower and square root extraction. So we only have to handle here
+% the case of integer exponents which will trigger execution of this
+% \XINT_pow_int macro passed as parameter to \xintpow.|
+%    \begin{macrocode}
+\def\XINT_pow_int #1/1[#2]%
 {%
   \expandafter\XINT_pow_int_a\romannumeral0\XINT_dsx_addzeros{#2}#1;.%
 }%
-\def\XINT_pow_int_a #1#2.#3%
+%    \end{macrocode}
+% \lverb|1.4e had a bug here for integer exponents >= 10000: they triggered
+% going back to the floating point routine but at a late location where
+% the log10()/pow10() approach is used.|
+%    \begin{macrocode}
+\def\XINT_pow_int_a #1#2.%
 {%
   \ifnum\if-#1\xintLength{#2}\else\xintLength{#1#2}\fi>\xint_c_iv
-    \expandafter\XINT_pow_tosci
-  \fi
-  \expandafter\XINT_pow_int_b\romannumeral0\xintraw{#3}\xint:#1#2\xint:
+       \expandafter\XINT_pow_bigint
+  \else\expandafter\XINT_pow_int_b
+  \fi #1#2.%
 }%
-\def\XINT_pow_int_b#1#2/#3[#4]\xint:#5\xint:
+%    \end{macrocode}
+% \lverb|At 1.4f we correctly jump to the appropriate entry point into the
+% \xintFloatPower routine of $xintfracnameimp, in case of a big integer
+% exponent.|
+%    \begin{macrocode}
+\def\XINT_pow_bigint #1.#2%
+{%
+    \XINT_flpower_checkB_a#1.\XINTdigits.{#2}{\XINTinfloatS[\XINTdigits]}%
+}%
+\def\XINT_pow_int_b #1.#2%
+{%
+%    \end{macrocode}
+% \lverb|We now check if the output will not be too bulky. We use here (on the
+% a of a^b) \xintraw, not \xintrez, on purpose so that for example 9.0^9999
+% is computed in floating point sense but 9^9999 is computed exactly. However
+% 9.0^5000 will be computed exactly.  And if I used \xintrez here \xinteval{100^2}
+% would print 10000.0 and \xinteval{100^3} would print 1.0e6.  Thus situation
+% is complex.
+%
+% By the way I am happy to see that 9.0*9.0 in
+% \xinteval does print 81.0 but the truth is that internally it does have the
+% more bulky 8100/1[-2] maybe I should make some revision of this, i.e. use
+% rather systematically \xintREZ on input rather than \xintRaw (note taken on
+% 2021/05/08 at time of doing 1.4f bugfix release).|
+%    \begin{macrocode}
+    \expandafter\XINT_pow_int_c\romannumeral0\xintraw{#2}\xint:#1\xint:
+}%
+%    \end{macrocode}
+% \lverb|The \XINT_fpow_fork is (quasi top level) entry point we have found
+% into the legacy \xintPow routine of $xintfracnameimp. Its interface is a bit
+% weird, but let's not worry about this now.
+%
+%|
+%    \begin{macrocode}
+\def\XINT_pow_int_c#1#2/#3[#4]\xint:#5\xint:
 {%
     \if0\ifnum\numexpr\xint_c_x^iv/%
            (\xintLength{#1#2}\if-#1-\xint_c_i\fi)<\XINT_Abs#5 %
@@ -44469,52 +44729,21 @@ math shift catcode.
         \ifnum\numexpr\xint_c_x^iv/\xintLength{#3}<\XINT_Abs#5 %
        1\else
     0\fi\fi
-      \expandafter\XINT_fpow_fork\else\expandafter\XINT_pow_tosci_i
+      \expandafter\XINT_fpow_fork\else\expandafter\XINT_pow_bigint_i
     \fi
     #5\Z{#4}{#1#2}{#3}%
 }%
-\def\XINT_tmpa#1.{%
-\def\XINT_pow_tosci##1\xintraw%##2%\xint:##3\xint:
-{%
-    \expandafter\XINT_scipow_d\romannumeral0\XINTinfloatS[#1]%
-}%
-\def\XINT_pow_tosci_i##1\Z##2##3##4%
-{%
-    \expandafter\XINT_scipow_d\romannumeral0\expandafter\XINT_infloatS_clean
-    \romannumeral0\XINT_infloat_a#1.{##2}{##3}{##4}\xint:##1\xint:
-}%
-}\expandafter\XINT_tmpa\the\numexpr\XINTdigits.%
-\ifnum\XINTdigits<9
-  \def\xintpow#1#2%
-  {%
-      \expandafter\XINT_poorpow_a\romannumeral0\xintrez{#2}\relax{#1}%
-  }%
-  \def\XINT_poorpow_a #1%
-  {%
-      \xint_gob_til_zero#1\XINT_scipow_Biszero0\XINT_poorpow_b#1%
-  }%
-  \def\XINT_poorpow_b #1#2/#3[#4]#5%
-  {%
-    \unless\if1\XINT_is_One#3XY\xint_dothis\XINT_poorpow_c\fi
-    \ifnum#4<\xint_c_\xint_dothis\XINT_poorpow_c\fi
-    \xint_orthat\XINT_pow_int#1#2/#3[#4]%
-  }%
-  \def\XINT_poorpow_c #1[#2]#3%
-  {%
-      \expandafter\XINT_scipow_d\romannumeral0\XINTinfloat[9]{#3}\xint:#1[#2]\xint:
-  }%
-  \def\XINT_pow_tosci#1\xintraw%#2%\xint:#3\xint:
-  {%
-      \expandafter\XINT_scipow_d\romannumeral0\XINTinfloat[9]%
-  }%
-  \def\XINT_pow_tosci_i#1\Z#2#3#4%
-  {%
-      \expandafter\XINT_scipow_d\romannumeral0\expandafter\XINT_infloat_clean
-      \romannumeral0\XINT_infloat_a9.{#2}{#3}{#4}\xint:#1\xint:
-  }%
-\fi
 %    \end{macrocode}
-% \subsubsection{\cshn{log10()} and \cshn{pow10()} functions}
+% \lverb|\XINT_pow_bigint_i is like \XINT_pow_bigint but has its parameters
+% organized differently.|
+%    \begin{macrocode}
+\def\XINT_pow_bigint_i#1\Z#2#3#4%
+{%
+    \XINT_flpower_checkB_a#1.\XINTdigits.{#3/#4[#2]}{\XINTinfloatS[\XINTdigits]}%
+}%
+%    \end{macrocode}
+% \subsection{Macro support for \cshnolabel{xintexpr} and \cshnolabel{xintfloatexpr} syntax}
+% \subsubsection{The \cshn{log10()} and \cshn{pow10()} functions}
 % \lverb|&
 % Up to 8 digits included we use the poormanlog based ones.
 % |
@@ -44551,9 +44780,7 @@ math shift catcode.
 \expandafter\let\csname XINT_flexpr_func_pow10\expandafter\endcsname
                 \csname XINT_expr_func_pow10\endcsname
 %    \end{macrocode}
-% \subsubsection{\cshn{log()}, \cshn{exp()}, and \cshn{pow()} functions}
-% \lverb|The mapping of ** and ^ to \XINTinFloatPow and \xintPow respectively,
-% i.e. to be like pow(,) function is done in $xintexprnameimp.|
+% \subsubsection{The \cshn{log()}, \cshn{exp()} functions}
 %    \begin{macrocode}
 \ifnum\XINTdigits<9
 \def\XINT_expr_func_log #1#2#3%
@@ -44586,6 +44813,12 @@ math shift catcode.
 \let\XINT_flexpr_func_log\XINT_expr_func_log
 \let\XINT_flexpr_func_exp\XINT_expr_func_exp
 \fi
+%    \end{macrocode}
+% \subsubsection{The \cshn{pow()} function}
+% \lverb|The mapping of ** and ^ to \XINTinFloatSciPow (in \xintfloatexpr
+% context) and \xintPow (in \xintexpr context),
+% is done in $xintexprnameimp.|
+%    \begin{macrocode}
 \def\XINT_expr_func_pow #1#2#3%
 {%
     \expandafter #1\expandafter #2\expandafter{%
@@ -44608,11 +44841,21 @@ math shift catcode.
 % of 10, but only one logarithm log(10).
 %
 % Currently the code whether for exponential or logarihm will not screen out 0
-% digits and even will do silly multiplication par 10^0 = 1 in that case, and
+% digits and even will do silly multiplication by 10^0 = 1 in that case, and
 % we need to store such silly values.
 %
 % We add the data for the 10^-0.i etc... because pre-computing them on the fly
 % significantly adds overhead to the package loading.
+%
+% The fractional powers of ten with D+5 digits are used to compute pow10()
+% function, those with D+10 digits are used to compute log10() function. This
+% is done with
+% an elevated precision for two reasons:
+% (- handling of inputs near 1,
+% :- in order for a^b = pow10(b*log10(a)) to keep accuracy&
+%    even with large exponents, say in absolute value up to 1e7,&
+%    degradation beginning to show-up at 1e8.
+% )
 % |
 %    \begin{macrocode}
 \def\XINT_tmpa{1[0]}%
@@ -44641,8 +44884,8 @@ math shift catcode.
 \expandafter\let\csname XINT_c_5_0_inv_x\endcsname\XINT_tmpa
 \expandafter\let\csname XINT_c_6_0_inv_x\endcsname\XINT_tmpa
 \def\XINT_tmpa#1#2#3#4;%
-   {\expandafter\edef\csname XINT_c_#1_#2\endcsname{\XINTinFloat[\XINTdigits+5]{#3#4[-79]}}%
-    \expandafter\edef\csname XINT_c_#1_#2_x\endcsname{\XINTinFloat[\XINTdigits+10]{#3#4[-79]}}%
+   {\expandafter\edef\csname XINT_c_#1_#2\endcsname{\XINTinFloat[\XINTdigitsormax+5]{#3#4[-79]}}%
+    \expandafter\edef\csname XINT_c_#1_#2_x\endcsname{\XINTinFloat[\XINTdigitsormax+10]{#3#4[-79]}}%
    }%
 % 10^0.i
 \XINT_tmpa 1 1 12589254117941672104239541063958006060936174094669310691079230195266476157825020;%
@@ -44705,8 +44948,8 @@ math shift catcode.
 \XINT_tmpa 6 8 10000184208504057336610176132939223090407041937631374389422968832433217547184883;%
 \XINT_tmpa 6 9 10000207234805653031739097001771331138303016031686764989867510425362339583809842;%
 \def\XINT_tmpa#1#2#3#4;%
-   {\expandafter\edef\csname XINT_c_#1_#2_inv\endcsname{\XINTinFloat[\XINTdigits+5]{#3#4[-80]}}%
-    \expandafter\edef\csname XINT_c_#1_#2_inv_x\endcsname{\XINTinFloat[\XINTdigits+10]{#3#4[-80]}}%
+   {\expandafter\edef\csname XINT_c_#1_#2_inv\endcsname{\XINTinFloat[\XINTdigitsormax+5]{#3#4[-80]}}%
+    \expandafter\edef\csname XINT_c_#1_#2_inv_x\endcsname{\XINTinFloat[\XINTdigitsormax+10]{#3#4[-80]}}%
    }%
 % 10^-0.i
 \XINT_tmpa 1 1 79432823472428150206591828283638793258896063175548433209232392931695569719148754;%
@@ -44770,13 +45013,13 @@ math shift catcode.
 \XINT_tmpa 6 9 99997927694888844379020974874260864289829523807763942234420930258187873904191138;%
 % log(10)
 \edef\XINT_c_logten
- {\XINTinFloat[\XINTdigits+4]
+ {\XINTinFloat[\XINTdigitsormax+4]
   {23025850929940456840179914546843642076011014886287729760333279009675726096773525[-79]}}%
 \edef\XINT_c_oneoverlogten
- {\XINTinFloat[\XINTdigits+4]
+ {\XINTinFloat[\XINTdigitsormax+4]
   {43429448190325182765112891891660508229439700580366656611445378316586464920887077[-80]}}%
 \edef\XINT_c_oneoverlogten_xx
- {\XINTinFloat[\XINTdigits+14]
+ {\XINTinFloat[\XINTdigitsormax+14]
   {43429448190325182765112891891660508229439700580366656611445378316586464920887077[-80]}}%
 %    \end{macrocode}
 % \subsection{April 2021: at last, \csh{XINTinFloatPowTen}, \csh{XINTinFloatExp}}
@@ -44843,7 +45086,7 @@ math shift catcode.
 % fixed point to floating point and log() goes from floating point to fixed
 % point, and coercing them to work inside the sole floating point domain is
 % not mathematically natural.  Although admittedly it does create interesting
-% mathematical questions!  A similar situatoin applies to functions such as
+% mathematical questions!  A similar situation applies to functions such as
 % cos() and sin(), what sense is there in the expression cos(exp(50)) for
 % example with 16 digits precision? My opinion is that it does not make ANY
 % sense.  Anyway, I shall obide.
@@ -44870,7 +45113,7 @@ math shift catcode.
     \XINTinfloatpowten
     {\xintMul{\XINT_c_oneoverlogten_xx}{\XINTinFloatS[#1]{##1}}}%
 }%
-}\expandafter\XINT_tmpa\the\numexpr\XINTdigits+14.%
+}\expandafter\XINT_tmpa\the\numexpr\XINTdigitsormax+14.%
 %    \end{macrocode}
 % \lverb|&
 % Here is how the reduction to computations of an exp(h) via series is done.
@@ -44901,7 +45144,7 @@ math shift catcode.
     \expandafter\XINT_powten_fork
     \romannumeral0\xintiround{#1}{##1}[-#1]%
 }%
-}\expandafter\XINT_tmpa\the\numexpr\XINTdigits+4.%
+}\expandafter\XINT_tmpa\the\numexpr\XINTdigitsormax+4.%
 \def\XINT_powten_fork#1%
 {%
     \xint_UDzerominusfork
@@ -44921,11 +45164,11 @@ math shift catcode.
 {%
     \expandafter\XINT_powten_pos_a\romannumeral0\xintround{6}{#1[#2]}#1[#2]%
 }%
-\def\XINT_tmpa #1.#2.{%
+\def\XINT_tmpa #1.#2.#3.{%
 \def\XINT_powten_pos_a ##1.##2##3##4##5##6##7##8[##9]%
 {%
    \expandafter\XINT_infloate
-    \romannumeral0\XINTinfloat[\XINTdigits]{%
+    \romannumeral0\XINTinfloat[#3]{%
      \xintMul{\csname XINT_c_1_##2\endcsname}{%
       \XINTinFloat[#1]{%
        \xintMul{\csname XINT_c_2_##3\endcsname}{%
@@ -44947,8 +45190,9 @@ math shift catcode.
                 }%
                }}}}}}}}}}}}{##1}%
 }}\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits+5\expandafter.%
-  \the\numexpr\XINTdigits-1.%
+  \the\numexpr\XINTdigitsormax+5\expandafter.%
+  \the\numexpr\XINTdigitsormax-1\expandafter.%
+  \the\numexpr\XINTdigitsormax.%
 %    \end{macrocode}
 % \lverb|This rounding may produce -0.000000 but will always have 6 exactly
 % fractional digits and a leading minus sign.|
@@ -44957,11 +45201,11 @@ math shift catcode.
 {%
     \expandafter\XINT_powten_neg_a\romannumeral0\xintround{6}{#1[#2]}#1[#2]%
 }%
-\def\XINT_tmpa #1.#2.{%
+\def\XINT_tmpa #1.#2.#3.{%
 \def\XINT_powten_neg_a -##1.##2##3##4##5##6##7##8[##9]%
 {%
    \expandafter\XINT_infloate
-    \romannumeral0\XINTinfloat[\XINTdigits]{%
+    \romannumeral0\XINTinfloat[#3]{%
      \xintMul{\csname XINT_c_1_##2_inv\endcsname}{%
       \XINTinFloat[#1]{%
        \xintMul{\csname XINT_c_2_##3_inv\endcsname}{%
@@ -44983,8 +45227,9 @@ math shift catcode.
                 }%
                }}}}}}}}}}}}{-##1}%
 }}\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits+5\expandafter.%
-  \the\numexpr\XINTdigits-1.%
+  \the\numexpr\XINTdigitsormax+5\expandafter.%
+  \the\numexpr\XINTdigitsormax-1\expandafter.%
+  \the\numexpr\XINTdigitsormax.%
 %    \end{macrocode}
 % \subsubsection{Exponential series}
 % \lverb|Or rather here h(1 + h(1/2 + h (1/6 + ....))). Upto at most h^9/9!
@@ -45009,8 +45254,8 @@ math shift catcode.
 }%
 }%
 \expandafter\XINT_tmpa
-            \the\numexpr\XINTdigits-6\expandafter.%
-            \the\numexpr\XINTdigits-1.% 
+            \the\numexpr\XINTdigitsormax-6\expandafter.%
+            \the\numexpr\XINTdigitsormax-1.% 
 \ifnum\XINTdigits>15
 \def\XINT_tmpa#1.#2.#3.#4.{%
 \def\XINT_Exp_series_a_ii##1\xint:
@@ -45034,8 +45279,8 @@ math shift catcode.
     \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
 }%
 }\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-13\expandafter.%
-  \the\numexpr\XINTdigits-6.%
+  \the\numexpr\XINTdigitsormax-13\expandafter.%
+  \the\numexpr\XINTdigitsormax-6.%
   {5[-1]}.%
   {1[0]}.%
 \fi
@@ -45062,9 +45307,9 @@ math shift catcode.
     \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
 }%
 }\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-19\expandafter.%
-  \the\numexpr\XINTdigits-13\expandafter.%
-  \romannumeral0\XINTinfloat[\XINTdigits-13]{1/6[0]}.%
+  \the\numexpr\XINTdigitsormax-19\expandafter.%
+  \the\numexpr\XINTdigitsormax-13\expandafter.%
+  \romannumeral0\XINTinfloat[\XINTdigitsormax-13]{1/6[0]}.%
   {5[-1]}.%
 \fi
 \ifnum\XINTdigits>28 
@@ -45102,10 +45347,10 @@ math shift catcode.
  \csname XINT_Exp_series_c_\romannumeral\numexpr#1-2\expandafter\endcsname
  \csname XINT_Exp_series_c_\romannumeral\numexpr#1-3\endcsname
  \expandafter\XINT_tmpc
- \the\numexpr\XINTdigits-#2\expandafter.%
- \the\numexpr\XINTdigits-#3\expandafter.\expanded{%
- \XINTinFloat[\XINTdigits-#3]{1/#6[0]}.%
- \XINTinFloat[\XINTdigits-#4]{1/#7[0]}.%
+ \the\numexpr\XINTdigitsormax-#2\expandafter.%
+ \the\numexpr\XINTdigitsormax-#3\expandafter.\expanded{%
+ \XINTinFloat[\XINTdigitsormax-#3]{1/#6[0]}.%
+ \XINTinFloat[\XINTdigitsormax-#4]{1/#7[0]}.%
  }%
 }%
 \XINT_tmpa 5 26 19 13 120 24 6 %<-- keep space
@@ -45130,7 +45375,7 @@ math shift catcode.
 % obtained via a log series). Then log(x) computes log(10)z+h whereas log10(x)
 % computes as z+h/log(10).
 %
-% There will be three branches
+% There will be three branches [NO FINALLY ONLY TWO BRANCHES SINCE 1.4f]
 % according to situation of x relative to 1.  Let y be the math value log10(x)
 % that we want to approximate to target precision P digits. P is assumed at
 % least 9.
@@ -45147,12 +45392,23 @@ math shift catcode.
 %
 % Warning: this description is not in sync with the code, now the case where
 % d_1d_2...d_6 is 000000 is filtered out and one jumps directly either to case
-% I if n≠0 or to case III if n=0. There is also a preventive step to recognize
-% when the rounding produces a z exactly zero (\xintRound has bad pratice of
-% outputting a 0 with no decimal point if the input was exactly zero, and this
-% can happen here as the input is some approximation to actual logarithm).
+% I if n≠0 or to case III if n=0. The case when rounding produces a z equal
+% to zero is also handled especially.
 %
-% CASE I: either n is NOT zero or d_1d_2....d_6 is at least 100001. Then we
+% WARNING: at 1.4f, the CASE I was REMOVED. Everything is handled as CASE II
+% or exceptionally case III. Indeed this removal was observed to simply cost
+% about 10$% extra time at D=16 digits, which was deemed an acceptable cost.
+% The cost is certainly higher at D=9 but also relatively lower at high
+% D's. It means that logarithms are always computed with 9, not 4, safety
+% **fractional** digits, and this allows to compute powers accurately with
+% exponents say up to 1e7, degradation starting to show at 1e8 and for sure at
+% 1e9. However for integer and half-integer exponents the old routine
+% \xintFloatPower will still be used, and perhaps it will need some increased
+% precision update as the documented 0.52ulp error bound is higher than our
+% more stringent standards of 2021.
+%
+% CASE I: [removed at 1.4f!]
+% either n is NOT zero or d_1d_2....d_6 is at least 100001. Then we
 % compute X = 10^(-z)*x which is near 1, by using the table of powers of
 % 10, using P+5 digits significands. Then we compute (exactly) eta = X-1,
 % (which is in absolute value less than 0.0000012)
@@ -45241,6 +45497,19 @@ math shift catcode.
 %
 % Absolutely no error check is done whether the input x is really positive.
 % As seen above the maximal target precision is 63 (not 64).
+%
+% Update for 1.4f: when the logarithm is computed via case I, i.e. basically
+% always except roughly for 0.8<a<1.26, its fractional part has only about 4
+% safety digits. This is barely enough for a^b with b near 1000 and certainly
+% not enough for a^b with b of the order 10000.
+%
+% I hesitated with the option to always handle b as N+h with N integer for
+% which we can use old \xintFloatPower (which perhaps I will have to update to
+% ensure better than the 0.52ulp it mentions in its documentation).  But in
+% the end, I decided to simply add a variant where case I is handled as case
+% II, i.e. with 9 not 4 safety fractional digits for the logarithm.  This
+% variant will be the one used by the power function for fractional exponents
+% (non integer, non half-integer).
 % 
 % ?
 %    \begin{macrocode}
@@ -45249,7 +45518,7 @@ math shift catcode.
 \def\XINTinfloatlog
 {%
     \expandafter\XINT_log_out
-    \romannumeral0\expandafter\XINT_logten_a
+    \romannumeral0\expandafter\XINT_logtenxdg_a
     \romannumeral0\XINTinfloat[#1]%{##1}
 }%
 \def\XINT_log_out ##1\xint:##2\xint:
@@ -45261,7 +45530,7 @@ math shift catcode.
 \def\XINTinfloatlogten
 {%
     \expandafter\XINT_logten_out
-    \romannumeral0\expandafter\XINT_logten_a
+    \romannumeral0\expandafter\XINT_logtenxdg_a
     \romannumeral0\XINTinfloat[#1]%{##1}
 }%
 \def\XINT_logten_out ##1\xint:##2\xint:
@@ -45269,10 +45538,10 @@ math shift catcode.
     \XINTinfloat[#1]%
      {\xintAdd{##1}{\xintMul{\XINT_c_oneoverlogten}{##2}}}%
 }%
-}\expandafter\XINT_tmpa\the\numexpr\XINTdigits.%
+}\expandafter\XINT_tmpa\the\numexpr\XINTdigitsormax.%
 \def\XINTinFloatLogTen_xdgout%#1[#2]
 {%
-    \romannumeral0\expandafter\XINT_logten_xdgout\romannumeral0\XINT_logten_a
+    \romannumeral0\expandafter\XINT_logten_xdgout\romannumeral0\XINT_logtenxdg_a
 }%
 \def\XINT_logten_xdgout #1\xint:#2\xint:
 {%
@@ -45282,16 +45551,20 @@ math shift catcode.
 % \lverb|No check is done whether input is negative or vanishes. We apply
 % \XINTinfloat[9] which if input is not zero always produces 9 digits (and
 % perhaps a minus sign) the first digit is non-zero. This is the expected
-% input to \numexpr\PML@<digits><dot>.\relax|
+% input to \numexpr\PML@<digits><dot>.\relax
+%
+% The variants xdg_a, xdg_b, xdg_c, xdg_d were added at 1.4f to always go via
+% II or III, ensuring more fractional digits to the logarithm for accuracy of
+% fractional powers with big exponents. "Old" 1.4e routines were removed.|
 %    \begin{macrocode}
-\def\XINT_logten_a#1[#2]%
+\def\XINT_logtenxdg_a#1[#2]%
 {%
-    \expandafter\XINT_logten_b
+    \expandafter\XINT_logtenxdg_b
     \romannumeral0\XINTinfloat[9]{#1[#2]}#1[#2]%
 }%
-\def\XINT_logten_b#1[#2]%
+\def\XINT_logtenxdg_b#1[#2]%
 {%
-    \expandafter\XINT_logten_c
+    \expandafter\XINT_logtenxdg_c
       \romannumeral0\xintround{6}%
       {\xintiiAdd{\xintDSx{-9}{\the\numexpr#2+8\relax}}%
                            {\the\numexpr\PML@#1.\relax}%
@@ -45304,15 +45577,15 @@ math shift catcode.
 % "0". We are very near 1 and will treat this as case III, but this is
 % sub-optimal.|
 %    \begin{macrocode}
-\def\XINT_logten_c #1#2%
+\def\XINT_logtenxdg_c #1#2%
 {%
     \xint_gob_til_xint:#2\XINT_logten_IV\xint:
-    \XINT_logten_d #1#2%
+    \XINT_logtenxdg_d #1#2%
 }%
-\def\XINT_logten_IV\xint:\XINT_logten_d0{\XINT_logten_f_III}%
+\def\XINT_logten_IV\xint:\XINT_logtenxdg_d0{\XINT_logten_f_III}%
 %    \end{macrocode}
 % \lverb|Here we are certain that \xintRound{6} produced a decimal point and
-% 6 fractional digit tokens #2, but they can be zeros.
+% 6 fractional digit tokens #2, but they can be zeros and also -0.000000 is possible.
 %
 % If #1 vanishes and #2>100000 we are in case I.
 %
@@ -45324,52 +45597,46 @@ math shift catcode.
 % 
 % Attention to the sign of #1, it is checked later on.
 %
-% A bit tired today of expandafter or afterfi or dothis/orthat etc... (which
-% is one level). Somehow there are very very few \ifcase use in all of
-% xint... I don't know why.
+% At 1.4f, we handle the case I with as many digits as case II (and exceptionnally case III).
 %
 % |
 %    \begin{macrocode}
-\def\XINT_logten_d #1.#2\xint:
+\def\XINT_logtenxdg_d #1.#2\xint:
 {%
     \ifcase
       \ifnum#1=\xint_c_
-        \ifnum #2>100000 \xint_c_i\else
-         \ifnum #2>\xint_c_ \xint_c_ii\else \xint_c_iii\fi\fi
+        \ifnum #2=\xint_c_ \xint_c_iii\else \xint_c_ii\fi
       \else
-        \ifnum#2>\xint_c_ \xint_c_i\else \xint_c_\fi
+        \ifnum#2>\xint_c_ \xint_c_ii\else \xint_c_\fi
       \fi
        \expandafter\XINT_logten_f_Isp
-    \or\expandafter\XINT_logten_f_I
-    \or\expandafter\XINT_logten_f_II
+    \or% never
+    \or\expandafter\XINT_logten_f_IorII
     \else\expandafter\XINT_logten_f_III
     \fi
     #1.#2\xint:
 }%
-\def\XINT_logten_f_I#1%
+\def\XINT_logten_f_IorII#1%
 {%
     \xint_UDsignfork
-       #1\XINT_logten_f_I_neg
-        -\XINT_logten_f_I_pos
+       #1\XINT_logten_f_IorII_neg
+        -\XINT_logten_f_IorII_pos
     \krof #1%
 }%
-\def\XINT_logten_f_II#1%
-{%
-    \xint_UDsignfork
-       #1\XINT_logten_f_II_neg
-        -\XINT_logten_f_II_pos
-    \krof #1%
-}%
+%    \end{macrocode}
+% \lverb|We are here only with a non-zero ##1, so no risk of a -0[0] which
+% would be illegal usage of A[N] raw format. A negative ##1 is no trouble in ##3-##1.|
+%    \begin{macrocode}
 \def\XINT_tmpa#1.{%
 \def\XINT_logten_f_Isp##1.000000\xint:##2[##3]%
 {%
     {##1[0]}\xint:
-    {\expandafter\XINT_LogTen_serI_a_i
+    {\expandafter\XINT_LogTen_serII_a_ii
         \romannumeral0\XINTinfloatS[#1]{\xintAdd{##2[##3-##1]}{-1[0]}}%
      \xint:
     }\xint:
 }%
-}\expandafter\XINT_tmpa\the\numexpr\XINTdigits-2.%
+}\expandafter\XINT_tmpa\the\numexpr\XINTdigitsormax.%
 \def\XINT_tmpa#1.{%
 \def\XINT_logten_f_III##1\xint:##2[##3]%
 {%
@@ -45378,48 +45645,48 @@ math shift catcode.
         \romannumeral0\XINTinfloatS[#1]{\xintAdd{##2[##3]}{-1[0]}}%
      \xint:
     }\xint:
-}}\expandafter\XINT_tmpa\the\numexpr\XINTdigits+4.%
+}}\expandafter\XINT_tmpa\the\numexpr\XINTdigitsormax+4.%
 \def\XINT_tmpa#1.#2.{%
-\def\XINT_logten_f_I_pos##1.##2##3##4##5##6##7\xint:##8[##9]%
+\def\XINT_logten_f_IorII_pos##1.##2##3##4##5##6##7\xint:##8[##9]%
 {%
     {\the\numexpr##1##2##3##4##5##6##7[-6]}\xint:
-    {\expandafter\XINT_LogTen_serI_a_i
+    {\expandafter\XINT_LogTen_serII_a_ii
      \romannumeral0\XINTinfloat[#2]%
      {\xintAdd{-1[0]}%
-     {\xintMul{\csname XINT_c_1_##2_inv\endcsname}{%
+     {\xintMul{\csname XINT_c_1_##2_inv_x\endcsname}{%
       \XINTinFloat[#1]{%
-       \xintMul{\csname XINT_c_2_##3_inv\endcsname}{%
+       \xintMul{\csname XINT_c_2_##3_inv_x\endcsname}{%
         \XINTinFloat[#1]{%
-         \xintMul{\csname XINT_c_3_##4_inv\endcsname}{%
+         \xintMul{\csname XINT_c_3_##4_inv_x\endcsname}{%
           \XINTinFloat[#1]{%
-           \xintMul{\csname XINT_c_4_##5_inv\endcsname}{%
+           \xintMul{\csname XINT_c_4_##5_inv_x\endcsname}{%
             \XINTinFloat[#1]{%
-             \xintMul{\csname XINT_c_5_##6_inv\endcsname}{%
+             \xintMul{\csname XINT_c_5_##6_inv_x\endcsname}{%
               \XINTinFloat[#1]{%
-               \xintMul{\csname XINT_c_6_##7_inv\endcsname}
+               \xintMul{\csname XINT_c_6_##7_inv_x\endcsname}
                        {##8[##9-##1]}%
                }}}}}}}}}}%
      }%
      }\xint:
     }\xint:
 }%
-\def\XINT_logten_f_I_neg##1.##2##3##4##5##6##7\xint:##8[##9]%
+\def\XINT_logten_f_IorII_neg##1.##2##3##4##5##6##7\xint:##8[##9]%
 {%
     {\the\numexpr##1##2##3##4##5##6##7[-6]}\xint:
-    {\expandafter\XINT_LogTen_serI_a_i
+    {\expandafter\XINT_LogTen_serII_a_ii
      \romannumeral0\XINTinfloat[#2]%
      {\xintAdd{-1[0]}%
-     {\xintMul{\csname XINT_c_1_##2\endcsname}{%
+     {\xintMul{\csname XINT_c_1_##2_x\endcsname}{%
       \XINTinFloat[#1]{%
-       \xintMul{\csname XINT_c_2_##3\endcsname}{%
+       \xintMul{\csname XINT_c_2_##3_x\endcsname}{%
         \XINTinFloat[#1]{%
-         \xintMul{\csname XINT_c_3_##4\endcsname}{%
+         \xintMul{\csname XINT_c_3_##4_x\endcsname}{%
           \XINTinFloat[#1]{%
-           \xintMul{\csname XINT_c_4_##5\endcsname}{%
+           \xintMul{\csname XINT_c_4_##5_x\endcsname}{%
             \XINTinFloat[#1]{%
-             \xintMul{\csname XINT_c_5_##6\endcsname}{%
+             \xintMul{\csname XINT_c_5_##6_x\endcsname}{%
               \XINTinFloat[#1]{%
-               \xintMul{\csname XINT_c_6_##7\endcsname}
+               \xintMul{\csname XINT_c_6_##7_x\endcsname}
                        {##8[##9-##1]}%
                }}}}}}}}}}%
      }%
@@ -45427,56 +45694,7 @@ math shift catcode.
     }\xint:
 }%
 }\expandafter\XINT_tmpa
- \the\numexpr\XINTdigits+5\expandafter.\the\numexpr\XINTdigits-1.%
-\def\XINT_tmpa#1.#2.{%
-\def\XINT_logten_f_II_pos0.##1##2##3##4##5##6\xint:##7[##8]%
-{%
-    {\the\numexpr##1##2##3##4##5##6[-6]}\xint:
-    {\expandafter\XINT_LogTen_serII_a_ii
-     \romannumeral0\XINTinfloat[#2]%
-     {\xintAdd{-1[0]}%
-     {\xintMul{\csname XINT_c_1_##1_inv_x\endcsname}{%
-      \XINTinFloat[#1]{%
-       \xintMul{\csname XINT_c_2_##2_inv_x\endcsname}{%
-        \XINTinFloat[#1]{%
-         \xintMul{\csname XINT_c_3_##3_inv_x\endcsname}{%
-          \XINTinFloat[#1]{%
-           \xintMul{\csname XINT_c_4_##4_inv_x\endcsname}{%
-            \XINTinFloat[#1]{%
-             \xintMul{\csname XINT_c_5_##5_inv_x\endcsname}{%
-              \XINTinFloat[#1]{%
-               \xintMul{\csname XINT_c_6_##6_inv_x\endcsname}
-                       {##7[##8]}%
-               }}}}}}}}}}%
-     }%
-     }\xint:
-    }\xint:
-}%
-\def\XINT_logten_f_II_neg-0.##1##2##3##4##5##6\xint:##7[##8]%
-{%
-    {\the\numexpr-##1##2##3##4##5##6[-6]}\xint:
-    {\expandafter\XINT_LogTen_serII_a_ii
-     \romannumeral0\XINTinfloat[#2]%
-     {\xintAdd{-1[0]}%
-     {\xintMul{\csname XINT_c_1_##1_x\endcsname}{%
-      \XINTinFloat[#1]{%
-       \xintMul{\csname XINT_c_2_##2_x\endcsname}{%
-        \XINTinFloat[#1]{%
-         \xintMul{\csname XINT_c_3_##3_x\endcsname}{%
-          \XINTinFloat[#1]{%
-           \xintMul{\csname XINT_c_4_##4_x\endcsname}{%
-            \XINTinFloat[#1]{%
-             \xintMul{\csname XINT_c_5_##5_x\endcsname}{%
-              \XINTinFloat[#1]{%
-               \xintMul{\csname XINT_c_6_##6_x\endcsname}
-                       {##7[##8]}%
-               }}}}}}}}}}%
-     }%
-     }\xint:
-    }\xint:
-}%
-}\expandafter\XINT_tmpa
- \the\numexpr\XINTdigits+10\expandafter.\the\numexpr\XINTdigits+4.%
+ \the\numexpr\XINTdigitsormax+10\expandafter.\the\numexpr\XINTdigitsormax+4.%
 %    \end{macrocode}
 % \lverb|Initially all of this was done in a single big nested macro but the
 % float-rounding of argument to less digits worked again each time from
@@ -45515,265 +45733,11 @@ math shift catcode.
 % always the slightly more costly series III in place of series II. But that
 % would add one un-needed term and a bit overhead to the default P which is
 % 16...
+%
+% (1.4f: hesitation on 2021/05/09 after removal or case I log series should
+% I not follow the simplifying logic and use always the slightly more costly III?)
 % |
 %
-% \subsubsection{Log series, case I}
-%    \begin{macrocode}
-\def\XINT_LogTen_serI_a_i#1\xint:{#1}%
-\ifnum\XINTdigits>9
-\def\XINT_tmpa#1.#2.{%
-\def\XINT_LogTen_serI_a_i##1\xint:
-{%
-    \expandafter\XINT_LogTen_serI_a_ii
-    \romannumeral0\XINTinfloatS[#2]{##1}\xint:
-}%
-\def\XINT_LogTen_serI_a_ii##1\xint:
-{%
-    \expandafter\XINT_LogTen_serI_b
-    \romannumeral0\XINTinfloatS[#1]{##1}\xint:##1\xint:
-}%
-\def\XINT_LogTen_serI_b##1[##2]\xint:
-{%
-    \expandafter\XINT_LogTen_serI_c_
-    \romannumeral0\xintadd{1}{\xintiiOpp\xintHalf{##10}[##2-1]}\xint:
-}%
-\def\XINT_LogTen_serI_c_##1\xint:##2\xint:
-{%
-    \XINTinFloat[#2]{\xintMul{##1}{##2}}%
-}%
-}%
-\expandafter\XINT_tmpa
-            \the\numexpr\XINTdigits-7\expandafter.%
-            \the\numexpr\XINTdigits-1.%
-\fi
-\ifnum\XINTdigits>15
-\def\XINT_tmpa#1.#2.#3.#4.{%
-\def\XINT_LogTen_serI_a_ii##1\xint:
-{%
-    \expandafter\XINT_LogTen_serI_a_iii
-    \romannumeral0\XINTinfloatS[#2]{##1}\xint:##1\xint:
-}%
-\def\XINT_LogTen_serI_a_iii##1\xint:
-{%
-    \expandafter\XINT_LogTen_serI_b
-    \romannumeral0\XINTinfloatS[#1]{##1}\xint:##1\xint:
-}%
-\def\XINT_LogTen_serI_b##1[##2]\xint:
-{%
-    \expandafter\XINT_LogTen_serI_c_i
-    \romannumeral0\xintadd{#3}{##1/3[##2]}\xint:
-}%
-\def\XINT_LogTen_serI_c_i##1\xint:##2\xint:
-{%
-    \expandafter\XINT_LogTen_serI_c_
-    \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
-}%
-}\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-13\expandafter.%
-  \the\numexpr\XINTdigits-7.%
-  {-5[-1]}.%
-  {1[0]}.%
-\fi
-\ifnum\XINTdigits>21
-\def\XINT_tmpa#1.#2.#3.#4.{%
-\def\XINT_LogTen_serI_a_iii##1\xint:
-{%
-    \expandafter\XINT_LogTen_serI_a_iv
-    \romannumeral0\XINTinfloatS[#2]{##1}\xint:##1\xint:
-}%
-\def\XINT_LogTen_serI_a_iv##1\xint:
-{%
-    \expandafter\XINT_LogTen_serI_b
-    \romannumeral0\XINTinfloatS[#1]{##1}\xint:##1\xint:
-}%
-\def\XINT_LogTen_serI_b##1[##2]\xint:
-{%
-    \expandafter\XINT_LogTen_serI_c_ii
-    \romannumeral0\xintadd{#3}{\xintiiMul{-25}{##1}[##2-2]}\xint:
-}%
-\def\XINT_LogTen_serI_c_ii##1\xint:##2\xint:
-{%
-    \expandafter\XINT_LogTen_serI_c_i
-    \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
-}%
-}\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-19\expandafter.%
-  \the\numexpr\XINTdigits-13\expandafter.%
-  \romannumeral0\XINTinfloat[\XINTdigits-13]{1/3[0]}.%
-  {-5[-1]}.%
-\fi
-\ifnum\XINTdigits>27
-\def\XINT_tmpa#1.#2.#3.#4.{%
-\def\XINT_LogTen_serI_a_iv##1\xint:
-{%
-    \expandafter\XINT_LogTen_serI_a_v
-    \romannumeral0\XINTinfloatS[#2]{##1}\xint:##1\xint:
-}%
-\def\XINT_LogTen_serI_a_v##1\xint:
-{%
-    \expandafter\XINT_LogTen_serI_b
-    \romannumeral0\XINTinfloatS[#1]{##1}\xint:##1\xint:
-}%
-\def\XINT_LogTen_serI_b##1[##2]\xint:
-{%
-    \expandafter\XINT_LogTen_serI_c_iii
-    \romannumeral0\xintadd{#3}{\xintDouble{##1}[##2-1]}\xint:
-}%
-\def\XINT_LogTen_serI_c_iii##1\xint:##2\xint:
-{%
-    \expandafter\XINT_LogTen_serI_c_ii
-    \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
-}%
-}\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-25\expandafter.%
-  \the\numexpr\XINTdigits-19\expandafter.\expanded{%
-  {-25[-2]}.%
-  \XINTinFloat[\XINTdigits-13]{1/3[0]}.%
-  }%
-\fi
-\ifnum\XINTdigits>33
-\def\XINT_tmpa#1.#2.#3.#4.{%
-\def\XINT_LogTen_serI_a_v##1\xint:
-{%
-    \expandafter\XINT_LogTen_serI_a_vi
-    \romannumeral0\XINTinfloatS[#2]{##1}\xint:##1\xint:
-}%
-\def\XINT_LogTen_serI_a_vi##1\xint:
-{%
-    \expandafter\XINT_LogTen_serI_b
-    \romannumeral0\XINTinfloatS[#1]{##1}\xint:##1\xint:
-}%
-\def\XINT_LogTen_serI_b##1[##2]\xint:
-{%
-    \expandafter\XINT_LogTen_serI_c_iv
-    \romannumeral0\xintadd{#3}{\xintiiOpp##1/6[##2]}\xint:
-}%
-\def\XINT_LogTen_serI_c_iv##1\xint:##2\xint:
-{%
-    \expandafter\XINT_LogTen_serI_c_iii
-    \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
-}%
-}\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-31\expandafter.%
-  \the\numexpr\XINTdigits-25.%
-  {2[-1]}.%
-  {-25[-2]}.%
-\fi
-\ifnum\XINTdigits>39
-\def\XINT_tmpa#1.#2.#3.#4.{%
-\def\XINT_LogTen_serI_a_vi##1\xint:
-{%
-    \expandafter\XINT_LogTen_serI_a_vii
-    \romannumeral0\XINTinfloatS[#2]{##1}\xint:##1\xint:
-}%
-\def\XINT_LogTen_serI_a_vii##1\xint:
-{%
-    \expandafter\XINT_LogTen_serI_b
-    \romannumeral0\XINTinfloatS[#1]{##1}\xint:##1\xint:
-}%
-\def\XINT_LogTen_serI_b##1[##2]\xint:
-{%
-    \expandafter\XINT_LogTen_serI_c_v
-    \romannumeral0\xintadd{#3}{##1/7[##2]}\xint:
-}%
-\def\XINT_LogTen_serI_c_v##1\xint:##2\xint:
-{%
-    \expandafter\XINT_LogTen_serI_c_iv
-    \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
-}%
-}\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-37\expandafter.%
-  \the\numexpr\XINTdigits-31\expandafter.%
-  \romannumeral0\XINTinfloatS[\XINTdigits-31]{-1/6[0]}.%
-  {2[-1]}.%
-\fi
-\ifnum\XINTdigits>45
-\def\XINT_tmpa#1.#2.#3.#4.{%
-\def\XINT_LogTen_serI_a_vii##1\xint:
-{%
-    \expandafter\XINT_LogTen_serI_a_viii
-    \romannumeral0\XINTinfloatS[#2]{##1}\xint:##1\xint:
-}%
-\def\XINT_LogTen_serI_a_viii##1\xint:
-{%
-    \expandafter\XINT_LogTen_serI_b
-    \romannumeral0\XINTinfloatS[#1]{##1}\xint:##1\xint:
-}%
-\def\XINT_LogTen_serI_b##1[##2]\xint:
-{%
-    \expandafter\XINT_LogTen_serI_c_vi
-    \romannumeral0\xintadd{#3}{\xintiiMul{-125}{##1}[##2-3]}\xint:
-}%
-\def\XINT_LogTen_serI_c_vi##1\xint:##2\xint:
-{%
-    \expandafter\XINT_LogTen_serI_c_v
-    \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
-}%
-}\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-43\expandafter.%
-  \the\numexpr\XINTdigits-37\expandafter.\expanded{%
-  \XINTinFloat[\XINTdigits-37]{1/7[0]}.%
-  \XINTinFloat[\XINTdigits-31]{-1/6[0]}.%
-  }%
-\fi
-\ifnum\XINTdigits>51
-\def\XINT_tmpa#1.#2.#3.#4.{%
-\def\XINT_LogTen_serI_a_viii##1\xint:
-{%
-    \expandafter\XINT_LogTen_serI_a_ix
-    \romannumeral0\XINTinfloatS[#2]{##1}\xint:##1\xint:
-}%
-\def\XINT_LogTen_serI_a_ix##1\xint:
-{%
-    \expandafter\XINT_LogTen_serI_b
-    \romannumeral0\XINTinfloatS[#1]{##1}\xint:##1\xint:
-}%
-\def\XINT_LogTen_serI_b##1[##2]\xint:
-{%
-    \expandafter\XINT_LogTen_serI_c_vii
-    \romannumeral0\xintadd{#3}{##1/9[##2]}\xint:
-}%
-\def\XINT_LogTen_serI_c_vii##1\xint:##2\xint:
-{%
-    \expandafter\XINT_LogTen_serI_c_vi
-    \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
-}%
-}\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-49\expandafter.%
-  \the\numexpr\XINTdigits-43\expandafter.\expanded{%
-  {-125[-3]}.%
-  \XINTinFloat[\XINTdigits-37]{1/7[0]}.%
-  }%
-\fi
-\ifnum\XINTdigits>57
-\def\XINT_tmpa#1.#2.#3.#4.{%
-\def\XINT_LogTen_serI_a_ix##1\xint:
-{%
-    \expandafter\XINT_LogTen_serI_a_x
-    \romannumeral0\XINTinfloatS[#2]{##1}\xint:##1\xint:
-}%
-\def\XINT_LogTen_serI_a_x##1\xint:
-{%
-    \expandafter\XINT_LogTen_serI_b
-    \romannumeral0\XINTinfloatS[#1]{##1}\xint:##1\xint:
-}%
-\def\XINT_LogTen_serI_b##1[##2]\xint:
-{%
-    \expandafter\XINT_LogTen_serI_c_viii
-    \romannumeral0\xintadd{#3}{\xintiiOpp##1[##2-1]}\xint:
-}%
-\def\XINT_LogTen_serI_c_viii##1\xint:##2\xint:
-{%
-    \expandafter\XINT_LogTen_serI_c_vii
-    \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
-}%
-}\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-55\expandafter.%
-  \the\numexpr\XINTdigits-49\expandafter.%
-  \romannumeral0\XINTinfloat[\XINTdigits-49]{1/9[0]}.%
-  {-125[-3]}.%
-\fi
-%    \end{macrocode}
 % \subsubsection{Log series, case II}
 %    \begin{macrocode}
 \def\XINT_tmpa#1.#2.{%
@@ -45793,8 +45757,8 @@ math shift catcode.
 }%
 }%
 \expandafter\XINT_tmpa
-            \the\numexpr\XINTdigits-2\expandafter.%
-            \the\numexpr\XINTdigits+4.% 
+            \the\numexpr\XINTdigitsormax-2\expandafter.%
+            \the\numexpr\XINTdigitsormax+4.% 
 \ifnum\XINTdigits>10
 \def\XINT_tmpa#1.#2.#3.#4.{%
 \def\XINT_LogTen_serII_a_ii##1\xint:
@@ -45818,8 +45782,8 @@ math shift catcode.
     \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
 }%
 }\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-8\expandafter.%
-  \the\numexpr\XINTdigits-2.%
+  \the\numexpr\XINTdigitsormax-8\expandafter.%
+  \the\numexpr\XINTdigitsormax-2.%
   {-5[-1]}.%
   {1[0]}.%
 \fi
@@ -45846,9 +45810,9 @@ math shift catcode.
     \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
 }%
 }\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-14\expandafter.%
-  \the\numexpr\XINTdigits-8\expandafter.%
-  \romannumeral0\XINTinfloat[\XINTdigits-8]{1/3[0]}.%
+  \the\numexpr\XINTdigitsormax-14\expandafter.%
+  \the\numexpr\XINTdigitsormax-8\expandafter.%
+  \romannumeral0\XINTinfloat[\XINTdigitsormax-8]{1/3[0]}.%
   {-5[-1]}.%
 \fi
 \ifnum\XINTdigits>22
@@ -45874,10 +45838,10 @@ math shift catcode.
     \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
 }%
 }\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-20\expandafter.%
-  \the\numexpr\XINTdigits-14\expandafter.\expanded{%
+  \the\numexpr\XINTdigitsormax-20\expandafter.%
+  \the\numexpr\XINTdigitsormax-14\expandafter.\expanded{%
   {-25[-2]}.%
-  \XINTinFloat[\XINTdigits-8]{1/3[0]}.%
+  \XINTinFloat[\XINTdigitsormax-8]{1/3[0]}.%
   }%
 \fi
 \ifnum\XINTdigits>28
@@ -45903,8 +45867,8 @@ math shift catcode.
     \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
 }%
 }\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-26\expandafter.%
-  \the\numexpr\XINTdigits-20.%
+  \the\numexpr\XINTdigitsormax-26\expandafter.%
+  \the\numexpr\XINTdigitsormax-20.%
   {2[-1]}.%
   {-25[-2]}.%
 \fi
@@ -45931,9 +45895,9 @@ math shift catcode.
     \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
 }%
 }\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-32\expandafter.%
-  \the\numexpr\XINTdigits-26\expandafter.%
-  \romannumeral0\XINTinfloatS[\XINTdigits-26]{-1/6[0]}.%
+  \the\numexpr\XINTdigitsormax-32\expandafter.%
+  \the\numexpr\XINTdigitsormax-26\expandafter.%
+  \romannumeral0\XINTinfloatS[\XINTdigitsormax-26]{-1/6[0]}.%
   {2[-1]}.%
 \fi
 \ifnum\XINTdigits>40
@@ -45959,10 +45923,10 @@ math shift catcode.
     \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
 }%
 }\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-38\expandafter.%
-  \the\numexpr\XINTdigits-32\expandafter.\expanded{%
-  \XINTinFloat[\XINTdigits-32]{1/7[0]}.%
-  \XINTinFloat[\XINTdigits-26]{-1/6[0]}.%
+  \the\numexpr\XINTdigitsormax-38\expandafter.%
+  \the\numexpr\XINTdigitsormax-32\expandafter.\expanded{%
+  \XINTinFloat[\XINTdigitsormax-32]{1/7[0]}.%
+  \XINTinFloat[\XINTdigitsormax-26]{-1/6[0]}.%
   }%
 \fi
 \ifnum\XINTdigits>46
@@ -45988,10 +45952,10 @@ math shift catcode.
     \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
 }%
 }\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-44\expandafter.%
-  \the\numexpr\XINTdigits-38\expandafter.\expanded{%
+  \the\numexpr\XINTdigitsormax-44\expandafter.%
+  \the\numexpr\XINTdigitsormax-38\expandafter.\expanded{%
   {-125[-3]}.%
-  \XINTinFloat[\XINTdigits-32]{1/7[0]}.%
+  \XINTinFloat[\XINTdigitsormax-32]{1/7[0]}.%
   }%
 \fi
 \ifnum\XINTdigits>52
@@ -46017,9 +45981,9 @@ math shift catcode.
     \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
 }%
 }\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-50\expandafter.%
-  \the\numexpr\XINTdigits-44\expandafter.%
-  \romannumeral0\XINTinfloat[\XINTdigits-44]{1/9[0]}.%
+  \the\numexpr\XINTdigitsormax-50\expandafter.%
+  \the\numexpr\XINTdigitsormax-44\expandafter.%
+  \romannumeral0\XINTinfloat[\XINTdigitsormax-44]{1/9[0]}.%
   {-125[-3]}.%
 \fi
 \ifnum\XINTdigits>58
@@ -46045,10 +46009,10 @@ math shift catcode.
     \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
 }%
 }\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-56\expandafter.%
-  \the\numexpr\XINTdigits-50\expandafter.\expanded{%
+  \the\numexpr\XINTdigitsormax-56\expandafter.%
+  \the\numexpr\XINTdigitsormax-50\expandafter.\expanded{%
   {-1[-1]}.%
-  \XINTinFloat[\XINTdigits-44]{1/9[0]}.%
+  \XINTinFloat[\XINTdigitsormax-44]{1/9[0]}.%
   }%
 \fi
 %    \end{macrocode}
@@ -46071,8 +46035,8 @@ math shift catcode.
 }%
 }%
 \expandafter\XINT_tmpa
-            \the\numexpr\XINTdigits-1\expandafter.%
-            \the\numexpr\XINTdigits+4.% 
+            \the\numexpr\XINTdigitsormax-1\expandafter.%
+            \the\numexpr\XINTdigitsormax+4.% 
 \ifnum\XINTdigits>9
 \def\XINT_tmpa#1.#2.#3.#4.{%
 \def\XINT_LogTen_serIII_a_ii##1\xint:
@@ -46096,8 +46060,8 @@ math shift catcode.
     \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
 }%
 }\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-7\expandafter.%
-  \the\numexpr\XINTdigits-1.%
+  \the\numexpr\XINTdigitsormax-7\expandafter.%
+  \the\numexpr\XINTdigitsormax-1.%
   {-5[-1]}.%
   {1[0]}.%
 \fi
@@ -46124,9 +46088,9 @@ math shift catcode.
     \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
 }%
 }\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-13\expandafter.%
-  \the\numexpr\XINTdigits-7\expandafter.%
-  \romannumeral0\XINTinfloat[\XINTdigits-7]{1/3[0]}.%
+  \the\numexpr\XINTdigitsormax-13\expandafter.%
+  \the\numexpr\XINTdigitsormax-7\expandafter.%
+  \romannumeral0\XINTinfloat[\XINTdigitsormax-7]{1/3[0]}.%
   {-5[-1]}.%
 \fi
 \ifnum\XINTdigits>21
@@ -46152,10 +46116,10 @@ math shift catcode.
     \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
 }%
 }\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-19\expandafter.%
-  \the\numexpr\XINTdigits-13\expandafter.\expanded{%
+  \the\numexpr\XINTdigitsormax-19\expandafter.%
+  \the\numexpr\XINTdigitsormax-13\expandafter.\expanded{%
   {-25[-2]}.%
-  \XINTinFloat[\XINTdigits-7]{1/3[0]}.%
+  \XINTinFloat[\XINTdigitsormax-7]{1/3[0]}.%
   }%
 \fi
 \ifnum\XINTdigits>27
@@ -46181,8 +46145,8 @@ math shift catcode.
     \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
 }%
 }\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-25\expandafter.%
-  \the\numexpr\XINTdigits-19.%
+  \the\numexpr\XINTdigitsormax-25\expandafter.%
+  \the\numexpr\XINTdigitsormax-19.%
   {2[-1]}.%
   {-25[-2]}.%
 \fi
@@ -46209,9 +46173,9 @@ math shift catcode.
     \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
 }%
 }\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-31\expandafter.%
-  \the\numexpr\XINTdigits-25\expandafter.%
-  \romannumeral0\XINTinfloatS[\XINTdigits-25]{-1/6[0]}.%
+  \the\numexpr\XINTdigitsormax-31\expandafter.%
+  \the\numexpr\XINTdigitsormax-25\expandafter.%
+  \romannumeral0\XINTinfloatS[\XINTdigitsormax-25]{-1/6[0]}.%
   {2[-1]}.%
 \fi
 \ifnum\XINTdigits>39
@@ -46237,10 +46201,10 @@ math shift catcode.
     \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
 }%
 }\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-37\expandafter.%
-  \the\numexpr\XINTdigits-31\expandafter.\expanded{%
-  \XINTinFloat[\XINTdigits-31]{1/7[0]}.%
-  \XINTinFloat[\XINTdigits-25]{-1/6[0]}.%
+  \the\numexpr\XINTdigitsormax-37\expandafter.%
+  \the\numexpr\XINTdigitsormax-31\expandafter.\expanded{%
+  \XINTinFloat[\XINTdigitsormax-31]{1/7[0]}.%
+  \XINTinFloat[\XINTdigitsormax-25]{-1/6[0]}.%
   }%
 \fi
 \ifnum\XINTdigits>45
@@ -46266,10 +46230,10 @@ math shift catcode.
     \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
 }%
 }\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-43\expandafter.%
-  \the\numexpr\XINTdigits-37\expandafter.\expanded{%
+  \the\numexpr\XINTdigitsormax-43\expandafter.%
+  \the\numexpr\XINTdigitsormax-37\expandafter.\expanded{%
   {-125[-3]}.%
-  \XINTinFloat[\XINTdigits-31]{1/7[0]}.%
+  \XINTinFloat[\XINTdigitsormax-31]{1/7[0]}.%
   }%
 \fi
 \ifnum\XINTdigits>51
@@ -46295,9 +46259,9 @@ math shift catcode.
     \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
 }%
 }\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-49\expandafter.%
-  \the\numexpr\XINTdigits-43\expandafter.%
-  \romannumeral0\XINTinfloat[\XINTdigits-43]{1/9[0]}.%
+  \the\numexpr\XINTdigitsormax-49\expandafter.%
+  \the\numexpr\XINTdigitsormax-43\expandafter.%
+  \romannumeral0\XINTinfloat[\XINTdigitsormax-43]{1/9[0]}.%
   {-125[-3]}.%
 \fi
 \ifnum\XINTdigits>57
@@ -46323,10 +46287,10 @@ math shift catcode.
     \romannumeral0\xintadd{#4}{\XINTinFloat[#2]{\xintMul{##1}{##2}}}\xint:
 }%
 }\expandafter\XINT_tmpa
-  \the\numexpr\XINTdigits-55\expandafter.%
-  \the\numexpr\XINTdigits-49\expandafter.\expanded{%
+  \the\numexpr\XINTdigitsormax-55\expandafter.%
+  \the\numexpr\XINTdigitsormax-49\expandafter.\expanded{%
   {-1[-1]}.%
-  \XINTinFloat[\XINTdigits-43]{1/9[0]}.%
+  \XINTinFloat[\XINTdigitsormax-43]{1/9[0]}.%
   }%
 \fi
 \XINTendxintloginput%
@@ -46342,34 +46306,34 @@ xint.sty:205
 xintbinhex.sty:53
 xintcfrac.sty:183
 xintcore.sty:272
-xintexpr.sty:431
+xintexpr.sty:433
 xintfrac.sty:506
 xintgcd.sty:41
 xintkernel.sty:17
-xintlog.sty:187
+xintlog.sty:150
 xintseries.sty:48
 xinttools.sty:157
 xinttrig.sty:65
 \fi
 % grep -o "^{%" xint*sty | wc -l
-\def\totala{    2165}
+\def\totala{    2130}
 \iffalse
 % grep -c -e "^}%" xint*sty
 xint.sty:204
 xintbinhex.sty:52
 xintcfrac.sty:183
 xintcore.sty:269
-xintexpr.sty:415
+xintexpr.sty:417
 xintfrac.sty:508
 xintgcd.sty:43
 xintkernel.sty:18
-xintlog.sty:189
+xintlog.sty:151
 xintseries.sty:48
 xinttools.sty:156
 xinttrig.sty:64
 \fi
 % grep -o "^}%" xint*sty | wc -l
-\def\totalb{    2149}
+\def\totalb{    2113}
 \cleardoublepage
 \section{Cumulative line count}
 
@@ -46393,8 +46357,8 @@ xinttrig.sty:64
     \TeX\strut. Version {\xintbndlversion} of {\xintbndldate}.\par
 }
 
-\CheckSum {38813}% 1.4e
-% 35184 pour 1.4d
+\CheckSum {38212}% 1.4f
+% 38813 pour 1.4e, 35184 pour 1.4d
 % 35109 pour 1.4c, 35103 pour 1.4b, 34648 pour 1.4a, 34575 pour 1.4
 % 33497 pour 1.3f, 33274 pour 1.3e, 31601 pour 1.3d, 31122 pour 1.3c
 % 31069 pour 1.3b, 30482 pour 1.3a, 30621 pour 1.3, 30988 pour 1.2q,

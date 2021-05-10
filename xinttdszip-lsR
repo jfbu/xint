@@ -1,32 +1,32 @@
 Archive:  xint.tds.zip
   Length      Date    Time    Name
 ---------  ---------- -----   ----
-        0  05-05-2021 15:43   doc/
-        0  05-05-2021 15:43   doc/generic/
-        0  05-05-2021 15:43   doc/generic/xint/
-   120696  05-05-2021 15:43   doc/generic/xint/CHANGES.html
-     4122  05-05-2021 15:42   doc/generic/xint/README.md
-  1131946  05-05-2021 15:43   doc/generic/xint/sourcexint.pdf
-  1023655  05-05-2021 15:43   doc/generic/xint/xint.pdf
-        0  05-05-2021 15:43   source/
-        0  05-05-2021 15:43   source/generic/
-        0  05-05-2021 15:43   source/generic/xint/
+        0  05-10-2021 17:52   doc/
+        0  05-10-2021 17:52   doc/generic/
+        0  05-10-2021 17:52   doc/generic/xint/
+   124450  05-10-2021 17:52   doc/generic/xint/CHANGES.html
+     3793  05-10-2021 17:51   doc/generic/xint/README.md
+  1128625  05-10-2021 17:52   doc/generic/xint/sourcexint.pdf
+  1032000  05-10-2021 17:52   doc/generic/xint/xint.pdf
+        0  05-10-2021 17:52   source/
+        0  05-10-2021 17:52   source/generic/
+        0  05-10-2021 17:52   source/generic/xint/
       466  02-02-2020 10:21   source/generic/xint/Makefile
-  1775575  05-05-2021 15:42   source/generic/xint/xint.dtx
-        0  05-05-2021 15:43   tex/
-        0  05-05-2021 15:43   tex/generic/
-        0  05-05-2021 15:43   tex/generic/xint/
-    52697  05-05-2021 15:42   tex/generic/xint/xint.sty
-    16302  05-05-2021 15:42   tex/generic/xint/xintbinhex.sty
-    29915  05-05-2021 15:42   tex/generic/xint/xintcfrac.sty
-    71927  05-05-2021 15:42   tex/generic/xint/xintcore.sty
-   157736  05-05-2021 15:42   tex/generic/xint/xintexpr.sty
-   109162  05-05-2021 15:42   tex/generic/xint/xintfrac.sty
-    12082  05-05-2021 15:42   tex/generic/xint/xintgcd.sty
-    25971  05-05-2021 15:42   tex/generic/xint/xintkernel.sty
-    60061  05-05-2021 15:42   tex/generic/xint/xintlog.sty
-    12306  05-05-2021 15:42   tex/generic/xint/xintseries.sty
-    58886  05-05-2021 15:42   tex/generic/xint/xinttools.sty
-    33642  05-05-2021 15:42   tex/generic/xint/xinttrig.sty
+  1783333  05-10-2021 17:51   source/generic/xint/xint.dtx
+        0  05-10-2021 17:52   tex/
+        0  05-10-2021 17:52   tex/generic/
+        0  05-10-2021 17:52   tex/generic/xint/
+    52697  05-10-2021 17:51   tex/generic/xint/xint.sty
+    16302  05-10-2021 17:51   tex/generic/xint/xintbinhex.sty
+    29915  05-10-2021 17:51   tex/generic/xint/xintcfrac.sty
+    71927  05-10-2021 17:51   tex/generic/xint/xintcore.sty
+   158393  05-10-2021 17:51   tex/generic/xint/xintexpr.sty
+   109162  05-10-2021 17:51   tex/generic/xint/xintfrac.sty
+    12082  05-10-2021 17:51   tex/generic/xint/xintgcd.sty
+    25971  05-10-2021 17:51   tex/generic/xint/xintkernel.sty
+    50639  05-10-2021 17:51   tex/generic/xint/xintlog.sty
+    12306  05-10-2021 17:51   tex/generic/xint/xintseries.sty
+    58886  05-10-2021 17:51   tex/generic/xint/xinttools.sty
+    34244  05-10-2021 17:51   tex/generic/xint/xinttrig.sty
 ---------                     -------
-  4697147                     27 files
+  4705191                     27 files

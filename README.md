@@ -1,8 +1,8 @@
 % README
-% xint 1.4e
-% 2021/05/05
+% xint 1.4f
+% 2021/05/10
 
-    Source:  xint.dtx 1.4e 2021/05/05 (doc 2021/05/05)
+    Source:  xint.dtx 1.4f 2021/05/10 (doc 2021/05/10)
     Author:  Jean-Francois B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
@@ -34,8 +34,10 @@ See the [xintsession](http://ctan.org/pkg/xintsession) package.
     (@_1)    1267650600228229401496703205376
     *cos(1);
     (@_2)    0.5403023058681397
-    *&fp32
-    (./xintlog.sty) (./xinttrig.sty) fp32 mode (log and trig reloaded)
+    *&fp=32
+    (/usr/local/texlive/2021/texmf-dist/tex/generic/xint/xintlog.sty)
+    (/usr/local/texlive/2021/texmf-dist/tex/generic/xint/xinttrig.sty)
+    fp mode (log and trig reloaded at Digits=32)
     *cos(1);
     (@_3)    0.54030230586813971740093660744298
     *3^1000;
@@ -43,13 +45,7 @@ See the [xintsession](http://ctan.org/pkg/xintsession) package.
     *&exact
     exact mode (floating point evaluations use 32 digits)
     *3^1000;
-    (@_5)    1322070819480806636890455259752144365965422032752148167664920368226828
-    5973467048995407783138506080619639097776968725823559509545821006189118653427252
-    5795367402762022519832080387801477422896484127439040011758861804112894781562309
-    4438061566173054086674490506178125480344405547054397038895817465368254916136220
-    8302685637785822902284163983078878969185564040848989376093732421718463599386955
-    1676501894058810906042608967143886410281435038564874716583201061436613217310276
-    8902855220001
+    (@_5)    132207081948080663689045525975... (trimmed for this README)
 
 Installation
 ============
