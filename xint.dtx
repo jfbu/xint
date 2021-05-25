@@ -3,27 +3,27 @@
 % Extract all files via "etex xint.dtx" and do "make help"
 % or follow instructions from extracted README.md.
 %<*dtx>
-\def\xintdtxtimestamp {Time-stamp: <10-05-2021 at 17:45:52 CEST>}
+\def\xintdtxtimestamp {Time-stamp: <25-05-2021 at 18:36:42 CEST>}
 %</dtx>
 %<*drv>
 %% ---------------------------------------------------------------
-\def\xintdocdate {2021/05/10}
-\def\xintbndldate{2021/05/10}
-\def\xintbndlversion {1.4f}
+\def\xintdocdate {2021/05/25}
+\def\xintbndldate{2021/05/25}
+\def\xintbndlversion {1.4g}
 %</drv>
 %<readme>% README
 %<changes>% CHANGE LOG
-%<readme|changes>% xint 1.4f
-%<readme|changes>% 2021/05/10
+%<readme|changes>% xint 1.4g
+%<readme|changes>% 2021/05/25
 %<readme|changes>
-%<readme|changes>    Source:  xint.dtx 1.4f 2021/05/10 (doc 2021/05/10)
+%<readme|changes>    Source:  xint.dtx 1.4g 2021/05/25 (doc 2021/05/25)
 %<readme|changes>    Author:  Jean-Francois B.
 %<readme|changes>    Info:    Expandable operations on big integers, decimals, fractions
 %<readme|changes>    License: LPPL 1.3c
 %<readme|changes>
 %<*!readme&!changes&!dohtmlsh&!makefile>
 %% ---------------------------------------------------------------
-%% The xint bundle 1.4f 2021/05/10
+%% The xint bundle 1.4g 2021/05/25
 %% Copyright (C) 2013-2021 by Jean-Francois B.
 %<xintkernel>%% xintkernel: Paraphernalia for the xint packages
 %<xinttools>%% xinttools: Expandable and non-expandable utilities
@@ -152,6 +152,73 @@ See `xint.pdf` for contact information.
 %</readme>--------------------------------------------------------
 %<*changes>-------------------------------------------------------
 
+`1.4g (2021/05/25)`
+----
+
+### Breaking changes
+
+ - **xintexpr**: the parsing of power operators `**` and `^` now
+   proceeds in a right associative way: `2^3^4==2^(3^4)`.
+
+ - **xintexpr**: single-character operators `&`, `|`, and `=`
+   (deprecated since `1.1`) have been removed.  Use `&&`, `||` and `==`
+   respectively.
+
+### Deprecated
+
+ - **xintfrac**: old typesetting macros dating back to `1.03` and `1.04`
+   releases `\xintFrac`, `\xintSignedFrac`, `\xintFwOver`,
+   `\xintSignedFwOver` are deprecated. Please use the new names
+   `\xintTeXFrac`, `\xintTeXsignedFrac`, `\xintTeXOver`,
+   `\xintTeXsignedOver`.  The old names will emit warnings.
+
+### Bug fixes
+
+ - **xintexpr**: with **xintbinhex** loaded, `"` is recognized as prefix
+   for hexadecimal input; but a bug (present ever since this support for
+   hexadecimal input was added) caused syntax such as `"\macro` to break
+   the parser.  Also, leading zeros such as in `"0000A` where not properly
+   trimmed since `1.2m`.
+
+ - **xintexpr**: authorize `x! == y` without parentheses.  Formerly the
+   parser mis-interpreted `!` as first character of the `!=`
+   not-equal-to comparison operator, subsequently causing breakage when
+   finding the second `=`.
+
+ - **xintexpr**: various error situations were badly handled.
+   - `\xinteval{1/0}` did not recover gracefully due to
+     longstanding bug in **xintfrac**.
+   - `\xintfloateval{1/0}` did not recover gracefully either... due to some
+     other reason.
+   - recovery from encountering an unknown variable name was
+     broken since `1.4`; also, with an unknown function name if in
+     `\xintfloatexpr`.
+   - `\xinteval{_4}` caused an infinite loop (with underscore `_` having
+     its normal catcode).  This was unexpected, as the `_` is documented
+     to be ignored if in-between digits (and is ignored if last after
+     some digits).  It will be now ignored also if encountered upfront.
+     A similar problem existed with variable names starting with a `_`
+     (of normal catcode), which however are clearly not legal.  The
+     (normal catcode) `_` will then be ignored as well if encountered in
+     front of a variable or function name (but not inside of course).
+   - ``\xinteval{\catcode`@}`` crashed (one had to use an added `\the`
+     or `\number`).
+   - illegal ``\xinteval{/3}`` was not intercepted and ultimately
+     caused low-level errors (same with `^`).
+
+   Surely, further situations remain where bad input will crash parser.
+   
+### New features
+
+ - Messages written to the terminal and log file during the handling of
+   recovery from exceptions use a new mechanism; when in interactive
+   mode, the user is prompted only once, not thrice, to enter `<return>`
+   for recovery and continued processing.
+
+ - **xintfrac**: `\xintTeXfromSci` (added about 7 or 8 years too late)
+   to help typesetting values output by `\xintfloateval` in a more
+   useful way than `\xintTeXFrac` (formerly `\xintFrac`).
+
 `1.4f (2021/05/10)`
 ----
 
@@ -200,10 +267,10 @@ See `xint.pdf` for contact information.
  - **xintexpr**: powers `a^b` for Digits at most `8` unconditionally
    used `log10()/pow10()` approach but due to the limited accuracy of
    the poorman logarithm (`9` fractional digits) this was inaccurate
-   already for `b` about `100`. So, the handling is now as for Digits at
+   already for `b` about `100`.  So, the handling is now as for Digits at
    least `9`, i.e. integer and half-integer exponents are handled via
    the legacy `\xintFloatPower/\xintFloatSqrt` allowing arbitrarily big
-   exponents. It is advised to split big powers with non integer non
+   exponents.  It is advised to split big powers with non integer non
    half integer exponents into a product; this is not done internally
    to avoid costly overhead for possibly rare use cases.
 
@@ -212,9 +279,6 @@ See `xint.pdf` for contact information.
 
 `1.4e (2021/05/05)`
 ----
-
-This section might be incomplete at time of release, it will be
-extended if need be after the author gets some rest.
 
 ### Breaking changes
 
@@ -229,12 +293,12 @@ extended if need be after the author gets some rest.
    power of ten part, it is not output with an integer mantissa, but
    with a scientific mantissa `d.d...` with always at least one digit
    after the decimal mark (possibly `0`) and trailing zeros are trimmed
-   out. This is the same output format as used for `\xintfloateval`,
+   out.  This is the same output format as used for `\xintfloateval`,
    apart of course from the fact that the mantissa lengths are not
    limited.
    
  - **xintexpr**: the output format of `\xintfloateval`, which uses
-   `\xintPFloat`, changed. The `\xintfloatexprPrintOne` macro now
+   `\xintPFloat`, changed.  The `\xintfloatexprPrintOne` macro now
    expects to be used with either one or two arguments, the first one
    being within brackets not braces.
 
@@ -247,23 +311,25 @@ extended if need be after the author gets some rest.
    `N` in absolute value is at least the (rounded) quotient of `10000`
    by the number of digits of `a`; it will then use the
    logarithm/exponential (in base 10) approach, according to the
-   prevailing Digits setting.
+   prevailing Digits setting (at `1.4f` this got modified again and integer
+   exponents large enough to trigger floating point evaluation are handled
+   exactly as in `\xintfloateval`, i.e. using the legacy **xintfrac**
+   `\xintFloatPower`,
+   not the logarithm/exponential approach which loses accuracy for exponents
+   of the order of `100000000` and beyond).
 
  - **xintexpr**: `\xintdeffloatvar` now always rounds the assigned value
    to the target precision.  Formerly, inputs actually involving no
-   float operations, such as for example `\xintexpr1/20!\relax` (in
+   float operations, such as for example a sub-expression `\xintexpr1/20!\relax`
+   (in
    contrast to `1/20!`), or an explicit single number having more digits
    than the precision, got stored "as is" in the defined variable,
    without pre-rounding to the Digits precision.
 
  - **xintfrac**:`\xintPFloat` and `\xintFracToSci` have both been
-   modified. The macro `\xintFracToSciE` does not exist anymore, as
+   modified.  The macro `\xintFracToSciE` does not exist anymore, as
    `\xintFracToSci` in the case of scientific exponents hands over the
    process to `\xintPFloat` (without the rounding to Digits, of course).
-
- - **xintexpr**: messages sent under `\xintverbosetrue` regime to the
-   log file do not enclose the variable names in straight double quotes
-   `"..."` anymore.
 
 ### New features
 
@@ -273,7 +339,7 @@ extended if need be after the author gets some rest.
    `xintfloateval`, per default.
 
  - **xinttrig**: now working up to `62` digits and with increased
-   accuracy. Special faster (or not as slow if you prefer) mode at `8`
+   accuracy.  Special faster (or not as slow if you prefer) mode at `8`
    digits or less.
 
  - **xintexpr**: the constraints on the `\xintexprPrintOne` replacement
@@ -285,7 +351,7 @@ extended if need be after the author gets some rest.
    fetches the scientific exponent as a mandatory argument delimited
    with a dot, and outputs a suitable formatted result (f-expandably),
    also delimited with a dot which will be removed by internal
-   processing. The default however simply expands to the letter `e`.
+   processing.  The default however simply expands to the letter `e`.
  
  - **xintfrac**: `\xintDecToStringREZ` is like `\xintDecToString` but
    starts by removing trailing zeroes.
@@ -294,7 +360,7 @@ extended if need be after the author gets some rest.
 
  - **xintfrac**, **xintexpr**: it was not possible to use
    `\xinttheDigits` in the right hand side of an `\xintDigits`
-   assignment. For example: `\xintDigits*:=\numexpr\xinttheDigits+4;`.
+   assignment.  For example: `\xintDigits*:=\numexpr\xinttheDigits+4;`.
    This is now allowed, and the same applies to the macro interface,
    for example `\xintSetDigits*{\xinttheDigits+4}`.
 
@@ -4098,6 +4164,12 @@ cosine, ...).  The math functions are implemented up to \dtt{62} digits of
 precision.  The square root (as well of course as the four operations) achieve
 correct rounding in arbitrary precision.
 
+\medskip
+The formatted source code is available in file |sourcexint.pdf|
+(|texdoc sourcexint|).
+
+\medskip
+
 The syntax to modify the precision used for floating point evaluations is
 \begin{everbatim}
 \xintDigits*:= <Number>;
@@ -4106,11 +4178,10 @@ Use the |*| (\csbxint{Digits*}), else the scientific libraries will not be
 reloaded.  The current precision is available as \csbxint{theDigits},
 but in this documentation I might be using simply |Digits| to refer to it.
 
-
 The tables of the built-in
 \hyperref[tab:precedences]{operators} and  \hyperref[tab:functions]{functions}
 will give a quick overview of the available syntax.
-The simplest way to test it is to\footnote{I am assuming here Mac OS or Linux,
+The simplest way to test the syntax is to\footnote{I am assuming here Mac OS or Linux,
 adapt to your environment} work interactively on the command line
 (this feature is available since April 2021):
 \begin{everbatim}
@@ -4152,10 +4223,6 @@ Transcript written on xintsession.log.
 
 
 \medskip
-The formatted source code is available in file |sourcexint.pdf|
-(|texdoc sourcexint|).
-
-\medskip
 
 Warning: I don't have the time to maintain perfectly such large documentation.
 In preparing the |1.4| release I may have missed updating some bits
@@ -4169,99 +4236,54 @@ quality of the document).  Reports welcome.%
 \subsection{Improved support for logarithm, exponential, sine, etc... at
   the \texttt{1.4e} release of \texttt{2021/05/05}}
 
-They are now supported up to \dtt{62} digits and achieve correct rounding at least
-in \dtt{99\%} of cases (better than that, in fact, it depends a bit on the
-setting of Digits), when Digits is at least \dtt{9}.
-See \xintlogname and \xinttrigname.
+They are now supported up to \dtt{62} digits and achieve «correct rounding»%
+%
+\footnote{This means that the produced value is the rounding to |Digits|
+  significant digits of the theoretical exact mathematical value.  The
+  rounding mode is currently not customizable and is «rounding to nearest,
+  ties go to infinity of same sign».}
+%
+at least
+in \dtt{99\%} of cases%
+%
+\footnote{It is even better than that, but depends a bit on how |Digits| is
+  located relative to some thresholds deciding where to cut some Taylor series
+  or other mathematical means.}
+%
+for |Digits| being at least \dtt{9}.
 
 For Digits up to \dtt{8}, a special more approximate implementation is used,
-and the functions achieve the ``correct rounding'' (particularly at |Digits|
+and the functions achieve the correct rounding (particularly at |Digits|
 equal to \dtt{8} or \dtt{7}) less often, but are significantly faster
 (especially logarithm, exponential, powers) than working with \dtt{9} digits
-or more.  The achieved precision is largely enough for plots (but see some
-information relative to powers below). For some information on the limitations
-at Digits set to \dtt{8} or less relative to the logarithm in particular,
-refer to the comments in |sourcexint.pdf| at the start of the \xintlogname
-chapter. Or check this footnote.%
-%
-\footnote{Most notably, for inputs near \dtt{1}, the logarithm in this special
-  \dtt{$D\leq8$} mode is far from achieving accuracy in floating point sense, as
-  it is obtained with \dtt{9} fractional fixed point digits, the more of them
-  being zeros the closer the input is close to \dtt{1}.}
+or more.  The achieved precision is largely enough for plots.
 
-Important notes regarding powers:\IMPORTANT{}
+See \xintlogname and \xinttrigname for some additional information.
+
+
+\subsection{Breaking changes at the \texttt{1.4g} release}
+
 \begin{enumerate}[noitemsep]
-\item Powers |a^b| (or |a**b|, or |pow(a,b)|) in \csbxint{eval} with an
-  integer exponent are computed exactly if
-  the output is estimated to not exceed by much \dtt{10000} digits. Else, or
-  for non-integer exponents, they are computed as in \csbxint{floateval}
-  (see \csbxint{Pow}).
-\item Powers |a^b| in \csbxint{floateval} are computed differently according
-  to the exponent |b|:
-  \begin{itemize}[noitemsep]
-    \item if |b| is an integer or half-integer the legacy \csbxint{FloatPower}
-      (and, for |b| half-integer, \csbxint{FloatSqrt}) are used; they work in
-      arbitrary precision, so the result is produced with a full-size
-      mantissa, even if |Digits| is more than \dtt{62},
-    \item else the computation goes via the |10^(b*log10(a))| formula (done
-      internally with increased accuracy) and the mantissa lengths will be
-      limited in output to the smallest of |Digits| or \dtt{64}.  In this
-      branch the last digits of the mantissa will start being wrong if |b|
-      becomes about (in absolute value) \dtt{100000000}. If you really need to
-      compute powers with exponents that large or larger, it is recommended to
-      decompose the exponent as a sum of the nearest integer or half-integer
-      and a fractional part and express the power as a product. This is not
-      done automatically as it would add some overhead in general for some a
-      priori very rare use cases. And recall that the decimal exponents of
-      final and intermediate results should obey the \TeX\ bound for integers
-      anyhow, i.e. be at most (in absolute value) \dtt{\number"7FFFFFFF}, add some
-      safety margin...
-    \item if |Digits| is at most \dtt{8}, logarithms are computed faster but
-      with less accuracy (internally, between \dtt{8} and \dtt{9} \emph{fixed
-        point fractional digits} accuracy) and powers |a^b| lose accuracy in
-      last digits quickly as |b| rises. Here is what I observed in limited
-      random tests:
-      \begin{itemize}[noitemsep]
-      \item for |b| integer or half-integer, all our tested samples gave
-        correct rounding to \dtt{8} digits and we tested this with the
-        exponent |b| up to \dtt{1000000000.5},
-      \item for |b| neither integer nor half-integer and |1<b<10|, we observed
-        roughly \dtt{8} correct digits in between \dtt{80}\% and \dtt{90}\% of
-        cases and the remaining cases had only a \dtt{1ulp} error.
-      \item for |b| neither integer nor half-integer and |10^e<b<10^(e+1)|,
-        then roughly \dtt{8-e} digits are correct for around
-        \dtt{90}\% of cases and there is a one unit error in the last of
-        those digits in the remaining cases.
-      \end{itemize}
-      To maintain higher accuracy, split the input as |a^n a^h| with |n|
-      integer or half-integer nearest to |b|. After having considered (and
-      implemented) the method, decision was made to not incorporate it as it
-      would induce serious overhead generally speaking. The |a^b| with
-      fractional exponent |b| such that |abs(b)<10| are currently computed
-      with at most \dtt{1ulp} error in the vast majority of cases it seems,
-      which is largely precise enough for plots, and then speed matters
-      most. Larger exponents can be handled (since |1.4f|) via manually
-      implementing the splitting trick, as described above.
-  \end{itemize}
-\end{enumerate}
+ \item Power operators |**| and |^| are now parsed
+   in a right associative way:%
+%
+   \footnote{Don't try |2^3^4^5| at home. This is BIG.}
+\begin{everbatim*}
+$${({(5^4)}^3)}^2=5^{4\cdot3\cdot2}=\xinteval{((5^4)^3)^2}=\xinteval{5^24}$$
+$$5^{4^{3^2}} = 5^{262144}\approx \xintTeXfromSci{\xintfloateval{5^4^3^2}}$$
+\end{everbatim*}
 
-The documentation of the legacy macro \csbxint{FloatPower} (which is used for
-powers with integer and half-integer exponents) explains it has a guaranteed
-error bound of |0.52ulp|, in arbitrary precision. Generally speaking, the math
-functions added at |1.4e| target even smaller errors (but only up to \dtt{62}
-digits), something of the order of |0.505ulp|, and in practice they seem to
-achieve even better than \dtt{99\%} of correct rounding probability (at least
-in their natural ranges, and it varies according to the value of
-|Digits|). Perhaps in future I will re-examine whether it is worthwile to
-increase a bit the theoretical accuracy of \csbxint{FloatPower}, as I have not
-had the time to really measure systematically its pratical accuracy, all
-anecdotical evidence showing it is good.
+ \item Single character operators |&|, \verb=|=, and |=| (which were
+   deprecated since |1.1|) have been removed.  Use |&&|, \verb=||= and |==|
+   respectively.
+\end{enumerate}
 
 \subsection{Breaking changes at the \texttt{1.4f} release}
 
 \begin{enumerate}[noitemsep]
-\item \csbxint{ieval}|{[-D]...}| which quantizes to a multiple of |1eD| when
-  |D| is positive now does \emph{NOT append the |D| trailing zeroes anymore}!\IMPORTANT
+\item \csbxint{ieval}|{[-D]...}|\IMPORTANT{}
+  which quantizes to a multiple of |1eD| when
+  |D| is positive now does \emph{NOT append the |D| trailing zeroes anymore}!
 \item \func{float\string_dgt} is the new name of |float_()|, as already
   documented but
   not yet done at |1.4e|.
@@ -4346,8 +4368,10 @@ support is needed...
 For bugfixes and possibly more details check |CHANGES.html|:
 \centeredline{|texdoc --list xint|}
 \begin{itemize}
+  \item \csbxint{TeXfromSci}\NewWith{1.4g}
+
   \item The most important feature is at |1.4e| the extended range and accuracy
-  of the scientific functions, up to \dtt{62} digits.\NewWith{1.4e}
+  of the scientific functions, up to \dtt{62} digits.%\NewWith{1.4e}
 
   \item The constraints for the replacement macro to be used for
     \csbxint{exprPrintOne} have been much simplified. See the
@@ -4355,7 +4379,7 @@ For bugfixes and possibly more details check |CHANGES.html|:
     %\NewWith{1.4e}
 
   \item \csbxint{iexprPrintOne} was added, with default
-    \csbxint{DecToString}.\NewWith{1.4e}
+    \csbxint{DecToString}.%\NewWith{1.4e}
 
   \item \csbxint{DecToStringREZ} was added.%\NewWith{1.4e}
 
@@ -4435,7 +4459,7 @@ author a few decades to finish absorbing Python/NumPy.
   \end{itemize}
 \end{framed}
 
-\subsection{Known bugs/features (last updated at \texttt{1.4d})}
+\subsection{Known bugs/features (last updated at \texttt{1.4g})}
 
 \begin{description}
 \item[if(100>0,(100,125),(100,128)) breaks my code:]
@@ -4471,12 +4495,44 @@ author a few decades to finish absorbing Python/NumPy.
 \end{everbatim}
    The same problem will arise with an \oper{??} nested inside \func{gcd} or
    similar functions, in an \csbxint{deffunc}.
+
+ \item[{\detokenize{\xinteval{0^-.5}} says "0 raised to power -1"}]
+%
+  Feature. Half integer exponents are handled via a square-root extraction, so
+  here \xintexprname wanted to first raise \dtt{0} to power \dtt{-1}, as
+  reported.
+
+ \item[{Comparison operator \detokenize{==} crashes with nutples}]
+%
+   Not yet implemented...
+
+ \item[{I liked the ``broadcasting'' \detokenize{[1..10]^10} syntax, but it
+     was removed at 1.4}]
+%
+   Patience... |seq(x^10,x=1..10)| is alternative (add external |[..]| to get
+   a nutple).
+ \item[{\detokenize{1e\numexpr5+2\relax} crashes}]
+%
+   Not clear yet if bug or feature.
+   The syntax accepted in the scientific part is limited, and failure
+   is expected: hitting a |\numexpr|
+   when parsing a number triggers insertion of a tacit multiplication and then
+   |1e| is missing the scientific exponent. The same happens with |1e(2+3)|.
+   Use syntax such as |1e\the\numexpr5+2\relax|, or |1e\xinteval{5+2}|
+   (although here this relies on output format of |\xinteval| using integer
+   notation with no decoration in this case).
+
+ \item[{\detokenize{seq(1e-i,i=1..5)} crashes}]
+%
+   Not clear if bug or feature. Use |seq(1e\xinteval{-i},i=1..5)| or, as a
+   possibly faster way |seq(1e\xintiieval{-i},i=\xintiiexpr1..5\relax)|.
 \end{description}
 
-If the list stops here, it is probably only because I have not tested enough
-yet.  But it is already mentioned in the \csbxint{deffunc} documentation that
-it can not parse currently the entirety of the available purely numerical
-syntax, some documented limitations apply.
+The list stops here, but there are certainly other pending bugs in my bug-log,
+and many more I am not yet aware of. In particular it is already mentioned in
+the \csbxint{deffunc} documentation that it can not parse currently the
+entirety of the available purely numerical syntax, some (documented or not,
+known or not) limitations apply.
 
 \subsection{License and installation instructions}
 
@@ -4821,7 +4877,7 @@ for better readability.  But the package currently provides no macros to let
 the output be formatted with such separators.
 
 Formatting of numeric output is apart from some minimal facilities such as
-\csbxint{Frac}, \csbxint{DecToString}, \csbxint{PRaw}, \csbxint{FracToSci} or \csbxint{PFloat} left
+\csbxint{TeXFrac}, \csbxint{DecToString}, \csbxint{PRaw}, \csbxint{FracToSci} or \csbxint{PFloat} left
 to user macros or third-party packages%
 \begin{everbatim*}
 \xinteval{123_456_789_012^5}
@@ -5153,6 +5209,34 @@ customizability.
 
 
 
+The parser implements precedence rules based on concepts which are summarized
+below (only for binary infix operators):
+\begin{itemize}[noitemsep]
+\item an infix operator has two associated precedence levels, say |L| for left
+  and
+  |R| for right,
+\item the parser proceeds from left to right, pausing each time it has found a
+  new number and an operator following it,
+\item the parser compares the left-precedence |L| of the new found operator to
+  the right-precedence |R_last| of the last delayed operation (which already
+  has one argument and would like to know if it can use the new found one): if
+  |L| is at most equal to it, the delayed operation is now executed, else the
+  new-found operation is kept around to be executed first, once it will have
+  gathered its arguments, of which only one is known at this stage.
+\end{itemize}
+This means for example in the case of the multiplication \oper{\lowast} and the
+division operators \oper{/}, \oper{//}, \oper{/:} that they are parsed in a
+left-associative way because they all share the same (left and right)
+precedence level. This is the case with the analogous operators from the
+Python language, as well.
+
+At |1.4g| the power operators were changed to act in a right associative
+way.\CHANGED{1.4g} Again, this matches the behaviour of e.g.\@ Python:%
+\begin{everbatim*}
+\xinteval{2^-3^4}
+\end{everbatim*}
+
+
 \makeatletter
 \def\@floatboxreset{\@setminipage}% faudra contrôler celui-là
 \makeatother
@@ -5183,15 +5267,15 @@ customizability.
   \hline
   \prec{20}& postfix \oper{!} and branching \oper{?}, \oper{??} operators\strut\\\hline
 %
-  \prec{-}& minus sign as unary operator inherits the precedence of
+  \prec{-}& minus sign as unary operator inherits the right-\hskip0pt precedence of
   the infix operator it follows, if that precedence is higher than the one of
   binary \oper{+} and \oper{-}, else it inherits the latter\strut\\\hline
 %
-  \prec{18}& \oper{\string^} and \oper{\lowast\lowast} are a priori synonymous (but see
-  \xintlogname)\strut\\\hline
+  \prec{18} (17)& \oper{\string^} and \oper{\lowast\lowast} are synonymous;
+  they act in a right-associative way (\textcolor[named]{Red}{\bfseries Changed at 1.4g!})\strut\\\hline
 %
-  \prec{16}& \hyperref[ssec:tacit multiplication]{Tacit
-    multiplication} has an elevated precedence\strut\\\hline
+  \prec{16} (14)& \hyperref[ssec:tacit multiplication]{Tacit
+    multiplication} has an elevated (left) precedence\strut\\\hline
 %
   \prec{14}& \oper{\lowast}, \oper{/}, \oper{//} (floored division), 
                and \oper{/:} (associated modulo, alias
@@ -5225,13 +5309,11 @@ customizability.
 %
   \multicolumn{2}{|p{.6\textwidth}|}{%
     \begin{itemize}[nosep]
-    \item Actually operators have a left and a right precedence, which for
-      most coincide. But for some there is a crucial distinction. The above
-      table is indicative, and the actual numerical levels used internally may change.
-    \item In case of equal precedence, the rule is left-associativity: the first
-encountered operation is executed first.
+    \item Binary operators have a left and a right precedence, which for
+      most coincide. The right precedence is indicated within parentheses.
+    \item 
 \hyperref[ssec:tacit multiplication]{Tacit multiplication} has an elevated
-precedence level hence seemingly breaks left-associativity: |(1+2)/(3+4)5|
+left precedence level: |(1+2)/(3+4)5|
 is computed as |(1+2)/((3+4)*5)| and |x/2y| is interpreted as |x/(2*y)|
 when using variables.
     \end{itemize}
@@ -5244,7 +5326,8 @@ when using variables.
 \end{table}
 
 The entries of \autoref{tab:precedences} are hyperlinked to the more detailed
-discussion at each level.
+discussion at each level. In these entries the number within parentheses
+indicates the right-\hskip0pt precedence, if it differs from the left.
 
 \begin{description}
 %[parsep=0pt, listparindent=\leftmarginiii]
@@ -5301,12 +5384,6 @@ discussion at each level.
   The postfix operators |!| and the branching conditionals |?|, |??|.
 \begin{description}
   \operdesc{!} computes the factorial of an integer.
-    Attention that the boolean equality test |==| confuses
-    the parser if following directly |!| (e.g. |3! == 10|)
-    as spaces are ignored and \oper{!=} will be intepreted as 
-    boolean inequality test, the second |=| causing then a low-level error.
-    Use parentheses in such cases:
-    |(3!)==10|.
 
   \operdesc{?} is used as |(stuff)?{yes}{no}|. It
     evaluates |stuff| and chooses the |yes| branch if the result is
@@ -5341,35 +5418,35 @@ discussion at each level.
     % %
   \end{description}
 
-\precdesc{-} As unary operator, the minus sign inherits the precedence of
-  the infix operator it follows (plus signs as unary operators are simply ignored).
+  \precdesc{-} As unary operator, the minus sign inherits as precedence the
+  minimum of |12| (which is the precedence for addition and subtraction) and
+  of the (right-) precedence of the operators preceding it (if any).
 \begin{everbatim*}
 \xintexpr -3-4*-5^-7, (-3)-(4*(-(5^(-7))))\relax\newline
 \xintexpr -3^-4*-5-7, (-((3^(-4))*(-5)))-7\relax\newline
 |2^-10| gives \xintexpr 2^-10\relax\space
 \end{everbatim*}and is thus perfectly legal, no need for parentheses.
 
-  Note (|1.4b|): the above is what this documentation has always said, but it
-  has also always been only partially true. I.e.\@ it applies only when |-|
-  follows an infix binary operator having at least the precedence level of |+|
-  and |-|.  When the unary |-| follows an infix operator (or operator word) of
-  less precedence, its precedence will be set to the one for the infix
-  operators |+| and |-|.  «Seul |sourcexint.pdf| fait foi».
+  The |+| character as prefix unary operator is simply ignored during
+  input parsing.
 
 \precdesc{18}
 \begin{description}
 \operdesc{\string^}
-\operdesc{\lowast\lowast} Both compute powers in left associative way.
+\operdesc{\lowast\lowast} Both compute powers. They act in a right associative
+way.\CHANGED{1.4g}
 \begin{everbatim*}
-\xintiiexpr 2^2^3\relax
+\xintiiexpr 2^3^4\relax
 \end{everbatim*}
-
-  Half-integer exponents are allowed in \csbxint{floateval} and use
-  \func{sqrt}.  It is possible to allow arbitrary fractional exponents
-  (\autoref{ssec:poormanloghack}) but this currently achieves only a
-  reduced precision.  See \csbxint{FloatPower} and \xintlogname for
-  additional information.
 \end{description}
+% et:
+% *2^-3^-4;
+% (@_1)    0.991479137495678
+% *2**-3**-4;
+% (@_2)    0.991479137495678
+% Python:
+% >>> 2**-3**-4;
+% 0.9914791374956781
 
 \precdesc{16} see \hyperref[ssec:tacit multiplication]{Tacit multiplication}.
 
@@ -5399,20 +5476,21 @@ discussion at each level.
 
 \operdesc{/:} the associated modulo (see \func{divmod} and \func{mod})
 
-   Left-associativity applies generally to operators of same precedence.
+   Left-associativity applies to the division operators:
 \begin{everbatim*}
-\xintexpr 100000/:13, 100000 'mod' 13\relax\newline
-\xintexpr 100000/:13/13\relax
+\xintexpr 100000/:13, 100000 'mod' 13\relax, \xintexpr 100000/:13/13\relax
 \end{everbatim*}
  
    Nothing special needs to be done in contexts such as \LaTeX3
    |\ExplSyntaxOn| where |:| is of catcode letter, but if |:| is an active
-   character (for example in \LaTeX\ with babel+french) with an active |:|,
-   one needs to use input such as |/\string :| (or use \func{mod}).
+   character (for example in \LaTeX\ with babel+french)
+   one needs to use input such as |/\string :| (or replace it with usage of the function \func{mod}).
 
-   \operdesc{'mod'} is same as \oper{/:}. \fbox{Attention:} with
-   \ctanpackage{polexpr} loaded, which allows |'| in variable and function
-   names, |'mod'| syntax is broken. Use the alternatives.
+   \operdesc{'mod'} is same as \oper{/:}. 
+
+   \fbox{Attention:}\IMPORTANTf{} with \ctanpackage{polexpr} loaded, which
+   allows |'| in variable and function names, |'mod'| can not follow
+   a variable name. Add parentheses around the variable, or use |/:|.
 
 \end{description}
 
@@ -5460,7 +5538,8 @@ precedence, use parentheses for disambiguation.
   remaining conditionals will still be evaluated.
 
 \begin{everbatim*}
-\xintifboolexpr{1<=2!=3<4>1}{true}{\error}, \xintifboolexpr{1<=2>=3<4>1}{\error}{false}
+\xintifboolexpr{1<=2!=3<4>1}{true}{\error}, \xintifboolexpr{1<=2>=3<4>1}{\error}{false},
+\xintifboolexpr{3 != 3! == 6 != 4! == 24}{true}{\error}
 \end{everbatim*}
 
 \precdesc{8}
@@ -5469,9 +5548,11 @@ precedence, use parentheses for disambiguation.
   both sides are non-zero, to \dtt{0} if not.
 
   \operdesc{'and'} same as \verb+&&+.  See
-  also the \func{all} multi-arguments function. \fbox{Attention:} with
-  \ctanpackage{polexpr} loaded, which allows |'| in variable and function
-  names, |'and'| syntax is broken. Use the alternatives.
+  also the \func{all} multi-arguments function. 
+
+  \fbox{Attention:}\IMPORTANTf{} with \ctanpackage{polexpr} loaded, which
+  allows |'| in variable and function names, |'and'| can not follow
+  a variable name. Add parentheses around the variable, or use |&&|.
 \end{description}
 
 \precdesc{6}
@@ -5480,15 +5561,17 @@ precedence, use parentheses for disambiguation.
   \dtt{1} if one or both sides are non-zero, to \dtt{0} if not.
 
   \operdesc{'or'} same as as \verb+||+. See also the \func{any} multi-arguments
-  function.  \fbox{Attention:} with \ctanpackage{polexpr} loaded, which allows
-  |'| in variable and function names, |'or'| syntax is broken. Use the
-  alternatives.
+  function.  
 
-  \operdesc{'xor'} logical (exclusive) disjunction. \fbox{Attention:} with
-  \ctanpackage{polexpr} loaded, which allows |'| in variable and function
-  names, |'xor'| syntax is broken. Use the multi-arguments \func{xor} function
-  (or suggest to the author some credible alternative ascii notation to use as
-  infix operator).
+  \fbox{Attention:}\IMPORTANTf{} with \ctanpackage{polexpr} loaded, which
+  allows |'| in variable and function names, |'or'| can not follow
+  a variable name. Add parentheses around the variable, or use \verb=||=.
+
+  \operdesc{'xor'} logical (exclusive) disjunction. 
+
+  \fbox{Attention:}\IMPORTANTf{} with \ctanpackage{polexpr} loaded, which
+  allows |'| in variable and function names, |'xor'| can not follow a variable
+  name. Add parentheses around the variable, or use the \func{xor} function syntax.
 
   \operdesc{\strut..}
   \operdesc{..[}
@@ -6197,14 +6280,14 @@ mod(11/7,1/13)- (11/7)/:(1/13), (11/7)//(1/13)\relax\newline
   with comparison operators:
 \begin{everbatim*}
 \xintDigits := 4\relax
-\xintthefloatexpr if(12345678//23=537000, 1, 0), 12345678//23\relax\newline
-\xintthefloatexpr if(float(12345678//23)=537000, 1, 0)\relax\par
+\xintthefloatexpr if(12345678//23==537000, 1, 0), 12345678//23\relax\newline
+\xintthefloatexpr if(float(12345678//23)==537000, 1, 0)\relax\par
 \xintDigits := 16\relax
 \end{everbatim*}
   In the first line, the comparison is done with
   |floor(12350000/23)|\dtt{=\xinttheiiexpr12350000/23\relax} (notice in
   passing that |12345678//23| was evaluated as |12350000//23| because the
-  operands are first rounded to prevailing precision), hence the conditional
+  operands are first rounded to \dtt{4} digits of floating point precision), hence the conditional
   takes the "False" branch. In the second line the |float| forces rounding of
   the output to \dtt{4} digits, and the conditional takes the "True" branch.
 
@@ -6958,7 +7041,7 @@ part, or hexadecimal input), or is looking for an infix operator, and:
 
   Explicit digits prefixing a variable, or a function, whose name starts with
   an |e| or |E| will trap the parser into trying to build a number in
-  scientific notation. So the |*| must be explictly inserted.
+  scientific notation. So the |*| must be explicitly inserted.
 
 \begin{everbatim}
 \xintdefiivar e := (2a+4b+6d+N)/:7;%
@@ -6993,9 +7076,8 @@ part, or hexadecimal input), or is looking for an infix operator, and:
 \end{everbatim*}
 
     The ``tie more'' rule applies to all cases of tacit multiplication. It
-    impacts only situations when a division was the last seen operator, as the
-    normal rule for the \xintexprname parsers is left-associativity in case of
-    equal precedence.
+    impacts only situations with a division operator as the last seen
+    operator, as multiplication is mathematically associative.
 \begin{everbatim*}
 \xinttheexpr 1/(3)5, (1+2)/(3+4)(5+6), 2/x(10), 2/10x, 3/y\xintiiexpr 5+6\relax, 1/x(y)\relax\
 differ from\newline\xinttheexpr 1/3*5, (1+2)/(3+4)*(5+6), 2/x*(10), 2/10*x,
@@ -7094,7 +7176,13 @@ This defines |x0|, |x1|, \dots, |x10| for future usage.
 
 Legal variable names are composed of letters, digits, |_| and |@| and
 characters.  A variable name must start with a letter. Variable names starting
-with a |@| or |_| are reserved for internal usage.
+with a |@| or |_| are reserved for internal usage.%
+%
+\footnote{The process of variable declaration does not check that these rules
+  are met, and breakage will arise on use, if rules are not followed. For
+  example, prior to |1.4g|, using a variable which was previously illegally
+  declared with a name starting with a (normal, catcode 8) |_| would trigger an
+  infinite loop.}
 
 As |x_1x_2| or even |x_1x| are licit variable names, and as the parser does
 not trace back its steps, input syntax must be |x_1*x_2| if the aim is to
@@ -7707,7 +7795,7 @@ dimension):
 \xintdeffunc MatMul(A, B) = ndmap(dprod, *A; *Tr(B));
 \xintdefvar mat1212 = MatMul(mat12, mat12);
 \begingroup
-\def\xintexprPrintOne       #1{\xintFrac{#1}}% (no need for \protected with \xintFrac)
+\def\xintexprPrintOne       #1{\xintTeXFrac{#1}}%
 \def\xintexpralignbegin       {\begin{pmatrix}}%
 \def\xintexpralignend         {\end{pmatrix}}%
 \def\xintexpralignlinesep     {\noexpand\\[2\jot]}% needed to counteract an internal \expanded
@@ -7884,14 +7972,17 @@ them both be thanked here.
 
 \subsection{\csh{xintreloadxinttrig}}\label{xintreloadxinttrig}
 
-The library is loaded automatically by \xintexprname at start-up.  It is then
-configured for \dtt{16} digits. To work for example with \dtt{48} digits,
-execute \csbxint{SetDigits*}|{48}| or \csbxint{Digits*}|:=48;| or
-\csbxint{Digits}|:=48;| followed by \csbxint{reloadxinttrig} (but in the latter
-case the logarithm, exponential, and power functions will not be updated).
+The library is loaded automatically by \xintexprname at start-up.
+It is then configured for \dtt{16} digits.
 
-The |*| is mandatory to reload the library, don't forget it.\IMPORTANTf{}
+To work for example with \dtt{48} digits, execute \csbxint{SetDigits*}|{48}|
+or \csbxint{Digits*}|:=48;| (the ending |;| can be replaced by a |\relax| in
+case of problems due to it being active, e.g.\@ with \LaTeX\ and some languages).
 
+With the non-starred variant \csbxint{Digits}|:=48;|\IMPORTANTf{} it is needed
+to issue \csbxint{reloadxinttrig} to recalibrate the functions provided by the
+library (and the exponential/logarithm functions will only be updated if also
+\csbxint{reloadxintlog} is used).
 
 % Absence of guard digits (whether in the used hard-coded constants or in
 % passing over values from one auxiliary function to the next) due to high level
@@ -8134,84 +8225,16 @@ based on \ctanpackage{poormanlog} are used.
 \subsection{\csh{xintreloadxintlog}}\label{xintreloadxintlog}
 
 The library is loaded automatically by \xintexprname at start-up.
-It is then configured for \dtt{16} digits. To work for example with
-\dtt{48} digits, execute  \csbxint{SetDigits*}|{48}| or \csbxint{Digits*}|:=48;| or
-\csbxint{Digits}|:=48;| followed by \csbxint{reloadxintlog} (but in the latter case
-the trigonometric functions will not be updated).
+It is then configured for \dtt{16} digits.
 
-The |*| is mandatory to reload the library, don't forget it.\IMPORTANTf{}
+To work for example with \dtt{48} digits, execute \csbxint{SetDigits*}|{48}|
+or \csbxint{Digits*}|:=48;| (the ending |;| can be replaced by a |\relax| in
+case of problems due to it being active, e.g.\@ with \LaTeX\ and some languages).
 
-\pdfstringdefDisableCommands{\let\cs\empty}
-\subsection{Powers in \texttt{\cs{xinteval}} and \texttt{\cs{xintfloateval}}}
-
-For powers |a^b| or |a**b| in \csbxint{floateval} the following rules apply:
-\begin{enumerate}[noitemsep]
-\item a check is made if exponent is integer or half-integer,
-\item if this is the case legacy \csbxint{FloatPower} (combined with
-  \csbxint{FloatSqrt} for half-integer case)
-  are used to evaluate the power (and |a| can be negative if exponent is
-  integer),
-\item else the power is computed as |pow10(b*log10(a))| (but keeping some
-  extra digits in intermediate evaluations; in particular |b| is not
-  float-rounded, but |a| is).
-\end{enumerate}
-The reason is that the log/exp approach would lose accuracy for very big
-exponents, for example as in this computation:
-\begin{everbatim*}
-\xintfloateval{1.00000001^184884258895036416}\newline
-\xintDigits:=48;%\xintreloadxintlog % not done as log10/pow10 will not be used
-\xintfloateval{1.00000001^(12^16)}\newline
-\xintDigits:=62;%\xintreloadxintlog % not done as log10/pow10 will not be used
-\xintfloateval{1.00000001^(12^16)}
-\xintDigits:=16;%
-\end{everbatim*}
-
-Notes:
-\begin{itemize}[noitemsep]
-\item in first case we replaced |12^16| by its value, which has \dtt{18}
-  digits, to avoid it being produced rounded to \dtt{16} digits,
-\item as the example shows, the exponent is not pre-rounded (else the first
-  result would not match the second one at \dtt{48} digits),
-\item in second case parentheses are used because so far |^| is
-  left-associative, but it is planned to let it be right-associative at next
-  major release,
-\item computing the value via |log10()| and |pow10()| support macros would
-  lead to a less precise value, the last four or five digits in the last
-  computation would be wrong, due to immensity of exponent: roughly the
-  package is designed to maintain high accuracy with exponents up to say \dtt{1e10}
-  but see |sourcexint.pdf| for perhaps accurate comments
-  (I doubt it, as I have no time for that at this stage).
-\end{itemize}
-
-In \csbxint{eval}, this is about the same but for one difference: integer
-exponents will lead to exact computations, as long as:
-\begin{itemize}
-\item the exponent absolute value is at most \dtt{9999},
-\item it is evaluated a priori, based on the length of the input, that the
-  output will have at most \dtt{10000} digits (or only a bit more), separately
-  for numerator and denominator.
-\end{itemize}
-The check for integralness of exponent is not on its mathematical value
-but on its internal representation, for speed. So |6/3| is not recognized as
-being an integer exponent in \csbxint{eval}; but in \csbxint{floateval}, the
-|6/3| will have been computed and recognized as |2|. Also |2.00| or |200e-2|
-is recognized as an integer in both parsers. Similar remarks apply to
-half-integer case.
-
-For |Digits| at most \dtt{8}, this is different: both in \csbxint{eval} and
-\csbxint{floateval}, the logarithm/exponential path will apply always, except
-for the integer case in \csbxint{eval} which of course still proceeds via exact
-evaluations.
-
-To compute higher powers than |2^9999| or |9^9999| or |99^5000| or |999^3333|,
-etc..., use \csbxint{iieval}.  See \csbxint{iiPow} for related comments if
-you don't want to melt your CPU.
- 
-
-\subsubsection{\csh{poormanloghack}}
-\label{ssec:poormanloghack}
-
-It is now a no-op, and will be removed at next major release.
+With the non-starred variant \csbxint{Digits}|:=48;|\IMPORTANTf{} it is needed
+to issue \csbxint{reloadxintlog} to recalibrate the functions provided by the
+library (and the trigonometric functions will only be updated if also
+\csbxint{reloadxinttrig} is used).
 
 \subsection{Functions}
 
@@ -8232,22 +8255,137 @@ It is now a no-op, and will be removed at next major release.
 
 \funcdesc{exp} exponential function
 
-\funcdesc[x, y]{pow} computes $x^y$ via the formula |pow10(y*log10(x))|, for
-|y| neither an integer nor an half-integer; else its uses either exact
-evaluation in \csbxint{eval} for integer exponents (see \csbxint{Pow} for
-additional information) or the old \csbxint{FloatPower} and
-\csbxint{FloatSqrt} macros in \csbxint{floateval} for integer or half-integer
-exponents.
+\funcdesc[x, y]{pow} computes $x^y$ either via the formula |pow10(y*log10(x))|
+(applied with some internally increased accuracy), for |y| neither an integer
+nor an half-integer; or via the legacy \csbxint{FloatPower} and
+\csbxint{FloatSqrt} macros if the exponent is integer or half-integer.
+Integer exponents trigger an exact evalution in \csbxint{eval} if
+the output will not exceed (or will only slightly exceed) \dtt{10000} digits
+(separately for numerator and denominator), else the power is computed in the
+floating point sense.
 \end{description}
 
 \begin{everbatim*}
-\xintfloateval{log(2), exp(1), 2^(1/3)}
+\xintfloateval{log(2), exp(1), 2^(1/3), 2^10000}
 \end{everbatim*}
-% Notice that the last digit of |log(2)| is not the correctly rounded one... I
-% did say 9 \textbf{or} 8 digits or precision... The documentation of
-% \ctanpackage{poormanlog} mentions an error of up
-% to 2 units in the ninth digit when computing |log10(x)| for |1<x<10| and
-% |10^x| for |0<x<1|.
+
+\pdfstringdefDisableCommands{\let\cs\empty}
+
+\subsection{Some information on how powers are computed}
+
+For powers |a^b| or |a**b| in \csbxint{floateval} the following rules apply:
+\begin{enumerate}[noitemsep]
+\item a check is made if exponent is integer or half-integer,
+\item if this is the case legacy \csbxint{FloatPower} (combined with
+  \csbxint{FloatSqrt} for half-integer case)
+  are used to evaluate the power (and |a| can be negative if exponent is
+  integer),
+\item else the power is computed as |pow10(b*log10(a))| (but keeping some
+  extra digits in intermediate evaluations; in particular |b| is not
+  float-rounded, but |a| is).
+\end{enumerate}
+The reason is that the log/exp approach loses accuracy for very big
+exponents (say for exponents of the order of \dtt{100000000} or more). Here is
+an example of a precise computation with a very large exponent (\dtt{\xintiieval{12^16}}):
+\begin{everbatim*}
+$\xintTeXfromSci{\xintfloateval{1.00000001^\xintiiexpr 12^16\relax}}$\newline
+\xintDigits:=48;%\xintreloadxintlog is not done as log10/pow10 will not be used
+$\xintTeXfromSci{\xintfloateval{1.00000001^12^16}}$\newline
+\xintDigits:=64;%\xintreloadxintlog is not done as log10/pow10 will not be used
+$\xintTeXfromSci{\xintfloateval{1.00000001^12^16}}$\newline
+\xintDigits:=80;%\xintreloadxintlog is not done as log10/pow10 will not be used
+$\xintTeXfromSci{\xintfloateval{1.00000001^12^16}}$
+\xintDigits:=16;%
+\end{everbatim*}
+
+Notes:
+\begin{itemize}[noitemsep]
+\item in the case with \dtt{16} digits precision, we ensured |12^16| got
+  computed exactly with all its \dtt{18} digits and was not rounded to only
+  \dtt{16} digits (and confirmation is that the result matches the second one
+  at \dtt{48} digits),
+\item the |1.4g| right associativity
+  of powers is taken into account to drop parentheses.
+\end{itemize}
+
+As the legacy \csbxint{FloatPower} and \csbxint{FloatSqrt} work in arbitrary
+precision, the result for integer or half-integer exponents is produced with a
+full-size mantissa, even if |Digits| is more than \dtt{62} (as is examplified
+above).
+
+In the |10^(b*log10(a))| branch the mantissa size is limited to the minimum of
+|Digits| and of \dtt{64}. Its last digits will start being wrong if |b|
+becomes about (in absolute value) \dtt{100000000}. If you really need to
+compute powers with exponents that large or larger, it is recommended to
+decompose the exponent as a sum of the nearest integer or half-integer and a
+fractional part and express the power as a product. This is not done
+automatically as it would add some overhead in general for some a priori very
+rare use cases.
+
+% And recall that the decimal exponents of final and
+% intermediate results should obey the \TeX\ bound for integers anyhow, i.e. be
+% at most (in absolute value) \dtt{\number"7FFFFFFF}, add some safety margin...
+
+In \csbxint{eval}, this is as in \csbxint{floateval} but for one difference: integer
+exponents will trigger an exact evaluation, as long as:
+\begin{itemize}
+\item the exponent absolute value is at most \dtt{9999},
+\item it is evaluated a priori, based on the length of the input, that the
+  output will have at most \dtt{10000} digits (or only a bit more), separately
+  for numerator and denominator.
+\end{itemize}
+The check for integralness of exponent is not on its mathematical value
+but on its internal representation, for speed. So |6/3| is not recognized as
+being an integer exponent in \csbxint{eval}; but in \csbxint{floateval}, the
+|6/3| will have been computed and recognized as |2|. Also |2.00| or |200e-2|
+is recognized as an integer in both parsers. Similar remarks apply to
+half-integer case.
+
+To compute exactly higher powers than |2^9999| or |9^9999| or |99^5000| or
+|999^3333|, etc..., use \csbxint{iieval}.  See \csbxint{iiPow} for related
+comments if you don't want to melt your CPU.
+
+If |Digits| is at most \dtt{8}, logarithms are computed faster but
+with less accuracy; internally, using \dtt{9} \emph{fixed
+  point fractional digits}.  And powers |a^b| lose accuracy in
+last digits quickly as |b| rises.  Here is what was observed
+with some random tests:
+\begin{itemize}[noitemsep]
+\item for |b| neither integer nor half-integer and |1<b<10|, 
+  roughly \dtt{8} correct digits for between \dtt{80}\% and \dtt{90}\% of
+  cases and in the remaining cases only a \dtt{1ulp} error.
+\item for |b| neither integer nor half-integer and |10^e<b<10^(e+1)|,
+  roughly \dtt{8-e} digits are correct for about
+  \dtt{90}\% of cases and there is a one unit error in the last of
+  those digits in the remaining cases.
+\end{itemize}
+To maintain higher accuracy, split the input as |a^n a^h| with |n|
+integer or half-integer nearest to |b|. After having considered (and
+implemented) the method, decision was made to not incorporate it as it
+would induce serious overhead generally speaking. The |a^b| with
+fractional exponent |b| such that |abs(b)<10| are currently computed
+with at most \dtt{1ulp} error in the vast majority of cases it seems,
+which is largely precise enough for plots, and then speed matters
+most. Larger exponents can be handled (since |1.4f|) via manually
+implementing the splitting trick, as described above.
+
+The documentation of the legacy macro \csbxint{FloatPower} (which is used for
+powers with integer and half-integer exponents) explains it has a guaranteed
+error bound of |0.52ulp|, in arbitrary precision.  Generally speaking, the
+math functions added at |1.4e| target even smaller errors (but only up to
+\dtt{62} digits), something of the order of |0.505ulp|, and in practice they
+seem to achieve even better than \dtt{99\%} of correct rounding probability
+(at least in their natural ranges, and it varies according to the value of
+|Digits|).  Perhaps in future I will re-examine whether it is worthwile to
+increase a bit the theoretical accuracy of \csbxint{FloatPower}, as I have not
+had the time to really measure systematically its pratical accuracy, all
+anecdotical evidence showing it is good.
+
+\subsection{Deprecated: \csh{poormanloghack}}
+\label{ssec:poormanloghack}
+
+|\poormanloghack| is now a no-op, and will be removed at next major release.
+
 
 \clearpage
 \let\xintlognameUp\undefined
@@ -9710,17 +9848,19 @@ These 504 digits generated from \string\pdfuniformdeviate:
 \xinttheiiexpr BadDigits\relax\hfill\break
 contain these respective amounts of 0, 1, and 2:
 % (this is definitely not the fastest way to count, but it is fun - and expandable)
-\xinttheiiexpr iter(0,0,0;(i=0)?{[@][0]+1,[@][1],[@][2]}
-                                {(i=1)?{[@][0],[@][1]+1,[@][2]}
-                                       {[@][0],[@][1],[@][2]+1}}, 
+% !(i) (logical not) is short-cut for the vanishing test i==0, but it would be
+% simpler to use (i)?{i is not zero}{i is zero} which permuted branches
+\xinttheiiexpr iter(0,0,0;(!(i))?{[@][0]+1,[@][1],[@][2]}
+                                 {(isone(i))?{[@][0],[@][1]+1,[@][2]}
+                                             {[@][0],[@][1],[@][2]+1}}, 
                     i=BadDigits)\relax\par
 
 These 504 digits generated from \string\xintUniformDeviate:
 \xinttheiiexpr GoodDigits\relax\hfill\break
 contain these respective amounts of 0, 1, and 2:
-\xinttheiiexpr iter(0,0,0;(i=0)?{[@][0]+1,[@][1],[@][2]}
-                                {(i=1)?{[@][0],[@][1]+1,[@][2]}
-                                       {[@][0],[@][1],[@][2]+1}}, 
+\xinttheiiexpr iter(0,0,0;(!(i))?{[@][0]+1,[@][1],[@][2]}
+                                 {(isone(i))?{[@][0],[@][1]+1,[@][2]}
+                                             {[@][0],[@][1],[@][2]+1}}, 
                     i=GoodDigits)\relax\par
 % % output to data file for double-check with python
 % \newwrite\out
@@ -9987,10 +10127,10 @@ settings of some \TeX\ memory parameters.
 
 \begin{framed}
   Indeed, the maximal power of $2$ which \xintname is able to compute
-  explicitely is |2^(2^17)=2^131072| which has \dtt{39457} digits. This
+  explicitely is |2^2^17=2^131072| which has \dtt{39457} digits. This
   exceeds the maximal size on input for the \xintcorename multiplication, hence
-  any |2^N| with a higher |N| will fail. On the other hand |2^(2^16)| has
-  \dtt{19729} digits, thus it can be squared once to obtain |2^(2^17)| or
+  any |2^N| with a higher |N| will fail. On the other hand |2^2^16| has
+  \dtt{19729} digits, thus it can be squared once to obtain |2^2^17| or
   multiplied by anything smaller, thus all exponents up to and including |2^17|
   are allowed (because the power operation works by squaring things and making
   products).
@@ -10145,6 +10285,7 @@ Version |1.0| was released |2013/03/28|.
 Since |1.1 2014/10/28| the core arithmetic macros have been moved to a separate
 package \xintcorename, which is automatically loaded by \xintname.
 Only the \csbxint{iiSum}, \csbxint{iiPrd}, \csbxint{iiSquareRoot},
+\csbxint{iiSqrt}, \csbxint{iiSqrtR},
 \csbxint{iiPFactorial}, \csbxint{iiBinomial} genuinely add to the arithmetic
 macros from \xintcorename. (\csbxint{iiFac} which computes factorials is
 already in \xintcorename.)
@@ -10985,18 +11126,153 @@ special, for example \csbxint{Trunc} produces decimal numbers, \csbxint{Irr}
 produces an |A/B| with no |[N]|, \csbxint{iTrunc} and \csbxint{iRound} produce
 integers without trailing |[N]| either, etc\dots
 
-|1.3a| belatedly adds documentation for some macros such as
-\csbxint{DivFloor} which had been defined long ago, but did not make it to the
-user manual for various reasons, one being that it is thought few users will
-use directly the \xintfracname macros, the \csbxint{expr} interface being more
-convenient. For complete documentation refer to |sourcexint.pdf|.
+At |1.4g|,\CHANGED{1.4g} old legacy typesetting macros |\xintFrac|, |\xintSignedFrac|,
+|\xintFwOver| and |\xintSignedFwOver| were renamed into \csbxint{TeXFrac},
+\csbxint{TeXsignedFrac}, \csbxint{TeXOver}, \csbxint{TeXsignedOver}.  The old
+names will raise warnings and will be removed at next major release.
 
 \localtableofcontents
 
+\subsection{\csh{xintTeXfromSci}}\label{xintTeXfromSci}
+
+Experimental.\etype{} This typesetting math-mode-only macro expects an input
+which is already in, or will expand to, decimal or scientific
+notation.\NewWith{1.4g} A trailing |/B| is accepted and will be handled
+differently according to whether it follows some scientific exponent |eN|
+part or not.
+
+This macro is designed to be used as a typesetting wrapper for \csbxint{eval}
+or \csbxint{floateval} output.  It does no «reflowing» of the mantissa as the
+input is expected to have been already «prettified» (for example via the
+removal of trailing zeros, of a scientific part if the exponent is small,
+etc...) and simply transforms the |e<exponent>| part, if actually present,
+into |\cdot 10^{exponent}|.  A fractional part |/B| if found in the expansion
+of the input must be last and will be tranformed into |\cdot B^{-1}| if there
+was a scientific part, else the output will be |\frac{A}{B}| (or the \TeX\
+equivalent) with |A| the numerator.%
+%
+\footnote{I am hesitating whether the |\frac{A}{B}| branch choice should
+  require |A| to be an integer, or will also, as currently, be done with |A|
+  being a number in decimal notation.}
+%
+\begin{everbatim*}
+$\xintTeXfromSci{\xintfloateval{1.1^10000/5}}$, $\xintTeXfromSci{\xinteval{1.1^10000/5}}$\par
+\end{everbatim*}
+The macro applies complete expansion to its argument, hence its input can be
+expressed using \csbxint{FracToSci} but it is simpler to use \csbxint{eval}
+which applies and expands completely \csbxint{FracToSci}, as per default
+setting of \csbxint{exprPrintOne}.
+
+Note though that the macro can handle only one value.  If one intends to
+achieve the same effect but with comma separated or bracketed values, the way
+to proceed is via a redefinition of \csbxint{floatexprPrintOne} and/or
+\csbxint{exprPrintOne}.
+\begin{everbatim*}
+\[\def\xintfloatexprPrintOne[#1]#2{\xintTeXfromSci{\xintPFloat[#1]{#2}}}
+  \xintfloateval{[10] 2^100, 3^100, 13^100}\] 
+\end{everbatim*}
+\par\vskip-\belowdisplayskip
+\begin{everbatim*}
+\[\def\xintexprPrintOne#1{\xintTeXfromSci{\xintFracToSci{#1}}}
+  \xinteval{sqrt(2^101,60), 355/113, 6.02e23/1000}\]
+\end{everbatim*}% attention à l'espace TeX est en mode horizontal après display
+This will however make impossible, due to the added \TeX\ mark-up in the
+output, the nesting of \csbxint{floateval}/\csbxint{eval} inside one another.
+But the \csbxint{expr}|...\relax| syntax remains usable and is indeed the
+recommended way as it is more efficient, only in certain very special
+situations does one need the «eval» which produces explicit digits, and then
+usually the output will be an integer, so will remain invariant and usable as
+before.  Anyway, in the above examples we localized the redefinitions to the
+equation construct which is scope-limiting (as is already the underlying \TeX\
+math display using |$$|).
+
+Some similar effect is also possible without \csbxint{TeXfromSci},
+simply by a customization of \csbxint{PFloatE} like this:
+\begin{everbatim*}
+\begingroup
+\def\xintPFloatE#1.{\cdot10^{#1}.}%
+$\xintfloateval{1.1^10000/5}$, $\xinteval{1.1^10000/5}$
+\endgroup\newline
+\end{everbatim*}%
+This method is simpler-minded and will leave trailing |/B|'s «as is», though. 
+
+And of course, with this poor man method too the presence of \TeX\ mark-up
+makes nesting dangerous, so we limited by security the definition to a group.
+
+\subsection{\csh{xintTeXFrac}}\label{xintTeXFrac}
+
+This is a typesetting \LaTeX{} only macro\etype{\Ff}, math mode only as it
+expands to |\frac{A}{B}10^n| for an input which ends up parsed into raw
+format |A/B[n]|.
+
+If the denominator |B| is \dtt{1}, the output is |A\cdot 10^n|. If the
+exponent |n| is \dtt{0}, the |[\cdot]10^n| part is omitted.
+\begin{everbatim*}
+$\xintTeXFrac {178.000/25600000}$, $\xintTeXFrac {178.000/1}$, $\xintTeXFrac {3.5/5.7}$\newline
+\end{everbatim*}%
+The input, if in a fraction form, is not simplified in any way, except for
+transforming numerator and denominator into integers, separating a power of
+ten part.  Macros such as \csbxint{Irr}, \csbxint{PIrr}, \csbxint{REZ} can be
+inserted to wrap the input and help simplify it.  The minus sign ends up in
+the numerator.
+
+It is the new name of |\xintFrac|.\CHANGED{1.4g} The old name is
+deprecated and will emit a warning.
+
+\subsection{\csh{xintTeXsignedFrac}}\label{xintTeXsignedFrac}
+
+
+This is as \csbxint{TeXFrac}\etype{\Ff} except that a negative fraction has the
+sign ending up in front, not in the numerator.
+\begin{everbatim*}
+$\xintTeXFrac {-355/113}=\xintTeXsignedFrac {-355/113}$\newline
+\end{everbatim*}%
+It is the new name of |\xintSignedFrac|.\CHANGED{1.4g}
+
+\subsection{\csh{xintTeXOver}}\label{xintTeXOver}
+
+This does the same as \csa{xintTeXFrac}\etype{\Ff} except that the \csa{over}
+primitive is used for the fraction (in case the denominator is not one; and a
+pair of braces contains the |A\over B| part).
+\begin{everbatim*}
+$\xintTeXOver {178.000/25600000}$, $\xintTeXOver {178.000/1}$, $\xintTeXOver {3.5/5.7}$\newline
+\end{everbatim*}%
+It is the new name of |\xintFwOver|.\CHANGED{1.4g}
+
+\subsection{\csh{xintTeXsignedOver}}\label{xintTeXsignedOver}
+
+This is as \csbxint{TeXOver}\etype{\Ff} except that a negative fraction has the
+sign put in front, not in the numerator.
+\begin{everbatim*}
+$\xintTeXOver{-355/113}=\xintTeXsignedOver{-355/113}$\newline
+\end{everbatim*}%
+It is the new name of |\xintSignedFwOver|.\CHANGED{1.4g}
+
+\subsection{\csh{xintLen}}\label{xintLenFrac}
+
+The \csbxint{Len} macro\etype{\Ff} from \xintname is extended to accept a fraction
+on input: the length of |A/B[n]| is the length of |A| plus the length of |B|
+plus the absolute value of |n| and minus one (an integer input as |N| is
+internally represented in a form equivalent to |N/1[0]| so the minus one means
+that the extended \csa{xintLen} behaves the same as the original for
+integers).
+\begin{everbatim*}
+\xintLen{201710/298219}=\xintLen{201710}+\xintLen{298219}-1\newline
+\xintLen{1234/1}=\xintLen{1234}=\xintLen{1234[0]}=\xintiLen{1234}\newline
+\xintLen{-1e3/5.425} (\xintRaw {-1e3/5.425})\par
+\end{everbatim*}
+The length is computed on the |A/B[n]| which would have been returned by
+\csbxint{Raw}, as illustrated by the last example above.
+
+|\xintLen| is only for use with such (scientific) numbers or fractions. See
+also \csbxint{NthElt} from \xinttoolsname. See also \csbxint{Length} (which
+however does not expand its argument) from \xintkernelname for counting more
+general tokens (or rather braced items).
+
 \subsection{\csh{xintNum}}\label{xintNumFrac}
 
-The original \csbxint{Num} \etype{\Ff} from \xintname is made a synonym to
-\csbxint{TTrunc} (whose description is to be found farther in this section).
+The \csbxint{Num} \etype{\Ff} from \xintname is transformed into a synonym to
+\csbxint{TTrunc}.
 
 Attention that for example |\xintNum{1e100000}| expands to the needed
 \dtt{100001} digits...
@@ -12361,7 +12637,7 @@ handled exactly. And as said above its absolute value may exceed the \TeX\ bound
 
 % With expressions:
 % \begin{everbatim*}
-% {\xintDigits:=48\relax \np{\xintthefloatexpr 1.1547^(2^35)\relax}}
+% {\xintDigits:=48\relax \np{\xintthefloatexpr 1.1547^2^35\relax}}
 % \end{everbatim*}
 
 % There is a subtlety here that the |2^35| will be evaluated as a floating point
@@ -12377,8 +12653,8 @@ handled exactly. And as said above its absolute value may exceed the \TeX\ bound
 % \begin{everbatim*}
 % {\xintDigits:=12\relax \np{\xintthefloatexpr (1+1e-8)^\xintiiexpr 12^16\relax\relax}}\newline
 % \np{\xintthefloatexpr (1+1e-8)^\xintiiexpr 12^16\relax\relax}\newline
-% {\xintDigits:=27\relax \np{\xintthefloatexpr (1+1e-8)^(12^16)\relax}}\newline
-% {\xintDigits:=48\relax \np{\xintthefloatexpr (1+1e-8)^(12^16)\relax}}
+% {\xintDigits:=27\relax \np{\xintthefloatexpr (1+1e-8)^12^16\relax}}\newline
+% {\xintDigits:=48\relax \np{\xintthefloatexpr (1+1e-8)^12^16\relax}}
 % \end{everbatim*}
 
 % There is an important difference between |\xintFloatPower[Q]{X}{Y}| and
@@ -12544,70 +12820,6 @@ The associated function in \csbxint{floatexpr} is \func{pfactorial}:
 
 \xintDigits:=16\relax 
 
-\subsection{\csh{xintFrac}}\label{xintFrac}
-
-This is a \LaTeX{} only macro,\etype{\Ff} to be used in math mode only. It
-will print a fraction, internally represented as something equivalent to
-|A/B[n]| as |\frac {A}{B}10^n|. The power of ten is omitted when |n=0|, the
-denominator is omitted when it has value one, the number being separated from
-the power of ten by a |\cdot|. |$\xintFrac {178.000/25600000}$| gives $\xintFrac
-{178.000/25600000}$, |$\xintFrac {178.000/1}$| gives $\xintFrac {178.000/1}$,
-|$\xintFrac {3.5/5.7}$| gives $\xintFrac {3.5/5.7}$, and |$\xintFrac {\xintNum
-  {\xintiiFac{10}/|\allowbreak|\xintiiSqr{\xintiiFac {5}}}}$| gives $\xintFrac
-{\xintNum {\xintiiFac{10}/\xintiiSqr{\xintiiFac {5}}}}$. As shown by the examples,
-simplification of the input (apart from removing the decimal points and moving
-the minus sign to the numerator) is not done automatically and must be the
-result of macros such as |\xintIrr|, |\xintREZ|, or |\xintNum| (for fractions
-being in fact integers.)
-
-\subsection{\csh{xintSignedFrac}}\label{xintSignedFrac}
-
-
-This is as \csbxint{Frac}\etype{\Ff} except that a negative fraction has the
-sign put in front, not in the numerator.
-\begin{everbatim*}
-\[\xintFrac{-355/113}=\xintSignedFrac {-355/113}\]
-\end{everbatim*}
-
-\subsection{\csh{xintFwOver}}\label{xintFwOver}
-
-This does the same as \csa{xintFrac}\etype{\Ff} except that the \csa{over}
-primitive is used for the fraction (in case the denominator is not one; and a
-pair of braces contains the |A\over B| part). |$\xintFwOver {178.000/25600000}$|
-gives $\xintFwOver {178.000/25600000}$, |$\xintFwOver {178.000/1}$| gives
-$\xintFwOver {178.000/1}$, |$\xintFwOver {3.5/5.7}$| gives $\xintFwOver
-{3.5/5.7}$, and |$\xintFwOver {\xintNum {\xintiiFac{10}/\xintiiSqr{\xintiiFac
-      {5}}}}$| gives $\xintFwOver {\xintNum {\xintiiFac{10}/\xintiiSqr{\xintiiFac
-      {5}}}}$.
-
-\subsection{\csh{xintSignedFwOver}}\label{xintSignedFwOver}
-
-This is as \csbxint{FwOver}\etype{\Ff} except that a negative fraction has the
-sign put in front, not in the numerator.
-\begin{everbatim*}
-\[\xintFwOver{-355/113}=\xintSignedFwOver {-355/113}\]
-\end{everbatim*}
-
-\subsection{\csh{xintLen}}\label{xintLenFrac}
-
-The original \csbxint{Len} macro\etype{\Ff} is extended to accept a fraction
-on input: the length of |A/B[n]| is the length of |A| plus the length of |B|
-plus the absolute value of |n| and minus one (an integer input as |N| is
-internally represented in a form equivalent to |N/1[0]| so the minus one means
-that the extended \csa{xintLen} behaves the same as the original for
-integers).
-\begin{everbatim*}
-\xintLen{201710/298219}=\xintLen{201710}+\xintLen{298219}-1\newline
-\xintLen{1234/1}=\xintLen{1234}=\xintLen{1234[0]}=\xintiLen{1234}\newline
-\xintLen{-1e3/5.425} (\xintRaw {-1e3/5.425})\par
-\end{everbatim*}
-The length is computed on the |A/B[n]| which would have been returned by
-\csbxint{Raw}, as illustrated by the last example above.
-
-|\xintLen| is only for use with such (scientific) numbers or fractions. See
-also \csbxint{NthElt} from \xinttoolsname. See also \csbxint{Length} (which
-however does not expand its argument) from \xintkernelname for counting more
-general tokens (or rather braced items).
 
 \clearpage
 \let\xintfracnameUp\undefined
@@ -12937,7 +13149,7 @@ needed.%
 \fdef\z {\xintJrr {\w}[0]} % the [0] for a microsecond gain.
 % \xintJrr preferred to \xintIrr: a big common factor is suspected.
 % But numbers much bigger would be needed to show the greater efficiency.
-\[ \sum_{n=0}^{n=50} \frac{(-1)^n}{n+\frac12} = \xintFrac\z \]
+\[ \sum_{n=0}^{n=50} \frac{(-1)^n}{n+\frac12} = \xintTeXFrac\z \]
 \end{everbatim*}
 
 The definition of |\coeff| as |\xintiiMON{#1}/#1.5| is quite suboptimal. It
@@ -12947,7 +13159,7 @@ as initial and final indices (they are of the \numx{} type). Second, when the
 denominator with one digit more. For example |1/3.5| turns internally into
 |10/35| whereas it would be more efficient to have |2/7|. For info here is the
 non-reduced |\w|:
-\[\xintFrac\w\]
+\[\xintTeXFrac\w\]
 It would have been bigger still in releases earlier than |1.1|: now, the
 \xintfracname \csbxint{Add} routine does not multiply blindly denominators
 anymore, it checks if one is a multiple of the other. However it does not
@@ -12959,7 +13171,7 @@ A more efficient way to code |\coeff| is illustrated next.
 % The [0] in \coeff is a tiny optimization: in its presence the \xintfracname parser
 % sees something which is already in internal format.
 \fdef\w {\xintSeries {0}{50}{\coeff}}
-\[\sum_{n=0}^{n=50} \frac{(-1)^n}{n+\frac12}=\xintFrac\w\]
+\[\sum_{n=0}^{n=50} \frac{(-1)^n}{n+\frac12}=\xintTeXFrac\w\]
 \end{everbatim*}
 The reduced form |\z| as displayed above only differs from this one by a
 factor of \dtt{\xintNum {\xintDenominator\w/\xintDenominator\z}}.
@@ -13070,7 +13282,7 @@ expressions built with such; they must obey the \TeX{} bound. The initial term
 \loop \fdef\z {\xintRationalSeries {0}{\cnta}{1}{\ratio }}%
 \noindent$\sum_{n=0}^{\the\cnta} \frac{2^n}{n!}=
            \xintTrunc{12}\z\dots=
-           \xintFrac\z=\xintFrac{\xintIrr\z}$\vtop to 5pt{}\par
+           \xintTeXFrac\z=\xintTeXFrac{\xintIrr\z}$\vtop to 5pt{}\par
 \ifnum\cnta<20 \advance\cnta 1 \repeat
 \end{quote}
 \end{everbatim*}
@@ -13082,7 +13294,7 @@ expressions built with such; they must obey the \TeX{} bound. The initial term
 \loop
 \fdef\z {\xintRationalSeries {0}{\cnta}{1}{\ratio }}%
 \noindent$\sum_{n=0}^{\the\cnta} \frac{(-1)^n}{n!}=
-  \xintTrunc{20}\z\dots=\xintFrac{\z}=\xintFrac{\xintIrr\z}$%
+  \xintTrunc{20}\z\dots=\xintTeXFrac{\z}=\xintTeXFrac{\xintIrr\z}$%
          \vtop to 5pt{}\par
 \ifnum\cnta<20 \advance\cnta 1 \repeat
 \end{quote}
@@ -13287,17 +13499,17 @@ approach, is much less acute since release |1.1| and its new policy regarding
 \def\geom #1{1[0]} % the geometric series
 \def\f {5/17[0]}
 \[ \sum_{n=0}^{n=20} \Bigl(\frac 5{17}\Bigr)^n
- =\xintFrac{\xintIrr{\xintPowerSeries {0}{20}{\geom}{\f}}}
- =\xintFrac{\xinttheexpr (17^21-5^21)/12/17^20\relax}\]
+ =\xintTeXFrac{\xintIrr{\xintPowerSeries {0}{20}{\geom}{\f}}}
+ =\xintTeXFrac{\xinttheexpr (17^21-5^21)/12/17^20\relax}\]
 \end{everbatim*}
 
 \begin{everbatim*}
 \def\coefflog #1{1/#1[0]}% 1/n
 \def\f {1/2[0]}%
 \[ \log 2 \approx \sum_{n=1}^{20} \frac1{n\cdot 2^n}
-    = \xintFrac {\xintIrr {\xintPowerSeries {1}{20}{\coefflog}{\f}}}\]
+    = \xintTeXFrac {\xintIrr {\xintPowerSeries {1}{20}{\coefflog}{\f}}}\]
 \[ \log 2 \approx \sum_{n=1}^{50} \frac1{n\cdot 2^n}
-    = \xintFrac {\xintIrr {\xintPowerSeries {1}{50}{\coefflog}{\f}}}\]
+    = \xintTeXFrac {\xintIrr {\xintPowerSeries {1}{50}{\coefflog}{\f}}}\]
 \end{everbatim*}
 
 
@@ -13325,7 +13537,7 @@ approach, is much less acute since release |1.1| and its new policy regarding
 %         ****  \numexpr -(1)\relax is ilegal !!! ****
 \def\f {1/25[0]}% 1/5^2
 \[\mathrm{Arctg}(\frac15)\approx \frac15\sum_{n=0}^{15} \frac{(-1)^n}{(2n+1)25^n}
-= \xintFrac{\xintIrr {\xintDiv {\xintPowerSeries {0}{15}{\coeffarctg}{\f}}{5}}}\]
+= \xintTeXFrac{\xintIrr {\xintDiv {\xintPowerSeries {0}{15}{\coeffarctg}{\f}}{5}}}\]
 \end{everbatim*}
 
 
@@ -13431,7 +13643,7 @@ of \csa{xintPowerSeries}, the nineteenth partial sum, and to then give
 (the start of) its exact decimal expansion:
 %
 \leftedline{|\xintPowerSeries {0}{19}{\coeffexp}{\f}| ${}=
-  \displaystyle\xintFrac{\z}$%
+  \displaystyle\xintTeXFrac{\z}$%
   \vphantom{\vrule height 20pt depth 12pt}}%
 %
 \leftedline{${}=\xintTrunc {30}{\z}\dots$} Thus, one should always
@@ -13874,9 +14086,7 @@ Note: \csbxint{CstoF} and \csbxint{CstoCv} create a partial dependency on
 The package computes partial quotients and convergents of a fraction, or
 conversely start from coefficients and obtain the corresponding fraction; three
 macros \csbxint {CFrac}, \csbxint {GCFrac} and \csbxint {GGCFrac} are
-for typesetting (the first two assume that the coefficients are numeric
-quantities acceptable by the \xintfracname \csbxint{Frac} macro, the
-last one will display arbitrary material), the others
+for typesetting, the others
 can be nested (if applicable) or see their outputs further processed by other
 macros from the \xintname bundle, particularly the macros of \xinttoolsname
 dealing with sequences of braced items or comma separated lists.
@@ -13893,7 +14103,7 @@ Typesetting is usually done via the |amsmath| macro |\cfrac|:
 
 Here is a concrete example:
 \begin{everbatim*}
-\[ \xintFrac {208341/66317}=\xintCFrac {208341/66317}\]%
+\[ \xintTeXFrac {208341/66317}=\xintCFrac {208341/66317}\]%
 \end{everbatim*}
 But it is the macro \csbxint{CFrac} which did all the work of \emph{computing}
 the continued fraction \emph{and} using |\cfrac| from |amsmath| to typeset
@@ -13911,7 +14121,7 @@ indeterminates.%
 The \emph{centered} continued fraction is an
 example:
 \begin{everbatim*}
-\[ \xintFrac {915286/188421}=\xintGCFrac {5+-1/7+1/39+-1/53+-1/13}
+\[ \xintTeXFrac {915286/188421}=\xintGCFrac {5+-1/7+1/39+-1/53+-1/13}
   =\xintCFrac {915286/188421}\]
 \end{everbatim*}
 
@@ -13924,7 +14134,7 @@ for comparison of the two types of continued fractions.
 To let \TeX{} compute the centered continued fraction of |f| there is
 \csbxint{FtoCC}:
 \begin{everbatim*}
-\[\xintFrac {915286/188421}\to\xintFtoCC {915286/188421}\]
+\[\xintTeXFrac {915286/188421}\to\xintFtoCC {915286/188421}\]
 \end{everbatim*}
 The package macros are expandable and may be nested (naturally \csa{xintCFrac}
 and \csa{xintGCFrac} must be at the top level, as they deal with typesetting).
@@ -13942,12 +14152,12 @@ signs are mandatory). No spaces are allowed around the plus and fraction
 symbols. The coefficients may themselves be macros, as long as these
 macros are \fexpan dable.
 \begin{everbatim*}
-\[ \xintFrac{\xintGCtoF {1+-1/57+\xintPow {-3}{7}/\xintiiQuo {132}{25}}}
+\[ \xintTeXFrac{\xintGCtoF {1+-1/57+\xintPow {-3}{7}/\xintiiQuo {132}{25}}}
     = \xintGCFrac {1+-1/57+\xintPow {-3}{7}/\xintiiQuo {132}{25}}\]
 \end{everbatim*}
 To compute the actual fraction one has \csbxint{GCtoF}:
 \begin{everbatim*}
-\[\xintFrac{\xintGCtoF {1+-1/57+\xintPow {-3}{7}/\xintiiQuo {132}{25}}}\]
+\[\xintTeXFrac{\xintGCtoF {1+-1/57+\xintPow {-3}{7}/\xintiiQuo {132}{25}}}\]
 \end{everbatim*}
 For non-numeric input  there is \csbxint{GGCFrac}.
 \begin{everbatim*}
@@ -13955,23 +14165,23 @@ For non-numeric input  there is \csbxint{GGCFrac}.
 \end{everbatim*}
 For regular continued fractions, there is a simpler comma separated format:
 \begin{everbatim*}
-\[-7,6,19,1,33\to\xintFrac{\xintCstoF{-7,6,19,1,33}}=\xintCFrac{\xintCstoF{-7,6,19,1,33}}\]
+\[-7,6,19,1,33\to\xintTeXFrac{\xintCstoF{-7,6,19,1,33}}=\xintCFrac{\xintCstoF{-7,6,19,1,33}}\]
 \end{everbatim*}
 The macro \csbxint{FtoCs} produces from a fraction |f| the comma separated
 list of its coefficients.
 \begin{everbatim*}
-\[\xintFrac{1084483/398959}=[\xintFtoCs{1084483/398959}]\]
+\[\xintTeXFrac{1084483/398959}=[\xintFtoCs{1084483/398959}]\]
 \end{everbatim*}
 If one prefers other separators, one can use the two arguments macros
 \csbxint{FtoCx} whose first argument is the separator (which may consist of more
 than one token) which is to be used.
 \begin{everbatim*}
-\[\xintFrac{2721/1001}=\xintFtoCx {+1/(}{2721/1001})\cdots)\]
+\[\xintTeXFrac{2721/1001}=\xintFtoCx {+1/(}{2721/1001})\cdots)\]
 \end{everbatim*}
 This allows under Plain  \TeX{} with |amstex| to obtain the same effect
 as with \LaTeX{}+|\amsmath|+\csbxint{CFrac}:
 %
-\leftedline{|$$\xintFwOver{2721/1001}=\xintFtoCx {+\cfrac1\\ }{2721/1001}\endcfrac$$|}
+\leftedline{|$$\xintTeXOver{2721/1001}=\xintFtoCx {+\cfrac1\\ }{2721/1001}\endcfrac$$|}
 
 As a shortcut to \csa{xintFtoCx} with separator |1+/|, there is
 \csbxint{FtoGC}:
@@ -14004,7 +14214,7 @@ discover that the original fraction was reducible:
 \leftedline{|\xintGCtoF
   {143+1/2+...+-1/9}|\dtt{=\xintGCtoF{143+1/2+1/5+-1/4+-1/4+-1/4+-1/3+1/2+1/2+1/6+-1/22+1/2+1/10+-1/5+-1/11+-1/3+1/4+-1/2+1/2+1/4+-1/2+1/23+1/3+1/8+-1/6+-1/9}}}
 
-\def\mymacro #1{$\xintFrac{#1}=[\xintFtoCs{#1}]$\vtop to 6pt{}}
+\def\mymacro #1{$\xintTeXFrac{#1}=[\xintFtoCs{#1}]$\vtop to 6pt{}}
 
 \begingroup
 \catcode`^\active
@@ -14032,12 +14242,12 @@ convergents, return them as a list of braced items, with no separator (as does
 \csbxint {FtoC} for the partial quotients). Here is an example:
 
 \begin{everbatim*}
-\[\xintFrac{915286/188421}\to
-  \xintListWithSep{,}{\xintApply\xintFrac{\xintFtoCv{915286/188421}}}\]
+\[\xintTeXFrac{915286/188421}\to
+  \xintListWithSep{,}{\xintApply\xintTeXFrac{\xintFtoCv{915286/188421}}}\]
 \end{everbatim*}
 \begin{everbatim*}
-\[\xintFrac{915286/188421}\to
-  \xintListWithSep{,}{\xintApply\xintFrac{\xintFtoCCv{915286/188421}}}\]
+\[\xintTeXFrac{915286/188421}\to
+  \xintListWithSep{,}{\xintApply\xintTeXFrac{\xintFtoCCv{915286/188421}}}\]
 \end{everbatim*}
 %
 We thus see that the `centered convergents' obtained with \csbxint{FtoCCv} are
@@ -14047,30 +14257,30 @@ Here is a more complicated use of \csa{xintApply}
 and \csa{xintListWithSep}. We first define a macro which will be applied to each
 convergent:%
 %
-\leftedline{|\newcommand{\mymacro}[1]{$\xintFrac{#1}=[\xintFtoCs{#1}]$\vtop to 6pt{}}|}
+\leftedline{|\newcommand{\mymacro}[1]{$\xintTeXFrac{#1}=[\xintFtoCs{#1}]$\vtop to 6pt{}}|}
 %
 Next, we use the following code:
 %
-\leftedline{|$\xintFrac{49171/18089}\to{}$|}
+\leftedline{|$\xintTeXFrac{49171/18089}\to{}$|}
 %
 \leftedline{|\xintListWithSep {,
   }{\xintApply{\mymacro}{\xintFtoCv{49171/18089}}}|}
 It produces:\par
-\noindent$ \xintFrac{49171/18089}\to {}$\xintListWithSep {,
+\noindent$ \xintTeXFrac{49171/18089}\to {}$\xintListWithSep {,
   }{\xintApply{\mymacro}{\xintFtoCv{49171/18089}}}.
 
 The macro \csbxint{CntoF} allows to specify the coefficients as a function given
 by a one-parameter macro. The produced values do not have to be integers.
 \begin{everbatim*}
 \def\cn #1{\xintiiPow {2}{#1}}% 2^n
-  \[\xintFrac{\xintCntoF {6}{\cn}}=\xintCFrac [l]{\xintCntoF {6}{\cn}}\]
+  \[\xintTeXFrac{\xintCntoF {6}{\cn}}=\xintCFrac [l]{\xintCntoF {6}{\cn}}\]
 \end{everbatim*}
 
 Notice  the use of the optional argument |[l]| to \csa{xintCFrac}. Other
 possibilities are |[r]| and (default) |[c]|.
 \begin{everbatim*}
 \def\cn #1{\xintPow {2}{-#1}}%
-  \[\xintFrac{\xintCntoF {6}{\cn}}=\xintGCFrac [r]{\xintCntoGC {6}{\cn}}=
+  \[\xintTeXFrac{\xintCntoF {6}{\cn}}=\xintGCFrac [r]{\xintCntoGC {6}{\cn}}=
       [\xintFtoCs {\xintCntoF {6}{\cn}}]\]
 \end{everbatim*}
 We used \csbxint{CntoGC} as we wanted to display also the continued fraction and
@@ -14082,7 +14292,7 @@ fraction for $\pi$ is obtained like this
 \begin{everbatim*}
 \def\an #1{\the\numexpr 2*#1+1\relax }%
 \def\bn #1{\the\numexpr (#1+1)*(#1+1)\relax }%
-\[\xintFrac{\xintDiv {4}{\xintGCntoF {5}{\an}{\bn}}} =
+\[\xintTeXFrac{\xintDiv {4}{\xintGCntoF {5}{\an}{\bn}}} =
         \cfrac{4}{\xintGCFrac{\xintGCntoGC {5}{\an}{\bn}}} =
                   \xintTrunc {10}{\xintDiv {4}{\xintGCntoF {5}{\an}{\bn}}}\dots\]
 \end{everbatim*}
@@ -14090,7 +14300,7 @@ fraction for $\pi$ is obtained like this
 We see that the quality of approximation is not fantastic compared to the simple
 continued fraction of $\pi$ with about as many terms:
 \begin{everbatim*}
-\[\xintFrac{\xintCstoF{3,7,15,1,292,1,1}}=
+\[\xintTeXFrac{\xintCstoF{3,7,15,1,292,1,1}}=
              \xintGCFrac{3+1/7+1/15+1/1+1/292+1/1+1/1}=
                        \xintTrunc{10}{\xintCstoF{3,7,15,1,292,1,1}}\dots\]
 \end{everbatim*}
@@ -14107,7 +14317,7 @@ lower and upper bound:
 $$\pi\to [\xintListWithSep{,}
          {\xintFGtoC {3.14159265358979323}{3.14159265358979324}}, \dots]$$
 \noindent$\pi\to\xintListWithSep{,\allowbreak\;}
-   {\xintApply{\xintFrac}
+   {\xintApply{\xintTeXFrac}
    {\xintCtoCv{\xintFGtoC {3.14159265358979323}{3.14159265358979324}}}}, \dots$
 \end{everbatim*}
 
@@ -14118,9 +14328,8 @@ $$\pi\to [\xintListWithSep{,}
 only, macro which first computes then displays with the help of |\cfrac| the
 simple continued fraction corresponding to the given fraction. It admits an
 optional argument which may be |[l]|, |[r]| or (the default) |[c]| to specify
-the location of the one's in the numerators of the sub-fractions. Each
-coefficient is typeset using the \csbxint{Frac} macro from the \xintfracname
-package. This macro is \fexpan dable in the sense that it prepares expandably
+the location of the one's in the numerators of the sub-fractions.
+This macro is \fexpan dable in the sense that it prepares expandably
 the whole expression with the multiple |\cfrac|'s, but it is not completely
 expandable naturally as |\cfrac| isn't.
 
@@ -14135,14 +14344,14 @@ users, see \csbxint{GCtoGCx}.
 \begin{everbatim*}
 \[\xintGCFrac {1+\xintPow{1.5}{3}/{1/7}+{-3/5}/\xintiiFac {6}}\]
 \end{everbatim*}
-This is mostly a typesetting macro, although it does provoke the
+This is mostly a typesetting macro, although it does trigger the
 expansion of the coefficients. See \csbxint{GCtoF} if you are impatient
 to see this specific fraction computed.
 
 It admits an optional argument within square brackets which may be
 either |[l]|, |[c]| or |[r]|. Default is |[c]| (numerators are centered).
 
-Numerators and denominators are made arguments to the \csbxint{Frac}
+Numerators and denominators are made arguments to the \csbxint{TeXFrac}
 macro. This allows them to be themselves fractions or anything \fexpan
 dable giving numbers or fractions, but also means however that they can
 not be arbitrary material, they can not contain color changing macros
@@ -14182,7 +14391,7 @@ output similar as the ones produced by \csbxint{GCFrac} and
 \csbxint{GGCFrac}:\par
 \everb|@
 $$\xintGCtoGCx {+\cfrac}{\\}{a+b/...}\endcfrac$$
-$$\xintGCtoGCx {+\cfrac\xintFwOver}{\\\xintFwOver}{a+b/...}\endcfrac$$
+$$\xintGCtoGCx {+\cfrac\xintTeXOver}{\\\xintTeXOver}{a+b/...}\endcfrac$$
 |
 
 \subsection{\csh{xintFtoC}}\label{xintFtoC}
@@ -14202,7 +14411,7 @@ coefficients of the simple continued fraction of |f|. Notice that starting with
 |1.09m| a space follows each comma (mainly for usage in text mode, as in math
 mode spaces are produced in the typeset output by \TeX{} itself).
 \begin{everbatim*}
-\[ \xintSignedFrac{-5262046/89233} \to [\xintFtoCs{-5262046/89233}]\]
+\[ \xintTeXsignedFrac{-5262046/89233} \to [\xintFtoCs{-5262046/89233}]\]
 \end{everbatim*}
 
 \subsection{\csh{xintFtoCx}}\label{xintFtoCx}
@@ -14285,7 +14494,7 @@ braced numbers. This list can then be manipulated via macros from
 566827/208524=\xintFtoCC {566827/208524}
 \end{everbatim*}
 \begin{everbatim*}
-\[\xintFrac{566827/208524} = \xintGCFrac{\xintFtoCC{566827/208524}}\]
+\[\xintTeXFrac{566827/208524} = \xintGCFrac{\xintFtoCC{566827/208524}}\]
 \end{everbatim*}
 
 \subsection{\csh{xintCstoF}}\label{xintCstoF}
@@ -14301,11 +14510,11 @@ release |1.09m| spaces before commas are allowed and trimmed automatically
 (spaces after commas were already silently handled in earlier releases).
 \begin{everbatim*}
 \[\xintGCFrac {-1+1/3+1/-5+1/7+1/-9+1/11+1/-13}=
-  \xintSignedFrac{\xintCstoF {-1,3,-5,7,-9,11,-13}}=\xintSignedFrac{\xintGCtoF
+  \xintTeXsignedFrac{\xintCstoF {-1,3,-5,7,-9,11,-13}}=\xintTeXsignedFrac{\xintGCtoF
     {-1+1/3+1/-5+1/7+1/-9+1/11+1/-13}}\]
 \end{everbatim*}
 \begin{everbatim*}
-\[\xintGCFrac{{1/2}+1/{1/3}+1/{1/4}+1/{1/5}}=\xintFrac{\xintCstoF {1/2,1/3,1/4,1/5}}\]
+\[\xintGCFrac{{1/2}+1/{1/3}+1/{1/4}+1/{1/5}}=\xintTeXFrac{\xintCstoF {1/2,1/3,1/4,1/5}}\]
 \end{everbatim*}
 %
 A generalized continued fraction may produce a reducible fraction
@@ -14321,7 +14530,7 @@ to the coefficients, which may be fractions or even macros.
 \xintCtoF {\xintApply {\xintiiPow 3}{\xintSeq {1}{5}}}
 \end{everbatim*}
 \begin{everbatim*}
-\[ \xintFrac{14946960/4805083}=\xintCFrac {14946960/4805083}\]
+\[ \xintTeXFrac{14946960/4805083}=\xintCFrac {14946960/4805083}\]
 \end{everbatim*}
 In the example above the power of $3$ was already pre-computed via the expansion
 done by |\xintApply|, but if we try with |\xintApply { \xintiiPow 3}| where the
@@ -14336,14 +14545,14 @@ fractions but must then be put within braces. They can be macros. The plus signs
 are mandatory.
 \begin{everbatim*}
 \[\xintGCFrac {1+\xintPow{1.5}{3}/{1/7}+{-3/5}/\xintiiFac {6}} =
-\xintFrac{\xintGCtoF {1+\xintPow{1.5}{3}/{1/7}+{-3/5}/\xintiiFac {6}}} =
-\xintFrac{\xintIrr{\xintGCtoF
+\xintTeXFrac{\xintGCtoF {1+\xintPow{1.5}{3}/{1/7}+{-3/5}/\xintiiFac {6}}} =
+\xintTeXFrac{\xintIrr{\xintGCtoF
                   {1+\xintPow{1.5}{3}/{1/7}+{-3/5}/\xintiiFac {6}}}}\]
 \end{everbatim*}
 
 \begin{everbatim*}
 \[ \xintGCFrac{{1/2}+{2/3}/{4/5}+{1/2}/{1/5}+{3/2}/{5/3}} =
-   \xintFrac{\xintGCtoF {{1/2}+{2/3}/{4/5}+{1/2}/{1/5}+{3/2}/{5/3}}} \]
+   \xintTeXFrac{\xintGCtoF {{1/2}+{2/3}/{4/5}+{1/2}/{1/5}+{3/2}/{5/3}}} \]
 \end{everbatim*}
 
 The macro tries its best not to accumulate superfluous factor in the
@@ -14368,7 +14577,7 @@ fractions, but otherwise it is not necessarily the case.
 \xintListWithSep:{\xintCstoCv{1,1/2,1/3,1/4,1/5,1/6}}
 \end{everbatim*}
 \begin{everbatim*}
-\[\xintListWithSep{\to}{\xintApply\xintFrac{\xintCstoCv {\xintPow
+\[\xintListWithSep{\to}{\xintApply\xintTeXFrac{\xintCstoCv {\xintPow
         {-.3}{-5},7.3/4.57,\xintCstoF{3/4,9,-1/3}}}}\]
 \end{everbatim*}
 
@@ -14390,9 +14599,9 @@ The convergents will in the general case be reducible. To put them into
 irreducible form, one needs one more step, for example it can be done
 with |\xintApply\xintIrr|.
 \begin{everbatim*}
-\[\xintListWithSep{,}{\xintApply\xintFrac
+\[\xintListWithSep{,}{\xintApply\xintTeXFrac
                 {\xintGCtoCv{3+{-2}/{7/2}+{3/4}/12+{-56}/3}}}\]
-\[\xintListWithSep{,}{\xintApply\xintFrac{\xintApply\xintIrr
+\[\xintListWithSep{,}{\xintApply\xintTeXFrac{\xintApply\xintIrr
                 {\xintGCtoCv{3+{-2}/{7/2}+{3/4}/12+{-56}/3}}}}\]
 \end{everbatim*}
 
@@ -14403,7 +14612,7 @@ with |\xintApply\xintIrr|.
 |f|, with no separator. To be treated with \csbxint{AssignArray} or
 \csbxint{ListWithSep}.
 \begin{everbatim*}
-\[\xintListWithSep{\to}{\xintApply\xintFrac{\xintFtoCv{5211/3748}}}\]
+\[\xintListWithSep{\to}{\xintApply\xintTeXFrac{\xintFtoCv{5211/3748}}}\]
 \end{everbatim*}
 
 \subsection{\csh{xintFtoCCv}}\label{xintFtoCCv}
@@ -14412,7 +14621,7 @@ with |\xintApply\xintIrr|.
 convergents of |f|, with no separator. To be treated with \csbxint{AssignArray}
 or \csbxint{ListWithSep}.
 \begin{everbatim*}
-\[\xintListWithSep{\to}{\xintApply\xintFrac{\xintFtoCCv{5211/3748}}}\]
+\[\xintListWithSep{\to}{\xintApply\xintTeXFrac{\xintFtoCCv{5211/3748}}}\]
 \end{everbatim*}
 
 \subsection{\csh{xintCntoF}}\label{xintCntoF}
@@ -14445,7 +14654,7 @@ The |N| parameter is given to a |\numexpr|.
 \def\coeffA #1{\the\numexpr #1+4-3*((#1+2)/3)\relax }%
 \def\coeffB #1{\the\numexpr \ifodd #1 -\fi 1\relax }% (-1)^n
 \[\xintGCFrac{\xintGCntoGC {6}{\coeffA}{\coeffB}} =
-                                \xintFrac{\xintGCntoF {6}{\coeffA}{\coeffB}}\]
+                                \xintTeXFrac{\xintGCntoF {6}{\coeffA}{\coeffB}}\]
 \end{everbatim*}
 There is also \csbxint{GCntoGC} to get the `inline format' continued
 fraction.
@@ -14459,7 +14668,7 @@ of the corresponding coefficients, from |n=0| to |n=N|. The |N| is given to a
 \xintCntoCs {5}{\macro}
 \end{everbatim*}
 \begin{everbatim*}
-\[ \xintFrac{\xintCntoF{5}{\macro}}=\xintCFrac{\xintCntoF {5}{\macro}}\]
+\[ \xintTeXFrac{\xintCntoF{5}{\macro}}=\xintCFrac{\xintCntoF {5}{\macro}}\]
 \end{everbatim*}
 
 \subsection{\csh{xintCntoGC}}\label{xintCntoGC}
@@ -14489,7 +14698,7 @@ confused in further processing by the continued fraction slashes.
 \def\an #1{\the\numexpr  #1*#1*#1+1\relax}%
 \def\bn #1{\the\numexpr \ifodd#1 -\fi 1*(#1+1)\relax}%
 $\xintGCntoGC {5}{\an}{\bn}=\xintGCFrac {\xintGCntoGC {5}{\an}{\bn}} =
-\displaystyle\xintFrac {\xintGCntoF {5}{\an}{\bn}}$\par
+\displaystyle\xintTeXFrac {\xintGCntoF {5}{\an}{\bn}}$\par
 \end{everbatim*}
 
 \subsection{\csh{xintCstoGC}}\label{xintCstoGC}
@@ -14499,7 +14708,7 @@ something expanding to such a list) into an `inline format' continued fraction
 |{a}+1/{b}+1/...+1/{z}|. The coefficients are just copied and put within braces,
 without expansion. The output can then be used in \csbxint{GCFrac} for example.
 \begin{everbatim*}
-\[\xintGCFrac {\xintCstoGC {-1,1/2,-1/3,1/4,-1/5}}=\xintSignedFrac{\xintCstoF {-1,1/2,-1/3,1/4,-1/5}}\]
+\[\xintGCFrac {\xintCstoGC {-1,1/2,-1/3,1/4,-1/5}}=\xintTeXsignedFrac{\xintCstoF {-1,1/2,-1/3,1/4,-1/5}}\]
 \end{everbatim*}
 \subsection{\csh{xintiCstoF}, \csh{xintiGCtoF}, \csh{xintiCstoCv}, \csh{xintiGCtoCv}}\label{xintiCstoF}
 \label{xintiGCtoF}
@@ -14555,7 +14764,7 @@ the convergents of Euler's number $e$.
                 \noindent
                 \hbox to 3em {\hfil\small\dtt{\the\cnta.} }%
                 $\xintTrunc {30}{\xintAdd {1[0]}{#1}}\dots=
-                 \xintFrac{\xintAdd {1[0]}{#1}}$}%
+                 \xintTeXFrac{\xintAdd {1[0]}{#1}}$}%
 \xintListWithSep{\vtop to 6pt{}\vbox to 12pt{}\par}
     {\xintApply\mymacro{\xintiCstoCv{\xintCntoCs {35}{\cn}}}}
 \end{everbatim*}
@@ -17838,7 +18047,7 @@ then write a very fast expandable primality test for such numbers using only
 
 \xintNewFunction{isCompositeWitness}[4]{% x=#1, n=#2, m=#3, k=#4
    subs((y==1)?{0}
-         {iter(y;(j=#4)?{break(!(@==#2-1))}
+         {iter(y;(j==#4)?{break(!(@==#2-1))}
                         {(@==#2-1)?{break(0)}{sqr(@)/:#2}},j=1++)}
          ,y=powmod(#1,#3,#2))}
 
@@ -18634,6 +18843,25 @@ currently this is implemented by using either |\xintifForFirst| or
 % \lverb
 % ======
 
+% Updated 2021/05/24 to work-around macrocode bug
+% https://github.com/latex3/latex2e/issues/563
+% which shows when I have some \subsection directly
+% followed by macrocode, then next time there is some actual
+% text the spacing to next macrocode block will be wrong.
+\AddToHook{env/macrocode/after}{\@nobreakfalse}
+% I suspect the \par\medskip which was in \lverb code
+% below was a poorman workaround, dating back to 2014
+% or earlier.
+%
+% macrocode has another strange problem which is
+% that it reacts differently if one leaves a "blank line"
+% above it in the comments, or use there \par. I consider
+% this to be another bug of macrocode (which is inherited
+% from the usage of the \trivlist mechanism).
+% The presence of \par will add \partopsep space.
+% \setlength{\partopsep}{0pt}
+\AddToHook{env/macrocode/begin}{\partopsep0pt\relax}
+
 % Définition de \lverb
 % Has become more complicated for 1.2l
 \catcode`_ 11
@@ -18653,9 +18881,19 @@ currently this is implemented by using either |\xintifForFirst| or
 \catcode`_ 8
 \long\def\lverb {%
   \relax\par\smallskip%\noindent\null
-  \begingroup
+%  \begingroup
   \bgroup
-    \aftergroup\@@par \aftergroup\endgroup \aftergroup\medskip
+% this mechanism (whose motivation I do not really recall, in particular
+% probably the \medskip was related to counteract the macrocode bug
+% latex2e#563 whose effects I must have seen in 2013/2014) now removed
+% at 1.4g.  I vaguely remember this code was originally done
+% in relation to coloured short verbatims?
+%
+% Removing the \medskip has reduced when it was done xint-source.pdf to 545
+% from 550 pages. Update: and removing the bad extra spacing when a macrocode
+% block follows immediately a \section or \subsection had the result of
+% reducing further to 542 pages...
+%    \aftergroup\@@par \aftergroup\endgroup \aftergroup\medskip
     \let\do\do@noligs  \verbatim@nolig@list
     \let\do\@makeother \dospecials
     \catcode32 10 \catcode`\& 14 \catcode`\$ 0
@@ -18665,9 +18903,11 @@ currently this is implemented by using either |\xintifForFirst| or
     \@lverb
 }
 
+% let's use (7 years later) simply a \def and not \let~\egroup
 \def\@lverb #1{\catcode`#1\active
-               \lccode`\~`#1\lowercase{\let~\egroup}}%
+               \lccode`\~`#1\lowercase{\def~}{\egroup\par}}%
 
+% there is a group to handle restore
 \def\MicroFont {%\ttzfamily
                 \color[named]{Purple}\makestarlowast }
 
@@ -18675,6 +18915,7 @@ currently this is implemented by using either |\xintifForFirst| or
 % ===================
 \newenvironment{privatecodecomments}
    {\par \textbf{\textcolor{red}{COMMENTAIRES PRIVÉS.}}\par
+    \def\MicroFont{\color[named]{BlueGreen}\makestarlowast}% (<-- 2021/05/24...)
     \begingroup\lccode`\~`\%\lowercase{\endgroup\let~\lverbpercent}%
     \catcode`\%\active}
    {\par \textbf{\textcolor{red}{FIN DES COMMENTAIRES PRIVÉS.}}\par}
@@ -18770,6 +19011,10 @@ Please refer to |CHANGES.html| for a (very) detailed history.
   \url{http://mirrors.ctan.org/macros/generic/xint/CHANGES.html}}
 
 \begin{itemize}
+\item Release \expandafter|\xintbndlversion| of \expandafter|\xintbndldate|:
+  powers are now parsed in a right associative way. Removal of the
+  single-character operators |&|, \verb=|=, and |=| (deprecated at |1.1|).
+  Reformatted expandable error messages.
 \item Release |1.4e| of |2021/05/05|: logarithms and exponentials up to 62
   digits, trigonometry still mainly done at high level but with guard digits
   so all digits up to the last one included can be trusted for faithful
@@ -19052,7 +19297,7 @@ math shift catcode.
 \fi
 \XINT_providespackage
 \ProvidesPackage {xintkernel}%
-  [2021/05/10 v1.4f Paraphernalia for the xint packages (JFB)]%
+  [2021/05/25 v1.4g Paraphernalia for the xint packages (JFB)]%
 %    \end{macrocode}
 % \subsection{Constants}
 %    \begin{macrocode}
@@ -19070,6 +19315,7 @@ math shift catcode.
 \chardef\xint_c_xii   12
 \chardef\xint_c_xiv   14
 \chardef\xint_c_xvi   16
+\chardef\xint_c_xvii  17
 \chardef\xint_c_xviii 18
 \chardef\xint_c_xx    20
 \chardef\xint_c_xxii  22
@@ -19715,7 +19961,7 @@ math shift catcode.
   \def\xintUniformDeviate#1%
   {%
       \the\numexpr
-      \XINT_expandableerror{No uniformdeviate at engine level, returning 0.}%
+      \XINT_expandableerror{(xintkernel) No uniformdeviate primitive!}%
       0\relax
   }%
 }%
@@ -19745,23 +19991,195 @@ math shift catcode.
 \def\XINT_global{\ifxintglobaldefs\global\fi}%
 %    \end{macrocode}
 % \subsection{(WIP) Expandable error message}
-% \changed{1.2l}{} but really belongs to next major release beyond |1.3|.
+% \changed{1.2l}{2017/07/26} but really belongs to next major release beyond |1.3|.
+% Basically copied over from l3kernel code. Using |\ ! /| control sequence,
+% which must be left undefined. |\xintError:| would be 6 letters more.
 %
-% This is copied over from l3kernel code. I am using |\ ! /| control sequence
-% though, which must be left undefined. |\xintError:| would be 6 letters more
-% already.
 % \changed{1.4}{2020/01/25} Finally rather than |\ ! /| I use |\xint/|.
+%
+% \changed{1.4g}{2021/05/19} Rewrote to use not an undefined control
+% sequence but trigger "Use of |\xint/| doesn't match its definition." message.
+%
+% \changed{1.4g}{2021/05/20} Things evolve fast and I switch to a third
+% method which will exploit "Paragraph ended before |\foo| was complete" style
+% error. See
+% \centeredline{\url{https://github.com/latex3/latex3/issues/931#issuecomment-845367201}}
+% However I can not fully exploit this because xint may be used with
+% Plain etex which does not set |\newlinechar|. 
+% I can only use a poorman version with no usage of |^^J|. Also
+% \ctanpackage{xintsession} could use the |^^J|, maybe I will integrate it
+% there.
+%
+% \def\xintsession{\ctanpackage{xintsession}}
+%
+% \lverb`&
+% I. Explanations on 2021/05/19 and 2021/05/20 before final change
+%
+% First I tried out things with undefined control sequence such as
+%(\       an error was reported by xint ... %
+%)
+% whose output produces a nice symmetrical display with no \, and with ... both
+% on left and right but this reduces drastically the available
+% space for the actual error context. No go. But see 2021/05/20 update below!
+%
+% Having replaced \xint/ by "\xint ", I next opted provisorily for "\Hit
+% RET at ?" control sequence, despite it being quite longer. And then I
+% thought about using "\ xint error", possibly with an included ^^J in the name,
+% or in the context.
+%
+% I experimented with ^^J in the context.  But the context size is much
+% constrained, and when \errorcontextlines is at its default value of 5 for
+% etex, not -1 as done by LaTeX, having the info shifted to the right makes it
+% actually more visible. (however I have now updated $xintsession$ to 0.2b which
+% sets \errorcontextlines to 0)
+%
+% So I was finally back here to square one, apart from having replaced "\xint/"
+% by the more longish "\ xint error", hesitating with "\xinterrupt"...
+%
+% Then I had the idea to replace the undefined control sequence method by a
+% method with a macro \foo defined as \def\foo.{} but used as \foo<space> for
+% example.  This gives something like this (the first line will be otherwise
+% if engine is run with -file-line-error):
+%( ! Use of \xint/ doesn't match its definition.
+%: <argument> \xint/  
+%:                     Ooops, looks like we are missing a ] (hit RET) 
+%)
+% \xint/<space> (where the space is the unexpected token, the definition
+% expecting rather a full stop) makes for 7 characters
+% to compare to \ xint error which had 12, so I gained back 5.
+%
+% Back to ^^J: I had overlooked that TeX in the first part of the error
+% message will display \macro fully, so inserting ^^J in its name allows
+% arbitrarily long expandable error messages... as pointed out by BLF in
+% latex3/issues#931 as I read on the morning of 2021/05/20. This is very nice
+% but requires to predefine control sequences for each message, and also the
+% actual arguments #1, #2, ... values can appear only in the context.
+%
+% And the situation with ^^J is somewhat complicated:
+% 
+% $xintsession$ sets the \newlinechar to 10, but this is not the case with bare
+% usage of xintexpr with etex.  And this matters.  To discuss ^^J we have to
+% separate two locations:
+%(- it appears in the control sequence name,
+%:- or in the context (which itself has two parts)
+%)
+%
+% 1) When in the context, what happens with ^^J is independent of the setting of
+% \newlinechar: and with TeXLive pdflatex the ^^J will induce a linebreak, but
+% with xelatex it must be used with option -8bit.
+%
+% $noindent2) When in the control sequence name the behaviour in log/terminal of ^^J is
+% influenced by the setting of \newlinechar.  Although with pdflatex it will
+% always induce a linebreak, the actual count of characters where TeX will
+% forcefully break is influenced by whether ^^J is or not \newlinechar. And
+% with xelatex if it is \newlinechar, it does not depend then if -8bit or not,
+% but if not \newlinechar then it does and TeX forceful breaks also change
+% as for pdflatex.
+%
+% So, the control sequence name trick can be used to obtain arbitrarily
+% long messages, but the \newlinechar must be set.
+%
+% And in the context, we can try to insert some ^^J but this would need
+% with xetex the -8bit option, and anyhow the context size is limited,
+% and there is apparently no trick to get it larger.
+%
+% So, in view of all the above I decided not to use ^^J (rather $&$&J
+% here) at all, whether here in the control sequence or the context or
+% inserted in \XINT_signalcondition in the context!
+%
+% I also have a problem with usage from bnumexpr or polexpr for example,
+% they would need their own to avoid perhaps displaying \xint/ or analogous.
+%
+% II. Finally I modified again the method (completely, and no more need for
+% funny catcode 7 space as delimiter) as this allows a longer context message,
+% starting at start of line, and which obeys ^^J if \newlinechar is set to
+% it. It also allows to incorporate non-limited generic explanations as a
+% postfix, with linebreaks if \newlinechar is known.
+%
+% But as $xintexprnameimp can be used with Plain+etex which does not set the
+% \newlinechar, I can't use ^^J out of thee box.  I can in $xintsession.
+% What I decided finally is to make a conditional definition here.
+%
+% In both cases I include the "hit RET" (how rather "hit <return>") in the
+% control sequence name serving to both provide extra information and trigger
+% the error from being defined short and finding a \par.
+%
+% The maximal size was increased from 48 characters (method with \xint/ being
+% badly delimited), to now 55 characters (using "! xint error:<^^J or space>"
+% as prefix to the message). Longer messages are truncated at 56 characters
+% with an appended "\ETC.".
+%
+% As it is late on this 2021/05/20, and in order to not have to change all
+% usages, I keep \XINT_signalcondition (in $xintcorenameimp) as a one argument
+% macro for time being, so will not include a more specific module name.
+%
+% The \par token has a special role here, and can't be (I)nserted without
+% damage, but who would want to insert it in an expandable computation
+% anyhow... and I don't need it in my custom error messages for sure.
+%
+% On 2021/05/21 I add a test about \newlinechar at time of package loading,
+% and make two distinct definitions: one using ^^J in the control sequence,
+% the other not using it.
+%
+% The -file-line-error toggle makes it impossible to control if the
+% line-break on first line will match next lines.  In the ^^J branch I insert
+% "| " (no, finally "$ $ " with two spaces) at start of continuation lines.
+% Also I preferred to ensure a good-looking first line break for the case it
+% starts with a "!  Paragraph ended ..."  because a priori error messages will
+% be read if -file-line-error was emitted only a fortiori (this toggle
+% suggests some IDE launched TeX and probably -interaction=nonstopmode).
+%
+% I will perhaps make another definition in $xintsession$ (it currently loads
+% xintexpr prior to having set the \newlinechar, so the no ^^J definition will
+% be used, if nothing else is modified there).
+%
+% With some hesitation I do not insert a ^^J after "! xint error:", as
+% Emacs/AucTeX will display only the first line prominently and then the rest
+% (which is in file:line:error mode) in one block under "--- TeX said ---".  I
+% use the ^^J only in the generic helper message embedded in the control
+% sequence. The cases with or without \newlinechar being 10 diverge a bit, as
+% in the latter case I had to ensure acceptable linebreaks at 79 chars, and I
+% did that first and then had spent enough time on the matter not to add more
+% to backport the latest ^^J style message.`
 %    \begin{macrocode}
-\def\XINT_expandableerror #1#2{%
-    \def\XINT_expandableerror ##1{%
-        \expandafter\expandafter\expandafter
-        \XINT_expandableerror_continue\xint_firstofone{#2#1##1#1}}%
-    \def\XINT_expandableerror_continue ##1#1##2#1{##1}%
-}%
-\begingroup\lccode`$ 32 \catcode`/ 11 % $
-%    \end{macrocode}
-%    \begin{macrocode}
-\lowercase{\endgroup\XINT_expandableerror$\xint/\let\xint/\xint_undefined}% $
+\ifnum\newlinechar=10
+\expandafter\def\csname
+romannumeral (or \string\expanded,&&J \space
+\string\numexpr, ...) expansion could produce its final output.&&J \space
+See above the exception specifics.&&J \space
+xint will try to recover (if in interactive mode, hit <return>&&J \space
+at the ? prompt) and will go ahead hoping repair\endcsname
+#1\xint:{}%
+\def\XINT_expandableerror#1{%
+\def\XINT_expandableerror##1{%
+   \expandafter
+   \XINT_expandableerrorcontinue
+   #1! xint error: ##1\par
+}}\expandafter\XINT_expandableerror\csname
+romannumeral (or \string\expanded,&&J \space
+\string\numexpr, ...) expansion could produce its final output.&&J \space
+See above the exception specifics.&&J \space
+xint will try to recover (if in interactive mode, hit <return>&&J \space
+at the ? prompt) and will go ahead hoping repair\endcsname
+\else
+\expandafter\def\csname
+numexpr or \string\expanded\space or \string\romannumeral\space expansion
+could terminate because an exception was raised (see the above short explanation for
+specifics). xint will now try to recover (hit <return> if in interactive
+mode) and will go ahead hoping repair\endcsname
+#1\xint:{}%
+\def\XINT_expandableerror#1{%
+\def\XINT_expandableerror##1{%
+   \expandafter
+   \XINT_expandableerrorcontinue
+   #1! xint error: ##1\par
+}}\expandafter\XINT_expandableerror\csname
+numexpr or \string\expanded\space or \string\romannumeral\space expansion
+could terminate because an exception was raised (see the above short explanation for
+specifics). xint will now try to recover (hit <return> if in interactive
+mode) and will go ahead hoping repair\endcsname
+\fi
+\def\XINT_expandableerrorcontinue#1\par{#1}%
 \XINTrestorecatcodesendinput%
 %    \end{macrocode}
 % \StoreCodelineNo {xintkernel}
@@ -19839,7 +20257,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xinttools}%
-  [2021/05/10 v1.4f Expandable and non-expandable utilities (JFB)]%
+  [2021/05/25 v1.4g Expandable and non-expandable utilities (JFB)]%
 %    \end{macrocode}
 % \lverb|\XINT_toks is used in macros such as \xintFor. It is not used
 % elsewhere in the xint bundle.|
@@ -21554,12 +21972,12 @@ math shift catcode.
     \def #1##1%
     {%
         \ifnum ##1<\xint_c_
-            \xint_afterfi{\XINT_expandableerror{Array index negative: 0 > ##1} }%
+            \xint_afterfi{\XINT_expandableerror{Array index is negative: ##1.} }%
         \else
         \xint_afterfi {%
               \ifnum ##1>#2
                   \xint_afterfi
-                  {\XINT_expandableerror{Array index beyond range: ##1 > #2} }%
+                  {\XINT_expandableerror{Array index is beyond range: ##1 > #2.} }%
               \else\xint_afterfi
        {\expandafter\expandafter\expandafter\space\csname #3##1\endcsname}%
               \fi}%
@@ -22183,7 +22601,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcore}%
-  [2021/05/10 v1.4f Expandable arithmetic on big integers (JFB)]%
+  [2021/05/25 v1.4g Expandable arithmetic on big integers (JFB)]%
 %    \end{macrocode}
 % \subsection{(WIP!) Error conditions and exceptions}
 % \lverb|As per the Mike Cowlishaw/IBM's General Decimal Arithmetic Specification
@@ -22280,16 +22698,60 @@ math shift catcode.
        \xint_dothis{\csname XINT_#2.handler\endcsname {#4}}%
     \fi
     \xint_orthat{%
-       % the flag raised is named after the signal #1, but we show condition #2
-       \XINT_expandableerror{#2 (hit <RET> thrice)}%
+       % the flag raised is named after the signal #1, but we show condition
+       % #2
+%    \end{macrocode}
+% \lverb|&
+%
+% On 2021/05/19, 1.4g, I re-examined \XINT_expandableerror experimenting
+% at first with an added ^^J to shift to next line the actual message.
+%
+% Previously I was calling it thrice (condition #2, user context #3, next
+% tokens #5) here but it seems more reasonable to use it only once. As total
+% size is so limited, I decided to only display #3 (information for user) and
+% drop the #2 (condition, first argument of \XINT_signalcondition) and the
+% display of the #5 (next tokens, fourth argument of \XINT_signalcondition).
+%
+% Besides, why was I doing here \xint_stop_atfirstofone{#5}, which adds
+% limitations to usage?  Now inserting #5 directly so callers will have to
+% insert a \romannumeral0 stopping space token if needed.  I thus have to
+% update all usages across (mainly, I think) xintfrac. Done, but using here
+% \xint_firstofone{#5}.  This looks silly, but allows some hypothetical future
+% usage by user of I\xintUse{stuff} usage where \xintUse would be
+% \xint_firstofthree.
+%
+% The problem is that this would have to be explained to user in the error
+% context but space there is so extremely limited...
+%
+% After having reviewed existing usage of \XINT_signalcondition, I noticed
+% there was free space in most cases and added here " (hit RET)" after #3.
+%
+% I experimented with ^^J here too (its effect in the "context" is
+% independent of the \newlinechar setting, but it depends on the engine: works
+% with TeXLive pdftex, requires -8bit with xetex)
+%
+% However, due to \errorcontextlines being 5 by default in etex (but
+% xintsession 0.2b sets it to 0), I finally decided to not insert a ^^J
+% ($&$&J) at all to separate the " (hit RET)" hint.
+%
+% On 2021/05/20 evening I found another completely different method for
+% \XINT_expandableerror, which has some advantages. In particular it allows me
+% to not use here "#3 (hit RET)" but simply "#3" as such information can be
+% integrated in a non size limited generic message.
+%
+% The maximal size of #3 here was increased from 48 characters (method
+% with \xint/ being badly delimited), to now 55 characters, longer
+% messages being truncated at 56 characters with an appended "\ETC.".
+% 
+% |
+%    \begin{macrocode}
        \XINT_expandableerror{#3}%
-       \XINT_expandableerror{next: #5}%
        % not for X3.274
        %\XINT_expandableerror{<RET>, or I\xintUse{...}<RET>, or I\xintCTRLC<RET>}%
-       \xint_stop_atfirstofone{#5}%
+       \xint_firstofone{#5}%
     }%
 }%
-%% \let\xintUse\xint_stop_atfirstofthree % defined in xint.sty
+%% \def\xintUse{\xint_firstofthree} % defined in xint.sty
 \def\XINT_ifFlagRaised #1{%
     \ifcsname XINT_#1Flag_ON\endcsname
         \expandafter\xint_firstoftwo
@@ -24014,7 +24476,7 @@ math shift catcode.
 \def\XINT_iidivision_divbyzero#1#2#3\xint:#4\xint:
    {\if0#1\xint_dothis{\XINT_signalcondition{DivisionUndefined}}\fi
           \xint_orthat{\XINT_signalcondition{DivisionByZero}}%
-    {Division of #1#4 by #2#3}{}{{0}{0}}}%
+    {Division by zero: #1#4/#2#3.}{}{{0}{0}}}%
 \def\XINT_iidivision_aiszero #1\xint:#2\xint:{{0}{0}}%
 \def\XINT_iidivision_bneg #1% q->-q, r unchanged
                           {\expandafter{\romannumeral0\XINT_opp #1}}%
@@ -24864,7 +25326,7 @@ math shift catcode.
           \xint_orthat{\XINT_iidivround_bpos #1#2}%
 }%
 \def\XINT_iidivround_divbyzero #1#2#3\xint:#4\xint:
-   {\XINT_signalcondition{DivisionByZero}{Division of #1#4 by #2#3}{}{0}}%
+   {\XINT_signalcondition{DivisionByZero}{Division by zero: #1#4/#2#3.}{}{ 0}}%
 \def\XINT_iidivround_aiszero   #1\xint:#2\xint:{ 0}%
 \def\XINT_iidivround_bpos #1%
 {%
@@ -24981,7 +25443,7 @@ math shift catcode.
 }%
 \def\XINT_iidivmod_divbyzero #1#2\xint:#3\xint:
 {%
-    \XINT_signalcondition{DivisionByZero}{Division by #2 of #1#3}{}%
+    \XINT_signalcondition{DivisionByZero}{Division by zero: #1#3/#2.}{}%
     {{0}{0}}% à revoir...
 }%
 \def\XINT_iidivmod_aiszero #1\xint:#2\xint:{{0}{0}}%
@@ -25107,7 +25569,7 @@ math shift catcode.
          \xint_afterfi { 0}%
      \else
          \xint_afterfi
-        {\XINT_signalcondition{DivisionByZero}{Zero to power #1}{}{0}}%
+        {\XINT_signalcondition{DivisionByZero}{0 raised to power #1.}{}{ 0}}%
      \fi
 }%
 \def\XINT_pow_Aneg #1%
@@ -25143,8 +25605,8 @@ math shift catcode.
     \fi
     {#1}%
 }%
-\def\XINT_pow_BisNegative #1\xint:{\XINT_signalcondition{Underflow}{Inverse power
-    can not be represented by an integer}{}{0}}%
+\def\XINT_pow_BisNegative #1\xint:{\XINT_signalcondition{Underflow}%
+    {Inverse power is not an integer.}{}{ 0}}%
 \def\XINT_pow_BisZero #1\xint:{ 1}%
 %    \end{macrocode}
 % \lverb|B = #1 > 0, A = #2 > 1. Earlier code checked if size of B did not
@@ -25313,7 +25775,7 @@ math shift catcode.
 }%
 \def\XINT_fac_zero #1.{ 1}%
 \def\XINT_fac_neg  #1.{\XINT_signalcondition{InvalidOperation}{Factorial of
-    negative: (#1)!}{}{0}}%
+    negative argument: #1.}{}{ 0}}%
 %    \end{macrocode}
 %    \begin{macrocode}
 \def\XINT_fac_checksize #1.%
@@ -25324,8 +25786,9 @@ math shift catcode.
                   \xint_orthat{\XINT_fac_smallloop_a #1.\XINT_mul_out}%
     1\R!1\R!1\R!1\R!1\R!1\R!1\R!1\R!\W
 }%
-\def\XINT_fac_toobig #1.#2\W{\XINT_signalcondition{InvalidOperation}{Factorial
-    of too big argument: #1 > 10000}{}{0}}%
+\def\XINT_fac_toobig
+#1.#2\W{\XINT_signalcondition{InvalidOperation}{Factorial
+    argument is too large: #1 > 10^4.}{}{ 0}}%
 \def\XINT_fac_bigloop_a #1.%
 {%
     \expandafter\XINT_fac_bigloop_b \the\numexpr
@@ -25492,7 +25955,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xint}%
-  [2021/05/10 v1.4f Expandable operations on big integers (JFB)]%
+  [2021/05/25 v1.4g Expandable operations on big integers (JFB)]%
 %    \end{macrocode}
 % \subsection{More token management}
 %    \begin{macrocode}
@@ -26709,8 +27172,9 @@ math shift catcode.
     \krof #1%
 }%
 \def\XINT_sqrt_iszero #1\xint:{{1}{1}}%
-\def\XINT_sqrt_isneg  #1\xint:{\XINT_signalcondition{InvalidOperation}{square
-    root of negative: #1}{}{{0}{0}}}%
+\def\XINT_sqrt_isneg  #1\xint:
+   {\XINT_signalcondition{InvalidOperation}%
+                         {Square root of negative: #1.}{}{{0}{0}}}%
 \def\XINT_sqrt #1\xint:
 {%
     \expandafter\XINT_sqrt_start\romannumeral0\xintlength {#1}.#1.%
@@ -27197,15 +27661,15 @@ math shift catcode.
 %    \begin{macrocode}
 \def\XINT_binom_fork #1#2.#3#4.#5#6.%
 {%
-    \if-#5\xint_dothis{\XINT_signalcondition{InvalidOperation}{Binomial with
-        negative first arg: #5#6}{}{0}}\fi
+    \if-#5\xint_dothis{\XINT_signalcondition{InvalidOperation}%
+                       {Binomial with negative first argument: #5#6.}{}{ 0}}\fi
     \if-#1\xint_dothis{ 0}\fi
     \if-#3\xint_dothis{ 0}\fi
     \if0#1\xint_dothis{ 1}\fi
     \if0#3\xint_dothis{ 1}\fi
     \ifnum #5#6>\xint_c_x^viii_mone\xint_dothis
-       {\XINT_signalcondition{InvalidOperation}{Binomial with too
-           large argument: 99999999 < #5#6}{}{0}}\fi
+       {\XINT_signalcondition{InvalidOperation}%
+            {Binomial with too large argument: #5#6 >= 10^8.}{}{ 0}}\fi
     \ifnum #1#2>#3#4  \xint_dothis{\XINT_binom_a #1#2.#3#4.}\fi
                       \xint_orthat{\XINT_binom_a #3#4.#1#2.}%
 }%
@@ -27532,8 +27996,8 @@ math shift catcode.
     \xint_orthat \XINT_pfac_a #1#2.#3#4.%
 }%
 \def\XINT_pfac_outofrange #1.#2.%
-   {\XINT_signalcondition{InvalidOperation}{PFactorial with
-    too big second arg: 99999999 < #2}{}{0}}%
+   {\XINT_signalcondition{InvalidOperation}%
+         {pFactorial with too large argument: #2 >= 10^8.}{}{ 0}}%
 \def\XINT_pfac_one        #1.#2.{ 1}%
 \def\XINT_pfac_zero       #1.#2.{ 0}%
 \def\XINT_pfac_neg -#1.-#2.%
@@ -27975,13 +28439,13 @@ math shift catcode.
   \def\xintrandomdigits#1%
   {%
       \XINT_expandableerror
-      {No uniformdeviate at engine level, returning 0.} 0%
+      {No uniformdeviate at engine level.} 0%
   }%
   \let\xintXRandomDigits\xintRandomDigits
   \def\XINT_randrange#1\xint:
   {%
       \XINT_expandableerror
-      {No uniformdeviate at engine level, returning 0.} 0%
+      {No uniformdeviate at engine level.} 0%
   }%
 \fi
 \XINTrestorecatcodesendinput%
@@ -28070,7 +28534,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintbinhex}%
-  [2021/05/10 v1.4f Expandable binary and hexadecimal conversions (JFB)]%
+  [2021/05/25 v1.4g Expandable binary and hexadecimal conversions (JFB)]%
 %    \end{macrocode}
 % \subsection{Constants, etc...}
 % \lverb|1.2n switches to \csname-governed expansion at various places.|
@@ -28742,7 +29206,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintgcd}%
-  [2021/05/10 v1.4f Euclide algorithm with xint package (JFB)]%
+  [2021/05/25 v1.4g Euclide algorithm with xint package (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintBezout}}
 % \lverb|&
@@ -29342,7 +29806,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintfrac}%
-  [2021/05/10 v1.4f Expandable operations on fractions (JFB)]%
+  [2021/05/25 v1.4g Expandable operations on fractions (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{XINT_cntSgnFork}}
 % \lverb|1.09i. Used internally, #1 must expand to \m@ne, \z@, or \@ne or
@@ -29400,9 +29864,9 @@ math shift catcode.
     \fi
     {#2}{#3}[#1]%
 }%
-\def\XINT_outfrac_divisionbyzero #1#2%
+\def\XINT_outfrac_divisionbyzero #1#2[#3]%
 {%
-    \XINT_signalcondition{DivisionByZero}{Division of #1 by #2}{}{0/1[0]}%
+    \XINT_signalcondition{DivisionByZero}{Division by zero: #1/#2.}{}{ 0/1[0]}%
 }%
 \def\XINT_outfrac_P#1{%
 \def\XINT_outfrac_P ##1##2%
@@ -29641,7 +30105,7 @@ math shift catcode.
 }%
 \def\XINT_frac_gen_Gdivbyzero_a #1~#2~%
 {%
-    \XINT_signalcondition{DivisionByZero}{Division of #1 by zero}{}{{#2}{#1}{0}}%
+    \XINT_signalcondition{DivisionByZero}{Division by zero: #1/0.}{}{{#2}{#1}{0}}%
 }%
 \def\XINT_frac_gen_G #1#2#3~#4~#5~%
 {%
@@ -29969,9 +30433,8 @@ math shift catcode.
 %
 % As a result of these last minute 1.4e changes, the \xintFracToSciE is
 % removed.
-%
 % |
-% 
+%
 %    \begin{macrocode}
 \def\xintFracToSci #1{\expandafter\XINT_FracToSci\romannumeral`&&@#1/\W[\R}%
 \def\XINT_FracToSci #1/#2#3[#4%
@@ -30125,10 +30588,27 @@ math shift catcode.
 \def\XINT_denom_A #1.#2#3{ #3}%
 \def\XINT_denom_B -#1.#2#3{\XINT_dsx_addzeros{#1}#3;}%
 %    \end{macrocode}
-% \subsection{\csh{xintFrac}}
-% \lverb|Useless typesetting macro.|
+% \subsection{\csh{xintTeXFrac}}
+% \lverb|1.03 (2013/04/14). Useless typesetting macro.
+%
+% Renamed  (2021/05/24) from \xintFrac at 1.4g.  Old name deprecated but
+% still usable.|
 %    \begin{macrocode}
-\def\xintFrac {\romannumeral0\xintfrac }%
+\ifdefined\documentclass
+\def\xintfracTeXDeprecation#1#2{%
+\PackageWarning{xintfrac}{\string#1 is deprecated. Use \string#2\MessageBreak
+                          to suppress this warning}#2%
+}%
+\else
+\edef\xintfracTeXDeprecation#1#2{{\newlinechar10
+\immediate\noexpand\write128{&&JPackage xintfrac Warning: \noexpand\string#1 is
+  deprecated. Use \noexpand\string#2&&J%
+(xintfrac)\xintReplicate{16}{ }to suppress this warning
+on input line \noexpand\the\inputlineno.&&J}}#2%
+}%
+\fi
+\def\xintFrac   {\xintfracTeXDeprecation\xintFrac\xintTeXFrac}%
+\def\xintTeXFrac{\romannumeral0\xintfrac }%
 \def\xintfrac #1%
 {%
     \expandafter\XINT_fracfrac_A\romannumeral0\XINT_infrac {#1}%
@@ -30155,9 +30635,13 @@ math shift catcode.
 }%
 \def\XINT_fracfrac_E \fi\space\frac #1#2{\fi \space #1\cdot }%
 %    \end{macrocode}
-% \subsection{\csh{xintSignedFrac}}
+% \subsection{\csh{xintTeXsignedFrac}}
+% \lverb|&
+% Renamed  (2021/05/24) from \xintSignedFrac at 1.4g.  Old name deprecated but
+% still usable.|
 %    \begin{macrocode}
-\def\xintSignedFrac {\romannumeral0\xintsignedfrac }%
+\def\xintSignedFrac   {\xintfracTeXDeprecation\xintSignedFrac\xintTeXsignedFrac}%
+\def\xintTeXsignedFrac{\romannumeral0\xintsignedfrac }%
 \def\xintsignedfrac #1%
 {%
     \expandafter\XINT_sgnfrac_a\romannumeral0\XINT_infrac {#1}%
@@ -30182,9 +30666,48 @@ math shift catcode.
     \expandafter-\romannumeral0\XINT_sgnfrac_P
 }%
 %    \end{macrocode}
-% \subsection{\csh{xintFwOver}}
+% \subsection{\csh{xintTeXfromSci}}
+% \lverb|1.4g. The main problem is how to name this and related macros.
+%
+% I use \expanded here, as \xintFracToSci is not f-expandable. But why do I
+% bother with the external \expanded?
+%
+% Some complications as I want this to be usable on output of \xintFracToSci
+% hence need to handle the case of a /B.  After some hesitations I ended with
+% the following which looks reasonable:
+%(- if no scientific part, use \frac (or \over) for A/B
+%:- if scientific part, postfix /B as \cdot B^{-1}
+%)
+% |
 %    \begin{macrocode}
-\def\xintFwOver {\romannumeral0\xintfwover }%
+\def\xintTeXfromSci#1%
+{%
+    \expanded{\expandafter\XINT_texfromsci\expanded{#1}/\relax/\xint:}%
+}%
+\def\XINT_texfromsci #1/#2#3/#4\xint:
+{%
+    \XINT_texfromsci_a #1e\relax e\xint:
+    {\ifx\relax#2\xint_dothis\xint_firstofone\fi
+     \xint_orthat{\XINT_texfromsci_frac{#2#3}}}%
+    {\unless\ifx\relax#2\cdot{#2#3}^{-1}\fi}%
+}%
+\def\XINT_texfromsci_a #1e#2#3e#4\xint:#5#6%
+{%
+    \ifx\relax#2#5{#1}\else#1\cdot10^{#2#3}#6\fi
+}%
+\ifdefined\frac
+  \def\XINT_texfromsci_frac#1#2{\noexpand\frac{#2}{#1}}%
+\else
+  \def\XINT_texfromsci_frac#1#2{{#2\over#1}}%
+\fi
+%    \end{macrocode}
+% \subsection{\csh{xintTeXOver}}
+% \lverb|&
+% Renamed  (2021/05/24) from \xintFwOver at 1.4g.  Old name deprecated but
+% still usable.|
+%    \begin{macrocode}
+\def\xintFwOver {\xintfracTeXDeprecation\xintFwOver\xintTeXOver}%
+\def\xintTeXOver{\romannumeral0\xintfwover }%
 \def\xintfwover #1%
 {%
     \expandafter\XINT_fwover_A\romannumeral0\XINT_infrac {#1}%
@@ -30209,9 +30732,13 @@ math shift catcode.
     #1%
 }%
 %    \end{macrocode}
-% \subsection{\csh{xintSignedFwOver}}
+% \subsection{\csh{xintTeXsignedOver}}
+% \lverb|&
+% Renamed  (2021/05/24) from \xintSignedFwOver at 1.4g.  Old name deprecated but
+% still usable.|
 %    \begin{macrocode}
-\def\xintSignedFwOver {\romannumeral0\xintsignedfwover }%
+\def\xintSignedFwOver {\xintfracTeXDeprecation\xintSignedFwOver\xintTeXsignedOver}%
+\def\xintTeXsignedOver{\romannumeral0\xintsignedfwover }%
 \def\xintsignedfwover #1%
 {%
     \expandafter\XINT_sgnfwover_a\romannumeral0\XINT_infrac {#1}%
@@ -30346,11 +30873,11 @@ math shift catcode.
 }%
 \def\XINT_irr_indeterminate #1#2#3#4#5%
 {%
-    \XINT_signalcondition{DivisionUndefined}{indeterminate: 0/0}{}{0/1}%
+    \XINT_signalcondition{DivisionUndefined}{0/0 indeterminate fraction.}{}{ 0/1}%
 }%
 \def\XINT_irr_divisionbyzero #1#2#3#4#5%
 {%
-    \XINT_signalcondition{DivisionByZero}{vanishing denominator: #5#2/0}{}{0/1}%
+    \XINT_signalcondition{DivisionByZero}{Division by zero: #5#2/0.}{}{ 0/1}%
 }%
 \def\XINT_irr_zero #1#2#3#4#5{ 0/1}% changed in 1.08
 \def\XINT_irr_loop_a #1#2%
@@ -30432,11 +30959,11 @@ math shift catcode.
 }%
 \def\XINT_jrr_indeterminate #1#2#3#4#5#6#7%
 {%
-    \XINT_signalcondition{DivisionUndefined}{indeterminate: 0/0}{}{0/1}%
+    \XINT_signalcondition{DivisionUndefined}{0/0 indeterminate fraction.}{}{ 0/1}%
 }%
 \def\XINT_jrr_divisionbyzero #1#2#3#4#5#6#7%
 {%
-    \XINT_signalcondition{DivisionByZero}{Vanishing denominator: #7#2/0}{}{0/1}%
+    \XINT_signalcondition{DivisionByZero}{Division by zero: #7#2/0.}{}{ 0/1}%
 }%
 \def\XINT_jrr_zero #1#2#3#4#5#6#7{ 0/1}% changed in 1.08
 \def\XINT_jrr_loop_a #1#2%
@@ -31468,7 +31995,7 @@ math shift catcode.
 }%
 \def\XINT_modtrunc_divbyzero #1#2[#3]#4.%
 {%
-    \XINT_signalcondition{DivisionByZero}{Division by #2[#3] of #1#4}{}{0/1[0]}%
+    \XINT_signalcondition{DivisionByZero}{Division by zero: #1#4/(#2[#3]).}{}{ 0/1[0]}%
 }%
 \def\XINT_modtrunc_aiszero #1.{ 0/1[0]}%
 \def\XINT_modtrunc_bneg #1%
@@ -31520,7 +32047,7 @@ math shift catcode.
 }%
 \def\XINT_divmod_divbyzero #1#2[#3]#4.%
 {%
-    \XINT_signalcondition{DivisionByZero}{Division by #2[#3] of #1#4}{}%
+    \XINT_signalcondition{DivisionByZero}{Division by zero: #1#4/(#2[#3]).}{}%
     {{0}{0/1[0]}}% à revoir...
 }%
 \def\XINT_divmod_aiszero #1.{{0}{0/1[0]}}%
@@ -31921,7 +32448,7 @@ math shift catcode.
     \krof #1%
 }%
 \def\XINT_inv_iszero #1]%
-   {\XINT_signalcondition{DivisionByZero}{Division of 1 by zero (#1])}{}{0/1[0]}}%
+   {\XINT_signalcondition{DivisionByZero}{Inverse of zero: inv(#1]).}{}{ 0/1[0]}}%
 \def\XINT_inv_a #1#2/#3[#4#5]%
 {%
     \xint_UDzerominusfork
@@ -32371,7 +32898,7 @@ math shift catcode.
 % was ok, but printed 1.0...0eN with P-1 zeroes, not 10.0...0e(N-1).
 %
 % I decided it was not worth the effort to enhance the algorithm to detect
-% with 100$% fiability all cases of rounding up to next &$ auctex!
+% with 100$% fiability all cases of rounding up to next
 % power of ten, hence 1.2k dropped this.
 %
 % To avoid duplication of code, and any extra burden on \XINTinFloat, which is
@@ -32440,7 +32967,7 @@ math shift catcode.
 % at least the length of mantissa as data.
 %
 % Each time \XINTinFloat is called it at least computes a length. Naturally if
-% we had some format for floats that would be dispensed of...$newline&$ auctex!
+% we had some format for floats that would be dispensed of...$newline
 %  something like
 % <letterP><length of mantissa>.mantissa.exponent, etc... not yet.
 %
@@ -32521,7 +33048,7 @@ math shift catcode.
     \fi #3.{#1}{#2}{#4}%
 }%
 %    \end{macrocode}
-% \lverb|Special quick treatment of B=1 case (1.2f then again 1.2g.)$newline&$ auctex!
+% \lverb|Special quick treatment of B=1 case (1.2f then again 1.2g.)$newline
 % maintenant: A.{P}{N}{1}
 % Il est possible que A soit nul.
 % | 
@@ -32544,7 +33071,7 @@ math shift catcode.
     {\if#1!\expandafter\XINT_infloat_spneg_needzeros\fi -#1}%
 \def\XINT_infloat_spneg_needzeros -!#1.{!#1.-}%
 %    \end{macrocode}
-% \lverb|in:  A.{P}{N}{1}$newline&$ auctex!
+% \lverb|in:  A.{P}{N}{1}$newline
 % out: P-L.A.P.N.|
 %    \begin{macrocode}
 \def\XINT_infloat_sppos #1.#2#3#4%
@@ -32569,7 +33096,7 @@ math shift catcode.
 %    \begin{macrocode}
 \def\XINT_infloat_sp_quick 0.#1.#2.#3.{ #1[#3]}%
 %    \end{macrocode}
-% \lverb|Ici #1=P-L est >0. L'exposant sera N-(P-L). #2=A. #3=P. #4=N.$newline&$ auctex!
+% \lverb|Ici #1=P-L est >0. L'exposant sera N-(P-L). #2=A. #3=P. #4=N.$newline
 % 18 mars 2016. En fait dans certains contextes il est sous-optimal d'ajouter les
 % zéros. Par exemple quand c'est appelé par la multiplication ou la division,
 % c'est idiot de convertir 2 en 200000...00000[-499].
@@ -32578,7 +33105,7 @@ math shift catcode.
 %    \begin{macrocode}
 \def\XINT_infloat_sp_needzeros #1.#2.#3.#4.{!#1.#2[#4]}%
 %    \end{macrocode}
-% \lverb|L-P=#1.A=#2#3.P=#4.N=#5.$newline&$
+% \lverb|L-P=#1.A=#2#3.P=#4.N=#5.$newline
 % Ici P<L. Il va falloir arrondir. Attention si on va à la puissance de 10
 % suivante. En #1 on a L-P qui est >0. L'exposant final sera N+L-P, 
 % sauf dans le cas spécial, il sera alors N+L-P+1. L'ajustement final
@@ -32642,7 +33169,7 @@ math shift catcode.
     #2.#1.{#3}%
 }%
 %    \end{macrocode}
-% \lverb?|A|.P+4.{A}{P}{n}{B}.$newline&$
+% \lverb?|A|.P+4.{A}{P}{n}{B}.$newline
 % Here A is short. We set u = P+4-|A|, and A''=A (A' = 10^u A)
 %
 % output: u.A''..P+4.|A|.{A}{P}{n}{B}?
@@ -32653,7 +33180,7 @@ math shift catcode.
     #3..#2.#1.{#3}%
 }%
 %    \end{macrocode}
-% \lverb?input u.A''.junk.P+4.|A|.{A}{P}{n}{B}$newline&$
+% \lverb?input u.A''.junk.P+4.|A|.{A}{P}{n}{B}$newline
 % output |B|.P+4.{B}u.A''.P.|A|.n.{A}{B}?
 %    \begin{macrocode}
 \def\XINT_infloat_MtoN #1.#2.#3.#4.#5.#6#7#8#9%
@@ -32670,7 +33197,7 @@ math shift catcode.
     \fi #1.#2.%
 }%
 %    \end{macrocode}
-% \lverb?input |B|.P+4.{B}u.A''.P.|A|.n.{A}{B}$newline&$
+% \lverb?input |B|.P+4.{B}u.A''.P.|A|.n.{A}{B}$newline
 % output v=-0.B''.junk.|B|.u.A''.P.|A|.n.{A}{B}?
 %    \begin{macrocode}
 \def\XINT_infloat_Oa #1.#2.#3%
@@ -32735,7 +33262,7 @@ math shift catcode.
     #2#3#4#5.#1.%
 }%
 %    \end{macrocode}
-% \lverb?trailing digits.Q.P.|B|.|A|.n.{A}{B}$newline&$
+% \lverb?trailing digits.Q.P.|B|.|A|.n.{A}{B}$newline
 % #1=trailing digits (they may have leading zeros.)?
 %    \begin{macrocode}
 \def\XINT_infloat_Sa #1.%
@@ -32751,7 +33278,7 @@ math shift catcode.
     \xint_orthat\XINT_infloat_X\xint_c_i
 }%
 %    \end{macrocode}
-% \lverb?epsilon #2=Q.#3=P.#4=|B|.#5=|A|.#6=n.{A}{B}$newline&$
+% \lverb?epsilon #2=Q.#3=P.#4=|B|.#5=|A|.#6=n.{A}{B}$newline
 % exposant final est n+|A|-|B|-P+epsilon?
 %    \begin{macrocode}
 \def\XINT_infloat_SEq #1#2.#3.#4.#5.#6.#7#8%
@@ -32771,7 +33298,7 @@ math shift catcode.
     \romannumeral0\xintinc{#2#3}.#2%
 }%
 %    \end{macrocode}
-% \lverb?epsilon Q.P.|B|.|A|.n.{A}{B}$newline&$
+% \lverb?epsilon Q.P.|B|.|A|.n.{A}{B}$newline
 %
 % \xintDSH{-x}{U} multiplies U by 10^x. When x is negative, this means
 % it truncates (i.e. it drops the last -x digits).
@@ -33226,13 +33753,27 @@ math shift catcode.
 }%
 %    \end{macrocode}
 % \lverb|&
+% 1.4g adds here intercept of second argument being zero,
+% else a low level error will arise at later stage from the
+% the fall-back value returned by core iidivision being 0
+% and not having expected number of digits at \XINT_infloat_Qq
+% and split from left returning some empty value breaking the
+% \ifnum test in \XINT_infloat_Rq.
 % |
 %    \begin{macrocode}
 \def\XINT_fldiv_noopt #1#2\xint:#3%
 {%
     #1[\XINTdigits]%
-    {\expandafter\XINT_FL_div_a
+    {\expandafter\XINT_FL_div_aa
      \romannumeral0\XINTinfloatS[\XINTdigits]{#3}\XINTdigits.{#2}}%
+}%
+\def\XINT_FL_div_aa #1%
+{%
+    \xint_gob_til_zero#1\XINT_FL_div_Bzero0\XINT_FL_div_a #1%
+}%
+\def\XINT_FL_div_Bzero0\XINT_FL_div_a#1[#2]#3.#4%
+{%
+    \XINT_signalcondition{DivisionByZero}{Division by zero (#1[#2]) of #4}{}{ 0[0]}%
 }%
 \def\XINT_fldiv_opt #1[\xint:#2]%#3#4%
 {%
@@ -33240,11 +33781,12 @@ math shift catcode.
 }%
 %    \end{macrocode}
 % \lverb|&
+% Also here added early check at 1.4g if divisor is zero.
 % |
 %    \begin{macrocode}
 \def\XINT_fldiv_opt_a #1.#2#3#4%
 {%
-    #2[#1]{\expandafter\XINT_FL_div_a\romannumeral0\XINTinfloatS[#1]{#4}#1.{#3}}%
+    #2[#1]{\expandafter\XINT_FL_div_aa\romannumeral0\XINTinfloatS[#1]{#4}#1.{#3}}%
 }%
 \def\XINT_FL_div_a #1[#2]#3.#4%
 {%
@@ -33362,7 +33904,7 @@ math shift catcode.
 {%
     #6{\if 1#51\xint_dothis {0[0]}\fi
        \xint_orthat
-       {\XINT_signalcondition{DivisionByZero}{0 to the power #4}{}{0[0]}}%
+       {\XINT_signalcondition{DivisionByZero}{0 raised to power -#4.}{}{ 0[0]}}%
       }%
 }%
 %    \end{macrocode}
@@ -33732,7 +34274,7 @@ math shift catcode.
 \def\XINT_FL_fac_isneg  #1.#2#3#4#5%
 {%
     #5{\XINT_signalcondition{InvalidOperation}
-                     {Factorial of negative: (-#1)!}{}{0[0]}}%
+                     {Factorial argument is negative: -#1.}{}{ 0[0]}}%
 }%
 \def\XINT_FL_fac_fork_b #1.%
 {%
@@ -33746,7 +34288,7 @@ math shift catcode.
 \def\XINT_FL_fac_toobig #1.#2#3#4#5%
 {%
     #5{\XINT_signalcondition{InvalidOperation}
-                     {Factorial of too big: (#1)!}{}{0[0]}}%
+                     {Factorial argument is too large: #1>=10^8.}{}{ 0[0]}}%
 }%
 %    \end{macrocode}
 % \lverb?Computations are done with Q blocks of eight digits. When a
@@ -34022,7 +34564,7 @@ math shift catcode.
 \def\XINT_FL_pfac_outofrange #1.#2.#3#4#5%
 {%
     #5{\XINT_signalcondition{InvalidOperation}
-                     {pfactorial second arg too big: 99999999 < #2}{}{0[0]}}%
+                     {pFactorial with too large argument: #2 >= 10^8.}{}{ 0[0]}}%
 }%
 \def\XINT_FL_pfac_one  #1.#2.#3#4#5{#5{1[0]}}%
 \def\XINT_FL_pfac_zero #1.#2.#3#4#5{#5{0[0]}}%
@@ -34236,12 +34778,12 @@ math shift catcode.
 \def\XINT_FL_binom_neg #1.#2.#3.#4.#5%
 {%
     #5[#4]{\XINT_signalcondition{InvalidOperation}
-                         {binomial with first arg negative: #3}{}{0[0]}}%
+                         {Binomial with negative argument: #3.}{}{ 0[0]}}%
 }%
 \def\XINT_FL_binom_toobig #1.#2.#3.#4.#5%
 {%
     #5[#4]{\XINT_signalcondition{InvalidOperation}
-                         {binomial with first arg too big: 99999999 < #3}{}{0[0]}}%
+                         {Binomial with too large argument: #3 >= 10^8.}{}{ 0[0]}}%
 }%
 \def\XINT_FL_binom_one  #1.#2.#3.#4.#5{#5[#4]{1[0]}}%
 \def\XINT_FL_binom_zero #1.#2.#3.#4.#5{#5[#4]{0[0]}}%
@@ -34336,7 +34878,7 @@ math shift catcode.
 \def\XINT_FL_sqrt_isneg #1]#2.#3%
 {%
    #3[#2]{\XINT_signalcondition{InvalidOperation}
-                        {Square root of negative: -#1]}{}{0[0]}}%
+                        {Square root of negative: -#1].}{}{ 0[0]}}%
 }%
 %    \end{macrocode}
 %\lverb|&
@@ -34627,7 +35169,7 @@ math shift catcode.
     \romannumeral0\xintrandomdigits{#1}[-#1]%
 }%
 %    \end{macrocode}
-% \lverb|We add one macro to handle a tiny bit faster 90$%&$
+% \lverb|We add one macro to handle a tiny bit faster 90$%
 % of cases, after all
 % we also use one extra macro for the completely improbable all 0 case.|
 %    \begin{macrocode}
@@ -34732,7 +35274,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintseries}%
-  [2021/05/10 v1.4f Expandable partial sums with xint package (JFB)]%
+  [2021/05/25 v1.4g Expandable partial sums with xint package (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintSeries}}
 %    \begin{macrocode}
@@ -35240,7 +35782,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcfrac}%
-  [2021/05/10 v1.4f Expandable continued fractions with xint package (JFB)]%
+  [2021/05/25 v1.4g Expandable continued fractions with xint package (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintCFrac}}
 %    \begin{macrocode}
@@ -35320,6 +35862,7 @@ math shift catcode.
 \def\XINT_cfrac_end_b \Z+\cfrac#1#2{ #2}%
 %    \end{macrocode}
 % \subsection{\csh{xintGCFrac}}
+% Updated at |1.4g| to follow-up on renaming of |\xintFrac| into |\xintTeXFrac|.
 %    \begin{macrocode}
 \def\xintGCFrac {\romannumeral0\xintgcfrac }%
 \def\xintgcfrac #1{\XINT_gcfrac_opt_a #1\xint:}%
@@ -35361,14 +35904,14 @@ math shift catcode.
 {%
     \XINT_gcfrac_T #2#3#1!!%
 }%
-\def\XINT_gcfrac_T #1#2#3#4{\XINT_gcfrac_U #1#2{\xintFrac{#4}}}%
+\def\XINT_gcfrac_T #1#2#3#4{\XINT_gcfrac_U #1#2{\xintTeXFrac{#4}}}%
 \def\XINT_gcfrac_U #1#2#3#4#5%
 {%
     \xint_gob_til_exclam #5\XINT_gcfrac_end!\XINT_gcfrac_U
-              #1#2{\xintFrac{#5}%
+              #1#2{\xintTeXFrac{#5}%
                \ifcase\xintSgn{#4}
                +\or+\else-\fi
-               \cfrac{#1\xintFrac{\xintAbs{#4}}#2}{#3}}%
+               \cfrac{#1\xintTeXFrac{\xintAbs{#4}}#2}{#3}}%
 }%
 \def\XINT_gcfrac_end!\XINT_gcfrac_U #1#2#3%
 {%
@@ -36632,7 +37175,7 @@ math shift catcode.
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintexpr}%
-  [2021/05/10 v1.4f Expandable expression parser (JFB)]%
+  [2021/05/25 v1.4g Expandable expression parser (JFB)]%
 \catcode`! 11
 \let\XINT_Cmp \xintiiCmp
 \def\XINTfstop{\noexpand\XINTfstop}%
@@ -37190,7 +37733,7 @@ math shift catcode.
 \def\xint_gob_til_! #1!{}% ! with catcode 11
 \def\xintError:noopening
 {%
-    \XINT_expandableerror{Extra ) found during balancing, e(X)it before the worst.}%
+    \XINT_expandableerror{Extra ). This is serious and prospects are bleak.}%
 }%
 %    \end{macrocode}
 % \paragraph{\csh{xintthecoords}}
@@ -37284,7 +37827,33 @@ math shift catcode.
 % ones after the first were not a priori stringified but the first token was,
 % and this made allowing things such as \xintexpr\relax, \xintexpr,,\relax,
 % [], 1+(), [:] etc... complicated and requiring each time specific measures.
-% |
+%
+% The \expandafter chain in \XINT_expr_put_op_first is an overhead related
+% to an 1.4 attempt, the "varvalue" mechanism. I.e.: expansion of
+% \XINT_expr_var_foo is {\XINT_expr_varvalue_foo } and then for example
+% \XINT_expr_varvalue_foo expands to {4/1[0]}.  The mechanism was originally
+% conceived to have only one token with idea its makes things faster. But the
+% xintfrac macros break with syntax such as \xintMul\foo\bar and \foo
+% expansion giving braces. So at 1.4c I added here these \expandafter, but
+% this is REALLY not satisfactory because the \expandafter are needed it seems
+% only for this variable "varvalue" mechanism.
+%
+% See also the discussion of \XINT_expr_op__ which distinguishes variables from
+% functions.
+%
+% After a 1.4g refactoring it would be possible to drop here the
+% \expandafter if the \XINT_expr_var_foo macro was defined to f-expand to
+% {actual expanded value (as ople)} for example explicit {{3}}. I have to
+% balance the relative weights of doing always the \expandafter but they are
+% needed only for the case the value was encapsulated in a variable, and of
+% never doing the \expandafter and ensure f-expansion of the _var_foo gives
+% explicit value (now that the refactoring let it be f-expanded, and the case
+% of fake variables omit and abort in particular was safely separated instead
+% of being treated like other and imposing restrictions on general variable
+% handling), and then there is the overhead of possibly moving around many
+% digits in the #1 of \XINT_expr_put_op_first.
+%
+%  |
 %    \begin{macrocode}
 \def\XINT_expr_getnext #1%
 {%
@@ -37306,13 +37875,17 @@ math shift catcode.
 }%
 %    \end{macrocode}
 % \lverb|1.2 adds \ht, \dp, \wd and the eTeX font things. 1.4 avoids big
-% nested \if's, simply for code readability|
+% nested \if's, simply for code readability.
+%
+% This "fetch as number" is dangerous as long as list is not complete... at
+% 1.4g I belatedly add \catcode|
 %    \begin{macrocode}
 \def\XINT_expr_countetc\XINT_expr_getnextfork#1%
 {%
     \if0\ifx\count#11\fi
-        \ifx\dimen#11\fi
         \ifx\numexpr#11\fi
+        \ifx\catcode#11\fi
+        \ifx\dimen#11\fi
         \ifx\dimexpr#11\fi
         \ifx\skip#11\fi
         \ifx\glueexpr#11\fi
@@ -37323,7 +37896,8 @@ math shift catcode.
         \ifx\fontcharht#11\fi
         \ifx\fontcharwd#11\fi
         \ifx\fontchardp#11\fi
-        \ifx\fontcharic#11\fi 0\expandafter\XINT_expr_fetch_as_number\fi
+        \ifx\fontcharic#11\fi
+       0\expandafter\XINT_expr_fetch_as_number\fi
    \expandafter\XINT_expr_getnext_a\number #1%
 }%
 \def\XINT_expr_fetch_as_number
@@ -37332,40 +37906,153 @@ math shift catcode.
     \expanded{{{\number#1}}\expandafter}\romannumeral`&&@\XINT_expr_getop
 }%
 %    \end{macrocode}
-% \lverb|This is a key component which is involved in:
-%(
-%: - support for \xintdeffunc via special handling of parameter character,
-%: - support for skipping over ignored + signs,
-%: - support for Python-like * «unpacking» unary operator (added at 1.4),
-%: - support for [..] nutple constructor (1.4, formerly [..] by itself was like (...)),
-%: - support for numbers starting with a decimal point,
-%: - support for the minus as unary operator of variable precedence level,
-%: - support for sub-expressions inside parenthesis (with possibly tacit multiplication)
-%: - else starting the scan of explicit digits or letters for a number or a function name
+% \lverb|This is the key initial dispatch component. It has been refactored at
+% 1.4g to give priority to identifying letter and digit tokens first.  It
+% thus combines former \XINT_expr_getnextfork, \XINT_expr_scan_nbr_or_func and
+% \XINT_expr_scanfunc. A branch of the latter having become
+% \XINT_expr_startfunc. The handling of non-catcode 11 underscore _ has
+% changed: it is now skipped completely like the +. Formerly it would cause an
+% infinite loop because it triggered first insertion of a nil variable, (being
+% confused with a possible operator at a location where one looks for a
+% value), then tacit multiplication (being now interpreted as starting some
+% name), and then it came back to getnextfork creating loop. The @ of catcode
+% 12 could have caused the same issue if it was not handled especially because
+% it is used in the syntax as special variable for recursion hence was
+% recognized even if of catcode 12. Anyway I could have handled the _ like the
+% @, to avoid this problem of infinite loop with a non-letter underscore used
+% as first character but decided finally to have it be ignored (it is already
+% ignored if among digits, but it can be a constituent of a function of
+% variable name). It is not ignored of course if of catcode 11. It may then
+% start a variable or function name, but only for use by the package (by
+% polexpr for example), not by users.
+%
+% Then the matter is handed over to specialized routines: gathering digits
+% of a number (inclusive of a decimal mark, an exponential part) or letters
+% of a function or variable.  And we have to intercept some tokens to implement
+% various functionalities.
+%
+% In each dothis/orthat structure, the first encountered branches are usually
+% handled slower than the next, because \if..\fi test cost less than grabbing
+% tokens. The exception is in the first one where letters pass through
+% slightly faster than digits, presumably because the \ifnum test is more
+% costly.  Prior to this 1.4g refactoring the case of a starting letter of
+% a variable or function name was handled last, it is now handled first.  Now,
+% this is only first letter...
+%
+% Here are the various possibilities in order that they are appear below
+% (the indicative order of speed of treatment is given as a number).
+%
+%( -1 tokens of catcode letter start a variable or function name
+%: -2 digits (I apply \string for the test, but I will have to review,&
+%    it seems natural anyhow to require digits to be of catcode 12 and&
+%    this is in fact basically done by the package, \numexpr does not&
+%    work if not the case.),
+%: -7 support for Python-like * "unpacking" unary operator (added at 1.4),
+%: -6 support for [ as opener for the [..] nutple constructor (1.4),
+%: -5 support for the minus as unary operator of variable precedence,
+%: -4 support for @ as first character of special variables even if not letter,
+%: -3 support for opening parentheses (possibly triggering tacit multiplication),
+%: -13 support for skipping over ignored + character,
+%: -12 support for numbers starting with a decimal point,
+%: -11 support for the `+`() and `*`() functions,
+%: -10 support for the !() function,
+%: -9 support for the ?() function,
+%: -8 support for " for input of hexadecimal numbers. But $xintbinhexnameimp&
+%    must be loaded explicitly by user.
+%: -17 support for \xintdeffunc via special handling of # token,
+%: -16 support for ignoring _ if not of catcode 11 and at start of&
+%    numbers or names (this 1.4g change fixes \xinteval{_4} creating&
+%    infinite loop)
+%: -15 support for inserting "nil" in front of operators, as needed in particular&
+%    for the Python slicing syntax. This covers the comma, the :, the ] and&
+%    the ) and also the ; although I don't think using ; to delimit nil is licit.
+%: -14 support for inserting 0 as missing value if / or ^ are encountered&
+%    directly.  This 1.4g changes avoids \xinteval{/3} causing&
+%    unrecoverable low level errors from \xintDiv receiving only one argument.
+%    I did not see here other bad syntax to protect.
 %)
-% |
+%
+% The handling of "nil" insertion penalizes Python slicing but anyway time
+% differences in the 14-15-16-17 group are less than
+% 5$%. The alternative will be
+% to do some positive test for the targets (:, ], the comma and closing
+% parenthesis) and do this in the prior group but this then penalizes
+% others. Anyway. This is all negligible compared to actual computations...
+%
+% Note: the above may not be in sync with code as it is extremely
+% time-consuming to maintain correspondence in case of re-factoring.  |
 %    \begin{macrocode}
-\begingroup
-\lccode`;=`#
-\lowercase{\endgroup
-\def\XINT_expr_getnextfork #1{%
-    \if#1;\xint_dothis {\XINT_expr_scan_macropar ;}\fi
-    \if#1+\xint_dothis \XINT_expr_getnext_a \fi
+\def\XINT_expr_getnextfork #1%
+{%
+    \ifcat a#1\xint_dothis\XINT_expr_startfunc\fi
+    \ifnum \xint_c_ix<1\string#1 \xint_dothis\XINT_expr_startint\fi
+    \xint_orthat\XINT_expr_getnextfork_a #1%
+}%
+\def\XINT_expr_getnextfork_a #1%
+{%
     \if#1*\xint_dothis {{}\xint_c_ii^v 0}\fi
     \if#1[\xint_dothis {{}\xint_c_ii^v \XINT_expr_itself_obracket}\fi
-    \if#1.\xint_dothis {\XINT_expr_startdec}\fi
     \if#1-\xint_dothis {{}{}-}\fi
+    \if#1@\xint_dothis{\XINT_expr_startfunc @}\fi
     \if#1(\xint_dothis {{}\xint_c_ii^v (}\fi
-    \xint_orthat {\XINT_expr_scan_nbr_or_func #1}%
-}}%
-\def\XINT_expr_scan_macropar #1#2%
+    \xint_orthat{\XINT_expr_getnextfork_b#1}%
+}%
+\catcode96 11 % `
+\def\XINT_expr_getnextfork_b #1%
+{%
+    \if#1+\xint_dothis \XINT_expr_getnext_a\fi
+    \if#1.\xint_dothis \XINT_expr_startdec\fi
+    \if#1`\xint_dothis {\XINT_expr_onliteral_`}\fi
+    \if#1!\xint_dothis {\XINT_expr_startfunc !}\fi
+    \if#1?\xint_dothis {\XINT_expr_startfunc ?}\fi
+    \if#1"\xint_dothis \XINT_expr_starthex\fi
+    \xint_orthat{\XINT_expr_getnextfork_c#1}%
+}%
+\def\XINT_tmpa #1{%
+\def\XINT_expr_getnextfork_c ##1%
+{%
+    \if##1#1\xint_dothis \XINT_expr_getmacropar\fi
+    \if##1_\xint_dothis \XINT_expr_getnext_a\fi
+    \if0\if##1/1\fi\if##1^1\fi0\xint_dothis{\XINT_expr_insertnil##1}\fi
+    \xint_orthat{\XINT_expr_missing_arg##1}%
+}%
+}\expandafter\XINT_tmpa\string#%
+%    \end{macrocode}
+% \lverb@
+% The ` syntax is here used for special constructs like `+`(..), `*`(..) where
+% + or * will be treated as functions. Current implementation picks only one
+% token (could have been braced stuff), here it will be + or *, and via
+% \XINT_expr_op_` this then becomes a suitable
+% \XINT_{expr|iiexpr|flexpr}_func_+ (or *). Documentation says to use
+% `+`(...), but `+(...) is also valid. The opening parenthesis must be there,
+% it is not allowed to require some expansion.
+% @
+%    \begin{macrocode}
+\def\XINT_expr_onliteral_` #1#2({{#1}\xint_c_ii^v `}%
+\catcode96 12 % `
+%    \end{macrocode}
+% \lverb@ Prior to 1.4g, I was using a \lowercase technique to insert the
+% catcode 12 #, but this is a bit risky when one does not ensure a priori control of all
+% lccodes.  @
+%    \begin{macrocode}
+\def\XINT_tmpa #1{%
+\def\XINT_expr_getmacropar ##1%
 {%
     \expandafter{\expandafter{\expandafter#1\expandafter
-    #2\expandafter}\expandafter}\romannumeral`&&@\XINT_expr_getop
+    ##1\expandafter}\expandafter}\romannumeral`&&@\XINT_expr_getop
+}%
+}\expandafter\XINT_tmpa\string#%
+\def\XINT_expr_insertnil #1%
+{%
+    \expandafter{\expandafter}\romannumeral`&&@\XINT_expr_getop_a#1%
+}%
+\def\XINT_expr_missing_arg#1%
+{%
+    \expanded{\XINT_expandableerror{Expected a value, got nothing before `#1'. Inserting 0.}{{0}}\expandafter}%
+    \romannumeral`&&@\XINT_expr_getop_a#1%
 }%
 %    \end{macrocode}
-% \subsection{\csh{XINT_expr_scan_nbr_or_func}: parsing the  integer or decimal number or hexa-decimal number or
-% function name or variable name or special hacky things}
+% \subsection{\csh{XINT_expr_startint}}
 % \localtableofcontents
 % \lverb@1.2 release has replaced chains of \romannumeral-`0 by \csname
 % governed expansion. Thus there is no more the limit at about 5000 digits for
@@ -37399,32 +38086,12 @@ math shift catcode.
 % releases). There must be digits either before or after the decimal mark. Thus
 % both \xinttheexpr 1.\relax and \xinttheexpr .1\relax are legal.
 %
-% The ` syntax is here used for special constructs like `+`(..), `*`(..) where
-% + or * will be treated as functions. Current implementation picks only one
-% token (could have been braced stuff), here it will be + or *, and via
-% \XINT_expr_op_` this then becomes a suitable
-% \XINT_{expr|iiexpr|flexpr}_func_+ (or *). Documentation says to use
-% `+`(...), but `+(...) is also valid. The opening parenthesis must be there,
-% it is not allowed to come from expansion.
-%
 % Attention at this location #1 was of catcode 12 in all versions prior to
 % 1.4.
 %
-% Besides using principally \if tests, we will assume anyhow that 
-% catcodes of digits are 12...
+% We assume anyhow that catcodes of digits are 12... 
 % @
-%
 %    \begin{macrocode}
-\catcode96 11 % `
-\def\XINT_expr_scan_nbr_or_func #1%
-{%
-    \if "#1\xint_dothis \XINT_expr_scanhex_I\fi
-    \if `#1\xint_dothis {\XINT_expr_onliteral_`}\fi
-    \ifnum \xint_c_ix<1\string#1 \xint_dothis \XINT_expr_startint\fi
-    \xint_orthat \XINT_expr_scanfunc #1%
-}%
-\def\XINT_expr_onliteral_` #1#2#3({{#2}\xint_c_ii^v `}%
-\catcode96 12 % `
 \def\XINT_expr_startint #1%
 {%
     \if #10\expandafter\XINT_expr_gobz_a\else\expandafter\XINT_expr_scanint_a\fi #1%
@@ -37442,7 +38109,10 @@ math shift catcode.
 % \subsubsection{Integral part (skipping zeroes)}
 % \lverb|1.2 has modified the code to give highest priority to digits, the
 % accelerating impact is non-negligeable. I don't think the doubled \string is
-% a serious penalty.|
+% a serious penalty.
+%
+% (reference to \string is obsolete: it is only used in the test but the
+% tokens are not submitted to \string anymore)|
 %    \begin{macrocode}
 \def\XINT_expr_scanint_main #1%
 {%
@@ -37454,9 +38124,12 @@ math shift catcode.
 {%
     \expandafter\XINT_expr_scanint_main\romannumeral`&&@#1%
 }%
+%    \end{macrocode}
+% |1.4f| had |_getop| here, but let's jump directly to |_getop_a|.
+%    \begin{macrocode}
 \def\XINT_expr_scanint_hit_cs \ifnum#1\fi#2\XINT_expr_scanint_again
 {%
-    \iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop#2%
+    \iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop_a#2%
 }%
 %    \end{macrocode}
 % \lverb|With 1.2d the tacit multiplication in front of a variable name or
@@ -37495,7 +38168,9 @@ math shift catcode.
 % some fake operator because A/B[N] is (A/B) times 10^N and the /B is allowed
 % to be missing. We hack this using the $ which is not used currently as
 % operator elsewhere in the syntax and need to hook into \XINT_expr_getop_b.
-% No finally I use the null char. It must be of catcode 12.|
+% No finally I use the null char. It must be of catcode 12.
+%
+% 1.4f had _getop here, but let's jump directly to _getop_a.|
 %    \begin{macrocode}
 \def\XINT_expr_scanint_next #1\XINT_expr_scanint_again
 {%
@@ -37505,7 +38180,7 @@ math shift catcode.
     \if    E#1\xint_dothis{[\the\numexpr0\XINT_expr_scanexp_a +}\fi
     \if    .#1\xint_dothis{\XINT_expr_startdec_a .}\fi
     \xint_orthat
-    {\iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop#1}%
+    {\iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop_a#1}%
 }%
 \def\XINT_expr_rawxintfrac
 {%
@@ -37521,9 +38196,12 @@ math shift catcode.
 {%
     \expandafter\XINT_expr_gobz_scanint_main\romannumeral`&&@#1%
 }%
+%    \end{macrocode}
+% |1.4f| had |_getop| here, but let's jump directly to |_getop_a|.
+%    \begin{macrocode}
 \def\XINT_expr_gobz_scanint_hit_cs\ifnum#1\fi#2\XINT_expr_scanint_again
 {%
-    0\iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop#2%
+    0\iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop_a#2%
 }%
 \def\XINT_expr_gobz_scanint_next #1\XINT_expr_scanint_again
 {%
@@ -37534,7 +38212,7 @@ math shift catcode.
     \if    .#1\xint_dothis{\XINT_expr_gobz_startdec_a .}\fi
     \if    0#1\xint_dothis\XINT_expr_gobz_scanint_again\fi
     \xint_orthat
-    {0\iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop#1}%
+    {0\iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop_a#1}%
 }%
 %    \end{macrocode}
 % \subsubsection{Fractional part}
@@ -37544,7 +38222,9 @@ math shift catcode.
 % have stripped leading zeroes in the fractional part but didn't; as a result
 % \xinttheexpr 0.01\relax returned 0 =:-((( Thanks to Kroum Tzanev who
 % reported the issue. Does it improve things if I say the bug was introduced
-% in 1.2, it wasn't present before ?|
+% in 1.2, it wasn't present before ?
+%
+% 1.4f had _getop here, but let's jump directly to _getop_a.|
 %    \begin{macrocode}
 \def\XINT_expr_startdec_a .#1%
 {%
@@ -37553,7 +38233,7 @@ math shift catcode.
 \def\XINT_expr_scandec_a #1%
 {%
     \if .#1\xint_dothis{\iffalse{{{\fi}}\expandafter}%
-                        \romannumeral`&&@\XINT_expr_getop..}\fi
+                        \romannumeral`&&@\XINT_expr_getop_a..}\fi
     \xint_orthat {\XINT_expr_scandec_main 0.#1}%
 }%
 \def\XINT_expr_gobz_startdec_a .#1%
@@ -37563,7 +38243,7 @@ math shift catcode.
 \def\XINT_expr_gobz_scandec_a #1%
 {%
     \if .#1\xint_dothis
-    {0\iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop..}\fi
+    {0\iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop_a..}\fi
     \xint_orthat {\XINT_expr_gobz_scandec_main 0.#1}%
 }%
 \def\XINT_expr_scandec_main #1.#2%
@@ -37577,10 +38257,13 @@ math shift catcode.
     \expandafter\XINT_expr_scandec_main
     \the\numexpr #1\expandafter.\romannumeral`&&@#2%
 }%
+%    \end{macrocode}
+%|1.4f| had |_getop| here, but let's jump directly to |_getop_a|.
+%    \begin{macrocode}
 \def\XINT_expr_scandec_hit_cs\ifnum#1\fi
     #2\expandafter\XINT_expr_scandec_again\the\numexpr#3-\xint_c_i.%
 {%
-    [#3]\iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop#2%
+    [#3]\iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop_a#2%
 }%
 \def\XINT_expr_scandec_next #1#2\the\numexpr#3-\xint_c_i.%
 {%
@@ -37588,7 +38271,7 @@ math shift catcode.
     \if    e#1\xint_dothis{[\the\numexpr#3\XINT_expr_scanexp_a +}\fi
     \if    E#1\xint_dothis{[\the\numexpr#3\XINT_expr_scanexp_a +}\fi
     \xint_orthat 
-    {[#3]\iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop#1}%
+    {[#3]\iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop_a#1}%
 }%
 %    \end{macrocode}
 %    \begin{macrocode}
@@ -37601,10 +38284,11 @@ math shift catcode.
     {#2\expandafter\XINT_expr_scandec_again}\the\numexpr#1-\xint_c_i.%
 }%
 %    \end{macrocode}
+% |1.4f| had |_getop| here, but let's jump directly to |_getop_a|.
 %    \begin{macrocode}
 \def\XINT_expr_gobz_scandec_hit_cs \ifnum#1\fi\if0#2#3\xint_c_i.%
 {%
-    0[0]\iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop#2%
+    0[0]\iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop_a#2%
 }%
 \def\XINT_expr_gobz_scandec_next\if0#1#2\fi #3\numexpr#4-\xint_c_i.%
 {%
@@ -37612,7 +38296,7 @@ math shift catcode.
     \if    e#1\xint_dothis{0[\the\numexpr0\XINT_expr_scanexp_a +}\fi
     \if    E#1\xint_dothis{0[\the\numexpr0\XINT_expr_scanexp_a +}\fi
     \xint_orthat
-    {0[0]\iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop#1}%
+    {0[0]\iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop_a#1}%
 }%
 %    \end{macrocode}
 % \subsubsection{Scientific notation}
@@ -37638,9 +38322,12 @@ math shift catcode.
 {%
     \expandafter\XINT_expr_scanexp_main_b\romannumeral`&&@#1%
 }%
+%    \end{macrocode}
+% |1.4f| had |_getop| here, but let's jump directly to |_getop_a|.
+%    \begin{macrocode}
 \def\XINT_expr_scanexp_hit_cs\ifnum#1\fi#2\XINT_expr_scanexp_again
 {%
-    ]\iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop#2%
+    ]\iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop_a#2%
 }%
 \def\XINT_expr_scanexp_next #1\XINT_expr_scanexp_again
 {%
@@ -37648,7 +38335,7 @@ math shift catcode.
     \if    +#1\xint_dothis {\XINT_expr_scanexp_a +}\fi
     \if    -#1\xint_dothis {\XINT_expr_scanexp_a -}\fi
     \xint_orthat
-    {]\iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop#1}%
+    {]\iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop_a#1}%
 }%
 \def\XINT_expr_scanexp_main_b #1%
 {%
@@ -37656,9 +38343,12 @@ math shift catcode.
     \ifnum\xint_c_ix<1\string#1 \else\expandafter\XINT_expr_scanexp_next_b\fi
     #1\XINT_expr_scanexp_again_b
 }%
+%    \end{macrocode}
+% |1.4f| had |_getop| here, but let's jump directly to |_getop_a|.
+%    \begin{macrocode}
 \def\XINT_expr_scanexp_hit_cs_b\ifnum#1\fi#2\XINT_expr_scanexp_again_b
 {%
-    ]\iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop#2%
+    ]\iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop_a#2%
 }%
 \def\XINT_expr_scanexp_again_b #1%
 {%
@@ -37668,7 +38358,7 @@ math shift catcode.
 {%
     \if _#1\xint_dothis\XINT_expr_scanexp_again\fi
     \xint_orthat
-    {]\iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop#1}%
+    {]\iffalse{{{\fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop_a#1}%
 }%
 %    \end{macrocode}
 % \subsubsection{Hexadecimal numbers}
@@ -37681,7 +38371,28 @@ math shift catcode.
 % will not work (because of this \string).
 %
 % Extended for 1.2l to ignore underscore character _ if encountered within
-% digits.|
+% digits.
+%
+% (some above remarks have been obsoleted for some long time, no more applied
+% \string since 1.4)
+%
+% Notice that internal representation adds a [N] part only in case input
+% used "DDD.dddd form, for compatibility with \xintiiexpr which is not
+% compatible with such internal representation.
+%
+% At 1.4g a very long-standing bug was fixed: input such as "\foo broke the
+% parser because (incredibly) the \foo token was picked up unexpanded and
+% ended up as is in an \ifcat !
+%
+% Another long-standing bug was fixed at 1.4g: contrarily to the decimal case,
+% here in the hexadecimal input leading zeros were not trimmed. This was ok,
+% because formerly \xintHexToDec trimmed leading zeros, but at 1.2m 2017/07/31
+% xintbinhex.sty was modified and this ceased being the case. But I forgot to
+% upgrade the parser here at that time. Leading zeros would in many
+% circumstances (presence of a fractional part, or \xintiiexpr context) lead
+% to wrong results.  Leading zeros are now trimmed during input.
+%
+% |
 %    \begin{macrocode}
 \def\XINT_expr_hex_in #1.#2#3;%
 {%
@@ -37692,14 +38403,52 @@ math shift catcode.
       [\the\numexpr-4*\xintLength{#3}]%
     \fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop
 }%
-\def\XINT_expr_scanhex_I #1% #1="
+%    \end{macrocode}
+% \lverb|Let's not forget to grab-expand next token first as is normal rule
+% of operation. Formerly called \XINT_expr_scanhex_I and had " upfront.|
+%    \begin{macrocode}
+\def\XINT_expr_starthex #1%
 {%
-    \expandafter\XINT_expr_hex_in\expanded\bgroup\XINT_expr_scanhexI_a
+    \expandafter\XINT_expr_hex_in\expanded\bgroup
+    \expandafter\XINT_expr_scanhexIgobz_a\romannumeral`&&@#1%
+}%
+\def\XINT_expr_scanhexIgobz_a #1%
+{%
+    \ifcat #1\relax
+      0.>;\iffalse{\fi\expandafter}\expandafter\xint_gobble_i\fi
+    \XINT_expr_scanhexIgobz_aa #1%
+}%
+\def\XINT_expr_scanhexIgobz_aa #1%
+{%
+    \if\ifnum`#1>`0
+       \ifnum`#1>`9
+       \ifnum`#1>`@
+       \ifnum`#1>`F
+       0\else1\fi\else0\fi\else1\fi\else0\fi 1%
+       \xint_dothis\XINT_expr_scanhexI_b
+    \fi
+    \if 0#1\xint_dothis\XINT_expr_scanhexIgobz_bgob\fi
+    \if _#1\xint_dothis\XINT_expr_scanhexIgobz_bgob\fi
+    \if .#1\xint_dothis\XINT_expr_scanhexIgobz_toII\fi
+    \xint_orthat
+     {\XINT_expandableerror
+        {Expected an hexadecimal digit but got `#1'. Using `0'.}%
+      0.>;\iffalse{\fi}}%
+    #1%
+}%
+\def\XINT_expr_scanhexIgobz_bgob #1#2%
+{%
+    \expandafter\XINT_expr_scanhexIgobz_a\romannumeral`&&@#2%
+}%
+\def\XINT_expr_scanhexIgobz_toII .#1%
+{%
+    0..\expandafter\XINT_expr_scanhexII_a\romannumeral`&&@#1%
 }%
 \def\XINT_expr_scanhexI_a #1%
 {%
-    \ifcat #1\relax\xint_dothis{.>;\iffalse{\fi}#1}\fi
-    \xint_orthat {\XINT_expr_scanhexI_aa #1}%
+    \ifcat #1\relax
+      .>;\iffalse{\fi\expandafter}\expandafter\xint_gobble_i\fi
+    \XINT_expr_scanhexI_aa #1%
 }%
 \def\XINT_expr_scanhexI_aa #1%
 {%
@@ -37711,8 +38460,8 @@ math shift catcode.
        \expandafter\XINT_expr_scanhexI_b
     \else
        \if _#1\xint_dothis{\expandafter\XINT_expr_scanhexI_bgob}\fi
-       \if .#1\xint_dothis{\expandafter\XINT_expr_scanhex_transition}\fi
-       \xint_orthat {\xint_afterfi {.>;\iffalse{\fi}}}%
+       \if .#1\xint_dothis{\expandafter\XINT_expr_scanhexI_toII}\fi
+       \xint_orthat {.>;\iffalse{\fi\expandafter}}%
     \fi
     #1%
 }%
@@ -37724,10 +38473,9 @@ math shift catcode.
 {%
     \expandafter\XINT_expr_scanhexI_a\romannumeral`&&@#2%
 }%
-\def\XINT_expr_scanhex_transition .#1%
+\def\XINT_expr_scanhexI_toII .#1%
 {%
-    \expandafter.\expandafter.\expandafter
-    \XINT_expr_scanhexII_a\romannumeral`&&@#1%
+    ..\expandafter\XINT_expr_scanhexII_a\romannumeral`&&@#1%
 }%
 \def\XINT_expr_scanhexII_a #1%
 {%
@@ -37744,7 +38492,7 @@ math shift catcode.
        \expandafter\XINT_expr_scanhexII_b
     \else
        \if _#1\xint_dothis{\expandafter\XINT_expr_scanhexII_bgob}\fi
-       \xint_orthat{\xint_afterfi {;\iffalse{\fi}}}%
+       \xint_orthat{;\iffalse{\fi\expandafter}}%
     \fi
     #1%
 }%
@@ -37757,39 +38505,26 @@ math shift catcode.
     \expandafter\XINT_expr_scanhexII_a\romannumeral`&&@#2%
 }%
 %    \end{macrocode}
-% \subsubsection{\csh{XINT_expr_scanfunc}: collecting names of functions and
+% \subsubsection{\csh{XINT_expr_startfunc}: collecting names of functions and
 % variables}
 %
-% \lverb|At 1.4 the first token left over in string has not been submitted to
+% \lverb|At 1.4 the first token left over has not been submitted to
 % \string. We also know it is not a control sequence. So we can test catcode
 % to identify if operator is found. And it is allowed to hit some operator
-% such as a closing parenthesis we will then insert the «nil» value (which
-% however can cause breakage of arithmetic operations, although xintfrac.sty
-% converts empty to 0).
-%
-% The @ causes a problem because it must work with both catcode 11 or 12.
-%
-% The _ can be used internally for starting variables but it will have catcode
-% 11 then.
+% such as a closing parenthesis we will then insert the «nil» value (edited: which
+% however will cause certain breakage of the infix binary operators: I notice
+% I did not insert None {{}} but nil {}, perhaps by oversight).
 %
 % There was prior to 1.4 solely the dispatch in \XINT_expr_scanfunc_b
 % but now we do it immediately and issue \XINT_expr_func only in certain
 % cases.
 %
-% But we have to be careful that !(...) and ?(...) are part of the syntax
-% and genuine functions. Because we now do earlier to getop we must filter
-% them out.
-%|
+% Comments here have been removed because 1.4g did a refactoring
+% and renamed \XINT_expr_scanfunc to \XINT_expr_startfunc, moving half of
+% it earlier inside the getnextfork macros.
+% |
 %    \begin{macrocode}
-\def\XINT_expr_scanfunc #1%
-{%
-  \if 1\ifcat a#10\fi\if @#10\fi\if !#10\fi\if ?#10\fi 1%
-       \expandafter\xint_firstoftwo
-  \else\expandafter\xint_secondoftwo
-  \fi
-  {\expandafter{\expandafter}\romannumeral`&&@\XINT_expr_getop#1}%
-  {\expandafter\XINT_expr_func\expanded\bgroup#1\XINT_expr_scanfunc_a}%
-}%
+\def\XINT_expr_startfunc #1{\expandafter\XINT_expr_func\expanded\bgroup#1\XINT_expr_scanfunc_a}%
 \def\XINT_expr_scanfunc_a #1%
 {%
     \expandafter\XINT_expr_scanfunc_b\romannumeral`&&@#1%
@@ -37911,8 +38646,10 @@ math shift catcode.
    }%
 }%
 \def\XINT_expr_unknown_function #1%
-   {\XINT_expandableerror{"#1" is unknown as function. (I)nsert correct name:}}%
+   {\XINT_expandableerror{`#1' is unknown, say `Isome_func' or I use 0.}}%
 \def\XINT_expr_func_ #1#2#3{#1#2{{0}}}%
+\let\XINT_flexpr_func_\XINT_expr_func_
+\let\XINT_iiexpr_func_\XINT_expr_func_
 \xintFor #1 in {expr,flexpr,iiexpr} \do {%
      \expandafter\XINT_tmpa
                  \csname XINT_#1_op_`\expandafter\endcsname
@@ -37928,36 +38665,88 @@ math shift catcode.
 % once, not twice. We arrive here via \XINT_expr_func.
 %
 % At 1.4 \XINT_expr_getop is launched with accumulated result on its left.
-% But the omit and abort keywords are implemented via dummy variables
-% which rely on possibility to modify upstream tokens. If we did here
+% But the omit and abort keywords are implemented via fake variables
+% which rely on possibility to modify incoming upfront tokens. If we did here
 % something such as
-% _var_#1\expandafter\endcsname\romannumeral`^^@\XINT_expr_getop
-% the premature expansion of getop would break things. Thus we revert 
-% to former code which put \XINT_expr_getop (call it _legacy)
-% in front of variable expansion (in xintexpr < 1.4 this expanded
-% to a single token so the overhead was not serious).
+% $centeredline$bgroup_var_#1\expandafter\endcsname\romannumeral`^^@\XINT_expr_getop$egroup
+% the premature expansion of getop would break the var_omit and
+% var_abort mechanism. Thus we revert
+% to former code which locates an \XINT_expr_getop (call it _legacy)
+% before the tokens from the variable expansion (in xintexpr < 1.4 the
+% normal variables expanded
+% to a single token so the overhead was not serious) so we can expand fake
+% variables first.
 %
-% Abusing variables to manipulate token stream is a bit bad, usually
-% I prefer functions for this (such as the break() function) but
-% then I have define 3 macros for the 3 parsers.
+% Abusing variables to manipulate the incoming token stream is a bit bad,
+% usually I prefer functions for this (such as the break() function) but then
+% I have define 3 macros for the 3 parsers.
 %
-% The situation here is not satisfactory. But 1.4 has to be released
-% now.|
+% This trick of fake variables puts thus a general overhead at various
+% locations, and the situation here is REALLY not satisfactory. But 1.4 has
+% (had) to be released now. 
+%
+% Even if I could put the \csname XINT_expr_var_foo\endcsname upfront, which
+% would then be f-expanded, this would still need \XINT_expr_put_op_first to
+% use its \expandafter's as long as \XINT_expr_var_foo expands to
+% {\XINT_expr_varvalue_foo} with a not-yet expanded \XINT_expr_var_value.
+%
+% I could let \XINT_expr_var_foo expand to
+% \expandafter{\XINT_expr_varvalue_foo} allowing then (if it gets f-expanded)
+% probably to drop the \expandafter in \XINT_expr_put_op_first. But I can not
+% consider this option in the form 
+% $centeredline$bgroup_var_foo\expandafter\endcsname\romannumeral`^^@\XINT_expr_getop$egroup
+% until the issue with fake variables such as omit and
+% abort which must act before \XINT_expr_getop has some workaround.
+% This could be implemented here with some extra branch, i.e. there would not
+% be some \XINT_expr_var_omit but something else filtered out in the \else
+% branch here.
+%
+% The above comments mention only omit and abort, but the case of real dummy
+% variables also needs consideration.
+%
+% At 1.4g, I test first for existence of \XINT_expr_onliteral_foo. This is
+% a trick which allosw to distinguish actual or dummy variables from really
+% fake variables omit and abord (must check if there are othersà. For the real
+% or dummy variables we can trigger the expansion of the \XINT_expr_getop
+% before the one of the variable.  I could test vor varvalue_foo but this
+% applies only to real variables not dummy variables.  Actual and dummy
+% variables are thus handled slightly faster at 1.4g as there is less
+% induced moving around (the \expandafter chain in \XINT_expr_put_op_first
+% still applies at this stage, as I have not yet re-examined the var/varlue
+% mechanism). And the test for var_foo is moved directly inside the \csname
+% construct in the \else branch which now handles together
+% fake variables and non-existing variables.
+%
+% I only have to make sure dummy variables are really safe being handled this
+% way with the getop action having being done before they expand, but it looks
+% ok. Attention it is crucial that if \XINT_expr_getop  finds a \relax it inserts
+% \xint_c_\relax so the \relax token is still there!
+%
+% With this refactoring the \XINT_expr_getop_legacy is applied only in case
+% of non-existent variables or fake variables omit/abort or things such as 
+% nil, None, false, true, False, True.
+%
+% If user in interactive mode fixes the variable name, the \XINT_expr_var_foo
+% expanded once with deliver {\XINT_expr_varvalue_foo} (if not dummy), and the
+% braces are maintained by \XINT_expr_getop_legacy.
+%
+% |
 %    \begin{macrocode}
 \def\XINT_expr_op__  #1% op__ with two _'s
 {%
-  \ifcsname XINT_expr_var_#1\endcsname
-  \expandafter\expandafter\expandafter\XINT_expr_getop_legacy
-      \csname XINT_expr_var_#1\expandafter\endcsname
-  \else
-  \expandafter\expandafter\expandafter\XINT_expr_getop_legacy
-      \csname XINT_expr_var_\XINT_expr_unknown_variable {#1}%
-        \expandafter\endcsname
-  \fi
+    \ifcsname XINT_expr_onliteral_#1\endcsname
+       \csname XINT_expr_var_#1\expandafter\endcsname
+       \romannumeral`&&@\expandafter\XINT_expr_getop
+    \else
+      \expandafter\expandafter\expandafter\XINT_expr_getop_legacy
+      \csname XINT_expr_var_%
+              \ifcsname XINT_expr_var_#1\endcsname#1\else\XINT_expr_unknown_variable{#1}\fi
+      \expandafter\endcsname
+    \fi
 }%
 \def\XINT_expr_unknown_variable #1%
-   {\XINT_expandableerror {"#1" is unknown as a variable. (I)nsert correct one:}}%
-\def\XINT_expr_var_{{0}}%
+   {\XINT_expandableerror {`#1' unknown, say `Isome_var' or I use 0.}}%
+\def\XINT_expr_var_{{{0}}}%
 \let\XINT_flexpr_op__ \XINT_expr_op__
 \let\XINT_iiexpr_op__ \XINT_expr_op__
 \def\XINT_expr_getop_legacy #1%
@@ -37989,6 +38778,24 @@ math shift catcode.
 % 1.4 has simplified coding here as \XINT_expr_getop expansion happens
 % at a time when a fetched value has already being stored.
 %
+% Prior to 1.4g there was an \if _#1\xint_dothis\xint_secondofthree\fi
+% because the _ can be used to start names, for private use by package (for
+% example by polexpr). But this test was silly because these usages are only
+% with a _ of catcode 11. And allowing non-catcode 11 _ also to trigger tacit
+% multiplication caused an infinite loop in collaboration with
+% \XINT_expr_scanfunc, see explanations there (now removed after refactoring,
+% see \XINT_expr_startfunc).
+%
+% The situation with the @ is different because we must allow it even as
+% catcode 12 as a name, as it used in the syntax and must work the same if of
+% catcode 11 or 12. No infinite loop because it is filtered out by one of the
+% \XINT_expr_getnextfork macros.
+%
+% The check for : to send it to thirdofthree "getop" branch is needed, last
+% time I checked, because during some part of at least \xintdeffunc, some
+% scantokens are done which need to work with the : of catcode 11, and it
+% would be misconstrued to start a name if not filtered out.
+%
 % |
 %    \begin{macrocode}
 \def\XINT_expr_getop #1%
@@ -38002,21 +38809,43 @@ math shift catcode.
     \ifcat \relax #1\xint_dothis\xint_secondofthree\fi
     \ifnum\xint_c_ix<1\string#1 \xint_dothis\xint_secondofthree\fi
     \if    :#1\xint_dothis      \xint_thirdofthree\fi
-    \if    _#1\xint_dothis      \xint_secondofthree\fi
     \if    @#1\xint_dothis      \xint_secondofthree\fi
     \if    (#1\xint_dothis      \xint_secondofthree\fi %)
     \ifcat a#1\xint_dothis      \xint_secondofthree\fi
     \xint_orthat \xint_thirdofthree
-    {\XINT_expr_foundend}%
 %    \end{macrocode}
-% \lverb|tacit multiplication with higher precedence.|
+% \lverb|Formerly \XINT_expr_foundend as firstofthree but at 1.4g let's
+% simply insert \xint_c_ as the #1 is \relax (and anyhow a place-holder
+% according to remark in definition of \XINT_expr_foundend|
 %    \begin{macrocode}
-    {\XINT_expr_precedence_*** *#1}%
-    {\expandafter\XINT_expr_getop_b \string#1}%
+    \xint_c_
+%    \end{macrocode}
+% \lverb|Tacit multiplication with higher precedence. Formerly
+% \XINT_expr_precedence_*** was used, renamed to \XINT_expr_prec_tacit at
+% 1.4g in case a backport is done of the \bnumdefinfix from bnumexpr.|
+%    \begin{macrocode}
+    {\XINT_expr_prec_tacit *}%
+%    \end{macrocode}
+% \lverb|This is only location which jumps to \XINT_expr_getop_b. At 1.4f and
+% perhaps for old legacy reasons this was \expandafter\XINT_expr_getop_b
+% \string#1 but I see no reason now for applying \string to #1. Removed at
+% 1.4g. And the #1 now moved out of the secondofthree and thirdofthree
+% branches.|
+%    \begin{macrocode}
+    \XINT_expr_getop_b
+    #1%
 }%
 \catcode`* 12
 %    \end{macrocode}
-% \lverb|\relax is a place holder here.|
+% \lverb|\relax is a place holder here. At 1.4g, we don't use
+% \XINT_expr_foundend anymore in \XINT_expr_getop_a which was slightly
+% refactored, but it is used elsewhere.
+%
+% Attention that keeping a \relax around if \XINT_expr_getop hits it is
+% crucial to good functioning of dummy variables after 1.4g refactoring of
+% \XINT_expr_op__, the \relax being used as delimiter by dummy variables, and
+% \XINT_expr_getop is now expanded before the variable itself does its thing.
+% |
 %    \begin{macrocode}
 \def\XINT_expr_foundend {\xint_c_ \relax}%
 %    \end{macrocode}
@@ -38027,14 +38856,17 @@ math shift catcode.
 %
 % \lverb|null char is used as hack to implement A/B[N] raw input at 1.4. See
 % also \XINT_expr_scanint_c.|
+%
+% \lverb|Memo: 1.4g, the token fetched by \XINT_expr_getop_b has not anymore
+% been previously submitted in \XINT_expr_getop_a to \string.|
 %    \begin{macrocode}
-\def\XINT_expr_getop_b #1%
+\def\XINT_expr_getop_b#1{\def\XINT_expr_getop_b ##1%
 {%
-     \if &&@#1\xint_dothis{\csname XINT_expr_precedence_&&@\endcsname&&@}\fi
-     \if '#1\xint_dothis{\XINT_expr_binopwrd }\fi
-     \if ?#1\xint_dothis{\XINT_expr_precedence_? ?}\fi
-     \xint_orthat       {\XINT_expr_scanop_a #1}%
-}%
+     \if &&@##1\xint_dothis{#1&&@}\fi
+     \if   '##1\xint_dothis{\XINT_expr_binopwrd }\fi
+     \if   ?##1\xint_dothis{\XINT_expr_precedence_? ?}\fi
+     \xint_orthat          {\XINT_expr_scanop_a ##1}%
+}}\expandafter\XINT_expr_getop_b\csname XINT_expr_precedence_&&@\endcsname
 \def\XINT_expr_binopwrd #1'%
 {%
     \expandafter\XINT_expr_foundop_a
@@ -38044,25 +38876,45 @@ math shift catcode.
 {%
     \expandafter\XINT_expr_scanop_b\expandafter#1\romannumeral`&&@#2%
 }%
+%    \end{macrocode}
+% \lverb|Multi-character operators have an associated itself macro at each
+% stage of decomposition starting at two characters. Here, nothing imposes to
+% the operator characters not to be of catcode letter, this constraint applies
+% only on the first character and is done via \XINT_expr_getop_a, to handle in
+% particular tacit multiplication in front of variable or function names.
+%
+% But it would be dangerous to allow letters in operator characters, again due
+% to existence of variables and functions, and anyhow there is no user
+% interface to add such custom operators.  However in bnumexpr, such a
+% constraint does not exist.
+%
+% I don't worry too much about efficiency here... and at 1.4g I have
+% re-written for code readability only.  Once we see that #1#2 is not a
+% candidate to be or start an operator, we need to check if single-character
+% operator #1 is really an operator and this is done via the existence of the
+% precedence token.|
+%    \begin{macrocode}
 \def\XINT_expr_scanop_b #1#2%
 {%
-    \ifcat#2\relax\xint_dothis{\XINT_expr_foundop_a #1#2}\fi
-    \ifcsname XINT_expr_itself_#1#2\endcsname
-    \xint_dothis
-        {\expandafter\XINT_expr_scanop_c\csname XINT_expr_itself_#1#2\endcsname}\fi
-    \xint_orthat {\XINT_expr_foundop_a #1#2}%
+    \unless\ifcat#2\relax
+           \ifcsname XINT_expr_itself_#1#2\endcsname
+           \XINT_expr_scanop_c
+    \fi\fi
+    \XINT_expr_foundop_a #1#2%
 }%
-\def\XINT_expr_scanop_c #1#2%
+\def\XINT_expr_scanop_c #1#2#3#4#5% #1#2=\fi\fi
 {%
-    \expandafter\XINT_expr_scanop_d\expandafter#1\romannumeral`&&@#2%
+    #1#2%
+    \expandafter\XINT_expr_scanop_d\csname XINT_expr_itself_#4#5\expandafter\endcsname
+    \romannumeral`&&@%
 }%
 \def\XINT_expr_scanop_d #1#2%
 {%
-  \ifcat#2\relax \xint_dothis{\XINT_expr_foundop #1#2}\fi
-  \ifcsname XINT_expr_itself_#1#2\endcsname
-  \xint_dothis
-        {\expandafter\XINT_expr_scanop_c\csname XINT_expr_itself_#1#2\endcsname }\fi
-  \xint_orthat {\csname XINT_expr_precedence_#1\endcsname #1#2}%
+    \unless\ifcat#2\relax
+           \ifcsname XINT_expr_itself_#1#2\endcsname
+           \XINT_expr_scanop_c
+    \fi\fi
+    \XINT_expr_foundop #1#2%
 }%
 \def\XINT_expr_foundop_a #1%
 {%
@@ -38070,10 +38922,10 @@ math shift catcode.
         \csname XINT_expr_precedence_#1\expandafter\endcsname
         \expandafter #1%
     \else
-        \xint_afterfi{\XINT_expr_getop\romannumeral0%
-        \XINT_expandableerror
-        {"#1" is unknown as operator. (I)nsert one:} }%<<deliberate space
-    \fi
+        \expandafter\XINT_expr_getop_a\romannumeral`&&@%
+        \xint_afterfi{\XINT_expandableerror
+        {Expected an operator but got `#1'. Ignoring.}}%
+     \fi
 }%
 \def\XINT_expr_foundop #1{\csname XINT_expr_precedence_#1\endcsname #1}%
 %    \end{macrocode}
@@ -38133,7 +38985,7 @@ math shift catcode.
     \def#5%
     {%
         \XINT_expandableerror
-        {An extra ) has been removed. Hit Return, fingers crossed.}%
+        {Extra ) removed. Hit <return>, fingers crossed.}%
         \expandafter#2\romannumeral`&&@\expandafter\XINT_expr_put_op_first
         \romannumeral`&&@\XINT_expr_getop_legacy
     }%
@@ -38184,7 +39036,7 @@ math shift catcode.
     }%
 }%
 \def\XINT_expr_missing_) 
-   {\XINT_expandableerror{Sorry to report a missing ) at the end of this journey.}%
+   {\XINT_expandableerror{End of expression found, but some ) was missing there.}%
     \xint_c_ \XINT_expr_done }%
 \xintFor #1 in {expr,flexpr,iiexpr} \do {%
     \expandafter\XINT_tmpa
@@ -38238,8 +39090,28 @@ math shift catcode.
 \expandafter\let\csname XINT_expr_precedence_,\endcsname\xint_c_iii
 %    \end{macrocode}
 % \subsection{The minus as prefix operator of variable precedence level}
-% \lverb|Inherits the precedence level of the previous infix operator.
-% Refactored at 1.4|
+% \lverb|Inherits the precedence level of the previous infix operator, if the
+% latter has at least the precedence level of binary + and -, i.e. currently
+% 12.
+%
+% Refactored at 1.4.
+%
+% At 1.4g I belatedly observe that I have been defining architecture for
+% op_-xvi but such operator can never be created, because there are no infix
+% operators of precedence level 16.  Perhaps in the past this was really
+% needed?  But now such 16 is precedence level of tacit multiplication which
+% is implemented simply by the \XINT_expr_prec_tacit token, there is no macro
+% check-_*** which would need an op_-xvi.
+%
+% For the record: at least one scenario exists
+% which creates tacit multiplication in front of a unary -, it is 2\count0
+% which first generates tacit multiplication then applies \number to \count0,
+% but the operator
+% is still *, so this triggers only \XINT_expr_op_-xiv, not -xvi.
+%
+% At 1.4g we need 17 and not 18 anymore as the precedence of unary minus
+% following power operators ^ and **. The needed \xint_c_xvii creation was
+% added to xintkernel.sty.|
 %    \begin{macrocode}
 \def\XINT_tmpb #1#2#3#4#5#6#7%
 {%
@@ -38282,14 +39154,9 @@ math shift catcode.
     \csname XINT_#1_checkp_-#3\expandafter\endcsname
     \csname xint_c_#3\endcsname {#1}#2%
 }%
-%    \end{macrocode}
-% \lverb|1.2d needs precedence 8 for *** and 9 for ^. Earlier, precedence
-% level for ^ was only 8 but nevertheless the code did also "ix" here, which I
-% think was unneeded back then.|
-%    \begin{macrocode}
-\xintApplyInline{\XINT_tmpa {expr}\xintOpp}{{xii}{xiv}{xvi}{xviii}}%
-\xintApplyInline{\XINT_tmpa {flexpr}\xintOpp}{{xii}{xiv}{xvi}{xviii}}%
-\xintApplyInline{\XINT_tmpa {iiexpr}\xintiiOpp}{{xii}{xiv}{xvi}{xviii}}%
+\xintApplyInline{\XINT_tmpa {expr}\xintOpp}{{xii}{xiv}{xvii}}%
+\xintApplyInline{\XINT_tmpa {flexpr}\xintOpp}{{xii}{xiv}{xvii}}%
+\xintApplyInline{\XINT_tmpa {iiexpr}\xintiiOpp}{{xii}{xiv}{xvii}}%
 %    \end{macrocode}
 % \subsection{The \texorpdfstring{\protect\lowast}{*}{} as Python-like «unpacking» prefix operator}
 %
@@ -38326,17 +39193,16 @@ math shift catcode.
 % x/2y. Actually I don't need the _itself mechanism for ***, only a
 % precedence.
 %
-% 1.4b subtlety with catcode of ! in \XINT_expr_itself_!=,
-% due to chaining of comparison operators
-% which use it to reinject into stream, but we must then have it of catcode
-% 12 there, whereas so far the itself macros were only expanded in csname context.|
+% At 1.4b we must make sure that the ! in expansion of \XINT_expr_itself_!= is
+% of catcode 12 and not of catcode 11.  This is because implementation of
+% chaining of comparison operators proceeds via inserting the itself macro
+% directly into upcoming token stream, whereas formerly such itself macros
+% would be expanded only in a \csname...\endcsname context.|
 %    \begin{macrocode}
-\catcode`& 12
-\xintFor* #1 in {{==}{<=}{>=}{&&}{||}{**}{//}{/:}{..}{..[}{].}{]..}}%
+\catcode`& 12 \catcode`! 12
+\xintFor* #1 in {{==}{!=}{<=}{>=}{&&}{||}{//}{/:}{..}{..[}{].}{]..}}%
     \do {\expandafter\def\csname XINT_expr_itself_#1\endcsname {#1}}%
-\catcode`& 7
-\expandafter\edef\csname XINT_expr_itself_!=\endcsname{\string !=}%
-\expandafter\let\csname XINT_expr_precedence_***\endcsname \xint_c_xvi
+\catcode`& 7  \catcode`! 11
 %    \end{macrocode}
 % \subsubsection{\&\&, \textbar\textbar, //, /:, +,
 % \textendash, \texorpdfstring{\protect\lowast}{*}, /, \textasciicircum,
@@ -38344,11 +39210,25 @@ math shift catcode.
 % or\textquotesingle, \textquotesingle xor\textquotesingle, and
 % \textquotesingle mod\textquotesingle}
 %
-% \lverb@&
-% Usage of single character Boolean operators $& and | is deprecated
-% (for many years) and only $&$& and || should be used. $& and | will be removed
-% at next major release after 1.4.
-% @
+% \lverb?
+% Single character boolean operators $& and | had been deprecated since
+% 1.1 and finally got removed (together with = comparison test)
+% from syntax at 1.4g.
+%
+% Also, at 1.4g I finally decide to enact the switch to right
+% associativity for the power operators ^ and **.
+%
+% This goes via inserting into the checkp macros not anymore the precedence
+% chardef token (which now only serves as left precedence, inserted in the
+% token stream) but in its place an \xint_c_<roman> token holding the right
+% precedence. Which is also transmitted to spanned unary minus operators.
+%
+% Here only levels 12, 14, and 17 are created as right precedences.
+%
+% #6 and #7 got permuted and the new #7 is directly a control sequence.
+% Also #3 and #4 are now integers which need \romannumeral. The change in
+% \XINT_expr_defbin_c does not propagate as it is re-defined shortly thereafter.
+% ?
 %    \begin{macrocode}
 \def\XINT_expr_defbin_c #1#2#3#4#5#6#7#8%
 {%
@@ -38360,7 +39240,7 @@ math shift catcode.
   \def #2##1##2##3##4% \XINT_expr_exec_<op>
   {%
     \expandafter##2\expandafter##3\expandafter
-      {\romannumeral`&&@\XINT:NEhook:f:one:from:two{\romannumeral`&&@#6##1##4}}%
+      {\romannumeral`&&@\XINT:NEhook:f:one:from:two{\romannumeral`&&@#7##1##4}}%
   }%
   \def #3##1% \XINT_expr_check-_<op>
   {%
@@ -38371,7 +39251,7 @@ math shift catcode.
   }%
   \def #4##1##2% \XINT_expr_checkp_<op>
   {%
-    \ifnum ##1>#7%
+    \ifnum ##1>#6%
       \expandafter#4%
       \romannumeral`&&@\csname XINT_#8_op_##2\expandafter\endcsname
     \else 
@@ -38386,47 +39266,62 @@ math shift catcode.
   \csname XINT_#1_exec_#2\expandafter\endcsname
   \csname XINT_#1_check-_#2\expandafter\endcsname
   \csname XINT_#1_checkp_#2\expandafter\endcsname
-  \csname XINT_#1_op_-#4\expandafter\endcsname
-  \csname #5\expandafter\endcsname
-  \csname XINT_expr_precedence_#2\endcsname
+  \csname XINT_#1_op_-\romannumeral\ifnum#4>12 #4\else12\fi\expandafter\endcsname
+  \csname xint_c_\romannumeral#4\endcsname
+  #5%
   {#1}%
   \expandafter % done 3 times but well
   \let\csname XINT_expr_precedence_#2\expandafter\endcsname
-      \csname xint_c_#3\endcsname
+      \csname xint_c_\romannumeral#3\endcsname
 }%
-\XINT_expr_defbin_b {expr}  {||} {vi}{xii} {xintOR}%
-\XINT_expr_defbin_b {flexpr}{||} {vi}{xii} {xintOR}%
-\XINT_expr_defbin_b {iiexpr}{||} {vi}{xii} {xintOR}%
+\XINT_expr_defbin_b {expr}  {||} {6} {6} \xintOR
+\XINT_expr_defbin_b {flexpr}{||} {6} {6} \xintOR
+\XINT_expr_defbin_b {iiexpr}{||} {6} {6} \xintOR
 \catcode`& 12
-\XINT_expr_defbin_b {expr}  {&&} {viii}{xii}  {xintAND}%
-\XINT_expr_defbin_b {flexpr}{&&} {viii}{xii}  {xintAND}%
-\XINT_expr_defbin_b {iiexpr}{&&} {viii}{xii}  {xintAND}%
+\XINT_expr_defbin_b {expr}  {&&} {8} {8} \xintAND
+\XINT_expr_defbin_b {flexpr}{&&} {8} {8} \xintAND
+\XINT_expr_defbin_b {iiexpr}{&&} {8} {8} \xintAND
 \catcode`& 7
-\XINT_expr_defbin_b {expr}  {xor}{vi}{xii} {xintXOR}%
-\XINT_expr_defbin_b {flexpr}{xor}{vi}{xii} {xintXOR}%
-\XINT_expr_defbin_b {iiexpr}{xor}{vi}{xii} {xintXOR}%
-\XINT_expr_defbin_b {expr}  {//} {xiv}{xiv}{xintDivFloor}%
-\XINT_expr_defbin_b {flexpr}{//} {xiv}{xiv}{XINTinFloatDivFloor}%
-\XINT_expr_defbin_b {iiexpr}{//} {xiv}{xiv}{xintiiDivFloor}%
-\XINT_expr_defbin_b {expr}  {/:} {xiv}{xiv}{xintMod}%
-\XINT_expr_defbin_b {flexpr}{/:} {xiv}{xiv}{XINTinFloatMod}%
-\XINT_expr_defbin_b {iiexpr}{/:} {xiv}{xiv}{xintiiMod}%
-\XINT_expr_defbin_b {expr}   +   {xii}{xii}{xintAdd}%
-\XINT_expr_defbin_b {flexpr} +   {xii}{xii}{XINTinFloatAdd}%
-\XINT_expr_defbin_b {iiexpr} +   {xii}{xii}{xintiiAdd}%
-\XINT_expr_defbin_b {expr}   -   {xii}{xii}{xintSub}%
-\XINT_expr_defbin_b {flexpr} -   {xii}{xii}{XINTinFloatSub}%
-\XINT_expr_defbin_b {iiexpr} -   {xii}{xii}{xintiiSub}%
-\XINT_expr_defbin_b {expr}   *   {xiv}{xiv}{xintMul}%
-\XINT_expr_defbin_b {flexpr} *   {xiv}{xiv}{XINTinFloatMul}%
-\XINT_expr_defbin_b {iiexpr} *   {xiv}{xiv}{xintiiMul}%
-\XINT_expr_defbin_b {expr}   /   {xiv}{xiv}{xintDiv}%
-\XINT_expr_defbin_b {flexpr} /   {xiv}{xiv}{XINTinFloatDiv}%
-\XINT_expr_defbin_b {iiexpr} /   {xiv}{xiv}{xintiiDivRound}%
-\XINT_expr_defbin_b {expr}   ^   {xviii}{xviii}{xintPow}%
-\XINT_expr_defbin_b {flexpr} ^   {xviii}{xviii}{XINTinFloatSciPow}%
-\XINT_expr_defbin_b {iiexpr} ^   {xviii}{xviii}{xintiiPow}%
+\XINT_expr_defbin_b {expr}  {xor}{6} {6} \xintXOR
+\XINT_expr_defbin_b {flexpr}{xor}{6} {6} \xintXOR
+\XINT_expr_defbin_b {iiexpr}{xor}{6} {6} \xintXOR
+\XINT_expr_defbin_b {expr}  {//} {14}{14}\xintDivFloor
+\XINT_expr_defbin_b {flexpr}{//} {14}{14}\XINTinFloatDivFloor
+\XINT_expr_defbin_b {iiexpr}{//} {14}{14}\xintiiDivFloor
+\XINT_expr_defbin_b {expr}  {/:} {14}{14}\xintMod
+\XINT_expr_defbin_b {flexpr}{/:} {14}{14}\XINTinFloatMod
+\XINT_expr_defbin_b {iiexpr}{/:} {14}{14}\xintiiMod
+\XINT_expr_defbin_b {expr}   +   {12}{12}\xintAdd
+\XINT_expr_defbin_b {flexpr} +   {12}{12}\XINTinFloatAdd
+\XINT_expr_defbin_b {iiexpr} +   {12}{12}\xintiiAdd
+\XINT_expr_defbin_b {expr}   -   {12}{12}\xintSub
+\XINT_expr_defbin_b {flexpr} -   {12}{12}\XINTinFloatSub
+\XINT_expr_defbin_b {iiexpr} -   {12}{12}\xintiiSub
+\XINT_expr_defbin_b {expr}   *   {14}{14}\xintMul
+\XINT_expr_defbin_b {flexpr} *   {14}{14}\XINTinFloatMul
+\XINT_expr_defbin_b {iiexpr} *   {14}{14}\xintiiMul
+\let\XINT_expr_prec_tacit \xint_c_xvi
+\XINT_expr_defbin_b {expr}   /   {14}{14}\xintDiv
+\XINT_expr_defbin_b {flexpr} /   {14}{14}\XINTinFloatDiv
+\XINT_expr_defbin_b {iiexpr} /   {14}{14}\xintiiDivRound
+%    \end{macrocode}
+% \lverb|At 1.4g, right associativity is implemented via
+% a lowered right precedence here.|
+%    \begin{macrocode}
+\XINT_expr_defbin_b {expr}   ^   {18}{17}\xintPow
+\XINT_expr_defbin_b {flexpr} ^   {18}{17}\XINTinFloatSciPow
+\XINT_expr_defbin_b {iiexpr} ^   {18}{17}\xintiiPow
+%    \end{macrocode}
+% \lverb|1.4g This is a trick (which was in old version of bnumexpr, I
+% wonder why I did not have it here) but it will make error messages in case
+% of **<token> confusing.  The ^ here is of catcode 11 but it does not matter.|
+%    \begin{macrocode}
+\expandafter\def\csname XINT_expr_itself_**\endcsname{^}%
 \catcode`& 12
+%    \end{macrocode}
+% \lverb|For this which contributes to implementing 'and', 'or', etc... see
+% \XINT_expr_binopwrd.|
+%    \begin{macrocode}
 \xintFor #1 in {and,or,xor,mod} \do
 {%
    \expandafter\def\csname XINT_expr_itself_#1\endcsname {#1}%
@@ -38445,21 +39340,6 @@ math shift catcode.
                    \csname XINT_#1_op_||\endcsname
    \expandafter\let\csname XINT_#1_op_mod\expandafter\endcsname
                    \csname XINT_#1_op_/:\endcsname
-}%
-\expandafter\let\csname XINT_expr_precedence_&\expandafter\endcsname
-                \csname XINT_expr_precedence_&&\endcsname
-\expandafter\let\csname XINT_expr_precedence_|\expandafter\endcsname
-                \csname XINT_expr_precedence_||\endcsname
-\expandafter\let\csname XINT_expr_precedence_**\expandafter\endcsname
-                \csname XINT_expr_precedence_^\endcsname
-\xintFor #1 in {expr, flexpr, iiexpr} \do
-{%
-   \expandafter\let\csname XINT_#1_op_&\expandafter\endcsname
-                   \csname XINT_#1_op_&&\endcsname
-   \expandafter\let\csname XINT_#1_op_|\expandafter\endcsname
-                   \csname XINT_#1_op_||\endcsname
-   \expandafter\let\csname XINT_#1_op_**\expandafter\endcsname
-                   \csname XINT_#1_op_^\endcsname
 }%
 \catcode`& 7
 %    \end{macrocode}
@@ -38563,11 +39443,6 @@ math shift catcode.
 \XINT_expr_defbin_b {iiexpr}{]..}\xintiiSeqB:tl:x
 %    \end{macrocode}
 % \subsubsection{<, >, ==, <=, >=, != with Python-like chaining}
-% \lverb|
-% Usage of single character comparison operator = is deprecated (since
-% many years) and only == should be used. = will be removed at next major
-% release after 1.4.
-% |
 % \lverb|1.4b
 % This is preliminary implementation of chaining of comparison
 % operators like Python and (I think) l3fp do. I am not too happy
@@ -38634,6 +39509,12 @@ math shift catcode.
   {#1}%#3%
 }%
 %    \end{macrocode}
+% \lverb?
+% Single character comparison operator = had been deprecated for many
+% years (but I can't find since when precisely; $& and | were deprecated at
+% 1.1 as since in CHANGES.md) and it finally got removed from syntax at
+% 1.4g, as well as $& and |.
+% ?
 % \lverb|Attention that third token here is left in stream by defbin_b, then
 % also by defbin_c and is picked up as #2 of defbin_d. Had to work around TeX
 % accepting only 9 arguments. Why did it not start counting at #0 like all
@@ -38657,12 +39538,6 @@ math shift catcode.
 \XINT_expr_defbin_b {expr}  {!=}\xintNotEq
 \XINT_expr_defbin_b {flexpr}{!=}\xintNotEq
 \XINT_expr_defbin_b {iiexpr}{!=}\xintiiNotEq
-\expandafter\let\csname XINT_expr_precedence_=\endcsname\xint_c_x
-\xintFor #1 in {expr, flexpr, iiexpr} \do
-{%
-   \expandafter\let\csname XINT_#1_op_=\expandafter\endcsname
-                   \csname XINT_#1_op_==\endcsname
-}%
 %    \end{macrocode}
 % \subsubsection{Support macros for .., ..[ and ]..}
 %
@@ -38867,7 +39742,7 @@ math shift catcode.
 \XINT_expr_defbin_b {flexpr}%
 \XINT_expr_defbin_b {iiexpr}%
 \def\XINT_expr_missing_]
-   {\XINT_expandableerror{Ooops, looks like we are missing a ] here. Goodbye!}%
+   {\XINT_expandableerror{Ooops, looks like we are missing a ]. Aborting!}%
     \xint_c_ \XINT_expr_done}%
 \let\XINT_expr_precedence_]\xint_c_ii
 %    \end{macrocode}
@@ -39331,6 +40206,20 @@ math shift catcode.
     {\romannumeral`&&@\xintiiFac#1}}\expandafter}\romannumeral`&&@\XINT_expr_getop
 }%
 %    \end{macrocode}
+% \lverb|At 1.4g, fix for input "x! == y" via a fake operator !==. The !
+% is of catcode 11 but this does not matter here. The definition of
+% \XINT_expr_itself_!== is required by the functioning of the scanop macros.
+%
+% We don't have to worry about "x! = y" as the single-character Boolean
+% comparison = operator has been removed from syntax.  Fixing it would have
+% required obeying space tokens when parsing operators.  For "x! == y" case,
+% obeying space tokens would not solve "x!==y" input case anyhow.|
+%    \begin{macrocode}
+\expandafter
+\def\csname XINT_expr_precedence_!==\expandafter\endcsname
+    \csname XINT_expr_itself_!==\endcsname {\XINT_expr_precedence_! !==}%
+\expandafter\def\csname XINT_expr_itself_!==\endcsname{!==}%
+%    \end{macrocode}
 % \subsection{User defined variables}
 % \localtableofcontents
 %
@@ -39416,6 +40305,18 @@ math shift catcode.
 % not copy paste that value and expect exact same behaviour as the automatic
 % label variable.
 %
+% 1.4g (2021/05/22). The \expandafter\expandafter\expandafter et al. chain
+% which was kept by \XINT_expr_defvar_one_b for expanding only at time of use
+% the \XINT_expr_var_foo in \XINT_expr_onliteral_foo were senseless overhead
+% added at 1.4c. This is used only for real variables, not dummy variables or
+% fake variables and it is simpler to have the \XINT_expr_var_foo
+% pre-expanded. So let's use some \edef here.
+%
+% The \XINT_expr_onliteral_foo is expanded as result of action of \XINT_expr_op_`
+% (or \XINT_flexpr_op_`, \XINT_iiexpr_op_`) which itself was triggered consuming
+% already an \XINT_expr_put_op_first, so its expansion has to produce tokens
+% as expected after \XINT_expr_put_op_first: <precedence token><op token>{expanded value}.
+% 
 % |
 %
 %    \begin{macrocode}
@@ -39433,11 +40334,7 @@ math shift catcode.
         {{\expandafter\noexpand\csname XINT_expr_varvalue_#1\endcsname}}%
     \XINT_global
     \expandafter\edef\csname XINT_expr_onliteral_#1\endcsname
-        {\unexpanded{\expandafter\expandafter\expandafter}%
-         \XINT_expr_precedence_***
-         \unexpanded{\expandafter\expandafter\expandafter}%
-         *\unexpanded{\expandafter\expandafter}%
-         \expandafter\noexpand\csname XINT_expr_var_#1\endcsname(}%
+        {\XINT_expr_prec_tacit *\csname XINT_expr_var_#1\endcsname(}%
     \ifxintverbose\xintMessage{xintexpr}{Info}
        {Variable #1 \ifxintglobaldefs globally \fi
         defined with value \csname XINT_expr_varvalue_#1\endcsname.}%
@@ -39611,7 +40508,7 @@ math shift catcode.
    \expanded
    {\edef\expandafter\noexpand
          \csname XINT_expr_onliteral_\XINT_tmpa\endcsname ##1\relax !\XINT_tmpa##2}%
-      {\XINT_expr_precedence_*** *{##2}(##1\relax !\XINT_tmpa{##2}}%)
+      {\XINT_expr_prec_tacit *{##2}(##1\relax !\XINT_tmpa{##2}}%)
 }%
 \xintApplyUnbraced \XINT_expr_makedummy {abcdefghijklmnopqrstuvwxyz}%
 \xintApplyUnbraced \XINT_expr_makedummy {ABCDEFGHIJKLMNOPQRSTUVWXYZ}%
@@ -39864,7 +40761,7 @@ math shift catcode.
 %    \begin{macrocode}
 \catcode`* 11
 \def\XINT_expr_var_@ #1~#2{{#2}#1~{#2}}%
-\def\XINT_expr_onliteral_@ #1~#2{\XINT_expr_precedence_*** *{#2}(#1~{#2}}%
+\def\XINT_expr_onliteral_@ #1~#2{\XINT_expr_prec_tacit *{#2}(#1~{#2}}%
 \expandafter
 \def\csname XINT_expr_var_@1\endcsname #1~#2{{{#2}}#1~{#2}}%
 \expandafter
@@ -39874,13 +40771,13 @@ math shift catcode.
 \expandafter
 \def\csname XINT_expr_var_@4\endcsname #1~#2#3#4#5{{{#5}}#1~{#2}{#3}{#4}{#5}}%
 \expandafter\def\csname XINT_expr_onliteral_@1\endcsname #1~#2%
-               {\XINT_expr_precedence_*** *{{#2}}(#1~{#2}}%
+               {\XINT_expr_prec_tacit *{{#2}}(#1~{#2}}%
 \expandafter\def\csname XINT_expr_onliteral_@2\endcsname #1~#2#3%
-               {\XINT_expr_precedence_*** *{{#3}}(#1~{#2}{#3}}%
+               {\XINT_expr_prec_tacit *{{#3}}(#1~{#2}{#3}}%
 \expandafter\def\csname XINT_expr_onliteral_@3\endcsname #1~#2#3#4%
-               {\XINT_expr_precedence_*** *{{#4}}(#1~{#2}{#3}{#4}}%
+               {\XINT_expr_prec_tacit *{{#4}}(#1~{#2}{#3}{#4}}%
 \expandafter\def\csname XINT_expr_onliteral_@4\endcsname #1~#2#3#4#5%
-               {\XINT_expr_precedence_*** *{{#5}}(#1~{#2}{#3}{#4}{#5}}%
+               {\XINT_expr_prec_tacit *{{#5}}(#1~{#2}{#3}{#4}{#5}}%
 \catcode`* 12
 \catcode`? 3
 \def\XINT_expr_func_@@ #1#2#3#4~#5?%
@@ -42159,7 +43056,7 @@ math shift catcode.
     ##1{##2}%
 }}\expandafter\XINT:NE:f:noeval:from:braced:u\string#%
 \def\XINT:NE:f:noeval:from:braced:u:p #1#2%
-    {\detokenize{\romannumeral`$XINT_expr_null\expandafter#1}~expanded{{#2}}}%
+    {\detokenize{\romannumeral`$XINT_expr_null\expandafter#1}~expanded{{#2}}}%$
 \catcode`- 11
 \def\XINT:NE:exec_? #1#2%
 {%
@@ -42957,10 +43854,10 @@ math shift catcode.
   \expandafter\xint_secondoftwo
 \fi
 {\immediate\write-1{Reloading xinttrig library using Digits=\xinttheDigits.}}%
-{\expandafter\gdef\csname xintlibver@trig\endcsname{2021/05/10 v1.4f}%
+{\expandafter\gdef\csname xintlibver@trig\endcsname{2021/05/25 v1.4g}%
 \XINT_providespackage
 \ProvidesPackage{xinttrig}%
-[2021/05/10 v1.4f Trigonometrical functions for xintexpr (JFB)]%
+[2021/05/25 v1.4g Trigonometrical functions for xintexpr (JFB)]%
 }%
 %    \end{macrocode}
 % \subsection{Ensure used letters are dummy letters}
@@ -44277,10 +45174,10 @@ math shift catcode.
   \expandafter\xint_secondoftwo
 \fi
 {\immediate\write-1{Reloading xintlog library using Digits=\xinttheDigits.}}%
-{\expandafter\gdef\csname xintlibver@log\endcsname{2021/05/10 v1.4f}%
+{\expandafter\gdef\csname xintlibver@log\endcsname{2021/05/25 v1.4g}%
 \XINT_providespackage
 \ProvidesPackage{xintlog}%
-[2021/05/10 v1.4f Logarithms and exponentials for xintexpr (JFB)]%
+[2021/05/25 v1.4g Logarithms and exponentials for xintexpr (JFB)]%
 }%
 %    \end{macrocode}
 % \subsection{\csh{xintreloadxintlog}}
@@ -44580,8 +45477,17 @@ math shift catcode.
 }%
 \def\XINT_scipow_Aiszero #1\xint:#2#3\xint:
 {%
+%    \end{macrocode}
+% \lverb|Missing NaN and Infinity causes problems. Inserting something
+% like 1["7FFF8000] is risky as certain macros convert [N] into N zeros...
+% so the run can appear to stall and will crash possibly badly if we do that.
+% There is some usage in relation to ilog10 in xint.sty and xintfrac.sty
+% of "7FFF8000 but here I will stay prudent and insert the usual 0 value
+% (changed at 1.4g)
+% |
+%    \begin{macrocode}
     \if-#2\xint_dothis
-      {\XINT_signalcondition{InvalidOperation}{Zero to negative power #2#3}{}{1["7FFF8000]}}\fi
+      {\XINT_signalcondition{InvalidOperation}{0 raised to power #2#3.}{}{ 0[0]}}\fi
     \xint_orthat{ 0[0]}%
 }%
 \def\XINT_scipow_Aispos #1\xint:#2\xint:
@@ -44594,7 +45500,8 @@ math shift catcode.
 %    \begin{macrocode}
 \def\XINT_scipow_Aisneg #1#2\xint:#3\xint:
 {%
-   \XINT_signalcondition{InvalidOperation}{Fractional power of negative argument}{}{0[0]}%
+   \XINT_signalcondition{InvalidOperation}%
+        {Fractional power #3 of negative #1#2.}{}{ 0[0]}%
 }%
 \ifnum\XINTdigits<9
 %    \end{macrocode}
@@ -46306,8 +47213,8 @@ xint.sty:205
 xintbinhex.sty:53
 xintcfrac.sty:183
 xintcore.sty:272
-xintexpr.sty:433
-xintfrac.sty:506
+xintexpr.sty:439
+xintfrac.sty:511
 xintgcd.sty:41
 xintkernel.sty:17
 xintlog.sty:150
@@ -46316,24 +47223,24 @@ xinttools.sty:157
 xinttrig.sty:65
 \fi
 % grep -o "^{%" xint*sty | wc -l
-\def\totala{    2130}
+\def\totala{    2141}
 \iffalse
 % grep -c -e "^}%" xint*sty
 xint.sty:204
 xintbinhex.sty:52
 xintcfrac.sty:183
 xintcore.sty:269
-xintexpr.sty:417
-xintfrac.sty:508
+xintexpr.sty:422
+xintfrac.sty:515
 xintgcd.sty:43
-xintkernel.sty:18
+xintkernel.sty:17
 xintlog.sty:151
 xintseries.sty:48
 xinttools.sty:156
 xinttrig.sty:64
 \fi
 % grep -o "^}%" xint*sty | wc -l
-\def\totalb{    2113}
+\def\totalb{    2124}
 \cleardoublepage
 \section{Cumulative line count}
 
@@ -46357,8 +47264,8 @@ xinttrig.sty:64
     \TeX\strut. Version {\xintbndlversion} of {\xintbndldate}.\par
 }
 
-\CheckSum {38212}% 1.4f
-% 38813 pour 1.4e, 35184 pour 1.4d
+\CheckSum {38423}% 1.4g
+% 38212 pour 1.4f, 38813 pour 1.4e, 35184 pour 1.4d
 % 35109 pour 1.4c, 35103 pour 1.4b, 34648 pour 1.4a, 34575 pour 1.4
 % 33497 pour 1.3f, 33274 pour 1.3e, 31601 pour 1.3d, 31122 pour 1.3c
 % 31069 pour 1.3b, 30482 pour 1.3a, 30621 pour 1.3, 30988 pour 1.2q,
