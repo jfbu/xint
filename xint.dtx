@@ -3,27 +3,27 @@
 % Extract all files via "etex xint.dtx" and do "make help"
 % or follow instructions from extracted README.md.
 %<*dtx>
-\def\xintdtxtimestamp {Time-stamp: <25-05-2021 at 18:36:42 CEST>}
+\def\xintdtxtimestamp {Time-stamp: <27-05-2021 at 11:42:22 CEST>}
 %</dtx>
 %<*drv>
 %% ---------------------------------------------------------------
-\def\xintdocdate {2021/05/25}
-\def\xintbndldate{2021/05/25}
-\def\xintbndlversion {1.4g}
+\def\xintdocdate {2021/05/27}
+\def\xintbndldate{2021/05/27}
+\def\xintbndlversion {1.4h}
 %</drv>
 %<readme>% README
 %<changes>% CHANGE LOG
-%<readme|changes>% xint 1.4g
-%<readme|changes>% 2021/05/25
+%<readme|changes>% xint 1.4h
+%<readme|changes>% 2021/05/27
 %<readme|changes>
-%<readme|changes>    Source:  xint.dtx 1.4g 2021/05/25 (doc 2021/05/25)
+%<readme|changes>    Source:  xint.dtx 1.4h 2021/05/27 (doc 2021/05/27)
 %<readme|changes>    Author:  Jean-Francois B.
 %<readme|changes>    Info:    Expandable operations on big integers, decimals, fractions
 %<readme|changes>    License: LPPL 1.3c
 %<readme|changes>
 %<*!readme&!changes&!dohtmlsh&!makefile>
 %% ---------------------------------------------------------------
-%% The xint bundle 1.4g 2021/05/25
+%% The xint bundle 1.4h 2021/05/27
 %% Copyright (C) 2013-2021 by Jean-Francois B.
 %<xintkernel>%% xintkernel: Paraphernalia for the xint packages
 %<xinttools>%% xinttools: Expandable and non-expandable utilities
@@ -151,6 +151,22 @@ See `xint.pdf` for contact information.
 
 %</readme>--------------------------------------------------------
 %<*changes>-------------------------------------------------------
+
+`1.4h (2021/05/27)`
+----
+
+### Bug fixes
+
+ - **xintexpr**: the recent `1.4g` introduced a bug breaking input of
+   the type `<operator><space token><macro>`.
+
+ - **xintexpr**: since `1.4` (`2020/01/31`) the `omit` and `abort`
+   keywords were broken if used inside a substitution, itself nested in
+   a `seq()` or similar construct.
+
+ - **xintexpr**: since `1.4c` the `\xintthespaceseparated` (added at
+   `1.4a`) inserted two, not one, spaces at one specific location near
+   the end of its output.  A bit cosmetic problem, fixed nevertheless.
 
 `1.4g (2021/05/25)`
 ----
@@ -19011,7 +19027,7 @@ Please refer to |CHANGES.html| for a (very) detailed history.
   \url{http://mirrors.ctan.org/macros/generic/xint/CHANGES.html}}
 
 \begin{itemize}
-\item Release \expandafter|\xintbndlversion| of \expandafter|\xintbndldate|:
+\item Release |1.4g| of |2021/05/25|:
   powers are now parsed in a right associative way. Removal of the
   single-character operators |&|, \verb=|=, and |=| (deprecated at |1.1|).
   Reformatted expandable error messages.
@@ -19297,7 +19313,7 @@ math shift catcode.
 \fi
 \XINT_providespackage
 \ProvidesPackage {xintkernel}%
-  [2021/05/25 v1.4g Paraphernalia for the xint packages (JFB)]%
+  [2021/05/27 v1.4h Paraphernalia for the xint packages (JFB)]%
 %    \end{macrocode}
 % \subsection{Constants}
 %    \begin{macrocode}
@@ -20257,7 +20273,7 @@ mode) and will go ahead hoping repair\endcsname
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xinttools}%
-  [2021/05/25 v1.4g Expandable and non-expandable utilities (JFB)]%
+  [2021/05/27 v1.4h Expandable and non-expandable utilities (JFB)]%
 %    \end{macrocode}
 % \lverb|\XINT_toks is used in macros such as \xintFor. It is not used
 % elsewhere in the xint bundle.|
@@ -22601,7 +22617,7 @@ mode) and will go ahead hoping repair\endcsname
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcore}%
-  [2021/05/25 v1.4g Expandable arithmetic on big integers (JFB)]%
+  [2021/05/27 v1.4h Expandable arithmetic on big integers (JFB)]%
 %    \end{macrocode}
 % \subsection{(WIP!) Error conditions and exceptions}
 % \lverb|As per the Mike Cowlishaw/IBM's General Decimal Arithmetic Specification
@@ -25955,7 +25971,7 @@ mode) and will go ahead hoping repair\endcsname
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xint}%
-  [2021/05/25 v1.4g Expandable operations on big integers (JFB)]%
+  [2021/05/27 v1.4h Expandable operations on big integers (JFB)]%
 %    \end{macrocode}
 % \subsection{More token management}
 %    \begin{macrocode}
@@ -28534,7 +28550,7 @@ mode) and will go ahead hoping repair\endcsname
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintbinhex}%
-  [2021/05/25 v1.4g Expandable binary and hexadecimal conversions (JFB)]%
+  [2021/05/27 v1.4h Expandable binary and hexadecimal conversions (JFB)]%
 %    \end{macrocode}
 % \subsection{Constants, etc...}
 % \lverb|1.2n switches to \csname-governed expansion at various places.|
@@ -29206,7 +29222,7 @@ mode) and will go ahead hoping repair\endcsname
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintgcd}%
-  [2021/05/25 v1.4g Euclide algorithm with xint package (JFB)]%
+  [2021/05/27 v1.4h Euclide algorithm with xint package (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintBezout}}
 % \lverb|&
@@ -29806,7 +29822,7 @@ mode) and will go ahead hoping repair\endcsname
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintfrac}%
-  [2021/05/25 v1.4g Expandable operations on fractions (JFB)]%
+  [2021/05/27 v1.4h Expandable operations on fractions (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{XINT_cntSgnFork}}
 % \lverb|1.09i. Used internally, #1 must expand to \m@ne, \z@, or \@ne or
@@ -35274,7 +35290,7 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintseries}%
-  [2021/05/25 v1.4g Expandable partial sums with xint package (JFB)]%
+  [2021/05/27 v1.4h Expandable partial sums with xint package (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintSeries}}
 %    \begin{macrocode}
@@ -35782,7 +35798,7 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcfrac}%
-  [2021/05/25 v1.4g Expandable continued fractions with xint package (JFB)]%
+  [2021/05/27 v1.4h Expandable continued fractions with xint package (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintCFrac}}
 %    \begin{macrocode}
@@ -37175,7 +37191,7 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintexpr}%
-  [2021/05/25 v1.4g Expandable expression parser (JFB)]%
+  [2021/05/27 v1.4h Expandable expression parser (JFB)]%
 \catcode`! 11
 \let\XINT_Cmp \xintiiCmp
 \def\XINTfstop{\noexpand\XINTfstop}%
@@ -37434,8 +37450,7 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 %
 % Usage of \xintiRound{0} for \xintiexpr without optional [D] means that
 % \xintiexpr ... \relax wrapper can be used to insert rounded-to-integers
-% values in \xintiiexpr context: no post-fix [0] which would break it.  But
-% this does not apply to the \xintiexpr [D]...\relax form with negative D.
+% values in \xintiiexpr context: no post-fix [0] which would break it.
 %
 % 1.4a add support for the optional argument [D] for \xintiexpr being negative
 % D, with same meaning as the 1.4a modified \xintRound from xintfrac.sty.
@@ -37444,6 +37459,11 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 % optional argument uses raw format, not fixed point format on output,
 % delegating fixed point conversion to an \XINTiexprprint now separated from
 % \XINTexprprint.
+%
+% In case of negative [D], \xintiexpr [D]...\relax internally has the [0]
+% post-fix so it can not be inserted as sub-expression in \xintiiexpr without
+% a num() or \xintiexpr ...\relax (extra) wrapper.
+%
 % |
 %    \begin{macrocode}
 \def\xintexpr       {\romannumeral0\xintexpro      }%
@@ -37765,17 +37785,31 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 % separately for usage with PSTricks \listplot|
 %    \begin{macrocode}
 \def\xintthespaceseparated#1%
-   {\romannumeral`&&@\expandafter\xintthespaceseparated_a\romannumeral0#1}%
+   {\expanded\expandafter\xintthespaceseparated_a\romannumeral0#1}%
 \def\xintthespaceseparated_a #1#2.#3%
-   {\expanded{\expandafter\xintthespaceseparated_b\expanded#2.{#3},!,!,!,!,!,!,!,!,!,^}}%
+   {{\expandafter\xintthespaceseparated_b\expanded#2.{#3},!,!,!,!,!,!,!,!,!,^}}%
 \def\xintthespaceseparated_b #1,#2,#3,#4,#5,#6,#7,#8,#9,%
    {\xint_gob_til_! #9\xintthespaceseparated_c !%
     #1#2#3#4#5#6#7#8#9%
     \xintthespaceseparated_b}%
 %    \end{macrocode}
-% \lverb|1.4c I add a space here to stop the \romannumeral`^^@ if #1 is empty.|
+% \lverb|1.4c I add a space here to stop the \romannumeral`$&$&@ in case of
+% empty input.
+% But this space induces an extra un-needed space token after 9, 18, 27,...
+% items before the last group of less than 9 items.
+%
+% Fix (at 1.4h) is simple because I already use \expanded anyhow: I don't need
+% at all the \romannumeral`$&$&@ which was first in \xintthespaceseparated,
+% let's move the first \expanded which was in \xintthespaceseparated_a to
+% \xintthespaceseparated, and remove the extra space here in _c.
+%
+% (alternative would have been to put the space after #1 and accept a
+% systematic trailing space, at least it is more aesthetic).
+%
+% Again, I did have a test file, but it was not incorporated in my test suite,
+% so I discovered the problem accidentally by compiling all files in an archive.|
 %    \begin{macrocode}
-\def\xintthespaceseparated_c !#1!#2^{ #1}%
+\def\xintthespaceseparated_c !#1!#2^{#1}%
 %    \end{macrocode}
 % \subsection{Hooks into the numeric parser for usage by the
 % \cshnolabel{xintdeffunc} symbolic parser}
@@ -38892,7 +38926,14 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 % re-written for code readability only.  Once we see that #1#2 is not a
 % candidate to be or start an operator, we need to check if single-character
 % operator #1 is really an operator and this is done via the existence of the
-% precedence token.|
+% precedence token.
+%
+% Unfortunately the 1.4g refactoring of the scanop macros had a bad bug:
+% \XINT_expr_scanop_c inserted \romannumeral`^^@ in stream but did not grab a
+% token first so a space would stop the \romannumeral and then the #2 in
+% \XINT_expr_scanop_d was not pre-expanded and ended up alone in \ifcat.  It
+% is too distant in the past the time when I wrote the core of xintexpr in
+% 2013... older and dumber now.|
 %    \begin{macrocode}
 \def\XINT_expr_scanop_b #1#2%
 {%
@@ -38902,11 +38943,11 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
     \fi\fi
     \XINT_expr_foundop_a #1#2%
 }%
-\def\XINT_expr_scanop_c #1#2#3#4#5% #1#2=\fi\fi
+\def\XINT_expr_scanop_c #1#2#3#4#5#6% #1#2=\fi\fi
 {%
     #1#2%
     \expandafter\XINT_expr_scanop_d\csname XINT_expr_itself_#4#5\expandafter\endcsname
-    \romannumeral`&&@%
+    \romannumeral`&&@#6%
 }%
 \def\XINT_expr_scanop_d #1#2%
 {%
@@ -38922,7 +38963,7 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
         \csname XINT_expr_precedence_#1\expandafter\endcsname
         \expandafter #1%
     \else
-        \expandafter\XINT_expr_getop_a\romannumeral`&&@%
+        \expandafter\XINT_expr_getop\romannumeral`&&@%
         \xint_afterfi{\XINT_expandableerror
         {Expected an operator but got `#1'. Ignoring.}}%
      \fi
@@ -40719,7 +40760,36 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 % \paragraph{The \cshn{omit} and \cshn{abort} keywords}
 % \lverb|&
 % Comments are currently undergoing reconstruction.
-% |
+%
+% The mechanism is somewhat complex.  The operator !? will fetch a dummy value
+% ! or ^ which is then recognized int the loops implementing the various seq
+% etc... construct using dummy variables and implement omit and abort.
+%
+% In May 2021 I realized that the January 2020 1.4 had broken omit and abort
+% if used inside a subs().  The definition
+%(\edef\XINT_expr_var_omit  #1\relax !{1\string !?!\relax !}%
+%)
+% conflicted with the 1.4 refactoring of «subs» and similar things 
+% which had replaced formerly clean-up macros (of ! and what's next, as in
+% now defunct
+% \def\XINT_expr_subx:_end #1!#2#3{#1} which was involved in subs mechanism,
+% and by the way would be incompatible with multi-letter dummy variables) by usage
+% of an \iffalse as in "\relax\iffalse\relax !" to delimite a sub-expression, which was
+% supposed to be clever (the "\relax !" being delimiter for dummy variables).
+%
+% This \iffalse from subs mechanism ended up being gobbled by omit/abort thus
+% inducing breakage.
+%
+% Grabbing \relax #2! would be a fix but looks a bit dangerous, as there can
+% be a subexpression after the omit or abort bringing its own \relax, although
+% this is very very unlikely.
+%
+% I considered to modify the dummy variables delimiter from \relax !  to
+% \xint_Bye ! for example but got afraid from the ramifications, as all
+% structures handling dummy variables would have needed refactoring.
+%
+% So finally things here remain unchanged and the refactoring to fix this
+% breakage was done in \XINT_allexpr_subsx (and also subsm). See there.  |
 %
 %    \begin{macrocode}
 \edef\XINT_expr_var_omit  #1\relax !{1\string !?!\relax !}%
@@ -40954,17 +41024,69 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 \def\XINT_iiexpr_func_subsx #1#2{\XINT_allexpr_subsx \xintbareiieval }%
 %    \end{macrocode}
 % \lverb|
-%  #2 is the value to assign to the dummy variable
-%  #3 is the dummy variable name (possibly multi-letter), #4 is the expression to evaluate
+% #2 is the value to assign to the dummy variable
+% #3 is the dummy variable name (possibly multi-letter), #4 is the expression
+% to evaluate
+%
+% 1.4 was doing something clever to get rid of the ! and tokens following it,
+% via an \iffalse...\fi which erased them and propagated the expansion to
+% trigger the getopt:
+%
+%(\expanded\bgroup\romannumeral0#1#4\relax \iffalse\relax !#3{#2}{\fi\expandafter}
+%)
+%
+% But sadly, with a delay of more than one year later (right after having
+% released 1.4g) I realized that this had broken omit and abort if inside a
+% subs.  As omit and abort would clean all up to \relax !, this meant here
+% swallowing in particular the above \iffalse, leaving a dangling \fi.  I had
+% the files which show this bug already at time of 1.4 release but did not
+% compile them, and they were not included in my test suite.
+%
+% I hesitated with modifying the delimiter from "\relax !" (catcode 11 !) to
+% "\relax \xint_Bye" for the dummy variables which would have allowed some
+% trickery with clean-up from \xint_Bye but got afraid from the breakage
+% potential of such refactoring with many induced changes.
+%
+% A variant like this:
+%( \def\XINT_allexpr_subsx #1#2#3#4%
+%: {%
+%:     \expandafter\XINT_expr_clean_and_put_op_first
+%:     \expanded
+%:     {\romannumeral0#1#4\relax !#3{#2}\xint:\expandafter}\romannumeral`$&$&\XINT_expr_getop
+%: }%
+%: \def\XINT_expr_clean_and_put_op_first #1#2\xint:#3#4{#3#4{#1}}%
+%)
+% breaks nesting: the braces make variables encountered in #4 unable to
+% match their definition.  This would work:
+%
+%( \def\XINT_allexpr_subsx #1#2#3#4%
+%: {%
+%:     \expandafter\XINT_allexpr_subsx_clean\romannumeral0#1#4\relax !#3{#2}\xint:
+%: }%
+%: \def\XINT_allexpr_subsx_clean #1#2\xint:
+%: {%
+%:     \expandafter\XINT_expr_put_op_first
+%:     \expanded{\unexpanded{{#1}}\expandafter}\romannumeral`$&$&@\XINT_expr_getop
+%: }%
+%)
+% (not tested).
+%
+% But in the end I decided to simply fix the first envisioned code above.
+% This accepts expansion of supposedly inert #3{#2}.  There is again the
+% \iffalse but it is moved to the right.  This change limits possibly hacky
+% future developments.
+%
+% No need for the \expandafter's from \XINT_expr_put_op_first in \XINT_expr_clean_and_put_op_first.
 % |
 %    \begin{macrocode}
 \def\XINT_allexpr_subsx #1#2#3#4%
 {%
-    \expandafter\XINT_expr_put_op_first
+    \expandafter\XINT_expr_clean_and_put_op_first
     \expanded
-    \bgroup\romannumeral0#1#4\relax \iffalse\relax !#3{#2}{\fi
-    \expandafter}\romannumeral`&&@\XINT_expr_getop
+    \bgroup\romannumeral0#1#4\relax !#3{#2}\xint:\iffalse{\fi\expandafter}%
+    \romannumeral`&&@\XINT_expr_getop
 }%
+\def\XINT_expr_clean_and_put_op_first #1#2\xint:#3#4{#3#4{#1}}%
 %    \end{macrocode}
 % \subsubsection{\cshn{subsm()}: simultaneous independent substitutions}
 % \lverb|New with 1.4. Globally the var1=expr1; var2=expr2; var2=expr3;...
@@ -41010,25 +41132,29 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 }%
 %    \end{macrocode}
 % \lverb|
-%  #1 = \xintbareeval,  or \xintbarefloateval or \xintbareiieval
-%  #2 = evaluation of last variable assignment
+%( #1 = \xintbareeval,  or \xintbarefloateval or \xintbareiieval
+%: #2 = evaluation of last variable assignment
+%)
 % |
 %    \begin{macrocode}
 \def\XINT_allexpr_subsm_done #1#2{{#2}\iffalse{{\fi}}}%
 %    \end{macrocode}
 % \lverb|
-%  #1 = \xintbareeval or \xintbarefloateval or \xintbareiieval
-%  #2 = {value1}\relax !var2{value2}....\relax !varN{valueN} (value's may be oples)
-%  #3 = {var1}
-%  #4 = the expression to evaluate
+%( #1 = \xintbareeval or \xintbarefloateval or \xintbareiieval
+%: #2 = {value1}\relax !var2{value2}....\relax !varN{valueN} (value's may be oples)
+%: #3 = {var1}
+%: #4 = the expression to evaluate
+%)
+% Refactored at 1.4h as for \XINT_allexpr_subsx, see comments there related
+% to the omit/abort conundrum.
 % |
 %    \begin{macrocode}
 \def\XINT_allexpr_subsmx #1#2#3#4%
 {%
-    \expandafter\XINT_expr_put_op_first
+    \expandafter\XINT_expr_clean_and_put_op_first
     \expanded
-    \bgroup\romannumeral0#1#4\relax \iffalse\relax !#3#2{\fi
-    \expandafter}\romannumeral`&&@\XINT_expr_getop
+    \bgroup\romannumeral0#1#4\relax !#3#2\xint:\iffalse{\fi\expandafter}%
+    \romannumeral`&&@\XINT_expr_getop
 }%
 %    \end{macrocode}
 % \subsubsection{\cshn{subsn()}: leaner syntax for nesting (possibly dependent) substitutions}
@@ -41048,6 +41174,14 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 %: #2 = Expression in all variables which is to evaluate
 %: #3 = all the stuff after Name1 =  and up to final parenthesis
 %)
+%
+% This one needed no reactoring at 1.4h to fix the omit/abort problem, as
+% there was no \iffalse..\fi clean-up: the clean-up is done directly via
+% \XINT_allexpr_subsnx_J.
+%
+% I only added usage of \XINT_expr_put_op_first_noexpand.  There may be other
+% locations where it could be used, but I can't afford now reviewing
+% usage. For next release after 1.4h bugfix.
 % |
 %    \begin{macrocode}
 \def\XINT_allexpr_subsn_g #1#2#3%
@@ -41106,9 +41240,10 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 }%
 \def\XINT_allexpr_subsnx_J #1#2^%
 {%
-    \expandafter\XINT_expr_put_op_first
+    \expandafter\XINT_expr_put_op_first_noexpand
     \expanded{\unexpanded{{#1}}\expandafter}\romannumeral`&&@\XINT_expr_getop
 }%
+\def\XINT_expr_put_op_first_noexpand#1#2#3{#2#3{#1}}%
 %    \end{macrocode}
 % \subsubsection{\cshn{seq()}: sequences from assigning values to a
 % dummy variable}
@@ -43854,10 +43989,10 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
   \expandafter\xint_secondoftwo
 \fi
 {\immediate\write-1{Reloading xinttrig library using Digits=\xinttheDigits.}}%
-{\expandafter\gdef\csname xintlibver@trig\endcsname{2021/05/25 v1.4g}%
+{\expandafter\gdef\csname xintlibver@trig\endcsname{2021/05/27 v1.4h}%
 \XINT_providespackage
 \ProvidesPackage{xinttrig}%
-[2021/05/25 v1.4g Trigonometrical functions for xintexpr (JFB)]%
+[2021/05/27 v1.4h Trigonometrical functions for xintexpr (JFB)]%
 }%
 %    \end{macrocode}
 % \subsection{Ensure used letters are dummy letters}
@@ -45174,10 +45309,10 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
   \expandafter\xint_secondoftwo
 \fi
 {\immediate\write-1{Reloading xintlog library using Digits=\xinttheDigits.}}%
-{\expandafter\gdef\csname xintlibver@log\endcsname{2021/05/25 v1.4g}%
+{\expandafter\gdef\csname xintlibver@log\endcsname{2021/05/27 v1.4h}%
 \XINT_providespackage
 \ProvidesPackage{xintlog}%
-[2021/05/25 v1.4g Logarithms and exponentials for xintexpr (JFB)]%
+[2021/05/27 v1.4h Logarithms and exponentials for xintexpr (JFB)]%
 }%
 %    \end{macrocode}
 % \subsection{\csh{xintreloadxintlog}}
@@ -47264,8 +47399,8 @@ xinttrig.sty:64
     \TeX\strut. Version {\xintbndlversion} of {\xintbndldate}.\par
 }
 
-\CheckSum {38423}% 1.4g
-% 38212 pour 1.4f, 38813 pour 1.4e, 35184 pour 1.4d
+\CheckSum {38427}% 1.4h
+% 38423 pour 1.4g, 38212 pour 1.4f, 38813 pour 1.4e, 35184 pour 1.4d
 % 35109 pour 1.4c, 35103 pour 1.4b, 34648 pour 1.4a, 34575 pour 1.4
 % 33497 pour 1.3f, 33274 pour 1.3e, 31601 pour 1.3d, 31122 pour 1.3c
 % 31069 pour 1.3b, 30482 pour 1.3a, 30621 pour 1.3, 30988 pour 1.2q,
