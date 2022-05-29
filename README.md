@@ -1,8 +1,8 @@
 % README
-% xint 1.4k
-% 2022/05/18
+% xint 1.4l
+% 2022/05/29
 
-    Source:  xint.dtx 1.4k 2022/05/18 (doc 2022/05/18)
+    Source:  xint.dtx 1.4l 2022/05/29 (doc 2022/05/29)
     Author:  Jean-Francois B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
@@ -23,6 +23,14 @@ fractional powers, direct and inverse trigonometrical functions are
 available up to 62 digits of precision.  The syntax supports dummy
 variables (to generate sequences of values) and nested structures.
 Support for user-declared functions and variables is implemented.
+
+Here is an example of everyday typical calculation by `xintexpr` users:
+
+    \xinteval{reduce(add(1/i^3, i=1..25))}
+
+It expands to:
+
+    2560976152652211536408111110189/2131858131361319942957376000000
 
 Usage on the command line
 =========================
@@ -55,20 +63,49 @@ Installation
 [MikTeX](http://www.miktex.org/). Thus, use the package manager to
 update your distribution.
 
-Alternatives:
+The simplest alternative is to download
+[`xint.tds.zip`](http://mirror.ctan.org/install/macros/generic/xint.tds.zip)
+and install the `xint` package files and documentation in a suitable
+TDS-compliant repertory via `unzip`.  For example, on a macOS system,
+installation in user repertory:
 
-- download
-   [`xint.tds.zip`](http://mirror.ctan.org/install/macros/generic/xint.tds.zip)
-   and install in a suitable TDS-compliant repertory via `unzip`. "admin"
-   privilges might be needed, as well as a file database rebuild (`texhash`).
-   For example, on macos x, installation into user home folder (no `sudo`,
-   and no `texhash` as it is recommended to not have a ls-R file there)
+    unzip xint.tds.zip -d  ~/Library/texmf
 
-        unzip xint.tds.zip -d  ~/Library/texmf
+Admin privileges may be needed when moving the files into the TeX
+installation.
 
-- all files can be extracted using `etex xint.dtx`, or `make` if the
-  `Makefile` included in the CTAN upload is present; see the file `INSTALL`,
-  if present, else read the help in extracted file `Makefile.mk`.
+Else, one can download `xint.dtx` and optionally `Makefile` from
+https://www.ctan.org/tex-archive/macros/generic/xint and proceed from
+there.  The package files are extracted automatically from
+`etex xint.dtx`.  So if one does not need to build the documentation,
+one only has to move the files with extension `.sty` to one's working
+repertory and start using them.
+
+Here are various options to build the documentation, from the more
+automated to the more manual:
+
+- (with `Makefile`) run `make help` or `make helpless` (on Unix-like
+  systems) for extracting package files and receiving further
+  instructions, or directly `make xint.pdf` to both extract package
+  files and build the user documentation in the current repertory.
+  The commented source code will be obtained from `make sourcexint.pdf`.
+  This process requires `latexmk`.  The `CHANGES.html` target requires
+  `pandoc`.
+
+- (without `Makefile`) run `etex xint.dtx` then rename the extracted
+  `Makefile.mk` to `Makefile` and proceed as in the previous item.
+
+- (with no `make`) run `latexmk` on `xint.dtx`.  This will both extract
+  package files and build a `dvi` combining the user documentation and
+  the commented source code.  Finish with `dvipdfmx xint.dvi`.
+
+- (with no `make`) execute `etex xint.dtx` to extract files then run
+  `latexmk` on `xint.tex` and `sourcexint.tex`, or perhaps on
+  `xint-all.tex` to combine user manual and source code in one `pdf`.
+
+- (with no `make` and no `latexmk`) proceed as in one of the previous
+  two items but with `latex` sufficiently many times in place of
+  `latexmk`.  Finish with `dvipdfmx`, or use `pdflatex` initially.
 
 Documentation
 =============
@@ -82,12 +119,6 @@ Documentation
 
 `sourcexint.pdf`: commented source code
    (`texdoc --list xint` or `texdoc sourcexint`)
-
-Requirements
-============
-
-Since release `1.4`, `xintexpr` requires the `\expanded` primitive. This
-is a functionality of all major TeX engines since TeXLive 2019.
 
 License
 =======
@@ -107,9 +138,10 @@ This Work has the LPPL maintenance status `author-maintained`.
 
 The Author of this Work is `Jean-Francois B.`.
 
-This Work consists of the files `Makefile`, `INSTALL`, and `xint.dtx`
-and its extracted and derived files inclusive of the documentation
-files `xint.pdf`, `sourcexint.pdf` and `CHANGES.html`.
+This Work consists of the files `xint.dtx` and `Makefile` and
+extracted files inclusive of the macro files `xint*sty` as
+well as derived documentation files such as `xint.pdf`,
+`sourcexint.pdf` and `CHANGES.html`
 
 See `xint.pdf` for contact information.
 

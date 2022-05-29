@@ -1,5 +1,5 @@
 # Makefile for building and installing xint
-# (C) 2014-2021 Jean-Francois B.
+# (C) 2014-2022 Jean-Francois B.
 # distributed under LPPL 1.3c.
 
 # Tested with GNU Make 3.81 on Mac OS X Mavericks,
