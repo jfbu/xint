@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="author" content="xint 1.4l" />
+  <meta name="author" content="xint 1.4m" />
   <title>CHANGE LOG</title>
   <style>
     html {
@@ -170,15 +170,24 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">CHANGE LOG</h1>
-<p class="author">xint 1.4l</p>
-<p class="date">2022/05/29</p>
+<p class="author">xint 1.4m</p>
+<p class="date">2022/06/10</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
+<li><a href="#m-20220610"
+id="toc-m-20220610"><code>1.4m (2022/06/10)</code></a>
+<ul>
+<li><a href="#removed" id="toc-removed">Removed</a></li>
+<li><a href="#breaking-changes" id="toc-breaking-changes">Breaking
+changes</a></li>
+<li><a href="#bug-fixes" id="toc-bug-fixes">Bug fixes</a></li>
+<li><a href="#improvements" id="toc-improvements">Improvements</a></li>
+</ul></li>
 <li><a href="#l-20220529"
 id="toc-l-20220529"><code>1.4l (2022/05/29)</code></a>
 <ul>
-<li><a href="#bug-fixes" id="toc-bug-fixes">Bug fixes</a></li>
+<li><a href="#bug-fixes-1" id="toc-bug-fixes-1">Bug fixes</a></li>
 <li><a href="#new-features" id="toc-new-features">New features</a></li>
 <li><a href="#documentation"
 id="toc-documentation">Documentation</a></li>
@@ -186,66 +195,66 @@ id="toc-documentation">Documentation</a></li>
 <li><a href="#k-20220518"
 id="toc-k-20220518"><code>1.4k (2022/05/18)</code></a>
 <ul>
-<li><a href="#breaking-changes" id="toc-breaking-changes">Breaking
+<li><a href="#breaking-changes-1" id="toc-breaking-changes-1">Breaking
 changes</a></li>
-<li><a href="#bug-fixes-1" id="toc-bug-fixes-1">Bug fixes</a></li>
+<li><a href="#bug-fixes-2" id="toc-bug-fixes-2">Bug fixes</a></li>
 <li><a href="#new-features-1" id="toc-new-features-1">New
 features</a></li>
 </ul></li>
 <li><a href="#j-20210713"
 id="toc-j-20210713"><code>1.4j (2021/07/13)</code></a>
 <ul>
-<li><a href="#bug-fixes-2" id="toc-bug-fixes-2">Bug fixes</a></li>
+<li><a href="#bug-fixes-3" id="toc-bug-fixes-3">Bug fixes</a></li>
 </ul></li>
 <li><a href="#i-20210611"
 id="toc-i-20210611"><code>1.4i (2021/06/11)</code></a>
 <ul>
 <li><a href="#new-features-2" id="toc-new-features-2">New
 features</a></li>
-<li><a href="#bug-fixes-3" id="toc-bug-fixes-3">Bug fixes</a></li>
+<li><a href="#bug-fixes-4" id="toc-bug-fixes-4">Bug fixes</a></li>
 </ul></li>
 <li><a href="#h-20210527"
 id="toc-h-20210527"><code>1.4h (2021/05/27)</code></a>
 <ul>
-<li><a href="#bug-fixes-4" id="toc-bug-fixes-4">Bug fixes</a></li>
+<li><a href="#bug-fixes-5" id="toc-bug-fixes-5">Bug fixes</a></li>
 </ul></li>
 <li><a href="#g-20210525"
 id="toc-g-20210525"><code>1.4g (2021/05/25)</code></a>
 <ul>
-<li><a href="#breaking-changes-1" id="toc-breaking-changes-1">Breaking
+<li><a href="#breaking-changes-2" id="toc-breaking-changes-2">Breaking
 changes</a></li>
 <li><a href="#deprecated" id="toc-deprecated">Deprecated</a></li>
 <li><a href="#new-features-3" id="toc-new-features-3">New
 features</a></li>
-<li><a href="#bug-fixes-5" id="toc-bug-fixes-5">Bug fixes</a></li>
+<li><a href="#bug-fixes-6" id="toc-bug-fixes-6">Bug fixes</a></li>
 </ul></li>
 <li><a href="#f-20210510"
 id="toc-f-20210510"><code>1.4f (2021/05/10)</code></a>
 <ul>
-<li><a href="#breaking-changes-2" id="toc-breaking-changes-2">Breaking
+<li><a href="#breaking-changes-3" id="toc-breaking-changes-3">Breaking
 changes</a></li>
-<li><a href="#bug-fixes-6" id="toc-bug-fixes-6">Bug fixes</a></li>
+<li><a href="#bug-fixes-7" id="toc-bug-fixes-7">Bug fixes</a></li>
 </ul></li>
 <li><a href="#e-20210505"
 id="toc-e-20210505"><code>1.4e (2021/05/05)</code></a>
 <ul>
-<li><a href="#breaking-changes-3" id="toc-breaking-changes-3">Breaking
+<li><a href="#breaking-changes-4" id="toc-breaking-changes-4">Breaking
 changes</a></li>
 <li><a href="#new-features-4" id="toc-new-features-4">New
 features</a></li>
-<li><a href="#bug-fixes-7" id="toc-bug-fixes-7">Bug fixes</a></li>
+<li><a href="#bug-fixes-8" id="toc-bug-fixes-8">Bug fixes</a></li>
 </ul></li>
 <li><a href="#d-20210329"
 id="toc-d-20210329"><code>1.4d (2021/03/29)</code></a>
 <ul>
-<li><a href="#breaking-changes-4" id="toc-breaking-changes-4">Breaking
+<li><a href="#breaking-changes-5" id="toc-breaking-changes-5">Breaking
 changes</a></li>
-<li><a href="#bug-fixes-8" id="toc-bug-fixes-8">Bug fixes</a></li>
+<li><a href="#bug-fixes-9" id="toc-bug-fixes-9">Bug fixes</a></li>
 </ul></li>
 <li><a href="#c-20210220"
 id="toc-c-20210220"><code>1.4c (2021/02/20)</code></a>
 <ul>
-<li><a href="#bug-fixes-9" id="toc-bug-fixes-9">Bug fixes</a></li>
+<li><a href="#bug-fixes-10" id="toc-bug-fixes-10">Bug fixes</a></li>
 </ul></li>
 <li><a href="#b-20200225"
 id="toc-b-20200225"><code>1.4b (2020/02/25)</code></a>
@@ -253,26 +262,26 @@ id="toc-b-20200225"><code>1.4b (2020/02/25)</code></a>
 <li><a href="#future" id="toc-future">Future</a></li>
 <li><a href="#new-features-5" id="toc-new-features-5">New
 features</a></li>
-<li><a href="#bug-fixes-10" id="toc-bug-fixes-10">Bug fixes</a></li>
+<li><a href="#bug-fixes-11" id="toc-bug-fixes-11">Bug fixes</a></li>
 </ul></li>
 <li><a href="#a-20200219"
 id="toc-a-20200219"><code>1.4a (2020/02/19)</code></a>
 <ul>
-<li><a href="#breaking-changes-5" id="toc-breaking-changes-5">Breaking
+<li><a href="#breaking-changes-6" id="toc-breaking-changes-6">Breaking
 changes</a></li>
 <li><a href="#new-features-6" id="toc-new-features-6">New
 features</a></li>
-<li><a href="#bug-fixes-11" id="toc-bug-fixes-11">Bug fixes</a></li>
+<li><a href="#bug-fixes-12" id="toc-bug-fixes-12">Bug fixes</a></li>
 </ul></li>
 <li><a href="#section"
 id="toc-section"><code>1.4 (2020/01/31)</code></a>
 <ul>
-<li><a href="#breaking-changes-6" id="toc-breaking-changes-6">Breaking
+<li><a href="#breaking-changes-7" id="toc-breaking-changes-7">Breaking
 changes</a></li>
 <li><a href="#improvements-and-new-features"
 id="toc-improvements-and-new-features">Improvements and new
 features</a></li>
-<li><a href="#bug-fixes-12" id="toc-bug-fixes-12">Bug fixes</a></li>
+<li><a href="#bug-fixes-13" id="toc-bug-fixes-13">Bug fixes</a></li>
 <li><a href="#todo" id="toc-todo">TODO</a></li>
 </ul></li>
 <li><a href="#f-20190910"
@@ -281,27 +290,27 @@ id="toc-f-20190910"><code>1.3f (2019/09/10)</code></a>
 <li><a href="#improvements-and-new-features-1"
 id="toc-improvements-and-new-features-1">Improvements and new
 features</a></li>
-<li><a href="#bug-fixes-13" id="toc-bug-fixes-13">Bug fixes</a></li>
+<li><a href="#bug-fixes-14" id="toc-bug-fixes-14">Bug fixes</a></li>
 </ul></li>
 <li><a href="#e-20190405"
 id="toc-e-20190405"><code>1.3e (2019/04/05)</code></a>
 <ul>
-<li><a href="#breaking-changes-7" id="toc-breaking-changes-7">Breaking
+<li><a href="#breaking-changes-8" id="toc-breaking-changes-8">Breaking
 changes</a></li>
 <li><a href="#improvements-and-new-features-2"
 id="toc-improvements-and-new-features-2">Improvements and new
 features</a></li>
-<li><a href="#bug-fixes-14" id="toc-bug-fixes-14">Bug fixes</a></li>
+<li><a href="#bug-fixes-15" id="toc-bug-fixes-15">Bug fixes</a></li>
 </ul></li>
 <li><a href="#d-20190106"
 id="toc-d-20190106"><code>1.3d (2019/01/06)</code></a>
 <ul>
-<li><a href="#breaking-changes-8" id="toc-breaking-changes-8">Breaking
+<li><a href="#breaking-changes-9" id="toc-breaking-changes-9">Breaking
 changes</a></li>
 <li><a href="#improvements-and-new-features-3"
 id="toc-improvements-and-new-features-3">Improvements and new
 features</a></li>
-<li><a href="#bug-fixes-15" id="toc-bug-fixes-15">Bug fixes</a></li>
+<li><a href="#bug-fixes-16" id="toc-bug-fixes-16">Bug fixes</a></li>
 </ul></li>
 <li><a href="#c-20180617"
 id="toc-c-20180617"><code>1.3c (2018/06/17)</code></a>
@@ -309,7 +318,7 @@ id="toc-c-20180617"><code>1.3c (2018/06/17)</code></a>
 <li><a href="#improvements-and-new-features-4"
 id="toc-improvements-and-new-features-4">Improvements and new
 features</a></li>
-<li><a href="#bug-fixes-16" id="toc-bug-fixes-16">Bug fixes</a></li>
+<li><a href="#bug-fixes-17" id="toc-bug-fixes-17">Bug fixes</a></li>
 </ul></li>
 <li><a href="#b-20180518"
 id="toc-b-20180518"><code>1.3b (2018/05/18)</code></a>
@@ -321,16 +330,16 @@ features</a></li>
 <li><a href="#a-20180307"
 id="toc-a-20180307"><code>1.3a (2018/03/07)</code></a>
 <ul>
-<li><a href="#removed" id="toc-removed">Removed</a></li>
+<li><a href="#removed-1" id="toc-removed-1">Removed</a></li>
 <li><a href="#improvements-and-new-features-6"
 id="toc-improvements-and-new-features-6">Improvements and new
 features</a></li>
-<li><a href="#bug-fixes-17" id="toc-bug-fixes-17">Bug fixes</a></li>
+<li><a href="#bug-fixes-18" id="toc-bug-fixes-18">Bug fixes</a></li>
 </ul></li>
 <li><a href="#section-1"
 id="toc-section-1"><code>1.3 (2018/03/01)</code></a>
 <ul>
-<li><a href="#breaking-changes-9" id="toc-breaking-changes-9">Breaking
+<li><a href="#breaking-changes-10" id="toc-breaking-changes-10">Breaking
 changes</a></li>
 <li><a href="#improvements-and-new-features-7"
 id="toc-improvements-and-new-features-7">Improvements and new
@@ -342,29 +351,29 @@ id="toc-q-20180206"><code>1.2q (2018/02/06)</code></a>
 <li><a href="#improvements-and-new-features-8"
 id="toc-improvements-and-new-features-8">Improvements and new
 features</a></li>
-<li><a href="#bug-fixes-18" id="toc-bug-fixes-18">Bug fixes</a></li>
+<li><a href="#bug-fixes-19" id="toc-bug-fixes-19">Bug fixes</a></li>
 </ul></li>
 <li><a href="#p-20171205"
 id="toc-p-20171205"><code>1.2p (2017/12/05)</code></a>
 <ul>
-<li><a href="#breaking-changes-10" id="toc-breaking-changes-10">Breaking
+<li><a href="#breaking-changes-11" id="toc-breaking-changes-11">Breaking
 changes</a></li>
 <li><a href="#improvements-and-new-features-9"
 id="toc-improvements-and-new-features-9">Improvements and new
 features</a></li>
-<li><a href="#bug-fixes-19" id="toc-bug-fixes-19">Bug fixes</a></li>
+<li><a href="#bug-fixes-20" id="toc-bug-fixes-20">Bug fixes</a></li>
 </ul></li>
 <li><a href="#o-20170829"
 id="toc-o-20170829"><code>1.2o (2017/08/29)</code></a>
 <ul>
-<li><a href="#breaking-changes-11" id="toc-breaking-changes-11">Breaking
+<li><a href="#breaking-changes-12" id="toc-breaking-changes-12">Breaking
 changes</a></li>
 <li><a href="#deprecated-1" id="toc-deprecated-1">Deprecated</a></li>
 </ul></li>
 <li><a href="#n-20170806"
 id="toc-n-20170806"><code>1.2n (2017/08/06)</code></a>
 <ul>
-<li><a href="#breaking-changes-12" id="toc-breaking-changes-12">Breaking
+<li><a href="#breaking-changes-13" id="toc-breaking-changes-13">Breaking
 changes</a></li>
 <li><a href="#improvements-and-new-features-10"
 id="toc-improvements-and-new-features-10">Improvements and new
@@ -373,31 +382,31 @@ features</a></li>
 <li><a href="#m-20170731"
 id="toc-m-20170731"><code>1.2m (2017/07/31)</code></a>
 <ul>
-<li><a href="#breaking-changes-13" id="toc-breaking-changes-13">Breaking
+<li><a href="#breaking-changes-14" id="toc-breaking-changes-14">Breaking
 changes</a></li>
 <li><a href="#improvements-and-new-features-11"
 id="toc-improvements-and-new-features-11">Improvements and new
 features</a></li>
-<li><a href="#bug-fixes-20" id="toc-bug-fixes-20">Bug fixes</a></li>
+<li><a href="#bug-fixes-21" id="toc-bug-fixes-21">Bug fixes</a></li>
 </ul></li>
 <li><a href="#l-20170726"
 id="toc-l-20170726"><code>1.2l (2017/07/26)</code></a>
 <ul>
-<li><a href="#removed-1" id="toc-removed-1">Removed</a></li>
+<li><a href="#removed-2" id="toc-removed-2">Removed</a></li>
 <li><a href="#improvements-and-new-features-12"
 id="toc-improvements-and-new-features-12">Improvements and new
 features</a></li>
-<li><a href="#bug-fixes-21" id="toc-bug-fixes-21">Bug fixes</a></li>
+<li><a href="#bug-fixes-22" id="toc-bug-fixes-22">Bug fixes</a></li>
 </ul></li>
 <li><a href="#k-20170106"
 id="toc-k-20170106"><code>1.2k (2017/01/06)</code></a>
 <ul>
-<li><a href="#breaking-changes-14" id="toc-breaking-changes-14">Breaking
+<li><a href="#breaking-changes-15" id="toc-breaking-changes-15">Breaking
 changes</a></li>
 <li><a href="#improvements-and-new-features-13"
 id="toc-improvements-and-new-features-13">Improvements and new
 features</a></li>
-<li><a href="#bug-fixes-22" id="toc-bug-fixes-22">Bug fixes</a></li>
+<li><a href="#bug-fixes-23" id="toc-bug-fixes-23">Bug fixes</a></li>
 </ul></li>
 <li><a href="#j-20161222"
 id="toc-j-20161222"><code>1.2j (2016/12/22)</code></a>
@@ -405,18 +414,18 @@ id="toc-j-20161222"><code>1.2j (2016/12/22)</code></a>
 <li><a href="#improvements-and-new-features-14"
 id="toc-improvements-and-new-features-14">Improvements and new
 features</a></li>
-<li><a href="#bug-fixes-23" id="toc-bug-fixes-23">Bug fixes</a></li>
+<li><a href="#bug-fixes-24" id="toc-bug-fixes-24">Bug fixes</a></li>
 </ul></li>
 <li><a href="#i-20161213"
 id="toc-i-20161213"><code>1.2i (2016/12/13)</code></a>
 <ul>
-<li><a href="#breaking-changes-15" id="toc-breaking-changes-15">Breaking
+<li><a href="#breaking-changes-16" id="toc-breaking-changes-16">Breaking
 changes</a></li>
-<li><a href="#removed-2" id="toc-removed-2">Removed</a></li>
+<li><a href="#removed-3" id="toc-removed-3">Removed</a></li>
 <li><a href="#improvements-and-new-features-15"
 id="toc-improvements-and-new-features-15">Improvements and new
 features</a></li>
-<li><a href="#bug-fixes-24" id="toc-bug-fixes-24">Bug fixes</a></li>
+<li><a href="#bug-fixes-25" id="toc-bug-fixes-25">Bug fixes</a></li>
 </ul></li>
 <li><a href="#h-20161120"
 id="toc-h-20161120"><code>1.2h (2016/11/20)</code></a>
@@ -424,12 +433,12 @@ id="toc-h-20161120"><code>1.2h (2016/11/20)</code></a>
 <li><a href="#improvements-and-new-features-16"
 id="toc-improvements-and-new-features-16">Improvements and new
 features</a></li>
-<li><a href="#bug-fixes-25" id="toc-bug-fixes-25">Bug fixes</a></li>
+<li><a href="#bug-fixes-26" id="toc-bug-fixes-26">Bug fixes</a></li>
 </ul></li>
 <li><a href="#g-20160319"
 id="toc-g-20160319"><code>1.2g (2016/03/19)</code></a>
 <ul>
-<li><a href="#breaking-changes-16" id="toc-breaking-changes-16">Breaking
+<li><a href="#breaking-changes-17" id="toc-breaking-changes-17">Breaking
 changes</a></li>
 <li><a href="#improvements-and-new-features-17"
 id="toc-improvements-and-new-features-17">Improvements and new
@@ -438,12 +447,12 @@ features</a></li>
 <li><a href="#f-20160312"
 id="toc-f-20160312"><code>1.2f (2016/03/12)</code></a>
 <ul>
-<li><a href="#breaking-changes-17" id="toc-breaking-changes-17">Breaking
+<li><a href="#breaking-changes-18" id="toc-breaking-changes-18">Breaking
 changes</a></li>
 <li><a href="#improvements-and-new-features-18"
 id="toc-improvements-and-new-features-18">Improvements and new
 features</a></li>
-<li><a href="#bug-fixes-26" id="toc-bug-fixes-26">Bug fixes</a></li>
+<li><a href="#bug-fixes-27" id="toc-bug-fixes-27">Bug fixes</a></li>
 </ul></li>
 <li><a href="#e-20151122"
 id="toc-e-20151122"><code>1.2e (2015/11/22)</code></a>
@@ -451,7 +460,7 @@ id="toc-e-20151122"><code>1.2e (2015/11/22)</code></a>
 <li><a href="#improvements-and-new-features-19"
 id="toc-improvements-and-new-features-19">Improvements and new
 features</a></li>
-<li><a href="#bug-fixes-27" id="toc-bug-fixes-27">Bug fixes</a></li>
+<li><a href="#bug-fixes-28" id="toc-bug-fixes-28">Bug fixes</a></li>
 </ul></li>
 <li><a href="#d-20151118"
 id="toc-d-20151118"><code>1.2d (2015/11/18)</code></a>
@@ -459,7 +468,7 @@ id="toc-d-20151118"><code>1.2d (2015/11/18)</code></a>
 <li><a href="#improvements-and-new-features-20"
 id="toc-improvements-and-new-features-20">Improvements and new
 features</a></li>
-<li><a href="#bug-fixes-28" id="toc-bug-fixes-28">Bug fixes</a></li>
+<li><a href="#bug-fixes-29" id="toc-bug-fixes-29">Bug fixes</a></li>
 </ul></li>
 <li><a href="#c-20151116"
 id="toc-c-20151116"><code>1.2c (2015/11/16)</code></a>
@@ -467,12 +476,12 @@ id="toc-c-20151116"><code>1.2c (2015/11/16)</code></a>
 <li><a href="#improvements-and-new-features-21"
 id="toc-improvements-and-new-features-21">Improvements and new
 features</a></li>
-<li><a href="#bug-fixes-29" id="toc-bug-fixes-29">Bug fixes</a></li>
+<li><a href="#bug-fixes-30" id="toc-bug-fixes-30">Bug fixes</a></li>
 </ul></li>
 <li><a href="#b-20151029"
 id="toc-b-20151029"><code>1.2b (2015/10/29)</code></a>
 <ul>
-<li><a href="#bug-fixes-30" id="toc-bug-fixes-30">Bug fixes</a></li>
+<li><a href="#bug-fixes-31" id="toc-bug-fixes-31">Bug fixes</a></li>
 </ul></li>
 <li><a href="#a-20151019"
 id="toc-a-20151019"><code>1.2a (2015/10/19)</code></a>
@@ -480,12 +489,12 @@ id="toc-a-20151019"><code>1.2a (2015/10/19)</code></a>
 <li><a href="#improvements-and-new-features-22"
 id="toc-improvements-and-new-features-22">Improvements and new
 features</a></li>
-<li><a href="#bug-fixes-31" id="toc-bug-fixes-31">Bug fixes</a></li>
+<li><a href="#bug-fixes-32" id="toc-bug-fixes-32">Bug fixes</a></li>
 </ul></li>
 <li><a href="#section-2"
 id="toc-section-2"><code>1.2 (2015/10/10)</code></a>
 <ul>
-<li><a href="#removed-3" id="toc-removed-3">Removed</a></li>
+<li><a href="#removed-4" id="toc-removed-4">Removed</a></li>
 <li><a href="#improvements-and-new-features-23"
 id="toc-improvements-and-new-features-23">Improvements and new
 features</a></li>
@@ -499,14 +508,14 @@ id="toc-a-20141107"><code>1.1a (2014/11/07)</code></a></li>
 <li><a href="#section-3"
 id="toc-section-3"><code>1.1 (2014/10/28)</code></a>
 <ul>
-<li><a href="#breaking-changes-18" id="toc-breaking-changes-18">Breaking
+<li><a href="#breaking-changes-19" id="toc-breaking-changes-19">Breaking
 changes</a></li>
-<li><a href="#removed-4" id="toc-removed-4">Removed</a></li>
+<li><a href="#removed-5" id="toc-removed-5">Removed</a></li>
 <li><a href="#deprecated-2" id="toc-deprecated-2">Deprecated</a></li>
 <li><a href="#improvements-and-new-features-24"
 id="toc-improvements-and-new-features-24">Improvements and new
 features</a></li>
-<li><a href="#bug-fixes-32" id="toc-bug-fixes-32">Bug fixes</a></li>
+<li><a href="#bug-fixes-33" id="toc-bug-fixes-33">Bug fixes</a></li>
 </ul></li>
 <li><a href="#n-20140401"
 id="toc-n-20140401"><code>1.09n (2014/04/01)</code></a></li>
@@ -558,12 +567,77 @@ id="toc-section-9"><code>1.03 (2013/04/14)</code></a></li>
 id="toc-section-10"><code>1.0 (2013/03/28)</code></a></li>
 </ul>
 </nav>
-<pre><code>Source:  xint.dtx 1.4l 2022/05/29 (doc 2022/05/29)
+<pre><code>Source:  xint.dtx 1.4m 2022/06/10 (doc 2022/06/11)
 Author:  Jean-Francois B.
 Info:    Expandable operations on big integers, decimals, fractions
 License: LPPL 1.3c</code></pre>
-<h2 id="l-20220529"><code>1.4l (2022/05/29)</code></h2>
+<h2 id="m-20220610"><code>1.4m (2022/06/10)</code></h2>
+<p>The fix of a compatibility bug with <code>miniltx</code> and the
+already in place documentation improvements (in particular, hyperlinked
+macro names in code lines) motivated release <code>1.4m</code>. With
+some hesitation I decided to not revert the removals and breaking
+changes listed here and which had been already acted in preparation of
+an hypothetic future <code>1.5</code>.</p>
+<h3 id="removed">Removed</h3>
+<ul>
+<li><p><strong>xintexpr</strong>: <code>\xintdefefunc</code> et al.,
+deprecated at <code>1.4</code> have been removed.</p></li>
+<li><p><strong>xintexpr</strong>: <code>\thexintexpr</code> et al.,
+deprecated at <code>1.4b</code> have been removed. Use
+<code>\xinttheexpr</code> et al.</p></li>
+<li><p><strong>xintlog</strong>: <code>\poormanloghack</code> which was
+a no-op since <code>1.4e</code> has been removed.</p></li>
+<li><p><strong>xintfrac</strong>: <code>\xintFrac</code>,
+<code>\xintFwOver</code>, <code>\xintSignedFrac</code>,
+<code>\xintSignedFwOver</code> now raise errors. They were deprecated at
+<code>1.4g</code>, check the documentation for the new names
+<code>\xintTeXFrac</code> et al.</p></li>
+</ul>
+<h3 id="breaking-changes">Breaking changes</h3>
+<ul>
+<li><p><strong>xintexpr</strong>: <code>\xinttheboolexpr</code> now
+outputs <code>true</code> or <code>false</code> (to match TeX
+conventions) and not the <code>True</code> or <code>False</code>
+employed since <code>1.4</code> (inside expressions <code>true</code>,
+<code>false</code>, <code>True</code> and <code>False</code> are all
+recognized keywords anyhow).</p></li>
+<li><p>The <code>\pdfstrcmp/\strcmp</code> engine primitive is required.
+With <code>LuaTeX</code> it is emulated via <code>Lua</code> code
+basically copied over from <code>LaTeX3</code>. Not sure if this is
+breaking as the package already requires the <code>\expanded</code>
+primitive. Only used so far by (as expected) <code>\xintiiCmp</code>,
+and macros which will end up calling it.</p></li>
+</ul>
 <h3 id="bug-fixes">Bug fixes</h3>
+<ul>
+<li><strong>xintexpr</strong>: with
+<code>\input xintexpr.sty\relax</code> in <code>(pdf)eTeX</code> plus
+<code>miniltx</code> (naturally, if <code>miniltx</code> was already
+loaded), and with versions up to <code>1.4k</code> the
+<code>xinttrig</code> and <code>xintlog</code> aborted their own
+<code>xintexpr</code>-triggered input erroneously thinking the latter
+had not yet been loaded, and emitted only a very discrete message to the
+log file. With <code>1.4l</code> it became worse as
+<code>\input xintexpr\relax</code> auto-repeated itself about six times
+until <code>TeX</code> called it quits.</li>
+</ul>
+<h3 id="improvements">Improvements</h3>
+<ul>
+<li><p>Documentation: most macros are hyperlinked in the source code to
+the code line of their definitions. Furthermore, from the place of the
+definition the main macros will link to either their descriptions in the
+user manual (in <code>xint-all.pdf</code>) or in the implementation part
+(<code>sourcexint.pdf</code>). Conversely inside
+<code>xint-all.pdf</code> the macro descriptions are linked towards
+their implementation. You may notice some time lag with some pdf viewers
+on opening the heavily hyperlinked <code>sourcexint.pdf</code> compared
+to previous releases.</p></li>
+<li><p>Not sure if that counts as an improvement, but I have shortened
+the wording of the expandable error messages, which had been last
+modified at <code>1.4g</code>.</p></li>
+</ul>
+<h2 id="l-20220529"><code>1.4l (2022/05/29)</code></h2>
+<h3 id="bug-fixes-1">Bug fixes</h3>
 <ul>
 <li><p><strong>xintkernel</strong>: ever since <code>1.4</code>, loading
 anyone of the <code>xint*sty</code> packages left the catcode of the
@@ -614,7 +688,7 @@ various obsoleted comments in extracted files involved in the
 documentation build process.</p></li>
 </ul>
 <h2 id="k-20220518"><code>1.4k (2022/05/18)</code></h2>
-<h3 id="breaking-changes">Breaking changes</h3>
+<h3 id="breaking-changes-1">Breaking changes</h3>
 <ul>
 <li><p><strong>xintfrac</strong>: the longstanding (but documented as
 undecided and unstable) way of <code>\xintFloat</code> to output the
@@ -642,7 +716,7 @@ the latter (see <code>1.4l</code> for update).</p></li>
 “last in first out” stack. Check the <code>pdf</code> documentation for
 details.</p></li>
 </ul>
-<h3 id="bug-fixes-1">Bug fixes</h3>
+<h3 id="bug-fixes-2">Bug fixes</h3>
 <ul>
 <li><p><strong>xintexpr</strong>: the
 <code>\xintexpr{Safe,Restore}Catcodes</code> were documented at user
@@ -678,7 +752,7 @@ and <code>\xintfloateval{[Q]...}</code> is kept for backwards
 compatibility.</p></li>
 </ul>
 <h2 id="j-20210713"><code>1.4j (2021/07/13)</code></h2>
-<h3 id="bug-fixes-2">Bug fixes</h3>
+<h3 id="bug-fixes-3">Bug fixes</h3>
 <ul>
 <li><strong>xinttools</strong>: a brace removal bug affected the
 venerable <code>\xintSeq</code> if producing a single number
@@ -701,7 +775,7 @@ single numeric argument: since <code>1.4</code> a lone argument had to
 be a <code>nutple</code> (which was automatically unpacked). It can now
 again be a number.</p></li>
 </ul>
-<h3 id="bug-fixes-3">Bug fixes</h3>
+<h3 id="bug-fixes-4">Bug fixes</h3>
 <ul>
 <li><p><strong>xintexpr</strong>: simultaneous assignments via
 <code>\xintdefvar</code> to 10 or more variables was broken if the right
@@ -722,7 +796,7 @@ variables (currently <code>subs()</code>, <code>subsm()</code>,
 <code>seq</code>.</p></li>
 </ul>
 <h2 id="h-20210527"><code>1.4h (2021/05/27)</code></h2>
-<h3 id="bug-fixes-4">Bug fixes</h3>
+<h3 id="bug-fixes-5">Bug fixes</h3>
 <ul>
 <li><p><strong>xintexpr</strong>: the recent <code>1.4g</code>
 introduced a bug breaking input of the type
@@ -737,7 +811,7 @@ inserted two, not one, spaces at one specific location near the end of
 its output. A bit cosmetic problem, fixed nevertheless.</p></li>
 </ul>
 <h2 id="g-20210525"><code>1.4g (2021/05/25)</code></h2>
-<h3 id="breaking-changes-1">Breaking changes</h3>
+<h3 id="breaking-changes-2">Breaking changes</h3>
 <ul>
 <li><p><strong>xintexpr</strong>: the parsing of power operators
 <code>**</code> and <code>^</code> now proceeds in a right associative
@@ -769,7 +843,7 @@ about 7 or 8 years too late) to help typesetting values output by
 <code>\xintfloateval</code> in a more useful way than
 <code>\xintTeXFrac</code> (formerly <code>\xintFrac</code>).</p></li>
 </ul>
-<h3 id="bug-fixes-5">Bug fixes</h3>
+<h3 id="bug-fixes-6">Bug fixes</h3>
 <ul>
 <li><p><strong>xintexpr</strong>: with <strong>xintbinhex</strong>
 loaded, <code>"</code> is recognized as prefix for hexadecimal input;
@@ -810,7 +884,7 @@ ultimately caused low-level errors (same with <code>^</code>).</li>
 parser.</p></li>
 </ul>
 <h2 id="f-20210510"><code>1.4f (2021/05/10)</code></h2>
-<h3 id="breaking-changes-2">Breaking changes</h3>
+<h3 id="breaking-changes-3">Breaking changes</h3>
 <ul>
 <li><p><strong>xintexpr</strong>: <code>\xintieval{[-D]...}</code>,
 which rounds to a multiple of <code>1eD</code> for <code>D</code>
@@ -837,7 +911,7 @@ powers, see the bug fixes below.</p></li>
 <li><p><strong>xintexpr</strong>: the <code>float_()</code> function got
 renamed into <code>float_dgt()</code>.</p></li>
 </ul>
-<h3 id="bug-fixes-6">Bug fixes</h3>
+<h3 id="bug-fixes-7">Bug fixes</h3>
 <ul>
 <li><p><strong>xintexpr</strong>: the documentation said
 <code>float_()</code> function had been renamed <code>float_dgt()</code>
@@ -871,7 +945,7 @@ cases.</p></li>
 Digits was at most <code>8</code>.</p></li>
 </ul>
 <h2 id="e-20210505"><code>1.4e (2021/05/05)</code></h2>
-<h3 id="breaking-changes-3">Breaking changes</h3>
+<h3 id="breaking-changes-4">Breaking changes</h3>
 <ul>
 <li><p><strong>xintlog</strong>: <code>\poormanloghack</code> now a
 no-op.</p></li>
@@ -948,7 +1022,7 @@ the letter <code>e</code>.</p></li>
 like <code>\xintDecToString</code> but starts by removing trailing
 zeroes.</p></li>
 </ul>
-<h3 id="bug-fixes-7">Bug fixes</h3>
+<h3 id="bug-fixes-8">Bug fixes</h3>
 <ul>
 <li><strong>xintfrac</strong>, <strong>xintexpr</strong>: it was not
 possible to use <code>\xinttheDigits</code> in the right hand side of an
@@ -958,7 +1032,7 @@ allowed, and the same applies to the macro interface, for example
 <code>\xintSetDigits*{\xinttheDigits+4}</code>.</li>
 </ul>
 <h2 id="d-20210329"><code>1.4d (2021/03/29)</code></h2>
-<h3 id="breaking-changes-4">Breaking changes</h3>
+<h3 id="breaking-changes-5">Breaking changes</h3>
 <ul>
 <li><p><code>quo()</code> and <code>rem()</code> in
 <code>\xintiiexpr/\xintiieval</code> renamed to <code>iquo()</code> and
@@ -970,7 +1044,7 @@ applied to fractions is now always in lowest terms.</p></li>
 around the name. By the way, quotes were never used for function
 names.</p></li>
 </ul>
-<h3 id="bug-fixes-8">Bug fixes</h3>
+<h3 id="bug-fixes-9">Bug fixes</h3>
 <ul>
 <li><p>Ever since <code>1.3</code> the <code>quo()</code> and
 <code>rem()</code> functions in <code>\xintexpr</code> (not the ones in
@@ -995,7 +1069,7 @@ inside an <code>\xintdeffunc</code> caused the defined function to be
 broken.</p></li>
 </ul>
 <h2 id="c-20210220"><code>1.4c (2021/02/20)</code></h2>
-<h3 id="bug-fixes-9">Bug fixes</h3>
+<h3 id="bug-fixes-10">Bug fixes</h3>
 <ul>
 <li>Fix <code>1.4</code> regression which broke syntax
 <code>varname(...)</code> which supposedly is allowed and inserts a
@@ -1037,7 +1111,7 @@ strangely there was no way to customize the output of
 <code>\xintfloateval</code>. The added <code>\xintPFloatE</code> fixes
 this.</p></li>
 </ul>
-<h3 id="bug-fixes-10">Bug fixes</h3>
+<h3 id="bug-fixes-11">Bug fixes</h3>
 <ul>
 <li><code>\xintieval{[D]...}</code> with a negative <code>D</code> (a
 feature added at <code>1.4a</code>) used erroneously a catcode 12
@@ -1046,7 +1120,7 @@ feature added at <code>1.4a</code>) used erroneously a catcode 12
 </ul>
 <h2 id="a-20200219"><code>1.4a (2020/02/19)</code></h2>
 <p>All changes regard the <strong>xintexpr</strong> module.</p>
-<h3 id="breaking-changes-5">Breaking changes</h3>
+<h3 id="breaking-changes-6">Breaking changes</h3>
 <ul>
 <li>The macros implementing customization of <code>\xintthealign</code>
 have modified meanings and names.</li>
@@ -1064,7 +1138,7 @@ of <code>10^(-D)</code>.</p>
 <code>\xintRound</code>, <code>\xintiTrunc</code>, and
 <code>\xintiRound</code> macros of <strong>xintfrac</strong>.</p></li>
 </ul>
-<h3 id="bug-fixes-11">Bug fixes</h3>
+<h3 id="bug-fixes-12">Bug fixes</h3>
 <ul>
 <li><p>Usage of <code>round()</code> and <code>trunc()</code> within
 <code>\xintdeffunc</code> got broken at <code>1.4</code>.</p></li>
@@ -1074,7 +1148,7 @@ accepting the <code>omit</code>, <code>abort</code> and
 broken.</p></li>
 </ul>
 <h2 id="section"><code>1.4 (2020/01/31)</code></h2>
-<h3 id="breaking-changes-6">Breaking changes</h3>
+<h3 id="breaking-changes-7">Breaking changes</h3>
 <p>Please note that this list may still be incomplete. If not otherly
 specified all items regard the <strong>xintexpr</strong> module.</p>
 <ul>
@@ -1294,7 +1368,7 @@ example a correct variable or function name in place of the not
 recognized one. But don’t expect miracles when trying to intervene in
 the midst of a purely expandable expansion…</p></li>
 </ul>
-<h3 id="bug-fixes-12">Bug fixes</h3>
+<h3 id="bug-fixes-13">Bug fixes</h3>
 <p>Bugs? Those identified in <code>1.3f</code> were almost features. As
 per <code>1.4</code> the code base of <strong>xintexpr</strong> received
 multiple successive core refactorings and added numerous new features,
@@ -1331,7 +1405,7 @@ token e.g. <code>\xintDigits := 32\relax</code>.</p>
 expressions by <code>\xintdeffunc</code>. And make them usable also
 inside macro definitions via <code>\xintNewExpr</code>.</p></li>
 </ul>
-<h3 id="bug-fixes-13">Bug fixes</h3>
+<h3 id="bug-fixes-14">Bug fixes</h3>
 <ul>
 <li><p><strong>xintexpr</strong>: fix bug preventing usage of
 <code>\xintdefefunc</code> to define a function without variables.</p>
@@ -1339,7 +1413,7 @@ inside macro definitions via <code>\xintNewExpr</code>.</p></li>
 inside an expression parsed by <code>\xintdeffunc</code> et al.</p></li>
 </ul>
 <h2 id="e-20190405"><code>1.3e (2019/04/05)</code></h2>
-<h3 id="breaking-changes-7">Breaking changes</h3>
+<h3 id="breaking-changes-8">Breaking changes</h3>
 <ul>
 <li>(<em>reverted at 1.3f</em>) When defining functions, sub-expressions
 can only use the <code>\xint(float)expr...\relax</code> syntax. One can
@@ -1378,13 +1452,13 @@ shortcomings.</p></li>
 be negative; it then means to trim (and round) from the output at float
 precision that many least significant digits.</p></li>
 </ul>
-<h3 id="bug-fixes-14">Bug fixes</h3>
+<h3 id="bug-fixes-15">Bug fixes</h3>
 <ul>
 <li>Some bugfixes related to user functions with no variables at all;
 they were dysfunctional.</li>
 </ul>
 <h2 id="d-20190106"><code>1.3d (2019/01/06)</code></h2>
-<h3 id="breaking-changes-8">Breaking changes</h3>
+<h3 id="breaking-changes-9">Breaking changes</h3>
 <ul>
 <li><p><strong>xintexpr</strong>: the <code>gcd()</code> and
 <code>lcm()</code> functions formerly converted their arguments to
@@ -1421,7 +1495,7 @@ value zero),</p></li>
 <code>\xinttheexpr...\relax</code> etc…, but with the (comma-separated)
 expression as a usual braced macro argument.</p></li>
 </ul>
-<h3 id="bug-fixes-15">Bug fixes</h3>
+<h3 id="bug-fixes-16">Bug fixes</h3>
 <ul>
 <li><strong>xintcore</strong>, <strong>xintexpr</strong> : division in
 <code>\xintiiexpr</code> was broken for a zero dividend and a one-digit
@@ -1453,7 +1527,7 @@ work if that catcode is already frozen.</p></li>
 <code>sourcexint.pdf</code> is better hyperlinked and includes indices
 for the macros defined by each package.</p></li>
 </ul>
-<h3 id="bug-fixes-16">Bug fixes</h3>
+<h3 id="bug-fixes-17">Bug fixes</h3>
 <ul>
 <li><strong>xintfrac</strong>: since <code>1.3</code> release, it loaded
 <strong>xintgcd</strong> in contradiction to what the documentation says
@@ -1485,7 +1559,7 @@ was required.</p></li>
 <li><p>The usual provision of user manual “improvements”.</p></li>
 </ul>
 <h2 id="a-20180307"><code>1.3a (2018/03/07)</code></h2>
-<h3 id="removed">Removed</h3>
+<h3 id="removed-1">Removed</h3>
 <ul>
 <li><strong>xintcore</strong>, <strong>xint</strong>,
 <strong>xintfrac</strong>: removal of the internal macros which were
@@ -1504,7 +1578,7 @@ inputs having one hundred digits or more.</p></li>
 <code>\xintDivFloor</code>, <code>\xintMod</code>,
 <code>\xintModTrunc</code>, which had been left out so far.</p></li>
 </ul>
-<h3 id="bug-fixes-17">Bug fixes</h3>
+<h3 id="bug-fixes-18">Bug fixes</h3>
 <ul>
 <li><strong>xintexpr</strong>: the mechanism for adjunction to the
 expression parsers of user defined functions was refactored and improved
@@ -1514,7 +1588,7 @@ functions quite inefficient (to remain polite.) This release fixes the
 problem.</li>
 </ul>
 <h2 id="section-1"><code>1.3 (2018/03/01)</code></h2>
-<h3 id="breaking-changes-9">Breaking changes</h3>
+<h3 id="breaking-changes-10">Breaking changes</h3>
 <ul>
 <li><p><strong>xintcore</strong>, <strong>xint</strong>,
 <strong>xintfrac</strong>: all macros deprecated at <code>1.2o</code>
@@ -1555,7 +1629,7 @@ features</h3>
 <li><strong>xintexpr</strong>: tacit multiplication extended to cases
 such as <code>3!4!5!</code> or <code>(1+2)3</code>.</li>
 </ul>
-<h3 id="bug-fixes-18">Bug fixes</h3>
+<h3 id="bug-fixes-19">Bug fixes</h3>
 <ul>
 <li><strong>xintcore</strong>: sadly, refactoring at <code>1.2l</code>
 of subtraction left an extra character in an inner macro causing
@@ -1563,7 +1637,7 @@ breakage in some rare circumstances. This should not have escaped our
 test suite!</li>
 </ul>
 <h2 id="p-20171205"><code>1.2p (2017/12/05)</code></h2>
-<h3 id="breaking-changes-10">Breaking changes</h3>
+<h3 id="breaking-changes-11">Breaking changes</h3>
 <ul>
 <li><p><strong>xintgcd</strong>: <code>\xintBezout{a}{b}</code>’s output
 consists of <code>{u}{v}{d}</code> with <code>u*a+v*b==d</code>, with
@@ -1603,7 +1677,7 @@ built-in functions. It is associated with floored division, like the
 Python language <code>divmod()</code>. Related support macros added to
 <strong>xintcore</strong>, and <strong>xintfrac</strong>.</p></li>
 </ul>
-<h3 id="bug-fixes-19">Bug fixes</h3>
+<h3 id="bug-fixes-20">Bug fixes</h3>
 <ul>
 <li><p><strong>xintgcd</strong>: <code>\xintBezout{6}{3}</code> (for
 example) expanded to <code>{6}{3}{-0}{-1}{3}</code>, but the
@@ -1622,7 +1696,7 @@ dependency of <strong>xintcfrac</strong> on <strong>xinttools</strong>
 had not been mentioned.</p></li>
 </ul>
 <h2 id="o-20170829"><code>1.2o (2017/08/29)</code></h2>
-<h3 id="breaking-changes-11">Breaking changes</h3>
+<h3 id="breaking-changes-12">Breaking changes</h3>
 <ul>
 <li><strong>xint</strong>: <code>\xintAND</code>, <code>\xintOR</code>,
 … and similar Boolean logic macros do not apply anymore
@@ -1681,7 +1755,7 @@ about Boolean logic macros in the <em>Incompatible Changes</em>
 section.</p></li>
 </ul>
 <h2 id="n-20170806"><code>1.2n (2017/08/06)</code></h2>
-<h3 id="breaking-changes-12">Breaking changes</h3>
+<h3 id="breaking-changes-13">Breaking changes</h3>
 <ul>
 <li><strong>xintbinhex</strong> does not load package
 <strong>xintcore</strong> anymore, but only
@@ -1696,7 +1770,7 @@ as dependency.</p></li>
 speed and increased maximal sizes of allowable inputs.</p></li>
 </ul>
 <h2 id="m-20170731"><code>1.2m (2017/07/31)</code></h2>
-<h3 id="breaking-changes-13">Breaking changes</h3>
+<h3 id="breaking-changes-14">Breaking changes</h3>
 <ul>
 <li><p><strong>xintbinhex</strong>: the length of the input is now
 limited. The maximum size depends on the macro and ranges from about
@@ -1716,7 +1790,7 @@ but limited to a few thousand digits. The <code>1.08</code> routines
 could handle tens of thousands of digits, but not in a reasonable
 time.</li>
 </ul>
-<h3 id="bug-fixes-20">Bug fixes</h3>
+<h3 id="bug-fixes-21">Bug fixes</h3>
 <ul>
 <li><p>user manual: the <code>Changes</code> section wrongly stated at
 <code>1.2l</code> that the macros of <strong>xintbinhex</strong> had
@@ -1733,7 +1807,7 @@ This is fixed here with some additional efficiency improvements and
 pruning of old code.</p></li>
 </ul>
 <h2 id="l-20170726"><code>1.2l (2017/07/26)</code></h2>
-<h3 id="removed-1">Removed</h3>
+<h3 id="removed-2">Removed</h3>
 <ul>
 <li><p><code>\xintiiSumExpr</code>, <code>\xintiiPrdExpr</code>
 (<strong>xint</strong>) and <code>\xintSumExpr</code>,
@@ -1785,7 +1859,7 @@ in this example a second <code>\relax</code>.</p></li>
 interface yet, it is done in preparation for next major release and is
 completely unstable and undocumented.</p></li>
 </ul>
-<h3 id="bug-fixes-21">Bug fixes</h3>
+<h3 id="bug-fixes-22">Bug fixes</h3>
 <ul>
 <li><p><strong>xintbinhex</strong>: since <code>1.2 (2015/10/10)</code>,
 <code>\xintHexToDec</code> was broken due to an undefined macro (it was
@@ -1803,7 +1877,7 @@ not to worry about the token count… The ending <code>\relax</code> is
 now un-needed.</p></li>
 </ul>
 <h2 id="k-20170106"><code>1.2k (2017/01/06)</code></h2>
-<h3 id="breaking-changes-14">Breaking changes</h3>
+<h3 id="breaking-changes-15">Breaking changes</h3>
 <ul>
 <li><p>macro <code>\xintFloat</code> which rounds its input to a
 floating point number does <em>not</em> print anymore
@@ -1844,7 +1918,7 @@ variables.)</p></li>
 improved <code>\xintNewExpr</code> compatibility. Also
 <code>\xintFirstItem:f:csv</code>.</p></li>
 </ul>
-<h3 id="bug-fixes-22">Bug fixes</h3>
+<h3 id="bug-fixes-23">Bug fixes</h3>
 <ul>
 <li><p>the <code>1.2f</code> half-integer powers computed within
 <code>\xintfloatexpr</code> had a silly rounding to the target precision
@@ -1883,7 +1957,7 @@ horizontal and vertical rules which bring the documentation of the
 except that implementation of some math functions is still
 lacking.</p></li>
 </ul>
-<h3 id="bug-fixes-23">Bug fixes</h3>
+<h3 id="bug-fixes-24">Bug fixes</h3>
 <ul>
 <li>fix two <code>1.2i</code> regressions caused by undefined macros
 (<code>\xintNthElt</code> in certain branches and <code>[list][N]</code>
@@ -1891,13 +1965,13 @@ item extraction in certain cases.) The test files existed but were not
 executed prior to release. Automation in progress.</li>
 </ul>
 <h2 id="i-20161213"><code>1.2i (2016/12/13)</code></h2>
-<h3 id="breaking-changes-15">Breaking changes</h3>
+<h3 id="breaking-changes-16">Breaking changes</h3>
 <ul>
 <li><code>\xintDecSplit</code> second argument must have no sign (former
 code replaced it with its absolute value, a sign now may cause an
 error.)</li>
 </ul>
-<h3 id="removed-2">Removed</h3>
+<h3 id="removed-3">Removed</h3>
 <ul>
 <li>deprecated macros <code>\xintifTrue</code>,
 <code>\xintifTrueFalse</code>, <code>\xintQuo</code>,
@@ -1953,7 +2027,7 @@ should have been removed long ago) and uses only the more apt “macro”,
 as after all, all of <strong>xint</strong> is about expansion of macros
 (plus the use of <code>\numexpr</code>).</p></li>
 </ul>
-<h3 id="bug-fixes-24">Bug fixes</h3>
+<h3 id="bug-fixes-25">Bug fixes</h3>
 <ul>
 <li><code>\xintDecSplitL</code> and <code>\xintDecSplitR</code> from
 <strong>xint</strong> produced their output in a spurious brace pair
@@ -1973,7 +2047,7 @@ prefix, now <code>\thexintexpr</code>, <code>\thexintiexpr</code>,
 <code>\thexintfloatexpr</code>, and <code>\thexintiiexpr</code> are
 provided as synonyms to <code>\xinttheexpr</code>, etc…</p></li>
 </ul>
-<h3 id="bug-fixes-25">Bug fixes</h3>
+<h3 id="bug-fixes-26">Bug fixes</h3>
 <ul>
 <li><p>the <code>(cond)?{foo}{bar}</code> operator from
 <strong>xintexpr</strong> mis-behaved in certain circumstances (such as
@@ -1998,7 +2072,7 @@ rather than producing respectively <code>0</code> and <code>1</code> as
 formerly.</p></li>
 </ul>
 <h2 id="g-20160319"><code>1.2g (2016/03/19)</code></h2>
-<h3 id="breaking-changes-16">Breaking changes</h3>
+<h3 id="breaking-changes-17">Breaking changes</h3>
 <ul>
 <li><p>inside expressions, list item selector <code>[L][n]</code> counts
 starting at zero, not at one. This is more coherent with
@@ -2038,7 +2112,7 @@ Brent-Salamin algorithm for computation of Pi using <code>iter</code> in
 a float expression.</p></li>
 </ul>
 <h2 id="f-20160312"><code>1.2f (2016/03/12)</code></h2>
-<h3 id="breaking-changes-17">Breaking changes</h3>
+<h3 id="breaking-changes-18">Breaking changes</h3>
 <ul>
 <li>no more <code>\xintFac</code> macro but
 <code>\xintiFac/\xintiiFac/\xintFloatFac</code>.</li>
@@ -2086,7 +2160,7 @@ initial <code>\romannumeral</code> anymore.</p></li>
 random shuffling of sections and well thought additions; cuts were
 considered and even performed.</p></li>
 </ul>
-<h3 id="bug-fixes-26">Bug fixes</h3>
+<h3 id="bug-fixes-27">Bug fixes</h3>
 <ul>
 <li><p>squaring macro <code>\xintSqr</code> from
 <strong>xintfrac.sty</strong> was broken due to a misspelled sub-macro
@@ -2116,7 +2190,7 @@ its included code samples has been entirely re-written; the <em>Commands
 of the xintexpr package</em> section has been extended and reviewed
 entirely.</p></li>
 </ul>
-<h3 id="bug-fixes-27">Bug fixes</h3>
+<h3 id="bug-fixes-28">Bug fixes</h3>
 <ul>
 <li><p>in <strong>xintfrac</strong>: the <code>\xintFloatFac</code> from
 release <code>1.2</code> parsed its argument only through
@@ -2142,7 +2216,7 @@ x/(2*y).</p></li>
 <li><p>some documentation enhancements, particularly in the chapter on
 xintexpr.sty, and also in the code source comments.</p></li>
 </ul>
-<h3 id="bug-fixes-28">Bug fixes</h3>
+<h3 id="bug-fixes-29">Bug fixes</h3>
 <ul>
 <li>in <strong>xintcore</strong>: release <code>1.2c</code> had
 inadvertently broken the <code>\xintiiDivRound</code> macro.</li>
@@ -2157,14 +2231,14 @@ features</h3>
 <li><p>on-going code improvements and documentation enhancements, but
 stopped in order to issue this bugfix release.</p></li>
 </ul>
-<h3 id="bug-fixes-29">Bug fixes</h3>
+<h3 id="bug-fixes-30">Bug fixes</h3>
 <ul>
 <li>in <strong>xintcore</strong>: recent release <code>1.2</code>
 introduced a bug in the subtraction (happened when 00000001 was found
 under certain circumstances at certain mod 8 locations).</li>
 </ul>
 <h2 id="b-20151029"><code>1.2b (2015/10/29)</code></h2>
-<h3 id="bug-fixes-30">Bug fixes</h3>
+<h3 id="bug-fixes-31">Bug fixes</h3>
 <ul>
 <li>in <strong>xintcore</strong>: recent release <code>1.2</code>
 introduced a bug in the division macros, causing a crash when the
@@ -2186,7 +2260,7 @@ regarding brace stripping.</p></li>
 <code>\romannumeral`&amp;&amp;@</code> (<code>^</code> being used as
 letter, had to find another character usable with catcode 7).</p></li>
 </ul>
-<h3 id="bug-fixes-31">Bug fixes</h3>
+<h3 id="bug-fixes-32">Bug fixes</h3>
 <ul>
 <li>in <strong>xintexpr</strong>: recent release <code>1.2</code>
 introduced a bad bug in the parsing of decimal numbers and as a result
@@ -2194,7 +2268,7 @@ introduced a bad bug in the parsing of decimal numbers and as a result
 (sigh…)</li>
 </ul>
 <h2 id="section-2"><code>1.2 (2015/10/10)</code></h2>
-<h3 id="removed-3">Removed</h3>
+<h3 id="removed-4">Removed</h3>
 <ul>
 <li>the macros <code>\xintAdd</code>, <code>\xintSub</code>,
 <code>\xintMul</code>, <code>\xintMax</code>, <code>\xintMin</code>,
@@ -2300,7 +2374,7 @@ example of nested <code>subs</code>, <code>rseq</code>,
 <code>iter</code> in <code>\xintiiexpr</code>.</p></li>
 </ul>
 <h2 id="section-3"><code>1.1 (2014/10/28)</code></h2>
-<h3 id="breaking-changes-18">Breaking changes</h3>
+<h3 id="breaking-changes-19">Breaking changes</h3>
 <ul>
 <li><p>in <code>\xintiiexpr</code>, <code>/</code> does <em>rounded</em>
 division, rather than the Euclidean division (for positive arguments,
@@ -2330,7 +2404,7 @@ form are now managed via a <code>protect(...)</code> function.</p></li>
 (integer) output. New <code>\xintiFloor</code> and
 <code>\xintiCeil</code> do not.</p></li>
 </ul>
-<h3 id="removed-4">Removed</h3>
+<h3 id="removed-5">Removed</h3>
 <ul>
 <li><code>\xintnumexpr</code>, <code>\xintthenumexpr</code>,
 <code>\xintNewNumExpr</code>: use <code>\xintiexpr</code>,
@@ -2469,7 +2543,7 @@ even number of items to the format expected by the <code>TikZ</code>
 standard macro parameter <code>#</code>. Not all constructs are
 compatible with <code>\xintNewExpr</code>.</p></li>
 </ul>
-<h3 id="bug-fixes-32">Bug fixes</h3>
+<h3 id="bug-fixes-33">Bug fixes</h3>
 <ul>
 <li><p><code>\xintZapFirstSpaces</code> hence also
 <code>\xintZapSpaces</code> from package <strong>xinttools</strong> were

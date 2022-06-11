@@ -1,8 +1,8 @@
 % README
-% xint 1.4l
-% 2022/05/29
+% xint 1.4m
+% 2022/06/10
 
-    Source:  xint.dtx 1.4l 2022/05/29 (doc 2022/05/29)
+    Source:  xint.dtx 1.4m 2022/06/10 (doc 2022/06/11)
     Author:  Jean-Francois B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
@@ -63,49 +63,36 @@ Installation
 [MikTeX](http://www.miktex.org/). Thus, use the package manager to
 update your distribution.
 
-The simplest alternative is to download
+Direct installation of both the macro files and the documentation into a
+TDS-compliant hierarchy is available via
 [`xint.tds.zip`](http://mirror.ctan.org/install/macros/generic/xint.tds.zip)
-and install the `xint` package files and documentation in a suitable
-TDS-compliant repertory via `unzip`.  For example, on a macOS system,
-installation in user repertory:
+and usage of `unzip`.  For example, on a macOS system, installation in
+user repertory:
 
     unzip xint.tds.zip -d  ~/Library/texmf
 
-Admin privileges may be needed when moving the files into the TeX
-installation.
+Admin privileges may be needed if the target repertory requires it.
 
-Else, one can download `xint.dtx` and optionally `Makefile` from
-https://www.ctan.org/tex-archive/macros/generic/xint and proceed from
-there.  The package files are extracted automatically from
-`etex xint.dtx`.  So if one does not need to build the documentation,
-one only has to move the files with extension `.sty` to one's working
-repertory and start using them.
+Else, one can download `xint.dtx` from
+https://www.ctan.org/tex-archive/macros/generic/xint and execute
+`etex xint.dtx` which will extract all macro files (those with extension
+`.sty`).  One then only needs to move them to a location where `TeX` can
+find them.
 
-Here are various options to build the documentation, from the more
-automated to the more manual:
+To build the documentation one can execute `latex` directly on
+`xint.dtx` (at least three times, perhaps more, so `latexmk` is
+recommended) then `dvipdfmx` or directly `pdflatex`.  The resulting
+`xint.pdf` includes both the user manual and the commented source code,
+with hyperlinks.
 
-- (with `Makefile`) run `make help` or `make helpless` (on Unix-like
-  systems) for extracting package files and receiving further
-  instructions, or directly `make xint.pdf` to both extract package
-  files and build the user documentation in the current repertory.
-  The commented source code will be obtained from `make sourcexint.pdf`.
-  This process requires `latexmk`.  The `CHANGES.html` target requires
-  `pandoc`.
+For those on Unix-like systems the recommended way is to fetch also
+`Makefile` from the location above (or to rename the extracted
+`Makefile.mk` into `Makefile`), then one can execute `make xint.pdf`
+(user manual only), or `make sourcexint.pdf` or `make xint-all.pdf`.
+These targets will require `latexmk`.
 
-- (without `Makefile`) run `etex xint.dtx` then rename the extracted
-  `Makefile.mk` to `Makefile` and proceed as in the previous item.
-
-- (with no `make`) run `latexmk` on `xint.dtx`.  This will both extract
-  package files and build a `dvi` combining the user documentation and
-  the commented source code.  Finish with `dvipdfmx xint.dvi`.
-
-- (with no `make`) execute `etex xint.dtx` to extract files then run
-  `latexmk` on `xint.tex` and `sourcexint.tex`, or perhaps on
-  `xint-all.tex` to combine user manual and source code in one `pdf`.
-
-- (with no `make` and no `latexmk`) proceed as in one of the previous
-  two items but with `latex` sufficiently many times in place of
-  `latexmk`.  Finish with `dvipdfmx`, or use `pdflatex` initially.
+Further help can be obtained via `make help` or from the comments
+in extracted files `xint.tex`,  `sourcexint.tex`, and `xint-all.tex`.
 
 Documentation
 =============
