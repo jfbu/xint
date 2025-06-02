@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Jean-François B.">
+    <meta name="copyright" content="© 2013-2025 Jean-François B. All rights reserved.">
+    <meta name="license" content="LaTeX Project Public License 1.3c">
+    <title>xint links</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 1.8em;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 1.4em;
+            margin-top: 30px;
+        }
+        .file-list {
+            list-style: none;
+            padding: 0;
+        }
+        .file-item {
+            background: #fff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .file-item a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .file-item a:hover {
+            text-decoration: underline;
+        }
+        .file-item p {
+            margin: 5px 0 0;
+            color: #666;
+        }
+        .instructions {
+            background: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .instructions ol {
+            padding-left: 20px;
+        }
+        .instructions p {
+            margin: 0 0 15px;
+            color: #333;
+        }
+        .package-name {
+            color: #d43000;
+            font-weight: bold;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            h2 {
+                font-size: 1.2em;
+            }
+            .file-item, .instructions {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><span class="package-name">xint</span> repository</h1>
+        
+        <h2>Available files</h2>
+        <ul class="file-list">
+            <li class="file-item">
+                <a href="xint.dtx" target="_blank">xint.dtx</a>
+                <p>Source for both the documentation and the TeX macro files.</p>
+            </li>
+            <li class="file-item">
+                <a href="README.md" target="_blank">README</a>
+                <p>The README.md file. This is essentially the same file as served at the <a href="https://ctan.org/tex-archive/macros/generic/xint">CTAN site</a>.</p>
+            <li class="file-item">
+                <a href="CHANGES.html" target="_blank">CHANGES</a>
+                <p>Change log since 2013 (in HTML format); for the serious user.</p>
+            </li>
+            <li class="file-item">
+                <a href="Makefile" target="_blank">Makefile</a>
+                <p>A GNU makefile to produce the PDF versions of the documentation and/or of the documented source code.  For Unix-like systems.</p>
+            </li>
+        </ul>
+
+        <h2>Installation instructions</h2>
+        <div class="instructions">
+          <p>The <a href="https://github.com/jfbu/xint">xint repository</a>
+          does not serve development versions but only the current release (as
+          available at <a href="https://ctan.org/pkg/xint">CTAN</a> and
+          included in TeX distributions such
+          as <a href="https://miktex.org">MikTeX</a>
+          or <a href="https://tug.org/texlive/">TeXLive</a>) as well as past
+          releases.  So these instructions are probably needed only in the
+          case you want to try out a past release.  Note
+          that <span class="package-name">xint</span> only needs e-TeX, but
+          compiling its documentation requires LaTeX.
+            <ol>
+              <li>To extract the TeX macro files execute <code>etex
+                xint.dtx</code> (of course you need <code>etex</code>, it will
+                be present if you have any sort of TeX/LaTeX installation; you
+                can also use <code>latex</code> or <code>pdftex</code>
+                here).
+              </li>
+              <li>To build the documentation (on a Unix-like system and for
+                releases since <code>1.1</code>; for earlier releases, follow
+                instructions in the corresponding
+                checked-out <code>README</code>): fetch
+                also <a href="Makefile" target="_blank">Makefile</a>, place it
+                and <a href="xint.dtx" target="_blank">xint.dtx</a> together in
+                some directory, and execute <code>make xint.pdf</code> for the
+                user manual and
+                <code>make sourcexint.pdf</code> for the commented source.
+                Since <code>1.4l</code> there is also
+                an <code>xint-all.pdf</code> target to get a combined PDF with
+                both user manual and commented source code; for releases
+                earlier than <code>1.1</code> the file <code>xint.pdf</code>
+                already contained the commented source code.  Building these
+                targets require
+                <code>latexmk</code>.</li>
+                <li>For more options, check the corresponding section at the
+                bottom of <a href="README.md" target="_blank">README</a>.
+              </li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>
