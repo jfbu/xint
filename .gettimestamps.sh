@@ -10,6 +10,7 @@
 
 # encore un converti à l'emploi de `git ls-files`.
 
+# 2 juin 2025, /usr/bin/stat pour utiliser le stat du macOS et pas le GNU stat
 case `uname -s` in
     "Linux" )
         MYDATEFORTOUCH() {
@@ -18,7 +19,7 @@ case `uname -s` in
         ;;
     "Darwin" )
         MYDATEFORTOUCH() {
-            stat -f %Sm -t %Y%m%d%H%M.%S "$1"
+            /usr/bin/stat -f %Sm -t %Y%m%d%H%M.%S "$1"
         }
         ;;
     * )
