@@ -1,43 +1,62 @@
-% README
-% xint 1.4m
-% 2022/06/10
+Requirements
+============
 
-    Source:  xint.dtx 1.4m 2022/06/10 (doc 2022/06/11)
-    Author:  Jean-Francois B.
-    Info:    Expandable operations on big integers, decimals, fractions
-    License: LPPL 1.3c
+`xintexpr` essentially builds upon `e-TeX`'s `\numexpr` (since 2020 it
+also requires the used engine to provide the `\expanded` primitive) and
+can be used with many macro formats, inclusive of `Plain TeX` (via
+`etex`, `pdftex`, etc...) and `LaTeX` (`latex`, `pdflatex`, `xelatex`,
+etc...).
+- to use with `Plain`: `\input xintexpr.sty`,
+- to use with `LaTeX`: `\usepackage{xintexpr}`.
+
+Caveat: upstream testing is only done with these two formats.
 
 
 Description
 ===========
 
-It is possible to use the package both with Plain (`\input xintexpr.sty`)
-or with the LaTeX macro format (`\usepackage{xintexpr}`).
+The basic aim is to provide *expandable* computations on "arbitrarily"
+big integers, fractions, and floating point numbers.
 
-The basic aim is provide *expandable* computations on (arbitrarily big)
-integers, fractions, and floating point numbers (at a user chosen
-precision).  The four operations and the square-root extraction achieve
-the *correct rounding* for the given arbitrary precision.  Exponential
-(natural and to the base ten), logarithm (also to the base 10),
-fractional powers, direct and inverse trigonometrical functions are
-available up to 62 digits of precision.  The syntax supports dummy
-variables (to generate sequences of values) and nested structures.
-Support for user-declared functions and variables is implemented.
+In the floating point context (`\xintfloateval`) the four operations and
+the square-root extraction are done with *correct rounding*.  The
+default precision is set to `16` decimal digits and can be modified at
+will via `\xintSetDigits*`.  Basic mathematical functions (exponential,
+logarithms, fractional powers, direct and inverse trigonometrical
+functions) are implemented up to a maximal precision of `62` decimal
+digits.
 
-Here is an example of everyday typical calculation by `xintexpr` users:
+The "exact" context (`\xinteval`) manipulates fractions (inclusive of
+numbers in scientific notation) and does the four operations exactly.
+The square root extraction and mathematical functions act as if in the
+floating point context, hence produce outputs having at most a number of
+digits matching the set floating point precision.
+
+Both the "exact" and "floating point" context provide support for user
+declaration of new functions and variables.  Square brackets allow
+to construct nested numerical structures (arrays of arrays for example),
+whose terms can be accessed via the familiar Python slicing notation.
+
+
+Usage
+=====
+
+Here is an example of a typical calculation done routinely by `xintexpr`
+users:
 
     \xinteval{reduce(add(1/i^3, i=1..25))}
 
-It expands to:
+It expands (in two steps) to:
 
     2560976152652211536408111110189/2131858131361319942957376000000
 
-Usage on the command line
-=========================
+With [xintsession](http://ctan.org/pkg/xintsession) installed, you can
+test it out on the command line.  This example uses the `rlwrap` utility
+to make less painlful command line input:
 
-One can use `xintexpr` as an interactive calculator on the command line.
-See the [xintsession](http://ctan.org/pkg/xintsession) package.
-
+    $ rlwrap etex xintsession
+    ... banner and instructions printed ...
+    Starting in exact mode (floating point evaluations use 16 digits)
     >>> 2^100;
     @_1     1267650600228229401496703205376
     >>> cos(1);
@@ -54,6 +73,13 @@ See the [xintsession](http://ctan.org/pkg/xintsession) package.
     exact mode (floating point evaluations use 32 digits)
     >>> 3^1000;
     @_5     132207081948080663689045525975... (trimmed for this README)
+
+Unfortunately, ill-formed input in such interactive use may easily cause
+low-level TeX errors during the parsing, from which it is notoriously
+difficult to recover (sometimes hitting `S` may suffice) and a new
+session may need to get started.  Thanks to `rlwrap` some history will
+have been preserved and can be reused via the keyboards arrow keys.
+
 
 Installation
 ============
@@ -94,8 +120,9 @@ These targets will require `latexmk`.
 Further help can be obtained via `make help` or from the comments
 in extracted files `xint.tex`,  `sourcexint.tex`, and `xint-all.tex`.
 
-Documentation
-=============
+
+Included documentation
+======================
 
 `README.md`: this file
 
@@ -107,10 +134,17 @@ Documentation
 `sourcexint.pdf`: commented source code
    (`texdoc --list xint` or `texdoc sourcexint`)
 
+
+Repository
+==========
+
+It is at [GitHub repository](https://github.com/jfbu/xint).
+See its front page at https://jfbu.github.io/xint.
+
 License
 =======
 
-Copyright (C) 2013-2022 by Jean-Francois B.
+Copyright (C) 2013-2022, 2025 by Jean-Francois B.
 
 This Work may be distributed and/or modified under the
 conditions of the LaTeX Project Public License version 1.3c.
@@ -130,5 +164,4 @@ extracted files inclusive of the macro files `xint*sty` as
 well as derived documentation files such as `xint.pdf`,
 `sourcexint.pdf` and `CHANGES.html`
 
-See `xint.pdf` for contact information.
-
+Report issues at https://github.com/jfbu/xint/issues.
