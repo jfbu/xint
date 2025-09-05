@@ -86,67 +86,41 @@
 </head>
 <body>
     <div class="container">
-        <h1><span class="package-name">xint</span> repository</h1>
+        <h1><span class="package-name">xint</span> <a href="https://github.com/jfbu/xint">repository</a></h1>
         
         <h2>Available files</h2>
         <ul class="file-list">
             <li class="file-item">
                 <a href="xint.dtx" target="_blank">xint.dtx</a>
-                <p>Source for both the documentation and the TeX macro files.</p>
+                <p>Source for both the documentation and the TeX macro
+                files. If you want to extract the macro files from it,
+                execute <code>etex xint.dtx</code>.  If you want then to build
+                the PDF documentation, execute <code>make xint.pdf</code> with
+                the help of provided <a href="Makefile"
+                target="_blank">Makefile</a>, or run <code>latex</code> three
+                times on file <code>xint.tex</code> which was extracted in
+                first step, then execute <code>dvipdfmx xint.dvi</code>.  The
+                file <code>xint.pdf</code> will contain both the user manual
+                and the commented source code.</p>
             </li>
             <li class="file-item">
                 <a href="README.md" target="_blank">README.md</a>
                 <p>This is essentially the same file as served at the <a href="https://ctan.org/tex-archive/macros/generic/xint">CTAN site</a>.</p>
             <li class="file-item">
-                <a href="CHANGES.html" target="_blank">CHANGES</a>
+                <a href="CHANGES.html" target="_blank">CHANGES.html</a>
                 <p>Change log since 2013 (in HTML format); for the serious user.</p>
             </li>
             <li class="file-item">
+                <a href="xintchanges.md" target="_blank">xintchanges.md</a>
+                <p>Markdown source of <a href="CHANGES.html"
+                target="_blank">CHANGES.html</a>.<p>
+            </li>
+            <li class="file-item">
                 <a href="Makefile" target="_blank">Makefile</a>
-                <p>A GNU makefile to produce the PDF versions of the documentation and/or of the documented source code.  For Unix-like systems.</p>
+                <p>A GNU makefile to help produce on Unixen the PDF versions of the
+                documentation and of the documented source code.</p>
             </li>
         </ul>
-
-        <h2>Installation instructions</h2>
-        <div class="instructions">
-          <p>The <a href="https://github.com/jfbu/xint">xint repository</a>
-          does not serve development versions but only the current release (as
-          available at <a href="https://ctan.org/pkg/xint">CTAN</a> and
-          included in TeX distributions such
-          as <a href="https://miktex.org">MikTeX</a>
-          or <a href="https://tug.org/texlive/">TeXLive</a>) as well as past
-          releases.  So these instructions are probably needed only in the
-          case you want to try out a past release.  Note
-          that <span class="package-name">xint</span> only needs e-TeX, but
-          compiling its documentation requires LaTeX.
-            <ol>
-              <li>To extract the TeX macro files execute <code>etex
-                xint.dtx</code> (of course you need <code>etex</code>, it will
-                be present if you have any sort of TeX/LaTeX installation; you
-                can also use <code>latex</code> or <code>pdftex</code>
-                here).
-              </li>
-              <li>To build the documentation (on a Unix-like system and for
-                releases since <code>1.1</code>; for earlier releases, follow
-                instructions in the corresponding
-                checked-out <code>README</code>): fetch
-                also <a href="Makefile" target="_blank">Makefile</a>, place it
-                and <a href="xint.dtx" target="_blank">xint.dtx</a> together in
-                some directory, and execute <code>make xint.pdf</code> for the
-                user manual and
-                <code>make sourcexint.pdf</code> for the commented source.
-                Since <code>1.4l</code> there is also
-                an <code>xint-all.pdf</code> target to get a combined PDF with
-                both user manual and commented source code; for releases
-                earlier than <code>1.1</code> the file <code>xint.pdf</code>
-                already contained the commented source code.  Building these
-                targets requires
-                <code>latexmk</code>.</li>
-                <li>For more options, check the corresponding section
-                in <a href="README.md" target="_blank">README.md</a>.
-              </li>
-            </ol>
-        </div>
     </div>
 </body>
 </html>

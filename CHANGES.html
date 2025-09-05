@@ -4,13 +4,10 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="author" content="xint 1.4m" />
+  <meta name="author" content="xint 1.4n" />
   <title>CHANGE LOG</title>
   <style>
     html {
-      line-height: 1.5;
-      font-family: Georgia, serif;
-      font-size: 20px;
       color: #1a1a1a;
       background-color: #fdfdfd;
     }
@@ -29,13 +26,16 @@
     @media (max-width: 600px) {
       body {
         font-size: 0.9em;
-        padding: 1em;
+        padding: 12px;
       }
       h1 {
         font-size: 1.8em;
       }
     }
     @media print {
+      html {
+        background-color: white;
+      }
       body {
         background-color: transparent;
         color: black;
@@ -59,6 +59,10 @@
       color: #1a1a1a;
     }
     img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
       max-width: 100%;
     }
     h1, h2, h3, h4, h5, h6 {
@@ -85,9 +89,10 @@
       color: #606060;
     }
     code {
-      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
       font-size: 85%;
       margin: 0;
+      hyphens: manual;
     }
     pre {
       margin: 1em 0;
@@ -149,32 +154,40 @@
     }
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-        body{margin: 0; margin-left : 10%; margin-right : 15%; margin-top: 4ex; font-size: 20px; font-family: serif; max-width: 100%; padding: 0; }
-        pre  {white-space: pre-wrap;}
-        code {white-space: pre-wrap;}
-        a:link { color: blue; }
-        a:visited { color: green; }
-        a:hover { text-decoration: underline; color: hotpink }
-        a:active { color: brown; }
-        #TOC {float: right; position: relative; top: 100px; margin-bottom: 100px; margin-left: 20px;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
     .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+        body{margin: 0; margin-left : 10%; margin-right : 15%; margin-top: 4ex; font-size: 20px; font-family: serif; max-width: 100%; padding: 0; } pre  {white-space: pre-wrap;} code {white-space: pre-wrap;} a:link { color: blue; } a:visited { color: green; } a:hover { text-decoration: underline; color: hotpink } a:active { color: brown; } #TOC {float: right; position: relative; top: 100px; margin-bottom: 100px; margin-left: 20px;}
   </style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
 </head>
 <body>
 <header id="title-block-header">
 <h1 class="title">CHANGE LOG</h1>
-<p class="author">xint 1.4m</p>
-<p class="date">2022/06/10</p>
+<p class="author">xint 1.4n</p>
+<p class="date">2025/09/05</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
+<li><a href="#n-20250905"
+id="toc-n-20250905"><code>1.4n (2025/09/05)</code></a>
+<ul>
+<li><a href="#improvements-and-new-features"
+id="toc-improvements-and-new-features">Improvements and new
+features</a></li>
+<li><a href="#packaging" id="toc-packaging">Packaging</a></li>
+<li><a href="#repository" id="toc-repository">Repository</a></li>
+</ul></li>
 <li><a href="#m-20220610"
 id="toc-m-20220610"><code>1.4m (2022/06/10)</code></a>
 <ul>
@@ -278,8 +291,8 @@ id="toc-section"><code>1.4 (2020/01/31)</code></a>
 <ul>
 <li><a href="#breaking-changes-7" id="toc-breaking-changes-7">Breaking
 changes</a></li>
-<li><a href="#improvements-and-new-features"
-id="toc-improvements-and-new-features">Improvements and new
+<li><a href="#improvements-and-new-features-1"
+id="toc-improvements-and-new-features-1">Improvements and new
 features</a></li>
 <li><a href="#bug-fixes-13" id="toc-bug-fixes-13">Bug fixes</a></li>
 <li><a href="#todo" id="toc-todo">TODO</a></li>
@@ -287,8 +300,8 @@ features</a></li>
 <li><a href="#f-20190910"
 id="toc-f-20190910"><code>1.3f (2019/09/10)</code></a>
 <ul>
-<li><a href="#improvements-and-new-features-1"
-id="toc-improvements-and-new-features-1">Improvements and new
+<li><a href="#improvements-and-new-features-2"
+id="toc-improvements-and-new-features-2">Improvements and new
 features</a></li>
 <li><a href="#bug-fixes-14" id="toc-bug-fixes-14">Bug fixes</a></li>
 </ul></li>
@@ -297,8 +310,8 @@ id="toc-e-20190405"><code>1.3e (2019/04/05)</code></a>
 <ul>
 <li><a href="#breaking-changes-8" id="toc-breaking-changes-8">Breaking
 changes</a></li>
-<li><a href="#improvements-and-new-features-2"
-id="toc-improvements-and-new-features-2">Improvements and new
+<li><a href="#improvements-and-new-features-3"
+id="toc-improvements-and-new-features-3">Improvements and new
 features</a></li>
 <li><a href="#bug-fixes-15" id="toc-bug-fixes-15">Bug fixes</a></li>
 </ul></li>
@@ -307,32 +320,32 @@ id="toc-d-20190106"><code>1.3d (2019/01/06)</code></a>
 <ul>
 <li><a href="#breaking-changes-9" id="toc-breaking-changes-9">Breaking
 changes</a></li>
-<li><a href="#improvements-and-new-features-3"
-id="toc-improvements-and-new-features-3">Improvements and new
+<li><a href="#improvements-and-new-features-4"
+id="toc-improvements-and-new-features-4">Improvements and new
 features</a></li>
 <li><a href="#bug-fixes-16" id="toc-bug-fixes-16">Bug fixes</a></li>
 </ul></li>
 <li><a href="#c-20180617"
 id="toc-c-20180617"><code>1.3c (2018/06/17)</code></a>
 <ul>
-<li><a href="#improvements-and-new-features-4"
-id="toc-improvements-and-new-features-4">Improvements and new
+<li><a href="#improvements-and-new-features-5"
+id="toc-improvements-and-new-features-5">Improvements and new
 features</a></li>
 <li><a href="#bug-fixes-17" id="toc-bug-fixes-17">Bug fixes</a></li>
 </ul></li>
 <li><a href="#b-20180518"
 id="toc-b-20180518"><code>1.3b (2018/05/18)</code></a>
 <ul>
-<li><a href="#improvements-and-new-features-5"
-id="toc-improvements-and-new-features-5">Improvements and new
+<li><a href="#improvements-and-new-features-6"
+id="toc-improvements-and-new-features-6">Improvements and new
 features</a></li>
 </ul></li>
 <li><a href="#a-20180307"
 id="toc-a-20180307"><code>1.3a (2018/03/07)</code></a>
 <ul>
 <li><a href="#removed-1" id="toc-removed-1">Removed</a></li>
-<li><a href="#improvements-and-new-features-6"
-id="toc-improvements-and-new-features-6">Improvements and new
+<li><a href="#improvements-and-new-features-7"
+id="toc-improvements-and-new-features-7">Improvements and new
 features</a></li>
 <li><a href="#bug-fixes-18" id="toc-bug-fixes-18">Bug fixes</a></li>
 </ul></li>
@@ -341,15 +354,15 @@ id="toc-section-1"><code>1.3 (2018/03/01)</code></a>
 <ul>
 <li><a href="#breaking-changes-10" id="toc-breaking-changes-10">Breaking
 changes</a></li>
-<li><a href="#improvements-and-new-features-7"
-id="toc-improvements-and-new-features-7">Improvements and new
+<li><a href="#improvements-and-new-features-8"
+id="toc-improvements-and-new-features-8">Improvements and new
 features</a></li>
 </ul></li>
 <li><a href="#q-20180206"
 id="toc-q-20180206"><code>1.2q (2018/02/06)</code></a>
 <ul>
-<li><a href="#improvements-and-new-features-8"
-id="toc-improvements-and-new-features-8">Improvements and new
+<li><a href="#improvements-and-new-features-9"
+id="toc-improvements-and-new-features-9">Improvements and new
 features</a></li>
 <li><a href="#bug-fixes-19" id="toc-bug-fixes-19">Bug fixes</a></li>
 </ul></li>
@@ -358,8 +371,8 @@ id="toc-p-20171205"><code>1.2p (2017/12/05)</code></a>
 <ul>
 <li><a href="#breaking-changes-11" id="toc-breaking-changes-11">Breaking
 changes</a></li>
-<li><a href="#improvements-and-new-features-9"
-id="toc-improvements-and-new-features-9">Improvements and new
+<li><a href="#improvements-and-new-features-10"
+id="toc-improvements-and-new-features-10">Improvements and new
 features</a></li>
 <li><a href="#bug-fixes-20" id="toc-bug-fixes-20">Bug fixes</a></li>
 </ul></li>
@@ -375,8 +388,8 @@ id="toc-n-20170806"><code>1.2n (2017/08/06)</code></a>
 <ul>
 <li><a href="#breaking-changes-13" id="toc-breaking-changes-13">Breaking
 changes</a></li>
-<li><a href="#improvements-and-new-features-10"
-id="toc-improvements-and-new-features-10">Improvements and new
+<li><a href="#improvements-and-new-features-11"
+id="toc-improvements-and-new-features-11">Improvements and new
 features</a></li>
 </ul></li>
 <li><a href="#m-20170731"
@@ -384,8 +397,8 @@ id="toc-m-20170731"><code>1.2m (2017/07/31)</code></a>
 <ul>
 <li><a href="#breaking-changes-14" id="toc-breaking-changes-14">Breaking
 changes</a></li>
-<li><a href="#improvements-and-new-features-11"
-id="toc-improvements-and-new-features-11">Improvements and new
+<li><a href="#improvements-and-new-features-12"
+id="toc-improvements-and-new-features-12">Improvements and new
 features</a></li>
 <li><a href="#bug-fixes-21" id="toc-bug-fixes-21">Bug fixes</a></li>
 </ul></li>
@@ -393,8 +406,8 @@ features</a></li>
 id="toc-l-20170726"><code>1.2l (2017/07/26)</code></a>
 <ul>
 <li><a href="#removed-2" id="toc-removed-2">Removed</a></li>
-<li><a href="#improvements-and-new-features-12"
-id="toc-improvements-and-new-features-12">Improvements and new
+<li><a href="#improvements-and-new-features-13"
+id="toc-improvements-and-new-features-13">Improvements and new
 features</a></li>
 <li><a href="#bug-fixes-22" id="toc-bug-fixes-22">Bug fixes</a></li>
 </ul></li>
@@ -403,16 +416,16 @@ id="toc-k-20170106"><code>1.2k (2017/01/06)</code></a>
 <ul>
 <li><a href="#breaking-changes-15" id="toc-breaking-changes-15">Breaking
 changes</a></li>
-<li><a href="#improvements-and-new-features-13"
-id="toc-improvements-and-new-features-13">Improvements and new
+<li><a href="#improvements-and-new-features-14"
+id="toc-improvements-and-new-features-14">Improvements and new
 features</a></li>
 <li><a href="#bug-fixes-23" id="toc-bug-fixes-23">Bug fixes</a></li>
 </ul></li>
 <li><a href="#j-20161222"
 id="toc-j-20161222"><code>1.2j (2016/12/22)</code></a>
 <ul>
-<li><a href="#improvements-and-new-features-14"
-id="toc-improvements-and-new-features-14">Improvements and new
+<li><a href="#improvements-and-new-features-15"
+id="toc-improvements-and-new-features-15">Improvements and new
 features</a></li>
 <li><a href="#bug-fixes-24" id="toc-bug-fixes-24">Bug fixes</a></li>
 </ul></li>
@@ -422,16 +435,16 @@ id="toc-i-20161213"><code>1.2i (2016/12/13)</code></a>
 <li><a href="#breaking-changes-16" id="toc-breaking-changes-16">Breaking
 changes</a></li>
 <li><a href="#removed-3" id="toc-removed-3">Removed</a></li>
-<li><a href="#improvements-and-new-features-15"
-id="toc-improvements-and-new-features-15">Improvements and new
+<li><a href="#improvements-and-new-features-16"
+id="toc-improvements-and-new-features-16">Improvements and new
 features</a></li>
 <li><a href="#bug-fixes-25" id="toc-bug-fixes-25">Bug fixes</a></li>
 </ul></li>
 <li><a href="#h-20161120"
 id="toc-h-20161120"><code>1.2h (2016/11/20)</code></a>
 <ul>
-<li><a href="#improvements-and-new-features-16"
-id="toc-improvements-and-new-features-16">Improvements and new
+<li><a href="#improvements-and-new-features-17"
+id="toc-improvements-and-new-features-17">Improvements and new
 features</a></li>
 <li><a href="#bug-fixes-26" id="toc-bug-fixes-26">Bug fixes</a></li>
 </ul></li>
@@ -440,8 +453,8 @@ id="toc-g-20160319"><code>1.2g (2016/03/19)</code></a>
 <ul>
 <li><a href="#breaking-changes-17" id="toc-breaking-changes-17">Breaking
 changes</a></li>
-<li><a href="#improvements-and-new-features-17"
-id="toc-improvements-and-new-features-17">Improvements and new
+<li><a href="#improvements-and-new-features-18"
+id="toc-improvements-and-new-features-18">Improvements and new
 features</a></li>
 </ul></li>
 <li><a href="#f-20160312"
@@ -449,32 +462,32 @@ id="toc-f-20160312"><code>1.2f (2016/03/12)</code></a>
 <ul>
 <li><a href="#breaking-changes-18" id="toc-breaking-changes-18">Breaking
 changes</a></li>
-<li><a href="#improvements-and-new-features-18"
-id="toc-improvements-and-new-features-18">Improvements and new
+<li><a href="#improvements-and-new-features-19"
+id="toc-improvements-and-new-features-19">Improvements and new
 features</a></li>
 <li><a href="#bug-fixes-27" id="toc-bug-fixes-27">Bug fixes</a></li>
 </ul></li>
 <li><a href="#e-20151122"
 id="toc-e-20151122"><code>1.2e (2015/11/22)</code></a>
 <ul>
-<li><a href="#improvements-and-new-features-19"
-id="toc-improvements-and-new-features-19">Improvements and new
+<li><a href="#improvements-and-new-features-20"
+id="toc-improvements-and-new-features-20">Improvements and new
 features</a></li>
 <li><a href="#bug-fixes-28" id="toc-bug-fixes-28">Bug fixes</a></li>
 </ul></li>
 <li><a href="#d-20151118"
 id="toc-d-20151118"><code>1.2d (2015/11/18)</code></a>
 <ul>
-<li><a href="#improvements-and-new-features-20"
-id="toc-improvements-and-new-features-20">Improvements and new
+<li><a href="#improvements-and-new-features-21"
+id="toc-improvements-and-new-features-21">Improvements and new
 features</a></li>
 <li><a href="#bug-fixes-29" id="toc-bug-fixes-29">Bug fixes</a></li>
 </ul></li>
 <li><a href="#c-20151116"
 id="toc-c-20151116"><code>1.2c (2015/11/16)</code></a>
 <ul>
-<li><a href="#improvements-and-new-features-21"
-id="toc-improvements-and-new-features-21">Improvements and new
+<li><a href="#improvements-and-new-features-22"
+id="toc-improvements-and-new-features-22">Improvements and new
 features</a></li>
 <li><a href="#bug-fixes-30" id="toc-bug-fixes-30">Bug fixes</a></li>
 </ul></li>
@@ -486,8 +499,8 @@ id="toc-b-20151029"><code>1.2b (2015/10/29)</code></a>
 <li><a href="#a-20151019"
 id="toc-a-20151019"><code>1.2a (2015/10/19)</code></a>
 <ul>
-<li><a href="#improvements-and-new-features-22"
-id="toc-improvements-and-new-features-22">Improvements and new
+<li><a href="#improvements-and-new-features-23"
+id="toc-improvements-and-new-features-23">Improvements and new
 features</a></li>
 <li><a href="#bug-fixes-32" id="toc-bug-fixes-32">Bug fixes</a></li>
 </ul></li>
@@ -495,8 +508,8 @@ features</a></li>
 id="toc-section-2"><code>1.2 (2015/10/10)</code></a>
 <ul>
 <li><a href="#removed-4" id="toc-removed-4">Removed</a></li>
-<li><a href="#improvements-and-new-features-23"
-id="toc-improvements-and-new-features-23">Improvements and new
+<li><a href="#improvements-and-new-features-24"
+id="toc-improvements-and-new-features-24">Improvements and new
 features</a></li>
 </ul></li>
 <li><a href="#c-20150912"
@@ -512,8 +525,8 @@ id="toc-section-3"><code>1.1 (2014/10/28)</code></a>
 changes</a></li>
 <li><a href="#removed-5" id="toc-removed-5">Removed</a></li>
 <li><a href="#deprecated-2" id="toc-deprecated-2">Deprecated</a></li>
-<li><a href="#improvements-and-new-features-24"
-id="toc-improvements-and-new-features-24">Improvements and new
+<li><a href="#improvements-and-new-features-25"
+id="toc-improvements-and-new-features-25">Improvements and new
 features</a></li>
 <li><a href="#bug-fixes-33" id="toc-bug-fixes-33">Bug fixes</a></li>
 </ul></li>
@@ -567,17 +580,89 @@ id="toc-section-9"><code>1.03 (2013/04/14)</code></a></li>
 id="toc-section-10"><code>1.0 (2013/03/28)</code></a></li>
 </ul>
 </nav>
-<pre><code>Source:  xint.dtx 1.4m 2022/06/10 (doc 2022/06/11)
-Author:  Jean-Francois B.
+<pre><code>Source:  xint.dtx 1.4n 2025/09/05 (doc 2025/09/05)
+Author:  Jean-François B.
 Info:    Expandable operations on big integers, decimals, fractions
 License: LPPL 1.3c</code></pre>
+<h2 id="n-20250905"><code>1.4n (2025/09/05)</code></h2>
+<h3 id="improvements-and-new-features">Improvements and new
+features</h3>
+<ul>
+<li><p><strong>xintexpr</strong>: Babel-active characters with
+<code>pdflatex</code> (such as for the example <code>!</code> with
+French) are automagically taken care of by <code>\xintfloateval</code>,
+<code>\xinteval</code> and <code>\xintiieval</code>: there is no need to
+use for example <code>\string!</code>, or to turn off locally the
+language-triggered activation of some characters.</p></li>
+<li><p><strong>xintexpr</strong>: the three parsers support, in addition
+to <code>"</code> for hexadecimal, the <code>'</code> prefix for octal
+numbers. Also implemented: the <code>0x</code>, <code>0o</code> and
+<code>0b</code> prefixes for hexadecimal, octal, and binary. In
+<code>\xinteval</code> and <code>\xintfloateval</code> such inputs may
+have a fractional part. Package <strong>xintbinhex</strong> is
+automatically imported.</p></li>
+<li><p><strong>xintexpr</strong>: <code>\xintiieval</code> admits an
+optional argument <code>[h]</code>, <code>[o]</code>, or
+<code>[b]</code> for conversion of the output (or outputs) to
+respectively hexadecimal, octal or binary.</p></li>
+<li><p><strong>xintbinhex</strong>: now handles octal in addition to the
+binary, decimal, and hexadecimal radices. The input sizes for
+conversions between the non-decimal bases are now limited only by TeX
+main memory. The maximal sizes for conversion to and from decimal are
+increased. This is explained (additionally to the effect of TeX memory
+parameters in TeXLive having increased since last release) by some
+internal refactoring using <code>\expanded</code>. This engine primitive
+was not yet available at the last previous update to the package
+(<code>1.2n</code> <code>2017/08/06</code>).</p></li>
+<li><p><strong>xintcfrac</strong>: now imports automatically
+<strong>xinttools</strong>, which is required for two of the
+<strong>xintcfrac</strong> macros.</p></li>
+<li><p><strong>xinttools</strong>: an extraneous comma at the end of the
+list argument for <code>\xintForpair</code>, <code>\xintForthree</code>,
+and <code>\xintForfour</code> is now silently ignored, rather than
+causing a crash. Regarding <code>\xintFor</code>, such a final comma
+keeps being interpreted as formerly: it triggers an extra iteration
+using an empty parameter in the substitution text.</p></li>
+<li><p>Compatibility with <code>OpTeX</code>.</p></li>
+<li><p>Compatibility (at least partial, not fully tested nor maintained)
+with <code>ConTeXt mkxl</code>. Older <code>ConTeXt</code>’s are not
+supported.</p></li>
+<li><p>As anyhow <strong>xintexpr</strong> will probably be the
+customary entry point, and as it imports most other packages of the
+bundle, it was decided to migrate to <strong>xintkernel</strong> all
+needed <code>\newcount</code>’s needed by the various packages, as well
+as some macro definitions, even though some are unneeded for users of
+only <strong>xinttools</strong>, <strong>xintbinhex</strong>, or
+<strong>xint</strong>.</p></li>
+</ul>
+<h3 id="packaging">Packaging</h3>
+<p>With this release, the documentation file <code>xint.pdf</code>
+includes again the commented source code, in addition to the user
+manual. It benefits from hyperlinking going back and forth between user
+documentation and source code, as did already in 2022
+<code>xint-all.pdf</code>, which however needed to be built from
+sources, and has now been renamed to <code>xint.pdf</code> and is the
+distributed documentation. There is no more a file
+<code>sourcexint.pdf</code> but it can be built from sources under the
+new name <code>xintsource.pdf</code>. Brief build instructions are at
+start of <code>xint.dtx</code>.</p>
+<p>The CTAN upload has <code>xintchanges.md</code> (accessible via
+<code>texdoc</code> if with a <code>TeXLive</code> install) as
+replacement for <code>CHANGES.html</code>. One can find the latter at
+the repository front page. The CTAN upload does not include anymore a
+commodity <code>Makefile</code>, as <code>Makefile.mk</code> extracted
+from <code>xint.dtx</code> is enough (use <code>-f</code> option of
+<code>make</code>).</p>
+<h3 id="repository">Repository</h3>
+<p>The package has a <a href="https://jfbu.github.io/xint/">web site</a>
+which serves as a (minimalistic) front page to its <a
+href="https://github.com/jfbu/xint">github repository</a>. The
+repository is not destined to hold intermediate development versions,
+but only to archive the new and old CTAN uploads since the package
+initial release in 2013. Use it to report <a
+href="https://github.com/jfbu/xint/issues">issues</a> (please ping
+<code>@jfbu</code> in your ticket else I may not notice).</p>
 <h2 id="m-20220610"><code>1.4m (2022/06/10)</code></h2>
-<p>The fix of a compatibility bug with <code>miniltx</code> and the
-already in place documentation improvements (in particular, hyperlinked
-macro names in code lines) motivated release <code>1.4m</code>. With
-some hesitation I decided to not revert the removals and breaking
-changes listed here and which had been already acted in preparation of
-an hypothetic future <code>1.5</code>.</p>
 <h3 id="removed">Removed</h3>
 <ul>
 <li><p><strong>xintexpr</strong>: <code>\xintdefefunc</code> et al.,
@@ -610,7 +695,12 @@ and macros which will end up calling it.</p></li>
 </ul>
 <h3 id="bug-fixes">Bug fixes</h3>
 <ul>
-<li><strong>xintexpr</strong>: with
+<li><p>Compatibility with <code>miniltx</code> under Plain TeX. Becoming
+aware of the incompatibilty motivated a release <code>1.4m</code>. With
+some hesitation I decided to not revert the removals and breaking
+changes listed above and which had been already acted in preparation of
+an hypothetic future <code>1.5</code>.</p></li>
+<li><p><strong>xintexpr</strong>: with
 <code>\input xintexpr.sty\relax</code> in <code>(pdf)eTeX</code> plus
 <code>miniltx</code> (naturally, if <code>miniltx</code> was already
 loaded), and with versions up to <code>1.4k</code> the
@@ -619,7 +709,7 @@ loaded), and with versions up to <code>1.4k</code> the
 had not yet been loaded, and emitted only a very discrete message to the
 log file. With <code>1.4l</code> it became worse as
 <code>\input xintexpr\relax</code> auto-repeated itself about six times
-until <code>TeX</code> called it quits.</li>
+until <code>TeX</code> called it quits.</p></li>
 </ul>
 <h3 id="improvements">Improvements</h3>
 <ul>
@@ -1205,7 +1295,7 @@ imports as <strong>xintgcd</strong> now loads also automatically
 <strong>xinttools</strong> which is a dependency for two of
 them.</p></li>
 </ul>
-<h3 id="improvements-and-new-features">Improvements and new
+<h3 id="improvements-and-new-features-1">Improvements and new
 features</h3>
 <p>Please note that this list is currently incomplete. For more
 information look at the user manual and the documented source code
@@ -1388,7 +1478,7 @@ only select non-tracking scripts, a rare beast in modern days).</p></li>
 to start with matrix algebra first.</p></li>
 </ul>
 <h2 id="f-20190910"><code>1.3f (2019/09/10)</code></h2>
-<h3 id="improvements-and-new-features-1">Improvements and new
+<h3 id="improvements-and-new-features-2">Improvements and new
 features</h3>
 <ul>
 <li><p><strong>xintfrac</strong>: <code>\xintDigits = P;</code> syntax
@@ -1419,7 +1509,7 @@ inside an expression parsed by <code>\xintdeffunc</code> et al.</p></li>
 can only use the <code>\xint(float)expr...\relax</code> syntax. One can
 not use there the <code>\xint(float)eval</code> wrappers.</li>
 </ul>
-<h3 id="improvements-and-new-features-2">Improvements and new
+<h3 id="improvements-and-new-features-3">Improvements and new
 features</h3>
 <ul>
 <li><p>The <strong>xinttrig</strong> library is automatically loaded by
@@ -1470,7 +1560,7 @@ no such modification.</p></li>
 <code>\xintiexpro</code>, <code>\xintiiexpro</code>, and
 <code>\xintfloatexpro</code>.</p></li>
 </ul>
-<h3 id="improvements-and-new-features-3">Improvements and new
+<h3 id="improvements-and-new-features-4">Improvements and new
 features</h3>
 <ul>
 <li><p><strong>xintexpr</strong>: the <code>gcd()</code> and
@@ -1506,7 +1596,7 @@ release but I then completely forgot to upload a bugfix release to CTAN
 at that time, apologies for that.</li>
 </ul>
 <h2 id="c-20180617"><code>1.3c (2018/06/17)</code></h2>
-<h3 id="improvements-and-new-features-4">Improvements and new
+<h3 id="improvements-and-new-features-5">Improvements and new
 features</h3>
 <ul>
 <li><p><strong>xintexpr</strong>: with <code>\xintglobaldefstrue</code>,
@@ -1536,7 +1626,7 @@ automatically). There is no actual dependency so the loading is removed
 for now.</li>
 </ul>
 <h2 id="b-20180518"><code>1.3b (2018/05/18)</code></h2>
-<h3 id="improvements-and-new-features-5">Improvements and new
+<h3 id="improvements-and-new-features-6">Improvements and new
 features</h3>
 <p>All additions related to randomness are marked as work-in-progress.
 They require an engine providing the <code>\(pdf)uniformdeviate</code>
@@ -1567,7 +1657,7 @@ used at <code>1.2o</code> to add a deprecation mechanism; all deprecated
 macros have been removed at <code>1.3</code> so there was no reason to
 keep the code used for deprecating them.</li>
 </ul>
-<h3 id="improvements-and-new-features-6">Improvements and new
+<h3 id="improvements-and-new-features-7">Improvements and new
 features</h3>
 <ul>
 <li><p><strong>xintexpr</strong>: new conditionals <code>ifone()</code>
@@ -1608,7 +1698,7 @@ separated parameter texts. They now do not use such commas (their
 meanings, which may again change in future, are written for information
 to the log under <code>\xintverbosetrue</code>).</p></li>
 </ul>
-<h3 id="improvements-and-new-features-7">Improvements and new
+<h3 id="improvements-and-new-features-8">Improvements and new
 features</h3>
 <ul>
 <li><p><strong>xintexpr</strong>: user-defined functions may now be of a
@@ -1623,7 +1713,7 @@ unstable.</p></li>
 associated with <code>\xintPIrr</code>.</p></li>
 </ul>
 <h2 id="q-20180206"><code>1.2q (2018/02/06)</code></h2>
-<h3 id="improvements-and-new-features-8">Improvements and new
+<h3 id="improvements-and-new-features-9">Improvements and new
 features</h3>
 <ul>
 <li><strong>xintexpr</strong>: tacit multiplication extended to cases
@@ -1660,7 +1750,7 @@ to floored division, like the Python language <code>//</code>,
 associated to truncated division. This is breaking change for operands
 of opposite signs.</p></li>
 </ul>
-<h3 id="improvements-and-new-features-9">Improvements and new
+<h3 id="improvements-and-new-features-10">Improvements and new
 features</h3>
 <ul>
 <li><p><strong>xinttools</strong>: <code>\xintListWithSep</code>, which
@@ -1761,7 +1851,7 @@ section.</p></li>
 <strong>xintcore</strong> anymore, but only
 <strong>xintkernel</strong>.</li>
 </ul>
-<h3 id="improvements-and-new-features-10">Improvements and new
+<h3 id="improvements-and-new-features-11">Improvements and new
 features</h3>
 <ul>
 <li><p><strong>xintbinhex</strong> has only <strong>xintkernel</strong>
@@ -1780,7 +1870,7 @@ the variant of <code>\xintHexToBin</code> which does not remove leading
 binary zeroes: <code>N</code> hex-digits give on output exactly
 <code>4N</code> binary digits.</p></li>
 </ul>
-<h3 id="improvements-and-new-features-11">Improvements and new
+<h3 id="improvements-and-new-features-12">Improvements and new
 features</h3>
 <ul>
 <li><strong>xintbinhex</strong>: all macros have been rewritten using
@@ -1817,7 +1907,7 @@ formally deprecated, but had been left un-documented since
 <li><p>internal macro <code>\xint_gob_til_xint_relax</code>
 removed.</p></li>
 </ul>
-<h3 id="improvements-and-new-features-12">Improvements and new
+<h3 id="improvements-and-new-features-13">Improvements and new
 features</h3>
 <ul>
 <li><p>the underscore character <code>_</code> is accepted by the
@@ -1890,7 +1980,7 @@ macro arguments expressed as fractions and to an improvement in
 precision regarding half-integer powers in expressions. See
 next.</p></li>
 </ul>
-<h3 id="improvements-and-new-features-13">Improvements and new
+<h3 id="improvements-and-new-features-14">Improvements and new
 features</h3>
 <ul>
 <li><p>the initial rounding to the target precision <code>P</code> which
@@ -1939,7 +2029,7 @@ macros.</p></li>
 of this macro than <code>11</code>.</p></li>
 </ul>
 <h2 id="j-20161222"><code>1.2j (2016/12/22)</code></h2>
-<h3 id="improvements-and-new-features-14">Improvements and new
+<h3 id="improvements-and-new-features-15">Improvements and new
 features</h3>
 <ul>
 <li><p><strong>xinttools</strong> and <strong>xintexpr</strong>:</p>
@@ -1978,7 +2068,7 @@ error.)</li>
 <code>\xintRem</code>, <code>\xintquo</code>,
 <code>\xintrem</code>.</li>
 </ul>
-<h3 id="improvements-and-new-features-15">Improvements and new
+<h3 id="improvements-and-new-features-16">Improvements and new
 features</h3>
 <ul>
 <li><p><strong>xintkernel</strong>: <code>\xintLength</code> is faster.
@@ -2034,7 +2124,7 @@ as after all, all of <strong>xint</strong> is about expansion of macros
 (bug introduced in <code>1.2f</code>).</li>
 </ul>
 <h2 id="h-20161120"><code>1.2h (2016/11/20)</code></h2>
-<h3 id="improvements-and-new-features-16">Improvements and new
+<h3 id="improvements-and-new-features-17">Improvements and new
 features</h3>
 <ul>
 <li><p>new macro <code>\xintNewFunction</code> in
@@ -2085,7 +2175,7 @@ Indeed it matched with <code>rrseq</code>, the new <code>iter</code>
 <code>rseq</code>. Allows to iterate more easily with a “list”
 variable.</p></li>
 </ul>
-<h3 id="improvements-and-new-features-17">Improvements and new
+<h3 id="improvements-and-new-features-18">Improvements and new
 features</h3>
 <ul>
 <li><p>in <strong>xintexpr.sty</strong>: list selectors
@@ -2117,7 +2207,7 @@ a float expression.</p></li>
 <li>no more <code>\xintFac</code> macro but
 <code>\xintiFac/\xintiiFac/\xintFloatFac</code>.</li>
 </ul>
-<h3 id="improvements-and-new-features-18">Improvements and new
+<h3 id="improvements-and-new-features-19">Improvements and new
 features</h3>
 <ul>
 <li><p>functions <code>binomial</code>, <code>pfactorial</code> and
@@ -2176,7 +2266,7 @@ invalidate other routines using subtractions, like
 constructs.</p></li>
 </ul>
 <h2 id="e-20151122"><code>1.2e (2015/11/22)</code></h2>
-<h3 id="improvements-and-new-features-19">Improvements and new
+<h3 id="improvements-and-new-features-20">Improvements and new
 features</h3>
 <ul>
 <li><p>macro <code>\xintunassignvar</code>.</p></li>
@@ -2204,7 +2294,7 @@ names (with tacit multiplication).</p></li>
 always done with enhanced precedence. Now yes.</p></li>
 </ul>
 <h2 id="d-20151118"><code>1.2d (2015/11/18)</code></h2>
-<h3 id="improvements-and-new-features-20">Improvements and new
+<h3 id="improvements-and-new-features-21">Improvements and new
 features</h3>
 <ul>
 <li><p>the function definitions done by <code>\xintdeffunc</code> et
@@ -2222,7 +2312,7 @@ xintexpr.sty, and also in the code source comments.</p></li>
 inadvertently broken the <code>\xintiiDivRound</code> macro.</li>
 </ul>
 <h2 id="c-20151116"><code>1.2c (2015/11/16)</code></h2>
-<h3 id="improvements-and-new-features-21">Improvements and new
+<h3 id="improvements-and-new-features-22">Improvements and new
 features</h3>
 <ul>
 <li><p>macros <code>\xintdeffunc</code>, <code>\xintdefiifunc</code>,
@@ -2246,7 +2336,7 @@ divisor started with 99999999 (it was attempted to use with 1+99999999 a
 subroutine expecting only 8-digits numbers).</li>
 </ul>
 <h2 id="a-20151019"><code>1.2a (2015/10/19)</code></h2>
-<h3 id="improvements-and-new-features-22">Improvements and new
+<h3 id="improvements-and-new-features-23">Improvements and new
 features</h3>
 <ul>
 <li><p>added <code>\xintKeepUnbraced</code>,
@@ -2279,7 +2369,7 @@ package <strong>xint</strong>, and only exist in the versions from
 <code>\xintiiAdd</code>, <code>\xintiiSub</code>, …, or
 <code>\xintiAdd</code>, <code>\xintiSub</code>, etc…</li>
 </ul>
-<h3 id="improvements-and-new-features-23">Improvements and new
+<h3 id="improvements-and-new-features-24">Improvements and new
 features</h3>
 <ul>
 <li><p>the basic arithmetic implemented in <strong>xintcore</strong> has
@@ -2427,7 +2517,7 @@ is deprecated; use <code>\xintiMax</code>, <code>\xintiMin</code>,
 might be assigned some other meaning in some later release (bitwise
 operations, perhaps). Do not use them.</p></li>
 </ul>
-<h3 id="improvements-and-new-features-24">Improvements and new
+<h3 id="improvements-and-new-features-25">Improvements and new
 features</h3>
 <ul>
 <li><p>new package <strong>xintcore</strong> has been split off
@@ -2541,7 +2631,8 @@ even number of items to the format expected by the <code>TikZ</code>
 <code>protect</code> function to handle external macros. The dollar sign
 <code>$</code> for place holders is not accepted anymore, only the
 standard macro parameter <code>#</code>. Not all constructs are
-compatible with <code>\xintNewExpr</code>.</p></li>
+compatible with <code>\xintNewExpr</code>. % $ this docstripped line for
+emacs buffer fontification issues in doctex-mode</p></li>
 </ul>
 <h3 id="bug-fixes-33">Bug fixes</h3>
 <ul>
@@ -3029,13 +3120,13 @@ Euclidean algorithm and of its typesetting.</p>
 <blockquote>
 <p>The packages may be used with Plain and with LaTeX.</p>
 </blockquote>
-<section class="footnotes footnotes-end-of-document"
+<section id="footnotes" class="footnotes footnotes-end-of-document"
 role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p>but values higher than 100 or 200
-will presumably give too slow evaluations.<a href="#fnref1"
-class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>but values higher than 100 or 200 will presumably give
+too slow evaluations.<a href="#fnref1" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 </body>
