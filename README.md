@@ -61,8 +61,7 @@ is at https://github.com/jfbu/xint/issues.
 Documentation
 =============
 
-Both the user manual and the commented source code are in `xint.pdf`,
-which one can also find at https://jfbu.github.io/xint.
+Both the user manual and the commented source code are in `xint.pdf`.
 
 A file `CHANGES.html` is provided at https://jfbu.github.io/xint.  Its
 source `xintchanges.md` is part of the CTAN upload, and you
