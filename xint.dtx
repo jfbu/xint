@@ -2,7 +2,7 @@
 % This file: xint.dtx. Proudly produced by xint-dtxbuild.sh.
 % Run etex on this file to extract all xint*sty files.
 %<*dtx>
-\def\xintdtxtimestamp {Time-stamp: <05-09-2025 at 19:49:35 CEST>}
+\def\xintdtxtimestamp {Time-stamp: <07-09-2025 at 00:47:30 CEST>}
 %</dtx>
 %
 % To build xint.pdf (with both user manual and commented source code),
@@ -27,22 +27,22 @@
 %
 %<*xintmandrv|xintsrcdrv|xintalldrv>
 %% ---------------------------------------------------------------
-\def\xintdocdate {2025/09/05}
-\def\xintbndldate{2025/09/05}
-\def\xintbndlversion {1.4n}
+\def\xintdocdate {2025/09/06}
+\def\xintbndldate{2025/09/06}
+\def\xintbndlversion {1.4o}
 %</xintmandrv|xintsrcdrv|xintalldrv>
 %<readme>% README
-%<readme>% xint 1.4n
-%<readme>% 2025/09/05
+%<readme>% xint 1.4o
+%<readme>% 2025/09/06
 %<readme>
-%<readme>    Source:  xint.dtx 1.4n 2025/09/05 (doc 2025/09/05)
+%<readme>    Source:  xint.dtx 1.4o 2025/09/06 (doc 2025/09/06)
 %<readme>    Author:  Jean-François B.
 %<readme>    Info:    Expandable operations on big integers, decimals, fractions
 %<readme>    License: LPPL 1.3c
 %<readme>
 %<*!readme&!makefile>
 %% ---------------------------------------------------------------
-%% The xint bundle 1.4n 2025/09/05
+%% The xint bundle 1.4o 2025/09/06
 %% Copyright (C) 2013-2022, 2025 Jean-Francois B.
 %<xintkernel>%% xintkernel: Paraphernalia for the xint packages
 %<xinttools>%% xinttools: Expandable and non-expandable utilities
@@ -116,8 +116,7 @@ is at https://github.com/jfbu/xint/issues.
 Documentation
 =============
 
-Both the user manual and the commented source code are in `xint.pdf`,
-which one can also find at https://jfbu.github.io/xint.
+Both the user manual and the commented source code are in `xint.pdf`.
 
 A file `CHANGES.html` is provided at https://jfbu.github.io/xint.  Its
 source `xintchanges.md` is part of the CTAN upload, and you
@@ -145,6 +144,7 @@ This Work consists of the file `xint.dtx` and `README.md` and their
 derived files such as `xint.pdf`.
 %</readme>--------------------------------------------------------
 %<*dates>-------------------------------------------------------
+`1.4o (2025/09/06)`
 `1.4n (2025/09/05)`
 `1.4m (2022/06/10)`
 `1.4l (2022/05/29)`
@@ -2651,8 +2651,8 @@ and to modify the precedence levels of those already defined.
 
 When producing very long numbers there is the question of printing them on
   the page, without going beyond the page limits. In this document, I have most
-  of the time made use of a ``|\printnumber|'' macros, not provided by
-  the package, and which is coded like this (with some extra decorations):
+  of the time made use of a ``|\printnumber|'' macro,  which is not provided by
+  the package.  A primitive form would be:
 \everb|@
 \def\allowsplits #1{\ifx #1\relax \else #1\hskip 0pt plus 1pt\relax
                     \expandafter\allowsplits\fi}%
@@ -2660,10 +2660,13 @@ When producing very long numbers there is the question of printing them on
 |
 
 This macro triggers ``\fexpan sion'' of its argument (and indeed
-\csbxint{eval} and friends expand completely under such trigger),
-then it goes through the computation result character by character
-inserting \TeX\ potential break points in-between them.  It is ineffective
-in math mode, one would need to add some |\allowbreak|'s.
+\csbxint{eval} and friends expand completely under such trigger), then
+it goes through the computation result character by character inserting
+\TeX\ potential break points in-between them.  It is ineffective in math
+mode, one would need to add some |\allowbreak|'s.  The |\printnumber|
+used for building this documentation uses slightly different and more
+sophisticated mechanisms and can be
+found in the source file |xint.dtx|.
 
 \subsection{Repository}
 
@@ -6528,6 +6531,8 @@ expansion.
 \subsection{Known bugs/features (last updated at \texttt{1.4n})}
 
 \begin{description}
+
+% probable wont-fix
 \item[{\cs{xinteval}\char`\{\cs{xintLength}\char`\{\cs{par}\cs{par}\cs{par}\char`\}\char`\}} complains about a Runaway argument:]\mbox{}
 
   |\xintLength{\par\par\par}| has no issue as
@@ -6574,9 +6579,11 @@ l.4434 \item[{|\xinteval{\xintLength{\par
     if(100>0,[100,125],[100,128]) 
 \end{everbatim}
   which will expand to the "tuple" |[100,125]|.
+
+
 \item[{\cs{xintdeffunc} |foo(x):= gcd((x>0)?{[x,125]}{[x,128]});|
     creates a broken function:}]
-%
+% 
   Bug. Normally \func{gcd} (and other
   multi-arguments functions) work both with open lists of arguments or
   bracketed lists ("nutples") and the above syntax would work perfectly fine
@@ -6595,22 +6602,23 @@ l.4434 \item[{|\xinteval{\xintLength{\par
    The same problem will arise with an \oper{??} nested inside \func{gcd} or
    similar functions, in an \csbxint{deffunc}.
 
- \item[{\cs{xinteval}|{0^-.5}| says "0 raised to power -1"}]
+\item[{\cs{xinteval}|{0^-.5}| says "0 raised to power -1"}]
 %
   Feature. Half integer exponents are handled via a square-root extraction, so
   here \xintexprname wanted to first raise \dtt{0} to power \dtt{-1}, as
   reported.
 
- \item[{Comparison operator |==| crashes with nutples}]
+\item[{Comparison operator |==| crashes with nutples}]
 %
    Not yet implemented...
 
- \item[{I liked the ``broadcasting'' |[1..10]^10| syntax, but it
+\item[{I liked the ``broadcasting'' |[1..10]^10| syntax, but it
      was removed at 1.4}]
 %
    Patience...\@{} |seq(x^10,x=1..10)| is alternative (add external |[..]| to get
    a nutple).
- \item[{|1e\numexpr5+2\relax| crashes}]
+
+\item[{|1e\numexpr5+2\relax| crashes}]
 %
    Not clear yet if bug or feature.
    The syntax accepted in the scientific part is limited, and failure
@@ -6621,12 +6629,12 @@ l.4434 \item[{|\xinteval{\xintLength{\par
    (although here this relies on output format of |\xinteval| using integer
    notation with no decoration in this case).
 
- \item[{|seq(1e-i,i=1..5)| crashes}]
+\item[{|seq(1e-i,i=1..5)| crashes}]
 %
    Not clear if bug or feature. Use |seq(1e\xinteval{-i},i=1..5)| or, as a
    possibly faster way |seq(1e\xintiieval{-i},i=\xintiiexpr1..5\relax)|.
 
- \item[{\keyword{omit}/\keyword{abort} if nested and not last in the sub-expression cause a crash}]
+\item[{\keyword{omit}/\keyword{abort} if nested and not last in the sub-expression cause a crash}]
 %
    For example |seq(subs((i)?{i}{abort},t=i)+10, i=-2, -1, 0, 1)| crashes, due
    to the presence of the |+10|.  This is a longstanding limitation, applying
@@ -6635,14 +6643,6 @@ l.4434 \item[{|\xinteval{\xintLength{\par
    only at |1.4h|.  The non-nested case |seq((i)?{i}{abort}+10, i=-2, -1, 0,
    1)| works and the \myenquote{must be last in expression if nested} limitation is
    currently considered a feature.
-
-\item[{|seq([i,i\string^2], i=1..10)| crashes with Ooops, looks like we are missing a
-    ]. Aborting!}]
-%
-   The cause is that the square brackets do not hide the comma from |seq()|
-   parsing.  This will probably remain ``wont-fix''.  Work-arounds: either use
-   an extra pair of parentheses |seq(([i,i^2]), ...)| or hide the inner
-   comma within braces |seq([i{,}i^2], ...)|.
 
 \item[{|\xintdeffunc X(a,k)= add(n^k, n=1..a);| creates a broken function:}]
 %
@@ -6653,11 +6653,19 @@ l.4434 \item[{|\xinteval{\xintLength{\par
 \xintNewFunction{myY}[2]{mul(1 - j/#1, j=1..#2-1)}\xintfloateval{myY(10,10)}
 \end{everbatim*}
 
+\item[{|seq([i,i\string^2], i=1..10)| crashes with Ooops, looks like we are missing a
+    ]. Aborting!}]
+%
+  Bug.  The cause is that the square brackets do not hide the comma from
+  |seq()| parsing.  Contrarily to what happens with parentheses, there
+  is no balancing mechanism for square brackets.  Work-arounds: either
+  use an extra pair of parentheses |seq(([i,i^2]), ...)| or hide the
+  inner comma within braces |seq([i{,}i^2], ...)|.
+
 \item[{|subs([x,x^2],x=3);| crashes with  Ooops, looks like we are missing a ].  Aborting!}]
 %
-Bug. Workaround: |subs({[x,x^2]},x=3|. Contrarily to
-  what happens with parentheses, there is no balancing mechanism for
-  square brackets.
+  Bug. Same cause as previous one.  Workaround: use parentheses
+  |subs(([x,x^2]),x=3| or curly braces |subs({[x,x^2]},x=3|.
 \begin{everbatim*}
 \xinteval{subs({[x^10,x^20,x^30]}, x=17)}
 \end{everbatim*}
@@ -15938,11 +15946,13 @@ perhaps a (unique) leading minus sign, which gets prepended to output
 
 Let's insist that inputs can not start (after expansion) with a |0b|,
 |0o|, |0x|, |#x|, |"|, |'|, or similar prefix notation: they must
-consist of digits as fitting to the binary, octal, decimal, or
-hexadecimal radix.  Low-level unrecoverable errors will occur if for
+consist only of digits as fitting to the binary, octal, decimal, or
+hexadecimal radix.  Situation is different if using \xintexprname-essions,
+see \autoref{ssec:exprbinhex} next.
+
+Low-level unrecoverable errors will occur if for
 example an octal input contains the decimal digit |8| (more instructive
-errors are raised if inside an \xintexprname-ession, cf.\@ the section
-below).
+errors are raised if inside an \xintexprname-ession).
 
 Hexadecimal digits in input must be uppercased. Category codes for
 them may be indifferently \emph{letter} or \emph{other}. In output they
@@ -15970,35 +15980,41 @@ show up or not in the output.  Note in particular:
 
 
 \subsection{\xintexprname-essions}
+\label{ssec:exprbinhex}
 
-Inside \csbxint{eval}, you can use |"| as prefix for hexadecimal input.
-Hexadecimal letters must be uppercased.  And you can use (since |1.4n|) |'|
-as prefix for octal input.  In both cases a ``fractional part'' after
-the full stop as separator is allowed.  The |p| postfix notation from
-some programming languages, which stands for an extra power of two, is
-not implemented so far.
+Inside \xintexprname-essions,\NewWith{1.4n} hexadecimal can be input
+using either |"| or |0x| prefixes, octal using either |'| or |0o|, and
+binary using |0b|.  Prior to |1.4n| only |"| was implemented and it was
+needed to load \xintbinhexname additionally to \xintexprname.  This is
+now done automatically.
 
-Starting with |1.4n|, \xintexprname automatically loads \xintbinhexname
-so the |"| notation (and now also the |'|) are always available.
+Hexadecimal letters must be uppercased.  In both of \csbxint{eval} and
+\csbxint{floateval} a ``fractional part'' after the full stop as
+separator is allowed for all three bases.  Here is an example using the
+three non-decimal bases:
 \begin{everbatim*}
-\xinteval{subsm({x, y, x==y}, x="FF.FF*'777.777; y=(16^2-16^-2)(8^3-8^-3);)}
+\xinteval{subsm({x, y, x==y}, x="FF.FF * '777.777 * 0b11111.11111;
+                              y=(16^2-16^-2)(8^3-8^-3)(2^5-2^-5);)}
 \end{everbatim*}
 
-There is no special syntax for conversion of binary to decimal, you can
-use directly \csbxint{BinToDec} inside the \csbxint{eval}.  For example,
-imagine you want to multiply out two binary numbers and get a binary result:
+The
+|p| postfix notation from some programming languages, which stands for
+an extra power of two, is however not implemented so far.
+
+With \csbxint{iieval}\NewWith{1.4n}, which handles only integers, there
+is an optional parameter |[h]|, |[o]|, or |[b]| for automatic conversion
+of the output (this works also with comma separated inputs and even
+nested bracketed inputs).  Here is an example illustrating the new
+more condensed syntax:
 \begin{everbatim*}
-\xintDecToBin{\xinteval{\xintBinToDec{1011100101001110}*\xintBinToDec{111100011}}}
+\xintiieval[b]{0b1011100101001110 * 0b111100011}
 \end{everbatim*}
 
-In that simple example using \csbxint{iiMul} within the external
-\csbxint{DecToBin} wrapper would be more efficient, but more complex
-sequences of basic operations are conveniently done within \csbxint{eval}
-or \csbxint{iieval}.
+Compare with how one would have had to input it prior to |1.4n|:
+\begin{everbatim*}
+\xintDecToBin{\xintiieval{\xintBinToDec{1011100101001110}*\xintBinToDec{111100011}}}
+\end{everbatim*}
 
-Note though that the argument to \csbxint{BinToDec} can not itself be
-using for example a user defined \csbxint{expr} variable, for that you
-need to have an \csbxint{eval} inside it.
 
 \subsection{\csh{xintHexToDec}}\label{xintHexToDec}
 
@@ -16179,10 +16195,6 @@ limited range, but are still able to handle inputs with ten thousand
 digits, one can thus consider in practice that their size limitations
 are also only of theoretical interest.
 
-MEMO ATTENTION LES VALEURS MAX DIMINUENT AU FUR ET À MESURE QUE J'AJOUTE
-DU CODE À \xintbinhexname OU MÊME \xintkernelname.  À REFAIRE AU DERNIER
-MOMENT...
-
 \medskip
 \begingroup
 \makeatletter\def\@captype{table}\capstart
@@ -16209,39 +16221,41 @@ MOMENT...
 \captionof{table}{Maximal sizes for \xintbinhexname 1.4n macros with TeXLive 2025}\label{tab:binhexsizes}
 \endgroup
 
-\medskip
+% \medskip
 
-These sizes are larger (and very significantly so for the |bin<->hex|
-conversions) than with the previous release.  For comparison
-\autoref{tab:binhexsizes14m} was computed using |1.4m 2022/06/10| and
-TeXLive 2025 with its default memory settings which are: input stack
-size at \dtt{10000}, expansion depth at \dtt{10000}, parameter stack
-size at \dtt{20000}.  The previous last update to that table in this
-documentation had been done using \xintbinhexname |1.2n| and TeXLive
-2021, the input stack size was only at \dtt{5000} and it was then the
-limiting factor in all cases and the maximal input sizes in 2021 were
-(in almost all cases) about half of the displayed values.
+% These sizes are larger (and very significantly so for the |bin<->hex|
+% conversions) than with the previous release.  For comparison
+% \autoref{tab:binhexsizes14m} was computed using |1.4m 2022/06/10| and
+% TeXLive 2025 with its default memory settings which are: input stack
+% size at \dtt{10000}, expansion depth at \dtt{10000}, parameter stack
+% size at \dtt{20000}.  The previous last update to that table in this
+% documentation had been done using \xintbinhexname |1.2n| and TeXLive
+% 2021, the input stack size was only at \dtt{5000} and it was then the
+% limiting factor in all cases and the maximal input sizes in 2021 were
+% (in almost all cases) about half of the displayed values.
 
+% %! (except for
+% %! \csbxint{HexToDec} maximal input size which was at \dtt{8298} digits).
 
-\medskip
-\begingroup
-\makeatletter\def\@captype{table}\capstart
-  \centering
-\begin{tabular}{rrrr}
-  \hline
-  &Max\ length\ of\ input&->\ length\ of\ output&Limiting factor\\
-  \csbxint{DecToHex}&12035&9995&input stack size=10000\\
-  \csbxint{DecToBin}&12035&39980&input stack size=10000\\
-  \csbxint{HexToDec}&11072&13333&expansion depth=10000\\
-  \csbxint{BinToDec}&39984&12037&expansion depth=10000\\
-  \csbxint{HexToBin}&9996&39984&expansion depth=10000\\
-%  \csbxint{CHexToBin}&9996&39984&expansion depth=10000\\
-  \csbxint{BinToHex}&39984&9996&expansion depth=10000\\
-  \hline
-\end{tabular}
-\captionof{table}{Maximal sizes for \xintbinhexname 1.4m 2022/06/10,
-                  but with TeXLive 2025 memory settings}\label{tab:binhexsizes14m}
-\endgroup
+% \medskip
+% \begingroup
+% \makeatletter\def\@captype{table}\capstart
+%   \centering
+% \begin{tabular}{rrrr}
+%   \hline
+%   &Max\ length\ of\ input&->\ length\ of\ output&Limiting factor\\
+%   \csbxint{DecToHex}&12035&9995&input stack size=10000\\
+%   \csbxint{DecToBin}&12035&39980&input stack size=10000\\
+%   \csbxint{HexToDec}&11072&13333&expansion depth=10000\\
+%   \csbxint{BinToDec}&39984&12037&expansion depth=10000\\
+%   \csbxint{HexToBin}&9996&39984&expansion depth=10000\\
+% %  \csbxint{CHexToBin}&9996&39984&expansion depth=10000\\
+%   \csbxint{BinToHex}&39984&9996&expansion depth=10000\\
+%   \hline
+% \end{tabular}
+% \captionof{table}{Maximal sizes for \xintbinhexname 1.4m 2022/06/10,
+%                   but with TeXLive 2025 memory settings}\label{tab:binhexsizes14m}
+% \endgroup
 
 
 \clearpage
@@ -18272,14 +18286,15 @@ It exists in HTML format at the package web page:
 %\normalsize
 
 \begin{itemize}
-\item Release |1.4n| of |2025/09/01| is mainly a maintenance release, after
+\item Release |1.4n| of |2025/09/05| is mainly a maintenance release, after
   a few years in a dormant state. The long expected overhaul of floating point
   is again postponed.
   \begin{itemize}[nosep]
   \item \xintbinhexname handles the octal base, and can manage (much) larger inputs,
   \item |0x|, |0o|, and |0b| prefixes, and |'| added to the \csbxint{eval} syntax,
   \item |[h]|, |[o]|, |[b]| optional parameter of \csbxint{iieval},
-  \item Babel active characters are auto-tamed in \csbxint{eval},
+  \item Babel active characters are auto-tamed in \csbxint{eval} (hotfix at |1.4o|
+        |2025/09/06| as the feature was only true with \csbxint{iieval}),
   \item Compatibility with Op\TeX{},
   \item Compatibility with Con\TeX t (only |mkxl|).
   \end{itemize}
@@ -19131,7 +19146,7 @@ It exists in HTML format at the package web page:
 \fi
 \XINT_providespackage
 \ProvidesPackage {xintkernel}%
-  [2025/09/05 v1.4n Paraphernalia for the xint packages (JFB)]%
+  [2025/09/06 v1.4o Paraphernalia for the xint packages (JFB)]%
 %    \end{macrocode}
 % \subsection{Constants}
 %    \begin{macrocode}
@@ -19633,7 +19648,7 @@ the ? prompt to try fixing the error encountered before expansion\endcsname
   \ifdefined\notexpanded
   \else
     \xintMessage{xintkernel}{Error}{This ConTeXt appears to be too old.} 
-    \errhelp{xint only supports the ConTeXt-LMTX as of 2025/10/01.}%
+    \errhelp{xint only supports the ConTeXt-LMTX as of 2025/09/05.}%
     \errmessage{The \noexpand\notexpanded primitive does not exist.}%
   \fi
 \fi
@@ -19675,6 +19690,40 @@ end
 %    \end{macrocode}
 % \subsection{\csh{xintresettimer}, \csh{xintelapsedtime}, \csh{xinttheseconds}}
 % \added{1.4n}
+% If |\resettimer| is defined, the code assumes
+% |\elapsedtime| is, too.
+%
+% I completely forgot at release time to document these engine-agnostic
+% utilities in the manual.  They were originally in the |xint.dtx| preamble,
+% to allow building the documentation also with the Unicode engines.  They are
+% used only once there, for the example with |\xintUniformDeviate|.  Also in
+% the preamble is the needed aliasing of |\pdfsetrandomseed| into
+% |\setrandomseed| for the Unicode engines, but I completely forgot to
+% transfer this too here and provide |\xintsetrandomseed|, which actually was
+% more important because the package provides already utilities related with
+% randomness.
+%
+% Perhaps I should for Lua\TeX{} copy the l3kernel code (here the code was
+% picked from some |tex.sx| answer and was in my files for years) but I am not
+% Lua-proficient enough to do this confidently... probably their |// 1| and
+% |math.tointeger()| is more efficient than the |math.floor()| and there must
+% be a reason why they use |gettimeofday()|, while |os.clock()| is only used
+% to set the ``epoch''.
+%
+% I have been using for years the underlying syntax trick here for
+% |\xinttheseconds|, and I usually never bother actually removing the catcode
+% 12 |pt|, but well let's do it here.
+%
+% I hesitate whether with Lua\TeX{} I should avoid the scaled seconds
+% intermediate in favor of the raw |os.clock()-basetime| data but I would have
+% to waste time seeing what happens with |tex.write()| then.  And it would not
+% help really in comparing with PDF\TeX{} or Xe\TeX{}.
+%
+% \changed{1.4o}
+%
+% |xinttimer| replaces in the Lua code |xintelapsedtimer|, which was silly
+% name used when I adopted in a haste at |1.4n| while improving the user
+% manual on \csbxint{UniformDeviate}.
 %    \begin{macrocode}
 \ifdefined\resettimer
   \let\xintresettimer\resettimer   \let\xintelapsedtime\elapsedtime
@@ -19683,10 +19732,10 @@ end
   \let\xintresettimer\pdfresettimer\let\xintelapsedtime\pdfelapsedtime
 \else
 \ifdefined\directlua
-  \directlua{xintelapsedtimer_basetime=0}%
-  \def\xintresettimer{\directlua{xintelapsedtimer_basetime = os.clock()}}%
+  \directlua{xinttimer_basetime=0}%
+  \def\xintresettimer{\directlua{xinttimer_basetime = os.clock()}}%
   \def\xintelapsedtime{\numexpr
-      \directlua{tex.print(math.floor((os.clock()-xintelapsedtimer_basetime)*65536+0.5))}%
+      \directlua{tex.print(math.floor((os.clock()-xinttimer_basetime)*65536+0.5))}%
   \relax}%
 \fi\fi\fi
 \def\xintstrippt{\expandafter\XINT_strippt\the}%
@@ -20173,45 +20222,47 @@ end
 %    \end{macrocode}
 % \subsubsection{\csh{xint_texuniformdeviate_dgts}}
 %
-% \added{1.4n} Need for compatibility with Con\TeX t.
+% \added{1.4n} Needed for compatibility with Con\TeX t.
 %
 % One finds a macro \cs{randomnumber}
 % (|/usr/local/texlive/2025/texmf-dist/tex/context/base/mkxl/supp-ran.mkxl|),
-% which takes two arguments.  Fortunately it seems that
-% throughout the \xintnameimp code base, we use \csbxint{_texuniformdeviate}
-% always with a chardef or count argument with one sole exception where it is
-% followed with digits \cs{xint:}.  In order not to change anything to current
-% code and to support Con\TeX t-LMTX we make here a
-% suitable definition compatible with these use cases.
+% which takes two arguments.  Fortunately it seems that throughout the
+% \xintnameimp code base, we use \csbxint{_texuniformdeviate} always with a
+% chardef or count argument with one sole exception where it is followed with
+% digits terminated by \cs{xint:}.  In order not to change anything to current
+% code and to support Con\TeX t-LMTX we make here a suitable definition
+% compatible with these use cases.
 %
 % \noindent Warning: I have no idea and will not check now if the RNG has the
 % same issues for the less significant decimal digits as in PDFTeX, thus I
 % don't know if the overhead in the definition below of \csbxint{UniformeDeviate}
 % has any rationale in the LMTX context.
 %
-% Memo: In the code below, I have not checked yet and do not remember (at time
+% MEMO: In the code below, I have not checked yet and do not remember (at time
 % of preparing |1.4n|) if it is possible that the |#1| fetched by
 % \csbxint{_texuniformdeviate_dgts} has some chance to be zero (as I don't
 % remember the details of the construction).  Attention that
 % |\randomnumber{0}{-1}| may output |-1|.
+%
+% \changed{1.4o} Remove the test whether some uniformdeviate already
+% exists with Con\TeX t and use unconditionally |\randomnumber| without
+% checking if it exists.
 %    \begin{macrocode}
 \ifdefined\contextversion
- \ifdefined\xint_texuniformdeviate
-   \xintMessage{xintkernel}{Warning}%
-     {It seems this ConTeXT has a \string\\(pdf)uniformdeviate primitive,^^J%
-      \XINT_fourspaces so I will use it, hoping it behaves as in PDFTeX.}%
-   \let\xint_texuniformdeviate_dgts\xint_texuniformdeviate
- \else
-   \def\xint_texuniformdeviate#1{\randomnumber{0}{#1-1}}%
-   \def\xint_texuniformdeviate_dgts#1\xint:{\randomnumber{0}{#1-1}\xint:}%
- \fi
+  \def\xint_texuniformdeviate#1{\randomnumber{0}{#1-1}}%
+  \def\xint_texuniformdeviate_dgts#1\xint:{\randomnumber{0}{#1-1}\xint:}%
 \else
   \let\xint_texuniformdeviate_dgts\xint_texuniformdeviate
 \fi
 %    \end{macrocode}
 % \subsubsection{\csh{xintUniformDeviate}}
-% \noindent TODO: document here what happens for negative |#1|.
+% For negative |#1| the output (as per the doc I wrote in the user manual
+% some years ago and that I trust) ranges from |#1+1| to zero inclusive.
+% This is same behaviour as original primitive and the input must be
+% within the \TeX{} bounds.  Note that |\the\numexpr-0\relax| gives |0|.
 %
+% We make 5 calls to the primitive and the user doc says that when I tested
+% the cost was about 13 times the one of the primitive.
 %    \begin{macrocode}
 \ifdefined\xint_texuniformdeviate
      \expandafter\xint_firstoftwo
@@ -20330,7 +20381,7 @@ end
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xinttools}%
-  [2025/09/05 v1.4n Expandable and non-expandable utilities (JFB)]%
+  [2025/09/06 v1.4o Expandable and non-expandable utilities (JFB)]%
 %    \end{macrocode}
 %\begin{lverb}
 % \XINT_toks is used in macros such as \xintFor. It is not used
@@ -22796,7 +22847,7 @@ end
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcore}%
-  [2025/09/05 v1.4n Expandable arithmetic on big integers (JFB)]%
+  [2025/09/06 v1.4o Expandable arithmetic on big integers (JFB)]%
 %    \end{macrocode}
 % \subsection{(WIP!) Error conditions and exceptions}
 %\begin{lverb}
@@ -26377,7 +26428,7 @@ end
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xint}%
-  [2025/09/05 v1.4n Expandable operations on big integers (JFB)]%
+  [2025/09/06 v1.4o Expandable operations on big integers (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintLen}, \csh{xintiLen}}
 %\begin{lverb}
@@ -28755,7 +28806,7 @@ end
 % rather than \cs{numexpr}. This increased the maximal input sizes for
 % \csbxint{DecToHex}, \csbxint{DecToBin}, and \csbxint{BinToHex}.
 %
-% |1.4n| (|2025/10/01|) adds:
+% |1.4n| (|2025/09/05|) adds:
 % \begin{itemize}[nosep]
 % \item Conversion to and from octal base.
 % \item Usage of \cs{expanded} in place of the \cs{csname}-based expansion
@@ -28779,9 +28830,9 @@ end
 % engage into systematic changes across about \dtt{20000} code lines in the
 % \xintnameimp bundle!
 %
-% \xintexprnameimp loads \xintbinhexnameimp automatically and thus supports
-% the |"| and |'| prefixes for hexadecimal and respectively octal numbers
-% (possibly with a fractional part).
+% \xintexprnameimp loads \xintbinhexnameimp automatically as of |1.4n|.
+% Formerly it supported only |"| prefix for hexadecimal, now it supports also
+% |'| for octal, as well as |0x|, |0o| and |0b|.
 %
 % \subsection{Catcodes, \protect\eTeX{} and reload detection}
 %
@@ -28837,7 +28888,7 @@ end
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintbinhex}%
-  [2025/09/05 v1.4n Expandable radix conversions (2, 8, 10, and 16) (JFB)]%
+  [2025/09/06 v1.4o Expandable radix conversions (2, 8, 10, and 16) (JFB)]%
 %    \end{macrocode}
 % \subsection{Storage macros}
 % \changed{1.2n} Switch to \cs{csname}-governed expansion at various places.
@@ -28974,10 +29025,6 @@ end
 % doing the whole thing expandably requires some skill.  This was done when I
 % was not yet an old man, and obviously was still very clever.  Enjoy.
 %
-% It seems an old code comment here was somewhat imprecise about the leading
-% zeros.  The input is allowed to have leading zeros, and it seems from what I
-% understand now of the code that the output never will have any, even if the
-% input had some, and not only if the input had none.
 %
 % \changed{1.2m} Rewritten from scratch using the \xintcorenameimp
 % |1.2| style.  Now guards against non terminated inputs.
@@ -29083,8 +29130,8 @@ end
 }%
 %    \end{macrocode}
 % |1.4n| replaces here \cs{csname}'s method by simpler \cs{expanded} control.
-% This is the part of the algorithm which rewrites base $16^4$ digits into
-% four hexadecimal digits.
+% This is the part of the algorithm which rewrites base $16^4$ (kept in decimal)
+% digits into four hexadecimal digits.
 %    \begin{macrocode}
 \def\XINT_dth_tohex
 {%
@@ -29147,7 +29194,7 @@ end
 %
 % It does not share macros with \csbxint{DecToHeX} to same extent as
 % \csbxint{DecToBin} does (those macros with |_dthb_| in their names), because
-% the input converted to radix |8^5|, not radix |16^4|.
+% the input gets converted to radix |8^5|, not radix |16^4|.
 %
 % Note that we have $10000<8^5<100000$ and refer to \csbxint{DecToHex} for
 % some information on the algorithm.
@@ -29974,7 +30021,7 @@ end
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintgcd}%
-  [2025/09/05 v1.4n Euclide algorithm with xint package (JFB)]%
+  [2025/09/06 v1.4o Euclide algorithm with xint package (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintBezout}}
 %\begin{lverb}
@@ -30608,7 +30655,7 @@ end
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintfrac}%
-  [2025/09/05 v1.4n Expandable operations on fractions (JFB)]%
+  [2025/09/06 v1.4o Expandable operations on fractions (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{XINT_cntSgnFork}}
 %\begin{lverb}
@@ -36323,7 +36370,7 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintseries}%
-  [2025/09/05 v1.4n Expandable partial sums with xint package (JFB)]%
+  [2025/09/06 v1.4o Expandable partial sums with xint package (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintSeries}}
 %    \begin{macrocode}
@@ -36851,7 +36898,7 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcfrac}%
-  [2025/09/05 v1.4n Expandable continued fractions with xint package (JFB)]%
+  [2025/09/06 v1.4o Expandable continued fractions with xint package (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintCFrac}}
 %    \begin{macrocode}
@@ -38042,10 +38089,9 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 % exercised on some empty argument.
 %
 % The above expansion result \XINTfstop \XINTexprprint .{{<num1>}{<num2}...}
-% uses only normal catcodes:
-% the backslash, regular braces, and catcode 12 characters. Scientific
-% notation is internally converted to raw $xintfracnameimp representation
-% [N].
+% uses only normal catcodes: the backslash, regular braces, ascii letters and
+% catcode 12 characters. Scientific notation is internally converted to raw
+% $xintfracnameimp representation [N].
 %
 % Additional data may be located before the dot; this is the case only for
 % \xintfloatexpr currently. As
@@ -38277,7 +38323,7 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintexpr}%
-  [2025/09/05 v1.4n Expandable expression parser (JFB)]%
+  [2025/09/06 v1.4o Expandable expression parser (JFB)]%
 \catcode`! 11
 %    \end{macrocode}
 % \subsection{\csh{XINTfstop}}
@@ -38597,13 +38643,31 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 % a num() or \xintiexpr ...\relax (extra) wrapper.
 %
 %\end{lverb}
+%
+% \changed{1.4o}
+%
+% While preparing |1.4n| I had made changes to tame Babel active characters
+% via a |\csname| trick.  But at last minute I thought I had a way requiring
+% not so many ``top level'' changes, but this was a grave logic error on my
+% part, due to having a bit forgotten the way things are done here, and due
+% also to external circumstances I released too hastily a |1.4n| which turned
+% out to be faulty (except for \csbxint{iieval}). Any test other than simply
+% evaluating |3!| with |!| Babel active would have revealed it but I was
+% planning to add test units after (!) release (by the way one has to be
+% careful to do such tests after a |\noindent| because the French active |!|
+% in vertical mode does things not breaking the parser.  Anyway, here I do it
+% right.
+%
+% So this is why for example |\xintexpro| has a |\csname| construct.
 %    \begin{macrocode}
 \def\xintexpr       {\romannumeral0\xintexpro      }%
 \def\xintiexpr      {\romannumeral0\xintiexpro     }%
 \def\xintfloatexpr  {\romannumeral0\xintfloatexpro }%
 \def\xintiiexpr     {\romannumeral0\xintiiexpro    }%
-\def\xintexpro   {\expandafter\XINT_expr_wrap\romannumeral0\xintbareeval }%
-\def\xintiiexpro {\expandafter\XINT_iiexpr_wrap\romannumeral0\xintbareiieval }%
+\def\xintexpro   {\csname XINT_expr_wrap\expandafter\endcsname
+                  \romannumeral0\xintbareeval }%
+\def\xintiiexpro {\csname XINT_iiexpr_wrap\expandafter\endcsname
+                  \romannumeral0\xintbareiieval }%
 \def\xintiexpro #1%
 {%
     \ifx [#1\expandafter\XINT_iexpr_withopt\else\expandafter\XINT_iexpr_noopt
@@ -38611,7 +38675,7 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 }%
 \def\XINT_iexpr_noopt
 {%
-    \expandafter\XINT_iexpr_iiround\romannumeral0\xintbareeval
+    \csname XINT_iexpr_iiround\expandafter\endcsname\romannumeral0\xintbareeval
 }%
 \def\XINT_iexpr_iiround
 {%
@@ -38622,7 +38686,7 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 \def\XINTiRoundzero_braced#1{{\xintiRound{0}{#1}}}%
 \def\XINT_iexpr_withopt [#1]%
 {%
-    \expandafter\XINT_iexpr_round
+    \csname XINT_iexpr_round\expandafter\endcsname
     \the\numexpr \xint_zapspaces #1 \xint_gobble_i\expandafter.%
     \romannumeral0\xintbareeval
 }%
@@ -38646,12 +38710,13 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 }%
 \def\XINT_flexpr_noopt
 {%
-    \expandafter\XINT_flexpr_wrap\the\numexpr\XINTdigits\expandafter.%
+    \csname XINT_flexpr_wrap\expandafter\endcsname
+    \the\numexpr\XINTdigits\expandafter.%
     \romannumeral0\xintbarefloateval
 }%
 \def\XINT_flexpr_withopt [#1]%
 {%
-    \expandafter\XINT_flexpr_withopt_a
+    \csname XINT_flexpr_withopt_a\expandafter\endcsname
     \the\numexpr\xint_zapspaces #1 \xint_gobble_i\expandafter.%
     \romannumeral0\xintbarefloateval
 }%
@@ -38756,6 +38821,14 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 % The \expanded upfront ensures \xintthe mechanism does expand
 % completely in two steps.
 %\end{lverb}
+%
+% The fact that |\xintthe| grabs a |#1| is legacy and I am not sure why. I
+% vaguely remember thinking the overhead was minimal because |#1| will
+% simply be one token such as \csbxint{expr} and that it could potentially
+% be useful.  Of course |\xintthealign| imitates |\xintthe| in that matter.
+%
+% \changed{1.4o}
+% Again here some |\csname|'s to handle babel-active characters.
 %    \begin{macrocode}
 \def\xintthe      #1{\expanded\expandafter\xint_gobble_i\romannumeral`&&@#1}%
 \def\xintthealign #1{\expandafter\xintexpralignbegin
@@ -38764,32 +38837,33 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
                                    \expandafter\expandafter\expandafter\xint_gob_andstop_ii
                      \expandafter\xint_gobble_i\romannumeral`&&@#1}%
 \def\xinttheexpr
-   {\expanded\expandafter\XINTexprprint\expandafter.\romannumeral0\xintbareeval}%
+   {\expanded\csname XINTexprprint\expandafter\endcsname
+    \expandafter.\romannumeral0\xintbareeval}%
+\def\xinttheiiexpr
+   {\expanded\csname XINTiiexprprint\expandafter\endcsname
+    \expandafter.\romannumeral0\xintbareiieval}%
+%    \end{macrocode}
+% No need at |1.4o| of |\csname|'s for Babel here, as \csbxint{iexpr} and
+% \csbxint{floatexpr} are already taken care off.
+%    \begin{macrocode}
 \def\xinttheiexpr
    {\expanded\expandafter\xint_gobble_i\romannumeral`&&@\xintiexpr}%
 \def\xintthefloatexpr
    {\expanded\expandafter\xint_gobble_i\romannumeral`&&@\xintfloatexpr}%
-\def\xinttheiiexpr
-   {\expanded\expandafter\XINTiiexprprint\expandafter.\romannumeral0\xintbareiieval}%
 %    \end{macrocode}
 % \subsubsection{\csh{xintbareeval}, \csh{xintbarefloateval}, \csh{xintbareiieval}}
 %
-% At |1.4| added one expansion step via \csbXINT{_expr_start},
+% \changed{1.4}
+% one expansion step added via \csbXINT{_expr_start},
 % \csbXINT{_iiexpr_start}, \csbXINT{_flexpr_start}.  Trigger is expected to be
 % via |\romannumeral`^^@| or |\romannumeral0|.
 %
-% For the benefit of those who like the author at |1.4n| looked in vain for
-% where the |_start| macros were defined, this documentation was updated
-% so that one can find the location via clicking on their names in the
-% previous paragraph. Spoiler they are in the section whose title starts with
-% ``Expansion spanning;''.  This was hidden because the three are defined in
-% an \csbxint{For} in one-go.
-%
-% At |1.4n| these macros were slightly modified so that the expression
-% is parsed while a |\csname| is not yet closed.  This makes Babel tame
-% the active characters! (the method was backported from the development
-% version of \ctanpackage{bnumexpr} |1.6|.
-%
+% For the benefit of those who like the author while finishing |1.4n| looked
+% in vain for where the ``|_start|'' macros were defined, this documentation
+% was updated so that one can find the location via clicking on their names in
+% the previous paragraph. Spoiler: they are in
+% \autoref{ssec:expansionspanning}.  This was hidden because the three are
+% defined in an \csbxint{For} in one-go.
 %    \begin{macrocode}
 \def\xintbareeval     {\XINT_expr_start  }%
 \def\xintbarefloateval{\XINT_flexpr_start}%
@@ -38800,17 +38874,28 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 %\begin{lverb}
 % For matters of \XINT_NewFunc
 %\end{lverb}
+%
+% \changed{1.4o}
+% The matter of Babel active here too, although they are used for \csbxint{deffunc}
+% and \csbxint{NewExpr} which sanitize catcodes.  But I already edited the
+% user documentation to explain the case of contexts where changing catcodes
+% is impossible, and would be too time-costly to re-edit that.  So let's add
+% some overhead.
 %    \begin{macrocode}
 \def\XINT_expr_unlock     {\expandafter\xint_firstofone\romannumeral`&&@}%
 \def\xintthebareeval
-    {\romannumeral0\expandafter\xint_stop_atfirstofone\romannumeral0\xintbareeval}%
+    {\romannumeral0\csname xint_stop_atfirstofone\expandafter\endcsname
+     \romannumeral0\xintbareeval}%
 \def\xintthebareiieval
-    {\romannumeral0\expandafter\xint_stop_atfirstofone\romannumeral0\xintbareiieval}%
+    {\romannumeral0\csname xint_stop_atfirstofone\expandafter\endcsname
+     \romannumeral0\xintbareiieval}%
 \def\xintthebarefloateval
-    {\romannumeral0\expandafter\xint_stop_atfirstofone\romannumeral0\xintbarefloateval}%
+    {\romannumeral0\csname xint_stop_atfirstofone\expandafter\endcsname
+     \romannumeral0\xintbarefloateval}%
 \def\xintthebareroundedfloateval
 {%
-    \romannumeral0\expandafter\xintthebareroundedfloateval_a\romannumeral0\xintbarefloateval
+    \romannumeral0\csname xintthebareroundedfloateval_a\expandafter\endcsname
+    \romannumeral0\xintbarefloateval
 }%
 \def\xintthebareroundedfloateval_a
 {%
@@ -38837,11 +38922,13 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 % be located outside the braces... took me years to finally make the step towards LaTeX
 % users expectations for the interface.
 %
+% \changed{1.4o}
+% Some |\csname|'s for the Babel-active feature which was botched at |1.4n|.
 %    \begin{macrocode}
 \def\xinteval #1%
-   {\expanded\expandafter\XINTexprprint\expandafter.\romannumeral0\xintbareeval#1\relax}%
-\def\xintieval
-   {\expanded\expandafter\xint_ieval_chkopt\string}%
+   {\expanded\csname XINTexprprint\expandafter\endcsname
+    \expandafter.\romannumeral0\xintbareeval#1\relax}%
+\def\xintieval{\expanded\expandafter\xint_ieval_chkopt\string}%
 \def\xint_ieval_chkopt #1%
 {%
     \ifx [#1\expandafter\xint_ieval_opt
@@ -38868,6 +38955,7 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 %    \end{macrocode}
 % \changed{1.4n}
 % \csbxint{iieval} admits optional arguments |[h]|, |[o]| and |[b]|.
+% The way this is implemented tames Babel active characters.
 %    \begin{macrocode}
 \def\xintiieval #1#{\expanded\xintiieval_a{#1}}%
 \def\xintiieval_a#1#2%
@@ -38893,6 +38981,8 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 %
 % Attention, the conversion to 1 or 0 is done only by the print macro.
 % Perhaps I should force it also inside raw result.
+%
+% \changed{1.4o} Some |\csname| for |\xinttheboolexpr| for Babel.
 %\end{lverb}
 %    \begin{macrocode}
 \def\xintboolexpr
@@ -38902,7 +38992,8 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 \def\XINT_boolexpr_done #1.{\XINTfstop\XINTboolexprprint.}%
 \def\xinttheboolexpr
 {%
-    \expanded\expandafter\XINTboolexprprint\expandafter.\romannumeral0\xintbareeval
+    \expanded\csname XINTboolexprprint\expandafter\endcsname
+    \expandafter.\romannumeral0\xintbareeval
 }%
 %    \end{macrocode}
 % \subsubsection{\csh{xintifboolexpr}, \csh{xintifboolfloatexpr}, \csh{xintifbooliiexpr}}
@@ -40656,6 +40747,7 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 \def\XINT_expr_foundop #1{\csname XINT_expr_precedence_#1\endcsname #1}%
 %    \end{macrocode}
 % \subsection{Expansion spanning; opening and closing parentheses}
+% \label{ssec:expansionspanning}
 % This is also where |\XINT_expr_start|, |\XINT_iiexpr_start| and
 % |\XINT_flexpr_start| are defined.
 %
@@ -40688,10 +40780,6 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 % Exceptionally, the check- is here abbreviated to check.
 %
 %\end{lverb}
-%
-% The definition of the |_start| macros in terms of the |_check| ones
-% is slightly refactored at |1.4n| to use \cs{csname} in order to
-% tame Babel-active characters.  Up to a slight efficiency loss.
 % \odef\MakePrivateLetters{\MakePrivateLetters\catcode`) 11 }^^A
 %    \begin{macrocode}
 \catcode`) 11
@@ -40699,8 +40787,7 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 {%
     \def#1% \XINT_expr_start, \XINT_iiexpr_start, \XINT_flexpr_start
     {%
-        \csname XINT_#6_check\expandafter\endcsname
-        \romannumeral`&&@\XINT_expr_getnext
+        \expandafter#2\romannumeral`&&@\XINT_expr_getnext
     }%
     \def#2##1% check
     {%
@@ -46167,10 +46254,10 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
   \expandafter\xint_secondoftwo
 \fi
 {\immediate\write128{Reloading xinttrig library using Digits=\xinttheDigits.}}%
-{\expandafter\gdef\csname xintlibver@trig\endcsname{2025/09/05 v1.4n}%
+{\expandafter\gdef\csname xintlibver@trig\endcsname{2025/09/06 v1.4o}%
   \XINT_providespackage
   \ProvidesPackage{xinttrig}%
-  [2025/09/05 v1.4n Trigonometrical functions for xintexpr (JFB)]%
+  [2025/09/06 v1.4o Trigonometrical functions for xintexpr (JFB)]%
 }%
 %    \end{macrocode}
 % \subsection{Ensure used letters are dummy letters}
@@ -47561,10 +47648,10 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
   \expandafter\xint_secondoftwo
 \fi
 {\immediate\write128{Reloading xintlog library using Digits=\xinttheDigits.}}%
-{\expandafter\gdef\csname xintlibver@log\endcsname{2025/09/05 v1.4n}%
+{\expandafter\gdef\csname xintlibver@log\endcsname{2025/09/06 v1.4o}%
   \XINT_providespackage
   \ProvidesPackage{xintlog}%
-  [2025/09/05 v1.4n Logarithms and exponentials for xintexpr (JFB)]%
+  [2025/09/06 v1.4o Logarithms and exponentials for xintexpr (JFB)]%
 }%
 %    \end{macrocode}
 % \subsection{\csh{xintreloadxintlog}}
@@ -49711,8 +49798,8 @@ module&lines&macros\tabularnewline
     Version {\xintbndlversion} of {\xintbndldate}.\par
 \end{minipage}
 
-\CheckSum {40137}% 1.4n
-% 38900 pour 1.4m, 39032 pour 1.4l,
+\CheckSum {40137}% 1.4o
+% 40137 pour 1.4n, 38900 pour 1.4m, 39032 pour 1.4l,
 % 38925 pour 1.4k, 38590 pour 1.4j, 38591 pour 1.4i, 38427 pour 1.4h
 % 38423 pour 1.4g, 38212 pour 1.4f, 38813 pour 1.4e, 35184 pour 1.4d
 % 35109 pour 1.4c, 35103 pour 1.4b, 34648 pour 1.4a, 34575 pour 1.4

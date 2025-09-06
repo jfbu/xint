@@ -7,6 +7,14 @@
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
 
+
+`1.4o (2025/09/06)`
+----
+
+The feature about allowing Babel-active characters in expressions
+was working only with `\xintiieval` due to a too hastily finalized
+`1.4n`.  This hotfix release makes it work.
+
 `1.4n (2025/09/05)`
 ----
 
@@ -55,7 +63,7 @@
 
  - As anyhow **xintexpr** will probably be the customary entry point,
    and as it imports most other packages of the bundle, it was decided
-   to migrate to **xintkernel** all needed `\newcount`'s needed by the
+   to migrate to **xintkernel** all \newcount`'s needed by the
    various packages, as well as some macro definitions, even though some
    are unneeded for users of only **xinttools**, **xintbinhex**, or
    **xint**.

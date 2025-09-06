@@ -179,6 +179,8 @@
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
+<li><a href="#o-20250906"
+id="toc-o-20250906"><code>1.4o (2025/09/06)</code></a></li>
 <li><a href="#n-20250905"
 id="toc-n-20250905"><code>1.4n (2025/09/05)</code></a>
 <ul>
@@ -584,6 +586,10 @@ id="toc-section-10"><code>1.0 (2013/03/28)</code></a></li>
 Author:  Jean-François B.
 Info:    Expandable operations on big integers, decimals, fractions
 License: LPPL 1.3c</code></pre>
+<h2 id="o-20250906"><code>1.4o (2025/09/06)</code></h2>
+<p>The feature about allowing Babel-active characters in expressions was
+working only with <code>\xintiieval</code> due to a too hastily
+finalized <code>1.4n</code>. This hotfix release makes it work.</p>
 <h2 id="n-20250905"><code>1.4n (2025/09/05)</code></h2>
 <h3 id="improvements-and-new-features">Improvements and new
 features</h3>
@@ -629,11 +635,10 @@ with <code>ConTeXt mkxl</code>. Older <code>ConTeXt</code>’s are not
 supported.</p></li>
 <li><p>As anyhow <strong>xintexpr</strong> will probably be the
 customary entry point, and as it imports most other packages of the
-bundle, it was decided to migrate to <strong>xintkernel</strong> all
-needed <code>\newcount</code>’s needed by the various packages, as well
-as some macro definitions, even though some are unneeded for users of
-only <strong>xinttools</strong>, <strong>xintbinhex</strong>, or
-<strong>xint</strong>.</p></li>
+bundle, it was decided to migrate to <strong>xintkernel</strong> all `’s
+needed by the various packages, as well as some macro definitions, even
+though some are unneeded for users of only <strong>xinttools</strong>,
+<strong>xintbinhex</strong>, or <strong>xint</strong>.</p></li>
 </ul>
 <h3 id="packaging">Packaging</h3>
 <p>With this release, the documentation file <code>xint.pdf</code>
