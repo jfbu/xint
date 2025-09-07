@@ -2,7 +2,7 @@
 % xint 1.4o
 % 2025/09/06
 
-    Source:  xint.dtx 1.4o 2025/09/06 (doc 2025/09/06)
+    Source:  xint.dtx 1.4o 2025/09/06
     Author:  Jean-François B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
@@ -66,6 +66,21 @@ Both the user manual and the commented source code are in `xint.pdf`.
 A file `CHANGES.html` is provided at https://jfbu.github.io/xint.  Its
 source `xintchanges.md` is part of the CTAN upload, and you
 can access it in TeXLive using `texdoc xintchanges.md`.
+
+Instructions for custom installation
+====================================
+
+The `*sty` files are extracted via the command `etex xint.dtx`.
+
+To build the PDF, check instructions in extracted `xint.tex`.
+
+The recommended TeX directory structure is:
+
+    doc/generic/xint/xintchanges.md
+    doc/generic/xint/README.md
+    doc/generic/xint/xint.pdf
+    source/generic/xint/xint.dtx
+    tex/generic/xint/xint*sty
 
 License
 =======
