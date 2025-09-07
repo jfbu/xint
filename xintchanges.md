@@ -1,8 +1,8 @@
 % CHANGE LOG
-% xint 1.4n
-% 2025/09/05
+% xint 1.4o
+% 2025/09/06
 
-    Source:  xint.dtx 1.4n 2025/09/05 (doc 2025/09/05)
+    Source:  xint.dtx 1.4o 2025/09/06
     Author:  Jean-François B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
@@ -13,7 +13,8 @@
 
 The feature about allowing Babel-active characters in expressions
 was working only with `\xintiieval` due to a too hastily finalized
-`1.4n`.  This hotfix release makes it work.
+`1.4n`.  This hotfix release makes it work also for `\xinteval`,
+`\xintexpr`, and cousins.
 
 `1.4n (2025/09/05)`
 ----
