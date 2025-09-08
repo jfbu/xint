@@ -70,9 +70,12 @@ can access it in TeXLive using `texdoc xintchanges.md`.
 Instructions for custom installation
 ====================================
 
-The `*sty` files are extracted via the command `etex xint.dtx`.
-
-To build the PDF, check instructions in extracted `xint.tex`.
+The `*sty` files are extracted via the command `etex xint.dtx`.  This
+produces also other files which (apart from this `README.md`) are of use
+only to build the PDF documentation.  Either move them to the trash or
+check instructions in extracted `xint.tex` if you want to do the PDF
+build (spoiler: this can also be done exerting `latex` directly on
+`xint.dtx`...).
 
 The recommended TeX directory structure is:
 
