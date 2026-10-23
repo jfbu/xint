@@ -1,8 +1,8 @@
 % README
 % xint 1.4p
-% 2025/12/01
+% 2026/03/01
 
-    Source:  xint.dtx 1.4p 2025/12/01
+    Source:  xint.dtx 1.4p 2026/03/01
     Author:  Jean-François B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
@@ -88,7 +88,7 @@ The recommended TeX directory structure is:
 License
 =======
 
-Copyright © 2013-2022, 2025 Jean-François B.
+Copyright © 2013-2022, 2025, 2026 Jean-François B.
 
 This Work may be distributed and/or modified under the
 conditions of the LaTeX Project Public License version 1.3c.
