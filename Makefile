@@ -1,6 +1,10 @@
 # This file: Makefile.mk (generated from xint.dtx)
 # "make --file=Makefile.mk help"
 
+# The 1.4p CTAN zip does not include an xint.tds.zip anymore
+# But the Makefile recipe is kept here in case of need.
+# A copy of README.md is not included in xint.dtx anymore.
+
 # The 1.4n CTAN zip includes an xintchanges.md but no CHANGES.html
 # anymore.  The xintchanges.md is not extracted from the dtx but
 # kept separate.
@@ -116,6 +120,8 @@ highlighting-css = '    body{margin: 0; margin-left : 10%; margin-right : 15%; m
     a:active { color: brown; }\
     \#TOC {float: right; position: relative; top: 100px; margin-bottom: 100px; margin-left: 20px;}'
 
+
+
 .PHONY: help helpless all doc clean cleanmore\
         installhome uninstallhome installlocal uninstalllocal
 
@@ -140,8 +146,7 @@ packages = xintkernel.sty xintcore.sty xint.sty xintfrac.sty xintexpr.sty\
            xinttools.sty xinttrig.sty xintlog.sty
 # Makefile.mk n'est pas mis dans $(extrated) pour éviter des messages
 # de make.  Les sty (aussi extraits) sont dans $(packages).
-extracted  = xintmanual.tex xintsource.tex xint.tex\
-             README.md xint-dates.txt
+extracted  = xintmanual.tex xintsource.tex xint.tex xint-dates.txt
 filesfortex    = $(packages)
 filesforsource = xint.dtx
 filesfordoc    = xint.pdf README.md xintchanges.md
@@ -192,15 +197,13 @@ xint.tds.zip: $(filesfordoc) $(filesforsource) $(filesfortex)
 	rm -fr $(JF_tmpdir)
 	@echo 'make xint.tds.zip done.'
 
-xint.zip: $(filesfordoc) $(filesforsource) $(filesfortex) xint.tds.zip
+xint.zip: $(filesfordoc) $(filesforsource) $(filesfortex)
 	mkdir -p              $(JF_tmpdir)/xint
 	chmod ugo+rwx         $(JF_tmpdir)/xint
 	cp -a $(filesfordoc)    $(JF_tmpdir)/xint
 	cp -a $(filesforsource) $(JF_tmpdir)/xint
 	chmod -R ugo+r        $(JF_tmpdir)/xint
-	mv xint.tds.zip       $(JF_tmpdir)/
-	umask 0022 && cd $(JF_tmpdir) && zip -r xint.zip xint.tds.zip xint
-	mv     $(JF_tmpdir)/xint.tds.zip ./
+	umask 0022 && cd $(JF_tmpdir) && zip -r xint.zip xint
 	mv -f  $(JF_tmpdir)/xint.zip ./
 	rm -fr $(JF_tmpdir)
 	@echo 'make xint.zip done.'
@@ -230,5 +233,8 @@ clean:
 	  xintsource.fls xintsource.fdb_latexmk\
 	  xint.fls xint.fdb_latexmk
 
+# 1.4p does not remove xintmanual.pdf and xintsource.pdf
+# because cleanmore is used at home for building zip for CTAN
+# and it does not include them anyhow.
 cleanmore: clean
-	rm -f xintmanual.pdf xintsource.pdf xint.pdf xint.tds.zip xint.zip
+	rm -f xint.pdf xint.tds.zip xint.zip

@@ -1,12 +1,54 @@
 % CHANGE LOG
-% xint 1.4o
-% 2025/09/06
+% xint 1.4p
+% 2026/03/01
 
-    Source:  xint.dtx 1.4o 2025/09/06
+    Source:  xint.dtx 1.4p 2026/03/01
     Author:  Jean-François B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
 
+
+`1.4p (2026/03/01)`
+----
+
+*This version was never released.*
+
+### Improvements and new features
+
+ - **xintkernel**: add `\xintresettimer`, `\xintelapsedtime` and
+   `\xinttheseconds`.  They were actually already added at `1.4n`.
+   For documentation, check the source code part of `xint.pdf`.
+
+ - **xintbinhex**: add `\xintLowerHex` and `\xintUpperHex`.
+
+ - **xinttools**: an array `\foo` created via `\xintAssignArray`
+   can now be used with negative indices: `\foo{-1}` expands (in
+   two steps) to its last item.
+
+ - **xintexpr**: add all hyperbolic functions and their inverses.
+
+### Bug fixes
+
+ - **xintfrac**: Unforgivably, a `1.2f` regression (ten years ago)
+   caused subtraction to not always correctly round when one operand was
+   a pure power of ten: the last place was sometimes incorrect.
+
+ - **xintexpr**: Sadly a `1.4e` regression caused (almost five years
+   ago) `\xintifsgnexpr` to erroneously misinterpret some inputs as
+   being zero.  This was triggered in part by changes made at that time
+   to the `\xinttheexpr` and `\xintthefloatexpr` output formats.  Also
+   affected `\xintifsgnfloatexpr` as well as `\xintifboolexpr` and
+   `\xintifboolfloatexpr` but the issue was less visible for the latter
+   two, which are often used with comparison tests producing zeros or
+   ones which were handled correctly.
+
+ - **xintexpr**: Regrettably the support for Python-like chaining of
+   comparison operators (such as `1 < 2 != -1`), added at `1.4b` a long time
+   ago, never worked within `\xintfloateval` or with
+   `\xintifboolfloatexpr`.  Due to an oversight at that time, and
+   testing only with `\xinteval`, the expansion within the `float` and `ii`
+   parsers encountered an undefined token.  Thanks to Thomas Ossig for
+   report.
 
 `1.4o (2025/09/06)`
 ----
@@ -15,6 +57,7 @@ The feature about allowing Babel-active characters in expressions
 was working only with `\xintiieval` due to a too hastily finalized
 `1.4n`.  This hotfix release makes it work also for `\xinteval`,
 `\xintexpr`, and cousins.
+
 
 `1.4n (2025/09/05)`
 ----
@@ -27,26 +70,25 @@ was working only with `\xintiieval` due to a too hastily finalized
    use for example `\string!`, or to turn off locally the language-triggered
    activation of some characters.
 
- - **xintexpr**: the three
-   parsers support, in addition to `"` for hexadecimal, the `'` prefix
-   for octal numbers.  Also implemented: the `0x`, `0o` and `0b`
-   prefixes for hexadecimal, octal, and binary.  In `\xinteval` and
-   `\xintfloateval` such inputs may have a fractional part.  Package
-   **xintbinhex** is automatically imported.
+ - **xintexpr**: the three parsers support, in addition to `"` for
+   hexadecimal, the `'` prefix for octal numbers.  Also implemented: the
+   `0x`, `0o` and `0b` prefixes for hexadecimal, octal, and binary.  In
+   `\xinteval` and `\xintfloateval` such inputs may have a fractional
+   part.  Package **xintbinhex** is now automatically imported.
 
- - **xintexpr**: `\xintiieval` admits an optional argument `[h]`, `[o]`,
-   or `[b]` for conversion of the output (or outputs) to respectively
-   hexadecimal, octal or binary.
+ - **xintexpr**: integer-only `\xintiieval` admits an optional argument
+   `[h]`, `[o]`, or `[b]` for conversion of the output (or outputs) to
+   respectively hexadecimal, octal or binary.
 
- - **xintbinhex**: now handles octal in addition to the binary, decimal,
-   and hexadecimal radices.  The input sizes for conversions between the
-   non-decimal bases are now limited only by TeX main memory.  The
-   maximal sizes for conversion to and from decimal are increased.  This
-   is explained (additionally to the effect of TeX memory parameters in
-   TeXLive having increased since last release) by some internal
-   refactoring using `\expanded`. This engine primitive was not yet
-   available at the last previous update to the package (`1.2n`
-   `2017/08/06`).
+ - **xintbinhex**: it is now automatically imported by **xintexpr**, and
+   handles the octal system in addition to binary, decimal, and
+   hexadecimal.  The input sizes for conversions between the non-decimal
+   bases are now limited only by TeX main memory.  The maximal sizes for
+   conversion to and from decimal are increased.  This is explained
+   (additionally to the effect of TeX memory parameters in TeXLive
+   having increased since last release) by some internal refactoring
+   using `\expanded`. This engine primitive was not yet available at the
+   last previous update to the package (`1.2n` `2017/08/06`).
 
  - **xintcfrac**: now imports automatically **xinttools**, which is
    required for two of the **xintcfrac** macros.
@@ -64,7 +106,7 @@ was working only with `\xintiieval` due to a too hastily finalized
 
  - As anyhow **xintexpr** will probably be the customary entry point,
    and as it imports most other packages of the bundle, it was decided
-   to migrate to **xintkernel** all \newcount`'s needed by the
+   to migrate to **xintkernel** all `\newcount`'s needed by the
    various packages, as well as some macro definitions, even though some
    are unneeded for users of only **xinttools**, **xintbinhex**, or
    **xint**.

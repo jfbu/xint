@@ -1,8 +1,8 @@
 % README
-% xint 1.4o
-% 2025/09/06
+% xint 1.4p
+% 2025/12/01
 
-    Source:  xint.dtx 1.4o 2025/09/06
+    Source:  xint.dtx 1.4p 2025/12/01
     Author:  Jean-François B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
@@ -70,12 +70,12 @@ can access it in TeXLive using `texdoc xintchanges.md`.
 Instructions for custom installation
 ====================================
 
-The `*sty` files are extracted via the command `etex xint.dtx`.  This
-produces also other files which (apart from this `README.md`) are of use
-only to build the PDF documentation.  Either move them to the trash or
-check instructions in extracted `xint.tex` if you want to do the PDF
-build (spoiler: this can also be done exerting `latex` directly on
-`xint.dtx`...).
+The `*sty` files are extracted via the command `etex xint.dtx`.
+
+This step produces other files which are of use only to build the PDF
+documentation.  Either move them to the trash or check instructions in
+extracted `xint.tex` if you want to do the PDF build (spoiler: it can
+also be done exerting `latex` directly on `xint.dtx`...).
 
 The recommended TeX directory structure is:
 
@@ -103,5 +103,5 @@ This Work has the LPPL maintenance status *author-maintained*.
 
 The Author of this Work is Jean-François B..
 
-This Work consists of the file `xint.dtx` and `README.md` and their
-derived files such as `xint.pdf`.
+This Work consists of the file `xint.dtx` (and its derived files
+such as `xint.pdf`), `README.md` and `xintchanges.md`.
