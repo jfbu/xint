@@ -1,17 +1,32 @@
 % CHANGE LOG
-% xint 1.4p
-% 2026/03/01
+% xint 1.4q
+% 2026/10/31
 
-    Source:  xint.dtx 1.4p 2026/03/01
+    Source:  xint.dtx 1.4q 2026/10/31
     Author:  Jean-François B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
 
 
+`1.4q (2026/10/31)`
+----
+
+*This version was never released to CTAN.*
+
+
+### Bug fixes
+
+ - **xintexpr**: fractional binary, octal or hexadecimal input could
+   misbehave if the integer part was zero.
+
+ - **xintexpr**: `round(x,n)` and `trunc(x,n)` allow `n<0` since
+   `1.4a`.  If the expression contained nothing else, there was
+   either garbage output or a low-level TeX error.
+
 `1.4p (2026/03/01)`
 ----
 
-*This version was never released.*
+*This version was never released to CTAN.*
 
 ### Improvements and new features
 

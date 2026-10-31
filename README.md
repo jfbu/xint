@@ -1,8 +1,8 @@
 % README
-% xint 1.4p
-% 2026/03/01
+% xint 1.4q
+% 2026/10/31
 
-    Source:  xint.dtx 1.4p 2026/03/01
+    Source:  xint.dtx 1.4q 2026/10/31
     Author:  Jean-François B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c

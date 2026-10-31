@@ -2,7 +2,7 @@
 % This file: xint.dtx. Proudly produced by xint-dtxbuild.sh.
 % Run etex on this file to extract all xint*sty files.
 %<*dtx>
-\def\xintdtxtimestamp {Time-stamp: <23-10-2026 at 12:00:48 CEST>}
+\def\xintdtxtimestamp {Time-stamp: <31-10-2026 at 08:26:26 CET>}
 %</dtx>
 %
 % To build xint.pdf (with both user manual and commented source code),
@@ -27,12 +27,12 @@
 %
 %<*xintmandrv|xintsrcdrv|xintalldrv>
 %% ---------------------------------------------------------------
-\def\xintbndldate{2026/03/01}
-\def\xintbndlversion {1.4p}
+\def\xintbndldate{2026/10/31}
+\def\xintbndlversion {1.4q}
 %</xintmandrv|xintsrcdrv|xintalldrv>
 %<*!makefile>
 %% ---------------------------------------------------------------
-%% The xint bundle 1.4p 2026/03/01
+%% The xint bundle 1.4q 2026/10/31
 %% Copyright (C) 2013-2022, 2025, 2026 Jean-Francois B.
 %<xintkernel>%% xintkernel: Paraphernalia for the xint packages
 %<xinttools>%% xinttools: Expandable and non-expandable utilities
@@ -52,6 +52,7 @@
 \bgroup\catcode2 0 \catcode`\\ 12 ^^Biffalse
 %</dtx>
 %<*dates>-------------------------------------------------------
+`1.4q (2026/10/31)`
 `1.4p (2026/03/01)`
 `1.4o (2025/09/06)`
 `1.4n (2025/09/05)`
@@ -13527,7 +13528,7 @@ Important: the macro compares \emph{absolute values}.
 
 |\xintiiLt|\n\m\etype{ff} returns 1 if |N|$<$|M|, 0 otherwise.
 
-\subsection{\csh{xintiiGtorEq}}\label{xintiiGxstorEq}
+\subsection{\csh{xintiiGtorEq}}\label{xintiiGtorEq}
 
 |\xintiiGtorEq|\n\m\etype{ff} returns 1 if |N|$\geqslant$|M|, 0 otherwise.
 Extended by \xintfracname to fractions.
@@ -14968,7 +14969,7 @@ Important: the macro compares \emph{absolute values}.
 
 |\xintLt{f}{g}|\etype{\Ff\Ff} returns \dtt{1} if |f|$<$|g|, \dtt{0} otherwise.
 
-\subsection{\csh{xintGtorEq}}\label{xintGxstorEq}
+\subsection{\csh{xintGtorEq}}\label{xintGtorEq}
 
 |\xintGtorEq{f}{g}|\etype{\Ff\Ff} returns \dtt{1} if |f|$\geqslant$|g|, \dtt{0} otherwise.
 Extended by \xintfracname to fractions.
@@ -18592,6 +18593,21 @@ It exists in HTML format at the package web page:
 %\normalsize
 
 \begin{itemize}
+\item Version |1.4q| dated |2026/10/31| was never released.
+  \begin{itemize}[nosep]
+  \item \xintexprname: since |1.4a|, |round(x,n)| and |floor(x,n)|
+        admit a negative second argument. This worked fine if the result
+        was involved in any operation, but depending on release since
+        |1.4a| and whether using \csbxint{floateval} or \csbxint{eval}
+        if the expression contained nothing else, it would either print
+        with garbage or cause a low-level \TeX{} error.
+  \item \xintexprname: binary, octal, or hexadecimal inputs all support
+        a fractional part; but due to an oversight regarding internal
+        numeric types, when the
+        integer part was zero, it could happen that the result was
+        erroneously given as zero, for example this was teh case
+        with |\xinteval{"0.0001}|.
+  \end{itemize}
 \item Version |1.4p| dated |2026/03/01| was never released.
   \begin{itemize}[nosep]
   \item \xintkernelname: document (in the source code part of |xint.pdf|)
@@ -19475,7 +19491,7 @@ It exists in HTML format at the package web page:
 \fi
 \XINT_providespackage
 \ProvidesPackage {xintkernel}%
-  [2026/03/01 v1.4p Paraphernalia for the xint packages (JFB)]%
+  [2026/10/31 v1.4q Paraphernalia for the xint packages (JFB)]%
 %    \end{macrocode}
 % \subsection{Constants}
 %    \begin{macrocode}
@@ -20745,7 +20761,7 @@ end
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xinttools}%
-  [2026/03/01 v1.4p Expandable and non-expandable utilities (JFB)]%
+  [2026/10/31 v1.4q Expandable and non-expandable utilities (JFB)]%
 %    \end{macrocode}
 %\begin{lverb}
 % \XINT_toks is used in macros such as \xintFor. It is not used
@@ -23243,7 +23259,7 @@ end
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcore}%
-  [2026/03/01 v1.4p Expandable arithmetic on big integers (JFB)]%
+  [2026/10/31 v1.4q Expandable arithmetic on big integers (JFB)]%
 %    \end{macrocode}
 % \subsection{(WIP!) Error conditions and exceptions}
 %\begin{lverb}
@@ -26829,7 +26845,7 @@ end
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xint}%
-  [2026/03/01 v1.4p Expandable operations on big integers (JFB)]%
+  [2026/10/31 v1.4q Expandable operations on big integers (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintLen}, \csh{xintiLen}}
 %\begin{lverb}
@@ -29293,7 +29309,7 @@ end
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintbinhex}%
-  [2026/03/01 v1.4p Expandable radix conversions (2, 8, 10, and 16) (JFB)]%
+  [2026/10/31 v1.4q Expandable radix conversions (2, 8, 10, and 16) (JFB)]%
 %    \end{macrocode}
 % \subsection{Storage macros}
 % \changed{1.2n} Switch to \cs{csname}-governed expansion at various places.
@@ -30491,7 +30507,7 @@ end
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintgcd}%
-  [2026/03/01 v1.4p Euclide algorithm with xint package (JFB)]%
+  [2026/10/31 v1.4q Euclide algorithm with xint package (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintBezout}}
 %\begin{lverb}
@@ -31127,7 +31143,7 @@ end
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintfrac}%
-  [2026/03/01 v1.4p Expandable operations on fractions (JFB)]%
+  [2026/10/31 v1.4q Expandable operations on fractions (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{XINT_cntSgnFork}}
 %\begin{lverb}
@@ -34777,6 +34793,14 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 \def\XINT_floatilogten_b #1[#2]#3.{#2+#3-\xint_c_i\relax}%
 %    \end{macrocode}
 % \subsection{\csh{xintPFloat}}
+%\label{\xintimplabelprefix xintPFloatE}
+%\label{\xintimplabelprefix xintPFloatNoSciEmax}
+%\label{\xintimplabelprefix xintPFloatNoSciEmin}
+%\label{\xintimplabelprefix xintPFloatIntSuffix}
+%\label{\xintimplabelprefix xintPFloatLengthOneSuffix}
+%\label{\xintimplabelprefix xintPFloatZero}
+%\label{\xintimplabelprefix xintPFloatMinTrimmed}
+%
 % \added{1.1}
 % \changed{1.4e}
 %\begin{lverb}
@@ -36861,7 +36885,7 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintseries}%
-  [2026/03/01 v1.4p Expandable partial sums with xint package (JFB)]%
+  [2026/10/31 v1.4q Expandable partial sums with xint package (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintSeries}}
 %    \begin{macrocode}
@@ -37391,7 +37415,7 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintcfrac}%
-  [2026/03/01 v1.4p Expandable continued fractions with xint package (JFB)]%
+  [2026/10/31 v1.4q Expandable continued fractions with xint package (JFB)]%
 %    \end{macrocode}
 % \subsection{\csh{xintCFrac}}
 %    \begin{macrocode}
@@ -38818,7 +38842,7 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 %    \begin{macrocode}
 \XINT_providespackage
 \ProvidesPackage{xintexpr}%
-  [2026/03/01 v1.4p Expandable expression parser (JFB)]%
+  [2026/10/31 v1.4q Expandable expression parser (JFB)]%
 \catcode`! 11
 %    \end{macrocode}
 % \subsection{\csh{XINTfstop}}
@@ -40500,6 +40524,10 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 % circumstances (presence of a fractional part, or \xintiiexpr context) lead
 % to wrong results.  Leading zeros are now trimmed during input.
 %
+% Sadly this fix forgot the case of integer part being zero itself.
+% So \xinteval{"0.0001»} produced 0 because of this oversight.
+% Fixed in un-released 1.4q, soon superseded by 2.0a1.
+%
 %\end{lverb}
 %    \begin{macrocode}
 \def\XINT_expr_hex_in #1.#2#3;%
@@ -40507,7 +40535,10 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
     \expanded{{{\if#2>%
       \xintHexToDec{#1}%
     \else
-      \xintiiMul{\xintiiPow{625}{\xintLength{#3}}}{\xintHexToDec{#1#3}}%
+      \xintiiMul{\xintiiPow{625}{\xintLength{#3}}}{%
+      \romannumeral0\expandafter\XINT_num_cleanup
+      \the\numexpr\expandafter\XINT_num_loop\romannumeral0\xinthextodec{#1#3}%
+      \xint:\xint:\xint:\xint:\xint:\xint:\xint:\xint:\xint:\Z}%
       [\the\numexpr-4*\xintLength{#3}]%
     \fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop
 }%
@@ -40629,11 +40660,13 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
     \expanded{{{\if#2>%
       \xintOctToDec{#1}%
     \else
-      \xintiiMul{\xintiiPow{125}{\xintLength{#3}}}{\xintOctToDec{#1#3}}%
+      \xintiiMul{\xintiiPow{125}{\xintLength{#3}}}{%
+      \romannumeral0\expandafter\XINT_num_cleanup
+      \the\numexpr\expandafter\XINT_num_loop\romannumeral0\xintocttodec{#1#3}%
+      \xint:\xint:\xint:\xint:\xint:\xint:\xint:\xint:\xint:\Z}%
       [\the\numexpr-3*\xintLength{#3}]%
     \fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop
 }%
-%    \begin{macrocode}
 \def\XINT_expr_startoct #1%
 {%
     \expandafter\XINT_expr_oct_in\expanded\bgroup
@@ -40737,11 +40770,13 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
     \expanded{{{\if#2>%
       \xintBinToDec{#1}%
     \else
-      \xintiiMul{\xintiiPow{5}{\xintLength{#3}}}{\xintBinToDec{#1#3}}%
+      \xintiiMul{\xintiiPow{5}{\xintLength{#3}}}{%
+      \romannumeral0\expandafter\XINT_num_cleanup
+      \the\numexpr\expandafter\XINT_num_loop\romannumeral0\xintbintodec{#1#3}%
+      \xint:\xint:\xint:\xint:\xint:\xint:\xint:\xint:\xint:\Z}%
       [\the\numexpr-\xintLength{#3}]%
     \fi}}\expandafter}\romannumeral`&&@\XINT_expr_getop
 }%
-%    \begin{macrocode}
 \def\XINT_expr_startbin #1%
 {%
     \expandafter\XINT_expr_bin_in\expanded\bgroup
@@ -44669,11 +44704,29 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
     \romannumeral`&&@\XINT:NEhook:f:one:from:one
     {\romannumeral`&&@\XINTinFloatInv#3}}%
 }%
+%    \end{macrocode}
+%\begin{lverb}
+% Sadly round(x,n) with n<0 had a bug eversince it was introduced
+% at 1.4a. Indeed \xintRound with a negative first argument produces
+% a scientific notation which is not really allowed internally, because
+% detokenization by the printer will make e of catcode 12. The error
+% was unseen because whenever the result was involved in an operation
+% it was parsed by \XINT_infrac ultimately. But this expression
+% only contained this it would depending on xintexpr version either
+% produce garbage at printing time or a breakage (since 1.4e).
+%
+% We fix this at non-release 1.4q, but the 2.0a1 will have this
+% fixed by using completely different internal formats anyhow and
+% will be the official release. So the fix can be non-efficient.
+%\end{lverb}
+%    \begin{macrocode}
+\def\xintRoundToRaw#1#2{\xintRaw{\xintRound{#1}{#2}}}%
+\def\xintTruncToRaw#1#2{\xintRaw{\xintTrunc{#1}{#2}}}%
 \def\XINT_expr_func_round #1#2#3%
 {%
     \expandafter #1\expandafter #2\expandafter{\expandafter{%
     \romannumeral`&&@\XINT:NEhook:f:tacitzeroifone:direct
-    \XINT:expr:f:tacitzeroifone #3,!\xintiRound\xintRound
+    \XINT:expr:f:tacitzeroifone #3,!\xintiRound\xintRoundToRaw
     }}%
 }%
 \let\XINT_flexpr_func_round\XINT_expr_func_round
@@ -44688,7 +44741,7 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
 {%
     \expandafter #1\expandafter #2\expandafter{\expandafter{%
     \romannumeral`&&@\XINT:NEhook:f:tacitzeroifone:direct
-    \XINT:expr:f:tacitzeroifone #3,!\xintiTrunc\xintTrunc
+    \XINT:expr:f:tacitzeroifone #3,!\xintiTrunc\xintTruncToRaw
     }}%
 }%
 \let\XINT_flexpr_func_trunc\XINT_expr_func_trunc
@@ -46925,10 +46978,10 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
   \expandafter\xint_secondoftwo
 \fi
 {\immediate\write128{Reloading xinttrig library using Digits=\xinttheDigits.}}%
-{\expandafter\gdef\csname xintlibver@trig\endcsname{2026/03/01 v1.4p}%
+{\expandafter\gdef\csname xintlibver@trig\endcsname{2026/10/31 v1.4q}%
   \XINT_providespackage
   \ProvidesPackage{xinttrig}%
-  [2026/03/01 v1.4p Trigonometrical functions for xintexpr (JFB)]%
+  [2026/10/31 v1.4q Trigonometrical functions for xintexpr (JFB)]%
 }%
 %    \end{macrocode}
 % \subsection{Ensure used letters are dummy letters}
@@ -48188,10 +48241,10 @@ on input line \noexpand\the\inputlineno.&&J}}#2%
   \expandafter\xint_secondoftwo
 \fi
 {\immediate\write128{Reloading xintlog library using Digits=\xinttheDigits.}}%
-{\expandafter\gdef\csname xintlibver@log\endcsname{2026/03/01 v1.4p}%
+{\expandafter\gdef\csname xintlibver@log\endcsname{2026/10/31 v1.4q}%
   \XINT_providespackage
   \ProvidesPackage{xintlog}%
-  [2026/03/01 v1.4p Logarithms and exponentials for xintexpr (JFB)]%
+  [2026/10/31 v1.4q Logarithms and exponentials for xintexpr (JFB)]%
 }%
 %    \end{macrocode}
 % \subsection{\csh{xintreloadxintlog}}
@@ -50138,7 +50191,8 @@ module&lines&macros\tabularnewline
     Version {\xintbndlversion} of {\xintbndldate}.\par
 \end{minipage}
 
-\CheckSum {40773}% 1.4p
+\CheckSum {40833}% 1.4q
+% 40773 pour 1.4p,
 % 40137 pour 1.4o, 40137 pour 1.4n, 38900 pour 1.4m, 39032 pour 1.4l,
 % 38925 pour 1.4k, 38590 pour 1.4j, 38591 pour 1.4i, 38427 pour 1.4h
 % 38423 pour 1.4g, 38212 pour 1.4f, 38813 pour 1.4e, 35184 pour 1.4d
