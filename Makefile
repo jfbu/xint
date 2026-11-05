@@ -1,9 +1,9 @@
-# This file: Makefile.mk (generated from xint.dtx)
+# This file: Makefile.mk (generated from xint-calx.dtx)
 # "make --file=Makefile.mk help"
 
 # The 1.4p CTAN zip does not include an xint.tds.zip anymore
 # But the Makefile recipe is kept here in case of need.
-# A copy of README.md is not included in xint.dtx anymore.
+# A copy of README.md is not included in xint-calx.dtx anymore.
 
 # The 1.4n CTAN zip includes an xintchanges.md but no CHANGES.html
 # anymore.  The xintchanges.md is not extracted from the dtx but
@@ -43,7 +43,7 @@ newline := $(newline)
 define helptext
 ==== INSTRUCTIONS
 
-It is recommended to work with xint.dtx and Makefile moved to some
+It is recommended to work with xint-calx.dtx and Makefile moved to some
 otherwise empty temporary repertory.
 
 make help
@@ -69,8 +69,8 @@ make xintsource.pdf
     Extract files and produce xintsource.pdf (source code),
     using latex and dvipdfmx.  This requires Latexmk.
 
-make xint.pdf
-    Extract files and produce xint.pdf (manual + code),
+make xint-calx.pdf
+    Extract files and produce xint-calx.pdf (manual + code),
     using latex and dvipdfmx.  This requires Latexmk.
 
 make CHANGES.html
@@ -143,40 +143,42 @@ TEXMF_local = $(shell kpsewhich -var-value TEXMFLOCAL)
 TEXMF_home  = $(shell kpsewhich -var-value TEXMFHOME)
 packages = xintkernel.sty xintcore.sty xint.sty xintfrac.sty xintexpr.sty\
            xintgcd.sty xintbinhex.sty xintseries.sty xintcfrac.sty\
-           xinttools.sty xinttrig.sty xintlog.sty
+           xinttools.sty\
+           calxcore.sty calxint.sty calxfp.sty calx.sty\
+           calxlog.tex calxlogdata.tex calxtrig.tex calxtrigdata.tex
 # Makefile.mk n'est pas mis dans $(extrated) pour éviter des messages
 # de make.  Les sty (aussi extraits) sont dans $(packages).
-extracted  = xintmanual.tex xintsource.tex xint.tex xint-dates.txt
+extracted  = xintmanual.tex xintsource.tex xint-calx.tex xint-dates.txt
 filesfortex    = $(packages)
-filesforsource = xint.dtx
-filesfordoc    = xint.pdf README.md xintchanges.md
+filesforsource = xint-calx.dtx
+filesfordoc    = xint-calx.pdf README.md xintchanges.md
 auxiliaryfiles = xintmanual.dvi xintmanual.aux xintmanual.toc xintmanual.log\
      xintsource.dvi xintsource.aux xintsource.toc xintsource.log\
-     xint.dvi xint.aux xint.toc xint.log
+     xint-calx.dvi xint-calx.aux xint-calx.toc xint-calx.log
 
-all: $(packages) $(extracted) doc xint.tds.zip
+all: $(packages) $(extracted) doc xint-calx.tds.zip
 	@echo 'make all done.'
 
-$(packages): xint.dtx
-	etex xint.dtx
+$(packages): xint-calx.dtx
+	etex xint-calx.dtx
 
-$(extracted): xint.dtx
-	etex xint.dtx
+$(extracted): xint-calx.dtx
+	etex xint-calx.dtx
 
 doc: xintmanual.pdf xintsource.pdf CHANGES.html
 	@echo 'make doc done.'
 
-xintmanual.pdf: xint.dtx xintmanual.tex
+xintmanual.pdf: xint-calx.dtx xintmanual.tex
 	latexmk xintmanual.tex
 	dvipdfmx xintmanual.dvi
 
-xintsource.pdf: xint.dtx xintsource.tex
+xintsource.pdf: xint-calx.dtx xintsource.tex
 	latexmk xintsource.tex
 	dvipdfmx xintsource.dvi
 
-xint.pdf: xint.dtx xint.tex
-	latexmk xint.tex
-	dvipdfmx xint.dvi
+xint-calx.pdf: xint-calx.dtx xint-calx.tex
+	latexmk xint-calx.tex
+	dvipdfmx xint-calx.dvi
 
 CHANGES.html: xintchanges.md
 	pandoc -o CHANGES.html -s --toc -V highlighting-css=$(highlighting-css) xintchanges.md
@@ -231,10 +233,10 @@ clean:
 	rm -f $(auxiliaryfiles)\
 	  xintmanual.fls xintmanual.fdb_latexmk\
 	  xintsource.fls xintsource.fdb_latexmk\
-	  xint.fls xint.fdb_latexmk
+	  xint-calx.fls xint-calx.fdb_latexmk
 
 # 1.4p does not remove xintmanual.pdf and xintsource.pdf
 # because cleanmore is used at home for building zip for CTAN
 # and it does not include them anyhow.
 cleanmore: clean
-	rm -f xint.pdf xint.tds.zip xint.zip
+	rm -f xint-calx.pdf xint.tds.zip xint.zip

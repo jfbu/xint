@@ -1,8 +1,8 @@
 % README
-% xint 1.4q
-% 2026/10/31
+% xint 2.0a1
+% 2026/11/01
 
-    Source:  xint.dtx 1.4q 2026/10/31
+    Source:  xint-calx.dtx 2.0a1 2026/11/01
     Author:  Jean-François B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
@@ -11,39 +11,48 @@
 Description
 ===========
 
-The main functionality is `\xintfloateval` which parses expressions
-involving floating point numbers, functions, variables and other syntax
-elements.
+The `calx` package and its superset the `xintexpr` package provide:
 
-The precision defaults to `16` decimal digits.  The logarithm,
-exponential, direct and inverse trigonometric functions are supported up
-to `62` digits.  The four basic operations and square-root extraction
-are implemented with correct rounding up to thousands of digits (roughly
-up to a maximum of 26000 digits for the output).
+- `\calxeval`: numerical expression parser for floating-point
+  computations.
+- `\calxinteval`: numerical expression parser for computations
+  with big integers.
 
-A variant `\xinteval` computes with fractions.  And `\xintiieval`
-handles only (arbitarily large) integers.
+Floating-point computations are supported up to 100 significant digits
+of precision. A full set of trigonometric, logarithmic, and exponential
+functions is implemented.
 
-All three parsers obtain their result purely expandably.  They handle
-comma separated inputs and nested structures using square brackets.  The
-user can declare custom variables and functions.
+The two parsers are also available under their legacy names
+`\xintfloateval` and `\xintiieval`, respectively.
+
+Loading `xintexpr` automatically loads `calx` and provides a third
+parser, `\xinteval`, which handles fractions. It also loads the legacy
+macro interface packages `xintcore`, `xint`, and `xintfrac`.
+
+All three parsers produce their results by expansion alone. They accept
+comma-separated inputs and nested structures using square brackets.
+Users can define custom variables and functions.
 
 Usage
 =====
 
-The way of loading `xintexpr` depends on whether you are using
+The way of loading `calx` or `xintexpr` depends on whether you are using
 `LaTeX` or not.
 
-- with `LaTeX`, add `\usepackage{xintexpr}` to the document preamble,
-- else, do `\input xintexpr.sty` and compile with either one of `etex`,
-  `pdftex`, `xetex`, `luatex` (they all default to the `Plain TeX`
-  format), or with `optex` (i.e. `luatex` with `OpTeX` format),
-  or with `context` (`luametatex` engine).
+- with `LaTeX`, add `\usepackage{calx}` (or `xintexpr` if you want
+  `\xinteval`) to the document preamble,
+- else, do `\input calx.sty` (or `xintexpr`).
+
+
+The user can employ `calx/xintexpr` with either one of `etex`, `pdftex`,
+`xetex`, `luatex` (they all default to the `Plain TeX` format), or
+with `optex` (i.e. `luatex` with `OpTeX` format), or with `context`
+(`luametatex` engine).
 
 Example
 =======
 
-Here is an example typical of the `xintexpr` users morning routine since
+Here is an example typical of the `xintexpr` users morning routine for
 many years (`xintexpr` was first released in 2013):
 
     \xinteval{reduce(add(1/i^3, i=1..25))}
@@ -55,35 +64,38 @@ It expands (in two steps) to:
 Repository
 ==========
 
-It is at https://github.com/jfbu/xint and the issue tracker
-is at https://github.com/jfbu/xint/issues.
+The repository is at https://github.com/jfbu/xint, and the issue
+tracker is at https://github.com/jfbu/xint/issues.
 
 Documentation
 =============
 
-Both the user manual and the commented source code are in `xint.pdf`.
+Both the user manual and the commented source code are in `xint-calx.pdf`.
 
-A file `CHANGES.html` is provided at https://jfbu.github.io/xint.  Its
-source `xintchanges.md` is part of the CTAN upload, and you
-can access it in TeXLive using `texdoc xintchanges.md`.
+The file `CHANGES.html` is available at https://jfbu.github.io/xint.
+Its source, `xintchanges.md`, is included in the CTAN upload and can
+also be accessed in TeX Live using `texdoc xintchanges.md`.
 
 Instructions for custom installation
 ====================================
 
-The `*sty` files are extracted via the command `etex xint.dtx`.
+The `xint*sty`, `calx*sty`, and `calx*tex` files are extracted via the
+command `etex xint-calx.dtx`.
 
-This step produces other files which are of use only to build the PDF
-documentation.  Either move them to the trash or check instructions in
-extracted `xint.tex` if you want to do the PDF build (spoiler: it can
-also be done exerting `latex` directly on `xint.dtx`...).
+Other extracted files are used only for building the PDF documentation
+and can be discarded.  For instructions on building this documentation,
+see the extracted `xint-calx.tex`.
 
 The recommended TeX directory structure is:
 
     doc/generic/xint/xintchanges.md
     doc/generic/xint/README.md
-    doc/generic/xint/xint.pdf
-    source/generic/xint/xint.dtx
+    doc/generic/xint/xint-calx.pdf
+    source/generic/xint/xint-calx.dtx
     tex/generic/xint/xint*sty
+    tex/generic/xint/calx*sty
+    tex/generic/xint/{calxlog.tex, calxlogdata.tex}
+    tex/generic/xint/{calxtrig.tex, calxtrigdata.tex}
 
 License
 =======
@@ -103,5 +115,5 @@ This Work has the LPPL maintenance status *author-maintained*.
 
 The Author of this Work is Jean-François B..
 
-This Work consists of the file `xint.dtx` (and its derived files
-such as `xint.pdf`), `README.md` and `xintchanges.md`.
+This Work consists of the file `xint-calx.dtx` (and its derived files
+such as `xint-calx.pdf`), `README.md` and `xintchanges.md`.

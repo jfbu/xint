@@ -4,9 +4,12 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="author" content="xint 1.4q" />
+  <meta name="author" content="xint 2.0a1" />
   <title>CHANGE LOG</title>
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     html {
       color: #1a1a1a;
       background-color: #fdfdfd;
@@ -174,11 +177,13 @@
 <body>
 <header id="title-block-header">
 <h1 class="title">CHANGE LOG</h1>
-<p class="author">xint 1.4q</p>
-<p class="date">2026/10/31</p>
+<p class="author">xint 2.0a1</p>
+<p class="date">2026/11/01</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
+<li><a href="#a1-20261101"
+id="toc-a1-20261101"><code>2.0a1 (2026/11/01)</code></a></li>
 <li><a href="#q-20261031"
 id="toc-q-20261031"><code>1.4q (2026/10/31)</code></a>
 <ul>
@@ -595,10 +600,45 @@ id="toc-section-9"><code>1.03 (2013/04/14)</code></a></li>
 id="toc-section-10"><code>1.0 (2013/03/28)</code></a></li>
 </ul>
 </nav>
-<pre><code>Source:  xint.dtx 1.4q 2026/10/31
+<pre><code>Source:  xint-calx.dtx 2.0a1 2026/11/01
 Author:  Jean-François B.
 Info:    Expandable operations on big integers, decimals, fractions
 License: LPPL 1.3c</code></pre>
+<h2 id="a1-20261101"><code>2.0a1 (2026/11/01)</code></h2>
+<p>This is a major release in which the internals have been entirely
+rewritten for speed. A new <strong>calx</strong> package provides the
+functionality of <code>\xintfloateval</code> and
+<code>\xintiieval</code>, also available under the aliases
+<code>\calxeval</code> and <code>\calxinteval</code>, respectively. The
+files <code>xintlog.sty</code> and <code>xinttrig.sty</code> are gone,
+replaced by support files in the <strong>calx</strong> namespace. The
+source file <code>xint.dtx</code> is now named
+<code>xint-calx.dtx</code> and the user documentation (inclusive of
+source code) is now <code>xint-calx.pdf</code>.</p>
+<p>The <strong>calx</strong> package adds almost no new user interface.
+The main novelty is <code>\calxsetup</code>, which can be used to
+configure the signal handlers. By default, no error condition is trapped
+in the sense of deliberately raising a low-level TeX error. Instead,
+such conditions generate <code>NaN</code>, <code>+Infinity</code>, or
+<code>-Infinity</code>, which propagate through subsequent
+calculations.</p>
+<p>The legacy interface of <strong>xintfrac</strong> is preserved
+unchanged. Its macros do not accept non-finite values and still trap
+error conditions such as division by zero. Loading
+<strong>xintexpr</strong> automatically loads <strong>calx</strong> and
+adds <code>\xinteval</code> for computations with fractions. Most
+documents should compile unchanged, without requiring any modification
+to their sources.</p>
+<p>The computations of trigonometric functions, logarithms,
+exponentials, and powers are now roughly eight times faster.</p>
+<p>This release also makes available the hyperbolic functions and their
+inverses, which were introduced in version <code>1.4p</code>, a version
+that was never publicly released. Their implementation has been
+rewritten from scratch for the present release.</p>
+<p>As the version label indicates, this is an “alpha” release. The
+author has essentially exhausted the time he could reasonably devote to
+the project for now. Further improvements may come at some future date,
+but how distant that date may be, the author does not know.</p>
 <h2 id="q-20261031"><code>1.4q (2026/10/31)</code></h2>
 <p><em>This version was never released to CTAN.</em></p>
 <h3 id="bug-fixes">Bug fixes</h3>

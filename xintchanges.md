@@ -1,11 +1,49 @@
 % CHANGE LOG
-% xint 1.4q
-% 2026/10/31
+% xint 2.0a1
+% 2026/11/01
 
-    Source:  xint.dtx 1.4q 2026/10/31
+    Source:  xint-calx.dtx 2.0a1 2026/11/01
     Author:  Jean-François B.
     Info:    Expandable operations on big integers, decimals, fractions
     License: LPPL 1.3c
+
+`2.0a1 (2026/11/01)`
+----
+
+This is a major release in which the internals have been entirely
+rewritten for speed. A new **calx** package provides the functionality
+of `\xintfloateval` and `\xintiieval`, also available under the aliases
+`\calxeval` and `\calxinteval`, respectively. The files `xintlog.sty`
+and `xinttrig.sty` are gone, replaced by support files in the **calx**
+namespace.  The source file `xint.dtx` is now named `xint-calx.dtx`
+and the user documentation (inclusive of source code) is now
+`xint-calx.pdf`.
+
+The **calx** package adds almost no new user interface. The main novelty
+is `\calxsetup`, which can be used to configure the signal handlers.
+By default, no error condition is trapped in the sense of deliberately
+raising a low-level TeX error. Instead, such conditions generate
+`NaN`, `+Infinity`, or `-Infinity`, which propagate through subsequent
+calculations.
+
+The legacy interface of **xintfrac** is preserved unchanged. Its macros
+do not accept non-finite values and still trap error conditions such as
+division by zero. Loading **xintexpr** automatically loads **calx** and
+adds `\xinteval` for computations with fractions. Most documents should
+compile unchanged, without requiring any modification to their sources.
+
+The computations of trigonometric functions, logarithms, exponentials,
+and powers are now roughly eight times faster.
+
+This release also makes available the hyperbolic functions and their
+inverses, which were introduced in version `1.4p`, a version that was
+never publicly released. Their implementation has been rewritten from
+scratch for the present release.
+
+As the version label indicates, this is an "alpha" release. The author
+has essentially exhausted the time he could reasonably devote to the
+project for now. Further improvements may come at some future date,
+but how distant that date may be, the author does not know.
 
 
 `1.4q (2026/10/31)`
