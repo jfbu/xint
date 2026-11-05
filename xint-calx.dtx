@@ -245,14 +245,20 @@ endef
 
 # Quelques difficultés à trouver le bon choix de ' ou " et de \#
 # et l'utilisation des \ en fins de ligne pour que ça fonctionne.
-highlighting-css = '    body{margin: 0; margin-left : 10%; margin-right : 15%; margin-top: 4ex; font-size: 20px; font-family: serif; max-width: 100%; padding: 0; }\
-    pre  {white-space: pre-wrap;}\
+highlighting-css = '    body {margin: 0; margin-left: 10%; margin-right: 15%; margin-top: 4ex; font-size: 20px; font-family: serif; max-width: 100%; padding: 0;}\
+    pre {white-space: pre-wrap;}\
     code {white-space: pre-wrap;}\
-    a:link { color: blue; }\
-    a:visited { color: green; }\
-    a:hover { text-decoration: underline; color: hotpink }\
-    a:active { color: brown; }\
-    \#TOC {float: right; position: relative; top: 100px; margin-bottom: 100px; margin-left: 20px;}'
+    a:link {color: blue;}\
+    a:visited {color: green;}\
+    a:hover {text-decoration: underline; color: hotpink;}\
+    a:active {color: brown;}\
+    \#TOC {float: none; position: static; margin: 0 0 2em 0; display: grid; grid-template-columns: repeat(auto-fill, 20ch); grid-auto-flow: row; justify-content: center; gap: 0.5em 1.5em;}\
+    @media (max-width: 500px) {\#TOC {grid-template-columns: minmax(0, 20ch);}}\
+    \#TOC ul, \#TOC li {display: contents;}\
+    \#TOC a {display: block;}\
+    \#TOC > ul > li > a {font-weight: bold;}\
+    \#TOC ul ul a {padding-left: 1em;}\
+    \#TOC ul ul {display: none;}'
 
 
 
@@ -314,7 +320,7 @@ xint-calx.pdf: xint-calx.dtx xint-calx.tex
 	latexmk xint-calx.tex
 	dvipdfmx xint-calx.dvi
 
-CHANGES.html: xintchanges.md
+CHANGES.html: xintchanges.md Makefile.mk
 	pandoc -o CHANGES.html -s --toc -V highlighting-css=$(highlighting-css) xintchanges.md
 
 xint.tds.zip: $(filesfordoc) $(filesforsource) $(filesfortex)
